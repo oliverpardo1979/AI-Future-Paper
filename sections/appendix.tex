@@ -1,0 +1,111 @@
+\section{Proofs}
+
+\begin{proof}[Proof of Proposition~\ref{prop:gradual-automation}]
+Equation~\eqref{eq:automation-odds} gives
+\[
+    \frac{s^M_t}{1-s^M_t}
+    =
+    \left(\frac{\nu}{1-\nu}\right)^\theta
+    \left(\frac{w_t}{\xi}\right)^{\theta-1}.
+\]
+If $\theta>1$ and $w_t/\xi\to\infty$, the right-hand side diverges and
+$s^M_t\to1$. Moreover, the unit cost in
+\eqref{eq:research-unit-cost} converges to
+\[
+    P^E_t\longrightarrow
+    \nu^{-\theta/(\theta-1)}\xi.
+\]
+The first expression in \eqref{eq:research-conditional-demands} then implies
+$H_t/E_t\to0$. If $w_t/\xi$ remains bounded, the odds in
+\eqref{eq:automation-odds} remain bounded, so $\theta>1$ does not by itself imply
+$s^M_t\to1$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:production-ces-regimes}]
+Let $x_t\equiv X_t/L_{Y,t}$, $y_t\equiv Y_t/L_{Y,t}$, and write
+$s_t\equiv s^X_t$. The monopoly condition can be written as
+\[
+    \frac{\xi x_t}{A_ty_t}
+    =
+    (1-\alpha)s_t[1-\varepsilon(s_t)],
+    \qquad
+    \varepsilon(s)
+    =
+    \frac{1-s}{\sigma}+\alpha s.
+\]
+
+For $\sigma<1$, revenue approaches zero both as $x_t\to0$ and as
+$x_t\to\infty$. As marginal cost converges to zero, the monopolist approaches the
+interior revenue-maximizing quantity, which satisfies $\varepsilon(\bar s^X)=1$.
+Solving this condition gives
+\[
+    \bar s^X=\frac{1-\sigma}{1-\alpha\sigma}.
+\]
+Because the CES mapping between $s^X$ and $X/L_Y$ is one-to-one, the corresponding
+service ratio is finite.
+
+For $\sigma=1$, the CES contribution $s^X_t$ equals the constant weight $\omega$.
+
+For $\sigma>1$, revenue is unbounded as $x_t\to\infty$ when marginal cost is zero,
+so $x_t\to\infty$ and $s^X_t\to1$. Consequently,
+$\varepsilon^X_t\to\alpha$, and the monopoly first-order condition implies
+\[
+    \frac{\xi U_t}{Y_t}\longrightarrow(1-\alpha)^2.
+\]
+Since
+\[
+    Z_t\sim
+    \omega^{\sigma/(\sigma-1)}X_t,
+\]
+substituting $X_t=A_tU_t$ and the limiting compute share into production yields
+\[
+    \frac{Y_t}{K_t}
+    \sim
+    \left[
+        \frac{\omega^{\sigma/(\sigma-1)}(1-\alpha)^2}{\xi}
+    \right]^{(1-\alpha)/\alpha}
+    A_t^{(1-\alpha)/\alpha}.
+\]
+This establishes \eqref{eq:high-sigma-ak-limit}.
+\end{proof}
+
+\begin{proof}[Derivation of Equation~\eqref{eq:bg-research-resource-share}]
+
+In the Cobb--Douglas production benchmark, the envelope theorem and
+\eqref{eq:cd-monopoly} imply
+\[
+    \pi^X_{A,t}=\frac{\beta^2Y_t}{A_t}.
+\]
+The research first-order condition in the AI-dominated limit gives
+\[
+    \xi=q_t\eta\frac{\dot A_t}{M_t},
+    \qquad
+    \frac{q_tA_t}{Y_t}
+    =
+    \frac{m_R^\infty}{\eta g_A^\infty}.
+\]
+Because the right-hand side is constant on a balanced-growth path,
+$g_q=g_Y-g_A$. Dividing \eqref{eq:private-costate} by $q_t$, using
+$r-\delta_K=\rho+\gamma^\infty$ and $g_Y=n+\gamma^\infty$, and substituting the
+two expressions above gives
+\[
+    \rho-n
+    =
+    \frac{\beta^2\eta g_A^\infty}{m_R^\infty}
+    -(1-\phi)g_A^\infty.
+\]
+Solving for $m_R^\infty$ yields
+\eqref{eq:bg-research-resource-share}.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:knowledge-wedge}]
+Evaluate the planner's marginal net benefit from research compute at the private
+allocation. Using \eqref{eq:private-compute-foc},
+\[
+    Q_tF_{M,t}-\xi
+    =
+    (Q_t-q_t)F_{M,t}.
+\]
+If $Q_t>q_t$, the expression is positive and the planner increases research compute
+locally relative to the private allocation.
+\end{proof}

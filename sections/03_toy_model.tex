@@ -1,0 +1,777 @@
+\section{A toy model}
+\label{sec:toy}
+
+The toy model isolates the interaction between population growth, market power in
+current AI services, and the automation of AI research. Time is continuous. There is
+one final good, a representative dynasty, competitive final-good firms, and one
+integrated frontier developer. The developer monopolistically supplies AI services
+and invests in the next generation of AI. The initial economy already uses AI
+services in production; the model does not describe their first commercial adoption.
+
+\subsection{Household}
+
+Population grows at the exogenous rate $n$:
+\begin{equation}
+    \dot N_t=nN_t,
+    \qquad N_0>0,\quad n\geq0.
+    \label{eq:population}
+\end{equation}
+The representative dynasty has preferences
+\begin{equation}
+    \int_0^\infty e^{-\rho t}N_t\log c_t\dd t,
+    \qquad
+    c_t\equiv\frac{C_t}{N_t},
+    \qquad \rho>n,
+    \label{eq:utility}
+\end{equation}
+where $C_t$ is aggregate consumption. Each household member supplies one unit of
+labor inelastically. Labor is allocated between final production, $L_{Y,t}$, and
+human AI research, $H_t$:
+\begin{equation}
+    L_{Y,t}+H_t=N_t.
+    \label{eq:labor-clearing}
+\end{equation}
+The dynasty owns the capital stock and the frontier developer. Capital evolves as
+\begin{equation}
+    \dot K_t=I_t-\delta_KK_t.
+    \label{eq:capital-law}
+\end{equation}
+Let $k_t\equiv K_t/N_t$. The per-capita budget constraint is
+\begin{equation}
+    \dot k_t
+    =
+    (r_t-\delta_K-n)k_t+w_t
+    +\frac{\pi^X_t-w_tH_t-\xi M_t}{N_t}
+    -c_t,
+    \label{eq:household-budget}
+\end{equation}
+where $\pi^X_t$ is the developer's operating profit before research expenditure.
+The household's Euler equation is
+\begin{equation}
+    \frac{\dot c_t}{c_t}=r_t-\delta_K-\rho.
+    \label{eq:euler}
+\end{equation}
+
+\subsection{Final-good firms}
+
+Competitive final-good firms combine physical capital with a composite of production
+labor and AI services:
+\begin{align}
+    Y_t
+    &=
+    K_t^\alpha Z_t^{1-\alpha},
+    \qquad \alpha\in(0,1),
+    \label{eq:final-production}\\
+    Z_t
+    &=
+    \left[
+        (1-\omega)L_{Y,t}^{(\sigma-1)/\sigma}
+        +\omega X_t^{(\sigma-1)/\sigma}
+    \right]^{\sigma/(\sigma-1)},
+    \qquad
+    \omega\in(0,1),\quad \sigma>0.
+    \label{eq:service-composite}
+\end{align}
+The elasticity of substitution between capital and the service composite is one.
+The elasticity between production labor and AI services is $\sigma$. The
+Cobb--Douglas composite is obtained by continuity when $\sigma=1$.
+
+Define the contribution of AI services to the CES composite as
+\begin{equation}
+    s^X_t
+    \equiv
+    \frac{\omega X_t^{(\sigma-1)/\sigma}}
+    {(1-\omega)L_{Y,t}^{(\sigma-1)/\sigma}
+        +\omega X_t^{(\sigma-1)/\sigma}}.
+    \label{eq:ai-composite-share}
+\end{equation}
+Let $p^X_t$ denote the price of AI services. Profit maximization gives
+\begin{align}
+    r_t
+    &=\alpha\frac{Y_t}{K_t},
+    \label{eq:capital-demand}\\
+    w_t
+    &=(1-\alpha)(1-s^X_t)\frac{Y_t}{L_{Y,t}},
+    \label{eq:labor-demand}\\
+    p^X_t
+    &=(1-\alpha)s^X_t\frac{Y_t}{X_t},
+    \label{eq:ai-demand}
+\end{align}
+and relative demand satisfies
+\begin{equation}
+    \frac{X_t}{L_{Y,t}}
+    =
+    \left[
+        \frac{\omega}{1-\omega}
+        \frac{w_t}{p^X_t}
+    \right]^\sigma.
+    \label{eq:relative-ai-demand}
+\end{equation}
+
+\subsection{Integrated AI monopolist}
+
+The variable $U_t$ is a flow of \emph{inference compute}: standardized
+computational resources used during period $t$ to run an existing model. It can be
+measured in FLOPs, GPU-hours, or equivalent units of a reference processor per unit
+of time; it is not a stock of chips. Let $\xi>0$ denote the common unit resource cost
+of standardized compute. It summarizes the capital, energy, and other resources
+needed to supply one unit of compute, independently of whether that unit is used for
+inference or research.
+
+The variable $X_t$ is a flow of quality-adjusted AI services used by final-good
+firms. Its empirical counterpart could be benchmark-equivalent tokens, predictions
+adjusted for accuracy, or equivalent task hours. This distinction follows the
+measurement approach in \citet{korinekmckelvey2026}, who combine inference compute
+with model capital and adjust inference output for quality, and is consistent with
+the intelligence tiers documented by \citet{demireretal2025}.
+
+The stock $A_t$ measures frontier AI capability. Under the normalization used here,
+it also measures quality-adjusted services produced per unit of inference compute:
+\begin{equation}
+    X_t=A_tU_t.
+    \label{eq:ai-services}
+\end{equation}
+Equation~\eqref{eq:ai-services} is an efficiency-units specification, not a
+technological identity. Conditional on $A_t$, it imposes constant returns to
+inference compute and compresses task coverage, quality, speed, and inference
+efficiency into one scalar.
+
+\begin{remark}[Capability and inference efficiency]
+The same state variable $A_t$ governs broad frontier capability and the productivity
+of inference compute. This restriction keeps the service-market and research
+mechanisms connected and makes the benchmark tractable, but it need not hold
+quantitatively. A natural extension is $X_t=B(A_t)U_t$, with a separate mapping from
+capability to inference efficiency. We retain $B(A)=A$ in the baseline and keep this
+distinction as a robustness extension.
+\end{remark}
+
+The integrated developer recognizes the inverse demand generated by the final-good
+sector and solves
+\begin{equation}
+    \max_{X_t\geq0}
+    \left\{
+        p^X_t(X_t;K_t,L_{Y,t})X_t
+        -\xi\frac{X_t}{A_t}
+    \right\}.
+    \label{eq:monopoly-service-problem}
+\end{equation}
+Its operating profit is
+\begin{equation}
+    \pi^X_t=p^X_tX_t-\xi\frac{X_t}{A_t}.
+    \label{eq:operating-profit}
+\end{equation}
+
+\subsection{Frontier research}
+
+New AI capability is produced with effective research services, $E_t$:
+\begin{align}
+    \dot A_t
+    &=
+    \chi A_t^\phi E_t^\eta,
+    \qquad \chi>0,\quad \phi<1,\quad \eta\in(0,1),
+    \label{eq:ideas}\\
+    E_t
+    &=
+    \left[
+        (1-\nu)H_t^{(\theta-1)/\theta}
+        +\nu M_t^{(\theta-1)/\theta}
+    \right]^{\theta/(\theta-1)},
+    \qquad
+    \nu\in(0,1),\quad \theta>1.
+    \label{eq:effective-research}
+\end{align}
+Here, $M_t$ is a flow of standardized automated-research services. It includes
+training, post-training, experiments, synthetic-data generation, and inference
+performed by AI agents engaged in R\&D. The baseline normalizes one unit of these
+services to one unit in the research aggregator and assigns it the common resource
+cost $\xi$. A capability-dependent conversion from compute into automated-research
+services is left for an extension.
+
+The elasticity $\theta$ governs substitution between human and automated research.
+The restriction $\theta>1$ makes the two inputs gross substitutes and allows
+positive research output when $H_t=0$. It does not impose that human research
+disappears. That outcome depends on the equilibrium path of the wage relative to
+$\xi$. The exponent $\phi$ captures how the existing stock of knowledge affects the
+productivity of both research inputs.
+
+\begin{remark}[Capability-dependent research productivity]
+An extension replaces $M_t$ inside \eqref{eq:effective-research} with
+$\lambda(A_t)M_t$. Its effective unit cost is then $\xi/\lambda(A_t)$, and the
+automation condition depends on $w_t\lambda(A_t)/\xi$ rather than $w_t/\xi$. In the
+AI-dominated limit, a power function $\lambda(A)=\lambda_0A^\psi$ changes the
+capability exponent from $\phi$ to $\phi+\psi\eta$. The baseline sets
+$\lambda(A)=1$ to isolate substitution between human and automated research from
+capability-dependent improvements in research efficiency.
+\end{remark}
+
+Let $q_t$ be the developer's private shadow value of capability and let
+$F(A_t,H_t,M_t)$ denote the right-hand side of \eqref{eq:ideas}. Its current-value
+Hamiltonian is
+\begin{equation}
+    \mathcal H^P_t
+    =
+    \pi^X_t-w_tH_t-\xi M_t
+    +q_tF(A_t,H_t,M_t).
+    \label{eq:private-hamiltonian}
+\end{equation}
+
+\subsection{Social planner}
+
+Let $Q_t$ denote the social shadow value of capability. Unlike $q_t$, $Q_t$ includes
+consumer surplus from a larger supply of AI services and knowledge benefits that the
+developer cannot appropriate. The comparison between $Q_t$ and $q_t$ isolates the
+knowledge and appropriability wedge.
+
+\subsection{Equilibrium}
+
+A decentralized equilibrium is a sequence
+\[
+    \{C_t,c_t,I_t,K_t,N_t,L_{Y,t},H_t,X_t,U_t,M_t,A_t\}_{t\geq0}
+\]
+and prices
+\[
+    \{r_t,w_t,p^X_t,q_t\}_{t\geq0}
+\]
+such that:
+\begin{enumerate}[label=(\roman*)]
+    \item the representative dynasty maximizes \eqref{eq:utility}, taking prices and
+    developer profits as given;
+    \item final-good firms maximize profits under
+    \eqref{eq:final-production}--\eqref{eq:service-composite};
+    \item the integrated developer chooses current AI services and frontier research
+    to maximize its market value;
+    \item population, capital, and capability follow
+    \eqref{eq:population}, \eqref{eq:capital-law}, and \eqref{eq:ideas};
+    \item labor satisfies \eqref{eq:labor-clearing}; and
+    \item the aggregate resource constraint is
+    \begin{equation}
+        C_t+I_t+\xi(U_t+M_t)=Y_t.
+        \label{eq:resource-constraint}
+    \end{equation}
+\end{enumerate}
+There is no common physical-capacity constraint between $U_t$ and $M_t$. The two
+uses of compute compete through the final-good resource constraint, not through an
+additional exogenous cap.
+
+\subsection{Solution}
+
+\subsubsection{Wages and the labor share under an AI expansion}
+
+Let
+\begin{equation}
+    \ell^Y_t\equiv\frac{w_tL_{Y,t}}{Y_t}
+    =(1-\alpha)(1-s^X_t)
+    \label{eq:production-labor-share}
+\end{equation}
+denote production labor's share of final output. The wage and this share need not
+move in the same direction because the wage depends on both the production-labor
+share and output per production worker.
+
+\begin{proposition}[The wage and production-labor-share thresholds]
+\label{prop:wage-share-thresholds}
+Holding $K_t$ and $L_{Y,t}$ fixed, an expansion of AI services satisfies
+\begin{align}
+    \frac{\partial\log Y_t}{\partial\log X_t}
+    &=(1-\alpha)s^X_t>0,
+    \label{eq:output-ai-elasticity}\\
+    \frac{\partial\log \ell^Y_t}{\partial\log X_t}
+    &=-\left(1-\frac{1}{\sigma}\right)s^X_t,
+    \label{eq:labor-share-ai-elasticity}\\
+    \frac{\partial\log w_t}{\partial\log X_t}
+    &=\left(\frac{1}{\sigma}-\alpha\right)s^X_t.
+    \label{eq:wage-ai-elasticity}
+\end{align}
+Consequently, the production-labor share falls if and only if $\sigma>1$, whereas
+the wage rises if and only if $\sigma<1/\alpha$. Since $\alpha\in(0,1)$, there is
+a nonempty interval
+\begin{equation}
+    1<\sigma<\frac{1}{\alpha}
+    \label{eq:wage-share-decoupling-region}
+\end{equation}
+in which an expansion of AI raises the wage while reducing production labor's share
+of output.
+\end{proposition}
+
+\begin{proof}
+The CES expenditure share in \eqref{eq:ai-composite-share} implies
+\[
+    \frac{\partial\log(1-s^X_t)}{\partial\log X_t}
+    =
+    -\left(1-\frac{1}{\sigma}\right)s^X_t.
+\]
+The output elasticity follows directly from
+\eqref{eq:final-production}--\eqref{eq:service-composite}. Combining these two
+expressions with \eqref{eq:labor-demand} yields
+\eqref{eq:labor-share-ai-elasticity} and \eqref{eq:wage-ai-elasticity}.
+\end{proof}
+
+Because researchers and production workers receive the same wage, the aggregate
+labor-income share is $w_tN_t/Y_t=(N_t/L_{Y,t})\ell^Y_t$. Conditional on a fixed
+allocation of labor between production and research, its elasticity with respect to
+$X_t$ is also given by \eqref{eq:labor-share-ai-elasticity}. Along an equilibrium
+transition, however, changes in $H_t/N_t$ provide an additional margin. The
+production-block threshold should therefore not be read as a complete
+general-equilibrium result for the aggregate labor share.
+
+Equation~\eqref{eq:wage-ai-elasticity} decomposes the wage response into a
+productivity effect and a displacement effect:
+\begin{equation}
+    \frac{\partial\log w_t}{\partial\log X_t}
+    =
+    \underbrace{(1-\alpha)s^X_t}_{\text{productivity effect}}
+    -
+    \underbrace{\left(1-\frac{1}{\sigma}\right)s^X_t}
+    _{\text{displacement effect}}.
+    \label{eq:wage-decomposition}
+\end{equation}
+The first term is the increase in output per production worker. The second is the
+decline in labor's income share. This decomposition maps the nested production
+function into the productivity and displacement channels emphasized by
+\citet{acemoglurestrepo2019}.
+
+The two thresholds are not unique to this paper. \citet{yango2026} derives the same
+conditions in a nested technology with physical and AI capital, while
+\citet{autorkausik2026} establish the broader possibility of falling labor shares
+and rising wages under constant returns to scale. Proposition
+\ref{prop:wage-share-thresholds} serves here as a benchmark for the model's distinct
+dynamic and market-structure mechanisms.
+
+Allowing all quantities to change, the instantaneous wage growth rate obeys the
+identity
+\begin{equation}
+    g_{w,t}
+    =
+    \alpha\left(g_{K,t}-g_{L_Y,t}\right)
+    +
+    s^X_t\left(\frac{1}{\sigma}-\alpha\right)
+    \left(g_{X,t}-g_{L_Y,t}\right).
+    \label{eq:dynamic-wage-decomposition}
+\end{equation}
+When the research-employment share is constant, $g_{L_Y,t}=n$. Capital deepening can
+therefore raise wages even when the direct expansion of AI services lowers them.
+Conversely, $\sigma<1/\alpha$ is not sufficient for wage growth along an equilibrium
+transition if capital per production worker contracts. The monopoly problem below
+determines the supply of $X_t$, while household saving and the resource constraint
+determine $K_t$; the equilibrium wage response depends on both paths.
+
+\subsubsection{Monopoly supply of AI services}
+
+Holding $K_t$ and $L_{Y,t}$ fixed, the absolute elasticity of inverse demand faced by
+the monopolist is
+\begin{equation}
+    \varepsilon^X_t
+    \equiv
+    -\frac{\partial\log p^X_t}{\partial\log X_t}
+    =
+    \frac{1-s^X_t}{\sigma}+\alpha s^X_t.
+    \label{eq:inverse-demand-elasticity}
+\end{equation}
+For an interior solution with $\varepsilon^X_t<1$, the first-order condition is
+\begin{equation}
+    p^X_t(1-\varepsilon^X_t)=\frac{\xi}{A_t}.
+    \label{eq:monopoly-ai-price}
+\end{equation}
+The markup and operating rent are
+\begin{align}
+    \mu^X_t
+    &\equiv
+    \frac{p^X_t}{\xi/A_t}
+    =
+    \frac{1}{1-\varepsilon^X_t}>1,
+    \label{eq:monopoly-markup}\\
+    \pi^X_t
+    &=
+    \varepsilon^X_t p^X_tX_t.
+    \label{eq:monopoly-rents}
+\end{align}
+Conditional on $A_t$, $K_t$, and $L_{Y,t}$, the monopolist supplies less AI than an
+allocation that prices services at marginal cost. The household receives the rents,
+so the toy model retains the output distortion and the innovation incentive from
+market power while abstracting from concentrated ownership.
+
+\subsubsection{Research input choice and gradual automation}
+
+The marginal products of the two research inputs in
+\eqref{eq:effective-research} are
+\begin{equation}
+    E_{H,t}
+    =(1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\theta},
+    \qquad
+    E_{M,t}
+    =\nu\left(\frac{E_t}{M_t}\right)^{1/\theta}.
+    \label{eq:research-ces-marginal-products}
+\end{equation}
+The developer's first-order conditions are therefore
+\begin{align}
+    w_t
+    &=
+    q_t\chi\eta A_t^\phi E_t^{\eta-1}
+    (1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\theta},
+    \label{eq:foc-human}\\
+    \xi
+    &=
+    q_t\chi\eta A_t^\phi E_t^{\eta-1}
+    \nu\left(\frac{E_t}{M_t}\right)^{1/\theta}.
+    \label{eq:private-compute-foc}
+\end{align}
+Their ratio determines the research-input mix:
+\begin{equation}
+    \frac{M_t}{H_t}
+    =
+    \left[
+        \frac{\nu}{1-\nu}\frac{w_t}{\xi}
+    \right]^\theta.
+    \label{eq:research-input-ratio}
+\end{equation}
+
+The unit cost of effective research services is
+\begin{equation}
+    P^E_t
+    =
+    \left[
+        (1-\nu)^\theta w_t^{1-\theta}
+        +\nu^\theta\xi^{1-\theta}
+    \right]^{1/(1-\theta)}.
+    \label{eq:research-unit-cost}
+\end{equation}
+Conditional input demands are
+\begin{equation}
+    H_t=(1-\nu)^\theta
+    \left(\frac{P^E_t}{w_t}\right)^\theta E_t,
+    \qquad
+    M_t=\nu^\theta
+    \left(\frac{P^E_t}{\xi}\right)^\theta E_t.
+    \label{eq:research-conditional-demands}
+\end{equation}
+The developer can consequently choose the scale of research in two stages. For
+$\eta\in(0,1)$, its optimal scale satisfies
+\begin{equation}
+    P^E_t=q_t\chi\eta A_t^\phi E_t^{\eta-1},
+    \qquad
+    E_t=
+    \left(
+        \frac{q_t\chi\eta A_t^\phi}{P^E_t}
+    \right)^{1/(1-\eta)}.
+    \label{eq:research-scale}
+\end{equation}
+
+Define the contribution of automated services to effective research as
+\begin{equation}
+    s^M_t
+    \equiv
+    \frac{\nu M_t^{(\theta-1)/\theta}}
+    {(1-\nu)H_t^{(\theta-1)/\theta}
+        +\nu M_t^{(\theta-1)/\theta}}.
+    \label{eq:automated-research-share}
+\end{equation}
+At an interior cost-minimizing allocation, this is also the share of research
+expenditure devoted to automated services:
+\begin{equation}
+    s^M_t=\frac{\xi M_t}{w_tH_t+\xi M_t}.
+    \label{eq:automated-research-cost-share}
+\end{equation}
+Equations \eqref{eq:research-input-ratio} and
+\eqref{eq:automated-research-share} imply
+\begin{equation}
+    \frac{s^M_t}{1-s^M_t}
+    =
+    \left(\frac{\nu}{1-\nu}\right)^\theta
+    \left(\frac{w_t}{\xi}\right)^{\theta-1}.
+    \label{eq:automation-odds}
+\end{equation}
+More generally, if the unit cost of automated research varies at rate $g_{\xi,t}$,
+the automation share evolves according to
+\begin{equation}
+    \dot s^M_t
+    =
+    s^M_t(1-s^M_t)(\theta-1)
+    \left(g_{w,t}-g_{\xi,t}\right).
+    \label{eq:automation-share-dynamics}
+\end{equation}
+The baseline holds $\xi$ constant, so $g_{\xi,t}=0$.
+
+\begin{proposition}[Gradual research automation]
+\label{prop:gradual-automation}
+Suppose $\theta>1$. If $w_t/\xi\to\infty$, then $s^M_t\to1$ and
+$H_t/E_t\to0$. If $w_t/\xi$ remains bounded, $\theta>1$ alone does not imply that
+the human contribution disappears.
+\end{proposition}
+
+Proposition~\ref{prop:gradual-automation} replaces a discrete automation threshold
+with a continuous equilibrium transition. The research elasticity determines
+whether human research can become asymptotically inessential. The production
+elasticity $\sigma$ affects whether that limit is reached by determining the wage
+path. The private shadow value continues to satisfy
+\begin{equation}
+    (r_t-\delta_K)q_t
+    =
+    \pi^X_{A,t}+q_tF_{A,t}+\dot q_t,
+    \qquad
+    F_{A,t}=\phi\frac{\dot A_t}{A_t}.
+    \label{eq:private-costate}
+\end{equation}
+
+\subsubsection{Human-dominated research}
+
+When $s^M_t$ is close to zero,
+\begin{equation}
+    E_t
+    \simeq
+    (1-\nu)^{\theta/(\theta-1)}H_t.
+    \label{eq:human-dominated-research}
+\end{equation}
+If a constant share $s_H\in(0,1)$ of the population works in research,
+\begin{equation}
+    H_t=s_HN_t,
+    \qquad
+    L_{Y,t}=(1-s_H)N_t,
+    \label{eq:research-share}
+\end{equation}
+the ideas equation implies
+\begin{equation}
+    g_A^H
+    =
+    \frac{\eta n}{1-\phi}.
+    \label{eq:human-dominated-ga}
+\end{equation}
+This is a semi-endogenous benchmark for the early, human-dominated phase. It is not
+generally a permanent balanced-growth path once automated research is feasible. If
+the wage grows relative to $\xi$, equation \eqref{eq:automation-share-dynamics}
+moves the economy away from this phase.
+
+\subsubsection{AI-dominated research dynamics}
+
+When $s^M_t\to1$, the research aggregator satisfies
+\begin{equation}
+    E_t
+    \simeq
+    \nu^{\theta/(\theta-1)}M_t.
+    \label{eq:ai-dominated-research}
+\end{equation}
+The asymptotic law of motion is therefore
+\begin{equation}
+    \dot A_t
+    =
+    \kappa A_t^\phi M_t^\eta,
+    \qquad
+    \kappa\equiv
+    \chi\nu^{\eta\theta/(\theta-1)}.
+    \label{eq:ai-dominated-ideas}
+\end{equation}
+Its growth rate obeys
+\begin{equation}
+    \frac{\dot g_{A,t}}{g_{A,t}}
+    =
+    (\phi-1)g_{A,t}+\eta g_{M,t}.
+    \label{eq:ai-growth-rate-dynamics}
+\end{equation}
+If $g_{M,t}$ converges to a positive constant and $\phi<1$, a constant capability
+growth rate must satisfy
+\begin{equation}
+    g_A^\infty
+    =
+    \frac{\eta g_M^\infty}{1-\phi}.
+    \label{eq:ai-dominated-ga}
+\end{equation}
+Research growth is no longer tied directly to population growth. It is tied to the
+growth of automated-research services, whose equilibrium path depends on output,
+profits, and the private value of capability.
+
+\subsubsection{A closed-form AI-dominated path under Cobb--Douglas production}
+
+The Cobb--Douglas limit of the production CES provides a closed-form benchmark.
+Define
+\begin{equation}
+    \beta\equiv(1-\alpha)\omega,
+    \qquad
+    \upsilon\equiv\frac{\beta}{1-\alpha-\beta}.
+    \label{eq:beta-definition}
+\end{equation}
+Production becomes
+\begin{equation}
+    Y_t=K_t^\alpha L_{Y,t}^{1-\alpha-\beta}X_t^\beta.
+    \label{eq:cd-production}
+\end{equation}
+The monopolist chooses
+\begin{align}
+    p^X_t&=\frac{\xi}{\beta A_t},
+    &
+    U_t&=\frac{\beta^2}{\xi}Y_t,
+    &
+    X_t&=\frac{\beta^2A_t}{\xi}Y_t,
+    \label{eq:cd-monopoly}\\
+    \pi^X_t&=\beta(1-\beta)Y_t.
+    \label{eq:cd-monopoly-rents}
+\end{align}
+Substitution into production gives
+\begin{equation}
+    Y_t
+    =
+    \left(\frac{\beta^2}{\xi}\right)^{\beta/(1-\beta)}
+    A_t^{\beta/(1-\beta)}
+    K_t^{\alpha/(1-\beta)}
+    L_{Y,t}^{(1-\alpha-\beta)/(1-\beta)}.
+    \label{eq:reduced-production}
+\end{equation}
+
+Let $\gamma^\infty$ denote the common growth rate of output, capital,
+consumption, and inference compute per capita. Along an AI-dominated path with a
+constant research-resource share $m_R\equiv\xi M_t/Y_t$,
+\begin{equation}
+    \gamma^\infty=\upsilon g_A^\infty,
+    \qquad
+    g_M^\infty=n+\gamma^\infty.
+    \label{eq:cd-ai-growth-relations}
+\end{equation}
+Combining \eqref{eq:ai-dominated-ga} and
+\eqref{eq:cd-ai-growth-relations} yields
+\begin{align}
+    g_A^\infty
+    &=
+    \frac{\eta n}
+    {1-\phi-\eta\upsilon},
+    \label{eq:cd-ai-ga}\\
+    \gamma^\infty
+    &=
+    \frac{\upsilon\eta n}
+    {1-\phi-\eta\upsilon}.
+    \label{eq:cd-ai-gamma}
+\end{align}
+A positive constant-growth path requires
+\begin{equation}
+    1-\phi-\eta\upsilon>0.
+    \label{eq:cd-ai-bg-condition}
+\end{equation}
+If this condition fails, the feedback from output to automated research and from
+research back to output is too strong for a positive constant-growth solution. The
+failure of \eqref{eq:cd-ai-bg-condition} identifies a candidate acceleration regime;
+the transition system determines whether research and output accelerate or instead
+move to a boundary allocation.
+
+The remaining balanced-growth objects are
+\begin{align}
+    g_Y=g_K=g_C=g_U=g_M&=n+\gamma^\infty,
+    \label{eq:aggregate-bg-rates}\\
+    g_X&=n+\gamma^\infty+g_A^\infty,
+    &
+    g_w&=\gamma^\infty,
+    &
+    g_{p^X}&=-g_A^\infty,
+    \label{eq:other-bg-rates}\\
+    r^\infty&=\rho+\delta_K+\gamma^\infty,
+    &
+    \frac{K_t}{Y_t}
+    &=
+    \frac{\alpha}{\rho+\delta_K+\gamma^\infty}.
+    \label{eq:bg-capital-output}
+\end{align}
+The costate equation and the research first-order condition imply
+\begin{equation}
+    m_R^\infty
+    =
+    \frac{\beta^2\eta g_A^\infty}
+    {\rho-n+(1-\phi)g_A^\infty}.
+    \label{eq:bg-research-resource-share}
+\end{equation}
+Consequently,
+\begin{align}
+    \frac{I_t}{Y_t}
+    &=
+    \frac{\alpha(n+\gamma^\infty+\delta_K)}
+    {\rho+\delta_K+\gamma^\infty},
+    \label{eq:bg-investment-share}\\
+    \frac{C_t}{Y_t}
+    &=
+    1-
+    \frac{\alpha(n+\gamma^\infty+\delta_K)}
+    {\rho+\delta_K+\gamma^\infty}
+    -\beta^2-m_R^\infty.
+    \label{eq:bg-consumption-share}
+\end{align}
+An interior path requires a positive consumption share.
+
+Because $g_w=\gamma^\infty>0$ and $\xi$ is constant,
+Proposition~\ref{prop:gradual-automation} applies. More precisely,
+\begin{equation}
+    g_{H/N}
+    =
+    -(\theta-1)\gamma^\infty<0.
+    \label{eq:human-research-population-share}
+\end{equation}
+The fraction of the population employed in frontier research therefore converges to
+zero. The number of human researchers need not fall in levels: it grows at rate
+$n-(\theta-1)\gamma^\infty$ and declines only if the second term exceeds population
+growth.
+
+\subsubsection{Why the production CES matters}
+
+The Cobb--Douglas case is the knife-edge at which expenditure shares remain
+constant. For $\sigma\neq1$, the monopoly condition
+\eqref{eq:monopoly-ai-price} implies different asymptotic regimes as the marginal
+cost $\xi/A_t$ falls.
+
+\begin{proposition}[Production regimes under increasingly capable AI]
+\label{prop:production-ces-regimes}
+Suppose $A_t\to\infty$ and the service-market solution remains interior.
+\begin{enumerate}[label=(\roman*)]
+    \item If $\sigma<1$, the monopolist's AI share converges to
+    \begin{equation}
+        \bar s^X
+        =
+        \frac{1-\sigma}{1-\alpha\sigma}.
+        \label{eq:low-sigma-ai-share}
+    \end{equation}
+    The ratio $X_t/L_{Y,t}$ remains bounded and the productive effect of further
+    reductions in $\xi/A_t$ vanishes.
+    \item If $\sigma=1$, factor shares are constant and the AI-dominated
+    balanced-growth path is characterized by
+    \eqref{eq:cd-ai-ga}--\eqref{eq:bg-consumption-share}.
+    \item If $\sigma>1$, $s^X_t\to1$, the production-labor share converges to zero,
+    and
+    \begin{equation}
+        \frac{Y_t}{K_t}
+        \sim
+        D_\sigma A_t^{(1-\alpha)/\alpha},
+        \qquad D_\sigma>0.
+        \label{eq:high-sigma-ak-limit}
+    \end{equation}
+    A conventional balanced-growth path with $g_A>0$ cannot have a constant
+    capital--output ratio. The return to capital and the aggregate growth rate rise
+    with capability.
+\end{enumerate}
+\end{proposition}
+
+For $\sigma<1$, a rising wage relative to $\xi$ is not guaranteed: labor remains
+essential and the monopoly supply of AI services approaches a finite
+revenue-maximizing ratio. Research automation can therefore stop short of
+$s^M=1$ even though $\theta>1$. For $\sigma=1$, the positive wage growth in
+\eqref{eq:other-bg-rates} makes automated research asymptotically dominant. For
+$\sigma>1$, production itself becomes an acceleration mechanism. Research
+automation reinforces that mechanism, but the wage path must be solved jointly with
+capital accumulation before concluding that the human research share disappears.
+
+\subsubsection{Private and social research}
+
+The planner's first-order condition for research compute is
+\begin{equation}
+    Q_tF_{M,t}=\xi.
+    \label{eq:social-compute-foc}
+\end{equation}
+The private condition is $q_tF_{M,t}=\xi$. At the private allocation, the
+uninternalized marginal social benefit is therefore
+\begin{equation}
+    Q_tF_{M,t}-\xi=(Q_t-q_t)F_{M,t}.
+    \label{eq:knowledge-wedge}
+\end{equation}
+
+\begin{proposition}[The knowledge and appropriability wedge]
+\label{prop:knowledge-wedge}
+If $Q_t>q_t$, the integrated monopolist invests too little in research compute at the
+margin relative to the social allocation.
+\end{proposition}
+
+There are thus two distinct distortions. Static market power restricts current AI
+services, while incomplete appropriation of consumer surplus and knowledge benefits
+can depress frontier research. Price regulation alone may correct the first
+distortion while weakening the rents that finance research. This is the central
+policy trade-off developed below.

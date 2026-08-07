@@ -1,14 +1,65 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[11pt]{article}
 
-\title{AI Future Paper}
-\author{oliverpardo }
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\,\mathrm{d}}
+
+\title{Automating Innovation:\\
+Artificial Intelligence, Market Structure, and the Dynamics of Research}
+\author{Oliver Pardo}
 \date{August 2026}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduction}
+\begin{abstract}
+This paper studies a dynamic economy in which artificial intelligence raises current
+productivity and can also be used to produce better artificial intelligence.
+Population grows exogenously, competitive final-good firms use quality-adjusted AI
+services, and one integrated frontier developer supplies those services as a
+monopolist and invests in AI research. Frontier improvements combine human and
+automated-research services through a CES technology with an elasticity above one.
+The automated share rises when the research wage increases relative to its unit
+resource cost, and the human contribution can become asymptotically negligible.
+During a human-dominated phase, capability growth remains semi-endogenous and tied
+to population growth. When automated research dominates, capability growth is tied
+instead to the growth of automated-research services. In the Cobb--Douglas production
+benchmark, a constant-growth path exists only when diminishing returns in ideas
+production dominate the feedback between output and automated research. With a
+general CES between production labor and AI services, complementarity, constant
+shares, and strong substitution produce different asymptotic growth regimes. The
+same production elasticity separates the response of the real wage from that of the
+production-labor share. Monopoly restricts current AI deployment but creates the
+rents that give frontier capability a private value.
+\end{abstract}
+
+\onehalfspacing
+
+\input{sections/01_introduction}
+\input{sections/02_literature}
+\input{sections/03_toy_model}
+\input{sections/04_extended_model}
+\input{sections/05_regulation}
+\input{sections/06_conclusion}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\appendix
+\input{sections/appendix}
 
 \end{document}
