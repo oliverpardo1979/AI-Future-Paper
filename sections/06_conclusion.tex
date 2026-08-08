@@ -5,8 +5,8 @@ The economic consequences of advanced AI depend on more than whether machines ca
 perform existing jobs. A distinct transition occurs when AI can perform the research
 required to produce better AI. The toy model represents this transition as a gradual
 change in the composition of research. When human and automated-research services are
-gross substitutes, the automated share rises with the research wage relative to its
-unit resource cost.
+gross substitutes ($\theta>1$), the automated share rises with the research wage
+relative to its unit resource cost.
 
 Population growth matters while human research dominates. With $\phi<1$ and a
 constant research-employment share, capability growth is semi-endogenous and equals
@@ -16,13 +16,26 @@ benchmark, a constant-growth path exists if
 $1-\phi-\eta\beta/(1-\alpha-\beta)>0$. If this condition fails, the feedback between
 output and automated research is too strong for a positive constant-growth solution.
 
-The production block also separates the wage response from the response of the
-production-labor share. An expansion of AI services reduces this share when
+The production elasticity $\sigma$ also separates the wage response from the
+response of the production-labor share. An expansion of AI services reduces this share when
 $\sigma>1$, but it raises the wage when $\sigma<1/\alpha$. Hence both outcomes occur
 when $1<\sigma<1/\alpha$. This conditional result is a benchmark, not the paper's
 standalone contribution. In general equilibrium, capital deepening and the
 reallocation of workers between production and research also affect wages and the
-aggregate labor share.
+aggregate labor share. More precisely, aggregate labor-share growth equals
+production labor-share growth plus the growth of population relative to production
+labor. A rising human-research employment share raises the aggregate share relative
+to the production share; a declining human-research share lowers it.
+
+Research automation also has two distinct margins within the AI-development
+industry. The ratio $H/M$ measures human intensity, while $H/N$ measures the scale
+of human research employment. The first can fall while the second rises. This occurs
+when automated research per capita expands more rapidly than human input per unit of
+automated research contracts. The numerical experiments produce both a monotone
+decline in $H/N$ and a U-shaped path in which human research employment first falls
+and then expands, even though $H/M$ declines throughout. The asymptotic disappearance
+of human research as a relative input therefore does not imply that human research
+employment must fall during the transition.
 
 The production elasticity determines whether the economy reaches that asymptotic
 research regime. When $\sigma<1$, labor remains essential and the productive return
@@ -31,6 +44,24 @@ positive wage growth makes automated research asymptotically dominant. When
 $\sigma>1$, the production-labor share converges to zero and the return to capital
 rises with capability, so a conventional balanced-growth path with positive
 capability growth cannot maintain a constant capital--output ratio.
+
+The numerical experiments show why transitional dynamics cannot be inferred from
+these asymptotic results alone. In the stable Cobb--Douglas benchmark, research
+automation is sufficiently gradual that the economy remains below its
+AI-dominated growth rate for centuries. Different initial capability stocks produce
+different early growth rates but converge to the same path. The wage experiments
+also reject an unconditional wage-growth result. Wage growth equals a
+capital-deepening term plus an AI-services-deepening term whose sign turns negative
+when $\sigma>1/\alpha$. Under high population growth and a very high production
+elasticity $\sigma$, the negative latter term can dominate even when the capital
+term is positive. The labor-share experiments also show that the production and aggregate shares need not
+move together: with $\sigma=1$, the first remains constant while the second falls as
+the human-research employment share declines. By contrast, strong production
+substitution or a negative value of
+$1-\phi-\eta\beta/(1-\alpha-\beta)$ produces accelerating growth rather than a
+second constant-growth steady state. These experiments use fixed investment and
+research-spending shares; a full quantitative equilibrium must endogenize both
+decisions before drawing welfare or policy conclusions.
 
 Market power creates a genuine policy trade-off. The monopolist restricts the current
 supply of AI services, but its operating rents raise the private return to frontier

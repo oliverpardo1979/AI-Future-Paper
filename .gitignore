@@ -1,1 +1,6 @@
 build/
+numerical/transition_paths.csv
+numerical/wage_sensitivity_paths.csv
+__pycache__/
+output/pdf/
+tmp/

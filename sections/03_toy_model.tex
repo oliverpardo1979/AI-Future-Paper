@@ -194,6 +194,12 @@ disappears. That outcome depends on the equilibrium path of the wage relative to
 $\xi$. The exponent $\phi$ captures how the existing stock of knowledge affects the
 productivity of both research inputs.
 
+The two CES elasticities operate in different nests. The production elasticity
+$\sigma$ governs substitution between $L_{Y,t}$ and $X_t$. The research elasticity
+$\theta$ governs substitution between $H_t$ and $M_t$. The variable $E_t$ is the
+output of the research CES in \eqref{eq:effective-research}; it is not a separate
+input combined with $H_t$.
+
 \begin{remark}[Capability-dependent research productivity]
 An extension replaces $M_t$ inside \eqref{eq:effective-research} with
 $\lambda(A_t)M_t$. Its effective unit cost is then $\xi/\lambda(A_t)$, and the
@@ -305,13 +311,74 @@ expressions with \eqref{eq:labor-demand} yields
 \eqref{eq:labor-share-ai-elasticity} and \eqref{eq:wage-ai-elasticity}.
 \end{proof}
 
-Because researchers and production workers receive the same wage, the aggregate
-labor-income share is $w_tN_t/Y_t=(N_t/L_{Y,t})\ell^Y_t$. Conditional on a fixed
-allocation of labor between production and research, its elasticity with respect to
-$X_t$ is also given by \eqref{eq:labor-share-ai-elasticity}. Along an equilibrium
-transition, however, changes in $H_t/N_t$ provide an additional margin. The
-production-block threshold should therefore not be read as a complete
-general-equilibrium result for the aggregate labor share.
+Because researchers and production workers receive the same wage, define the
+aggregate labor-income share and the human-research employment share as
+\begin{equation}
+    \ell^N_t
+    \equiv
+    \frac{w_tN_t}{Y_t}
+    =
+    \frac{N_t}{L_{Y,t}}\ell^Y_t
+    =
+    \frac{\ell^Y_t}{1-h_t},
+    \qquad
+    h_t\equiv\frac{H_t}{N_t}.
+    \label{eq:aggregate-labor-share}
+\end{equation}
+The production and aggregate labor-income shares coincide only when no workers are
+employed in research.
+
+\begin{proposition}[Dynamic labor-income-share conditions]
+\label{prop:dynamic-labor-share}
+Along an equilibrium transition, the two labor-income shares obey
+\begin{align}
+    g_{\ell^Y,t}
+    &=
+    -\left(1-\frac{1}{\sigma}\right)s^X_t
+    \left(g_{X,t}-g_{L_Y,t}\right),
+    \label{eq:dynamic-production-labor-share}\\
+    g_{\ell^N,t}
+    &=
+    -\left(1-\frac{1}{\sigma}\right)s^X_t
+    \left(g_{X,t}-g_{L_Y,t}\right)
+    +
+    \frac{\dot h_t}{1-h_t}
+    \notag\\
+    &=
+    g_{\ell^Y,t}+n-g_{L_Y,t}.
+    \label{eq:dynamic-aggregate-labor-share}
+\end{align}
+The production-labor share rises if
+\begin{equation}
+    \left(1-\frac{1}{\sigma}\right)
+    \left(g_{X,t}-g_{L_Y,t}\right)<0
+    \label{eq:production-labor-share-rise-condition}
+\end{equation}
+and falls if the inequality is reversed. The aggregate labor-income share rises if
+\begin{equation}
+    \frac{\dot h_t}{1-h_t}
+    >
+    \left(1-\frac{1}{\sigma}\right)s^X_t
+    \left(g_{X,t}-g_{L_Y,t}\right),
+    \label{eq:aggregate-labor-share-rise-condition}
+\end{equation}
+and falls if the inequality is reversed.
+\end{proposition}
+
+\begin{proof}
+Log-differentiating \eqref{eq:production-labor-share} and using the CES share
+equation gives \eqref{eq:dynamic-production-labor-share}. Since
+$L_{Y,t}=(1-h_t)N_t$, $g_{L_Y,t}=n-\dot h_t/(1-h_t)$.
+Log-differentiating \eqref{eq:aggregate-labor-share} then gives
+\eqref{eq:dynamic-aggregate-labor-share}.
+\end{proof}
+
+If AI services grow faster than production labor, the production-labor share rises
+when $\sigma<1$, is constant when $\sigma=1$, and falls when $\sigma>1$. The
+aggregate share has an additional reallocation term. An increasing human-research
+share raises aggregate labor income relative to the production-labor share, while a
+declining human-research share lowers it. If $h_t$ is constant, the two shares have
+the same growth rate and the familiar threshold $\sigma=1$ applies to both.
 
 Equation~\eqref{eq:wage-ai-elasticity} decomposes the wage response into a
 productivity effect and a displacement effect:
@@ -501,7 +568,69 @@ Proposition~\ref{prop:gradual-automation} replaces a discrete automation thresho
 with a continuous equilibrium transition. The research elasticity determines
 whether human research can become asymptotically inessential. The production
 elasticity $\sigma$ affects whether that limit is reached by determining the wage
-path. The private shadow value continues to satisfy
+path.
+
+\subsubsection{Automation intensity and human research employment}
+
+The research-input ratio is not the same object as employment in the research
+sector. Define the human-research share of population as $h_t\equiv H_t/N_t$.
+The following identity separates research composition from research scale:
+\begin{equation}
+    h_t
+    =
+    \frac{H_t}{M_t}\frac{M_t}{N_t}.
+    \label{eq:human-research-scale-identity}
+\end{equation}
+Equation~\eqref{eq:research-input-ratio} and population growth imply
+\begin{equation}
+    g_{h,t}
+    =
+    \theta\left(g_{\xi,t}-g_{w,t}\right)
+    +g_{M,t}-n,
+    \qquad
+    g_{h,t}\equiv\frac{\dot h_t}{h_t}.
+    \label{eq:human-research-share-growth}
+\end{equation}
+
+\begin{proposition}[Research automation and human research employment]
+\label{prop:research-employment-scale}
+Suppose the research-input choice is interior and $g_{w,t}>g_{\xi,t}$. The
+human-to-automated research ratio $H_t/M_t$ falls. The human-research share of
+population nevertheless rises if and only if
+\begin{equation}
+    g_{M,t}-n
+    >
+    \theta\left(g_{w,t}-g_{\xi,t}\right).
+    \label{eq:human-research-expansion-condition}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Take growth rates in equations~\eqref{eq:research-input-ratio} and
+\eqref{eq:human-research-scale-identity}.
+\end{proof}
+
+Proposition~\ref{prop:research-employment-scale} allows the development industry
+to become more automated while employing a larger fraction of the population. The
+first force reduces the number of human researchers required per unit of automated
+research. The second expands the scale of the research sector. Either force can
+dominate during a transition, so $H_t/N_t$ need not be monotone even when $H_t/M_t$
+falls monotonically.
+
+Under the numerical allocation rule $\xi_tM_t=m_RY_t$, with constant $m_R$,
+equation~\eqref{eq:human-research-share-growth} becomes
+\begin{equation}
+    g_{h,t}
+    =
+    g_{Y,t}-n-\theta g_{w,t}+(\theta-1)g_{\xi,t}.
+    \label{eq:numerical-human-research-share-growth}
+\end{equation}
+The baseline holds $\xi$ constant. In that case, $H_t/N_t$ rises exactly when
+per-capita output grows faster than the wage multiplied by the research-substitution
+elasticity. This last condition belongs to the numerical closure rather than to the
+fully optimizing monopoly.
+
+The private shadow value continues to satisfy
 \begin{equation}
     (r_t-\delta_K)q_t
     =

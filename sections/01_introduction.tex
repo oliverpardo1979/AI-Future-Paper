@@ -22,8 +22,9 @@ of the paper is the subsequent automation of AI research.
 This possibility raises an economic question before it raises a forecasting question.
 Suppose frontier improvements combine human researchers and automated-research
 services. Firms then choose both the scale and the composition of research. When the
-two inputs are gross substitutes, the automated share increases if the human research
-wage rises relative to the unit resource cost of automated research. Automation is
+research elasticity $\theta$ exceeds one, the two inputs are gross substitutes and
+the automated share increases if the human research wage rises relative to the unit
+resource cost of automated research. Automation is
 therefore a continuous equilibrium transition rather than a date imposed on the
 model. Human researchers can become asymptotically inessential, but substitution
 above one does not guarantee that outcome: the wage must also rise relative to the
@@ -43,8 +44,8 @@ through additional automated-research services rather than through population gr
 When those services dominate, capability growth is tied to their equilibrium growth
 rate. Innovation can accelerate if higher output finances enough additional
 automated research, but diminishing returns to ideas and research effort can preserve
-a constant-growth path. The outcome depends on the elasticities in production and
-research and on the allocation of output to research.
+a constant-growth path. The outcome depends separately on the production elasticity
+$\sigma$, the research elasticity $\theta$, and the allocation of output to research.
 
 Recent discussions often move too quickly from this mechanism to one of two
 conclusions. One view treats an intelligence explosion as the natural implication of
@@ -63,18 +64,28 @@ AI services but captures operating rents that raise the private value of better
 capability. We therefore begin with one integrated developer that both supplies
 quality-adjusted AI services and invests in the frontier. Competitive final-good
 firms combine capital with a CES composite of production labor and AI services. The
-elasticity of substitution inside this composite governs adoption and the demand
+production elasticity $\sigma$ inside this composite governs adoption and the demand
 elasticity faced by the monopolist.
 
-The same elasticity separates the response of the real wage from the response of the
-production-labor share. An expansion of AI services reduces this share when AI and
+The production elasticity $\sigma$ separates the response of the real wage from the
+response of the production-labor share. An expansion of AI services reduces this share when AI and
 production labor are gross substitutes, but the wage falls only when substitution is
 sufficiently strong. There is therefore an intermediate region in which production
 workers receive a smaller share of output even though their wage rises. This
 distinction is important for the distributional analysis: a declining labor share is
 not, by itself, evidence that the real wage has fallen. In the full model, the
 aggregate labor share also depends on how workers are reallocated between production
-and research.
+and research. An increase in the human-research employment share raises aggregate
+labor income relative to production labor income; a decrease lowers it.
+
+A separate distinction operates within the AI-development industry. The ratio
+$H/M$ measures the human intensity of research, whereas $H/N$ measures the fraction
+of the population employed as human researchers. Research can become less human
+intensive while the development industry employs more people: $H/M$ falls when
+automated research becomes cheaper relative to human research, but $H/N$ rises if
+the scale of automated research per capita expands sufficiently quickly. The model
+therefore allows an initial decline followed by an increase in human research
+employment even along a path of continuous research automation.
 
 The resulting welfare problem has two distinct margins. Static market power reduces
 the current use of AI services. At the same time, consumer surplus and knowledge
@@ -84,16 +95,35 @@ correct the deployment distortion while also eroding the rents that finance
 innovation. Price regulation and research policy must consequently be studied
 together. The present version isolates this market-structure mechanism.
 
-The toy model delivers five results. First, the automated share of research follows
+The toy model delivers six results. First, the automated share of research follows
 a closed-form law driven by the research-substitution elasticity and the wage relative
-to the resource cost of automated research. Second, population growth sustains
-semi-endogenous capability growth while human research dominates. Third, when
+to the resource cost of automated research. Second, research automation and human
+research employment need not move together: the ratio $H/M$ can fall while the
+employment share $H/N$ rises. Third, population growth sustains
+semi-endogenous capability growth while human research dominates. Fourth, when
 automated research dominates, a constant-growth path exists only if diminishing
-returns offset the feedback between output and research. Fourth, the production CES
+returns offset the feedback between output and research. Fifth, the production CES
 separates a labor-bottlenecked regime, a constant-share benchmark, and a regime in
-which the return to capital rises with capability. Fifth, the production structure
+which the return to capital rises with capability. Sixth, the production structure
 yields distinct substitution thresholds for the real wage and the
-production-labor share.
+production-labor share, while the aggregate labor-income share also depends on
+worker reallocation between production and research.
+
+Numerical transition experiments show that the asymptotic classification can be a
+poor description of medium-run dynamics. In the constant-share benchmark, research
+automation and convergence to the AI-dominated growth rate can take centuries under
+illustrative parameters. Strong substitution in production or a sufficiently strong
+feedback from output to automated research instead generates accelerating growth.
+The wage experiments reject an unconditional wage-growth result. With high
+population growth and a very high production elasticity $\sigma$, the displacement
+contribution from AI-services deepening can exceed the contribution from capital deepening, so the
+real wage eventually falls even though capital per production worker continues to
+rise. The labor-share experiments show that Cobb--Douglas production can keep the
+production-labor share constant while the aggregate share falls as workers leave
+human research. Additional experiments show that $H/M$ falls in every reported
+research-industry transition, while $H/N$ either declines or follows a U-shaped
+path as automated research expands. Different initial capability stocks change the transition but
+converge to the same stable path when the parameterization has a unique attractor.
 
 The extended model retains the integrated monopolist and adds distributional
 heterogeneity and richer capital and compute accumulation. It will compare a
@@ -107,5 +137,6 @@ the framework to endogenous growth, transformative AI, automation and labor inco
 measurement of AI services, and industrial organization. Section~\ref{sec:toy}
 develops the toy model.
 Section~\ref{sec:extended} sets out the extended general-equilibrium model.
+Section~\ref{sec:numerical} reports numerical transition experiments.
 Section~\ref{sec:regulation} defines the regulatory scenarios.
 Section~\ref{sec:conclusion} concludes.

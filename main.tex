@@ -3,6 +3,8 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
 \usepackage{microtype}
 \usepackage{setspace}
 \usepackage{enumitem}
@@ -32,19 +34,32 @@ productivity and can also be used to produce better artificial intelligence.
 Population grows exogenously, competitive final-good firms use quality-adjusted AI
 services, and one integrated frontier developer supplies those services as a
 monopolist and invests in AI research. Frontier improvements combine human and
-automated-research services through a CES technology with an elasticity above one.
+automated-research services through a CES technology with research elasticity
+$\theta>1$.
 The automated share rises when the research wage increases relative to its unit
 resource cost, and the human contribution can become asymptotically negligible.
+Research automation does not, however, imply that human employment in AI development
+falls monotonically. The human-to-automated research ratio $H/M$ can decline while
+the human-research employment share $H/N$ rises if the scale of automated research
+per capita expands sufficiently quickly.
 During a human-dominated phase, capability growth remains semi-endogenous and tied
 to population growth. When automated research dominates, capability growth is tied
 instead to the growth of automated-research services. In the Cobb--Douglas production
 benchmark, a constant-growth path exists only when diminishing returns in ideas
 production dominate the feedback between output and automated research. With a
-general CES between production labor and AI services, complementarity, constant
-shares, and strong substitution produce different asymptotic growth regimes. The
-same production elasticity separates the response of the real wage from that of the
-production-labor share. Monopoly restricts current AI deployment but creates the
-rents that give frontier capability a private value.
+general CES between production labor and AI services, the production elasticity
+$\sigma$ produces different asymptotic growth regimes. The production elasticity
+$\sigma$ also separates the response of the real wage from that of the
+production-labor share. The aggregate labor-income share depends additionally on whether
+workers move into or out of human research. When $\sigma>1/\alpha$, wage growth is
+positive only when capital deepening offsets the
+displacement effect of AI-services deepening. Numerical counterexamples show that a
+sufficiently high $\sigma$ can make the real wage fall even while capital per
+production worker rises. Monopoly restricts current AI deployment but creates the
+rents that give frontier capability a private value. Other numerical
+experiments illustrate slow convergence in the constant-share benchmark and
+acceleration under either strong production substitution or sufficiently strong
+research feedback.
 \end{abstract}
 
 \onehalfspacing
@@ -53,6 +68,7 @@ rents that give frontier capability a private value.
 \input{sections/02_literature}
 \input{sections/03_toy_model}
 \input{sections/04_extended_model}
+\input{sections/05_numerical_experiments}
 \input{sections/05_regulation}
 \input{sections/06_conclusion}
 
