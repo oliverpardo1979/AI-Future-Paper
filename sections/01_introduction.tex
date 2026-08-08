@@ -47,6 +47,29 @@ automated research, but diminishing returns to ideas and research effort can pre
 a constant-growth path. The outcome depends separately on the production elasticity
 $\sigma$, the research elasticity $\theta$, and the allocation of output to research.
 
+Human essentiality changes the strength of this feedback. Consider a counterfactual
+in which research is Cobb--Douglas in human and automated inputs. Human research then
+remains essential, and only the automated-input elasticity $\nu$ transmits the
+feedback from output to research. Under Cobb--Douglas production, balanced growth
+requires $1-\phi-\eta\nu\upsilon>0$, where
+$\upsilon\equiv\beta/(1-\alpha-\beta)$. When automated research can instead become
+asymptotically dominant, the condition becomes
+$1-\phi-\eta\upsilon>0$. The second condition is stricter because $\nu<1$. There is
+therefore a nonempty parameter region in which growth is stable if human research
+remains essential but accelerates once automated research removes that bottleneck.
+This comparison is between two research technologies; it does not assume that the
+research elasticity changes during the transition in the CES model.
+
+The failure of the balanced-growth condition is not sufficient for a finite-time
+singularity. Under the proportional-allocation closure used to isolate the feedback,
+$D>0$ gives stable balanced growth, $D=0$ gives accelerating growth that remains
+finite at every finite date, and a persistent $D<0$ produces a finite-time
+singularity. During the CES transition, the relevant denominator is
+$D(s^M_t)=1-\phi-\eta\upsilon s^M_t$. The automation share must cross the critical
+value $(1-\phi)/(\eta\upsilon)$ and remain high enough for the negative feedback
+term to accumulate. This distinction prevents the absence of a constant-growth path
+from being interpreted mechanically as an immediate explosion.
+
 Recent discussions often move too quickly from this mechanism to one of two
 conclusions. One view treats an intelligence explosion as the natural implication of
 automating AI research. The other assumes that physical bottlenecks and diminishing
@@ -95,16 +118,18 @@ correct the deployment distortion while also eroding the rents that finance
 innovation. Price regulation and research policy must consequently be studied
 together. The present version isolates this market-structure mechanism.
 
-The toy model delivers six results. First, the automated share of research follows
+The toy model delivers seven results. First, the automated share of research follows
 a closed-form law driven by the research-substitution elasticity and the wage relative
 to the resource cost of automated research. Second, research automation and human
 research employment need not move together: the ratio $H/M$ can fall while the
 employment share $H/N$ rises. Third, population growth sustains
-semi-endogenous capability growth while human research dominates. Fourth, when
-automated research dominates, a constant-growth path exists only if diminishing
-returns offset the feedback between output and research. Fifth, the production CES
+semi-endogenous capability growth while human research dominates. Fourth, a
+Cobb--Douglas research counterfactual shows that an essential human input weakens
+the feedback from output to innovation. Fifth, when automated research dominates, a
+constant-growth path exists only if diminishing returns offset the stronger feedback
+between output and research. Sixth, the production CES
 separates a labor-bottlenecked regime, a constant-share benchmark, and a regime in
-which the return to capital rises with capability. Sixth, the production structure
+which the return to capital rises with capability. Seventh, the production structure
 yields distinct substitution thresholds for the real wage and the
 production-labor share, while the aggregate labor-income share also depends on
 worker reallocation between production and research.
@@ -132,11 +157,21 @@ and policies that combine both instruments. The objective is not to select a pol
 before solving the model. It is to identify when lower AI-service prices must be
 paired with explicit support for frontier research.
 
+A task-based extension introduces task-specific AI productivity and fixed
+automation costs. The extension makes the set of automated research tasks
+endogenous and separates the intensive human--machine substitution margin from the
+extensive margin on which new tasks become economical to automate. It also provides
+a second reason for an initially small automated share: at low research scale, the
+variable-cost savings from automation may not cover task-specific integration and
+verification costs.
+
 The rest of the paper is organized as follows. Section~\ref{sec:literature} relates
 the framework to endogenous growth, transformative AI, automation and labor income,
 measurement of AI services, and industrial organization. Section~\ref{sec:toy}
 develops the toy model.
 Section~\ref{sec:extended} sets out the extended general-equilibrium model.
+Section~\ref{sec:task-extension} introduces research tasks and fixed automation
+costs.
 Section~\ref{sec:numerical} reports numerical transition experiments.
 Section~\ref{sec:regulation} defines the regulatory scenarios.
 Section~\ref{sec:conclusion} concludes.

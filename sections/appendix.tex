@@ -21,6 +21,44 @@ $H_t/E_t\to0$. If $w_t/\xi$ remains bounded, the odds in
 $s^M_t\to1$.
 \end{proof}
 
+\begin{proof}[Proof of Proposition~\ref{prop:singularity-conditions}]
+Let $z_t\equiv1/g_{A,t}$. Equation
+\eqref{eq:ces-transition-growth-dynamics} implies the linear equation
+\[
+    \dot z_t=-\eta n z_t+D(s^M_t).
+\]
+Multiplying by $e^{\eta nt}$ and integrating gives
+\eqref{eq:time-varying-singularity-condition}. If $D(s^M_t)\geq0$, the bracket
+in that equation remains positive. If $D>0$ is constant, the logistic equation for
+$g_A$ has the stable positive fixed point $\eta n/D$.
+
+If $D=0$, direct integration gives
+\[
+    g_{A,t}=g_{A,0}e^{\eta nt},
+    \qquad
+    A_t
+    =
+    A_0\exp\left[
+        \frac{g_{A,0}}{\eta n}
+        \left(e^{\eta nt}-1\right)
+    \right].
+\]
+Both expressions are finite for every finite $t$. If $D<0$ is constant, the
+solution for the growth rate is
+\[
+    g_{A,t}
+    =
+    \frac{g_{A,0}e^{\eta nt}}
+    {1-\frac{(-D)g_{A,0}}{\eta n}
+        \left(e^{\eta nt}-1\right)}.
+\]
+The denominator reaches zero at the date in
+\eqref{eq:constant-feedback-singularity-time}. Near that date, $g_A$ is
+proportional to $(T^*-t)^{-1}$, so both $g_A$ and $A$ diverge. For a time-varying
+$D(s^M_t)$, the same divergence occurs exactly when the bracket in
+\eqref{eq:time-varying-singularity-condition} reaches zero.
+\end{proof}
+
 \begin{proof}[Proof of Proposition~\ref{prop:production-ces-regimes}]
 Let $x_t\equiv X_t/L_{Y,t}$, $y_t\equiv Y_t/L_{Y,t}$, and write
 $s_t\equiv s^X_t$. The monopoly condition can be written as

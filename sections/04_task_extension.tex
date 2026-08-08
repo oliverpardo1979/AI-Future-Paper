@@ -1,0 +1,155 @@
+\section{Extension: research tasks and fixed automation costs}
+\label{sec:task-extension}
+
+The baseline CES treats human and automated research as two continuously variable
+inputs with a constant elasticity of substitution. This is useful for characterizing
+prices, shares, and balanced growth, but it suppresses an extensive margin: an AI
+system may be able to perform some research tasks and not others. It also suppresses
+the engineering cost required to make a task reliably automatable. This section
+introduces those margins as an extension rather than changing the baseline model.
+The formulation connects the paper to task-based models of automation and research
+\citep{aghionjonesjones2019,acemoglu2025,jones2025rd}.
+
+\subsection{Research tasks}
+
+Frontier research requires a continuum of tasks indexed by $i\in[0,1]$. Let
+$e_t(i)$ denote the quantity of task $i$ completed at date $t$. Effective research
+is a CES aggregate across tasks,
+\begin{equation}
+    E_t
+    =
+    \left[
+        \int_0^1 e_t(i)^{(\zeta-1)/\zeta}\dd i
+    \right]^{\zeta/(\zeta-1)},
+    \label{eq:task-research-aggregator}
+\end{equation}
+where $\zeta$ measures substitution across research tasks. A low $\zeta$ captures
+the idea that progress can be constrained by a small set of bottleneck tasks. The
+ideas production function remains
+\begin{equation}
+    \dot A_t=\chi A_t^\phi E_t^\eta.
+    \label{eq:task-ideas-production}
+\end{equation}
+
+Humans produce task $i$ according to
+\begin{equation}
+    e^H_t(i)=a_H(i)h_t(i),
+    \qquad
+    c^H_t(i)=\frac{w_t}{a_H(i)},
+    \label{eq:human-task-cost}
+\end{equation}
+where $c^H_t(i)$ is the human variable cost of one unit of the task. If task $i$
+has been automated, research compute produces
+\begin{equation}
+    e^M_t(i)=a_M(i,A_t)m_t(i),
+    \qquad
+    c^M_t(i,A_t)=\frac{\xi_t}{a_M(i,A_t)}.
+    \label{eq:machine-task-cost}
+\end{equation}
+Capability can increase $a_M(i,A)$, but the function is allowed to differ across
+tasks. A task that the current frontier cannot perform has $a_M(i,A_t)=0$.
+
+\subsection{Fixed costs and the automation decision}
+
+Using AI for task $i$ requires an annuitized fixed cost $F_i(A_t)$. This cost covers
+the task-specific engineering needed to construct evaluations, adapt workflows,
+integrate tools, and verify reliability. For a required quantity $q_t(i)$, the two
+cost schedules are
+\begin{align}
+    C^H_t(i,q)&=c^H_t(i)q,
+    \label{eq:human-task-total-cost}\\
+    C^M_t(i,q)&=F_i(A_t)+c^M_t(i,A_t)q.
+    \label{eq:machine-task-total-cost}
+\end{align}
+The developer automates the task if
+\begin{equation}
+    q_t(i)\left[c^H_t(i)-c^M_t(i,A_t)\right]
+    \geq F_i(A_t),
+    \label{eq:task-automation-condition}
+\end{equation}
+provided $c^M_t(i,A_t)<c^H_t(i)$. Equivalently, the scale threshold is
+\begin{equation}
+    q^*_t(i)
+    =
+    \frac{F_i(A_t)}
+    {c^H_t(i)-c^M_t(i,A_t)}.
+    \label{eq:task-scale-threshold}
+\end{equation}
+An AI system can therefore have a lower marginal cost for a task without being used
+at small scale. The fixed cost must first be amortized over enough task output. If
+$F_i$ is a sunk rather than an annuitized cost, condition
+\eqref{eq:task-automation-condition} compares the fixed cost with the discounted
+stream of expected variable-cost savings; the economic threshold is unchanged.
+
+Define the set of tasks automated at date $t$ as
+\begin{equation}
+    \mathcal A_t
+    \equiv
+    \left\{
+        i\in[0,1]:
+        c^M_t(i,A_t)<c^H_t(i),\quad
+        q_t(i)\geq q^*_t(i)
+    \right\},
+    \qquad
+    a_t\equiv\int_0^1\mathrm{I}\{i\in\mathcal A_t\}\dd i.
+    \label{eq:automated-task-set}
+\end{equation}
+Here $\mathrm{I}\{\cdot\}$ is the indicator function. The measure $a_t$ is an
+endogenous automation frontier. It expands when capability
+raises task-level AI productivity, when the research wage rises relative to compute
+cost, when capability lowers fixed integration costs, or when the scale of research
+increases enough to amortize those costs.
+
+\subsection{Relation to the CES benchmark}
+
+The task model separates two margins that the baseline CES compresses into the
+single share $s^M_t$. The intensive margin changes the human--machine mix within
+tasks that both inputs can perform. The extensive margin changes the set
+$\mathcal A_t$. When task technologies and costs have a smooth distribution, the
+aggregate response of machine expenditure to $w_t/\xi_t$ can resemble the CES law
+in \eqref{eq:automation-odds} over a range of the state space. The implied aggregate
+elasticity need not, however, be constant: it depends on the density of tasks close
+to the threshold in \eqref{eq:task-automation-condition}.
+
+Fixed costs also explain why the initial automated share can be close to zero even
+if some AI systems are technically capable of assisting research. At low research
+scale, few tasks generate savings large enough to cover $F_i(A_t)$. As research
+expands, more tasks cross their scale threshold. This mechanism complements the
+baseline relative-price condition in
+\eqref{eq:initial-human-dominance-condition}; it does not replace it.
+
+If every task remains essential and $a_t<1$, the unautomated set can continue to
+constrain effective research even when automated tasks become arbitrarily cheap.
+If $a_t\to1$, the human bottleneck disappears. The asymptotic growth condition then
+approaches the AI-dominated denominator $D_{\mathrm{AI}}$. If $a_t$ converges to an
+interior value, the relevant feedback remains weaker and can preserve balanced
+growth. Task heterogeneity therefore provides a microeconomic interpretation of
+the transition between the human-dominated and AI-dominated regimes.
+
+\subsection{Scale feedback, market structure, and equilibrium}
+
+The fixed-cost formulation creates a scale feedback absent from the constant-
+elasticity benchmark. A larger research program raises $q_t(i)$, which makes more
+tasks worth automating. Automation lowers the unit cost of effective research and
+can induce a further expansion of the research program. If many tasks have similar
+thresholds, this feedback can produce a rapid transition or multiple local
+equilibria. Whether it does is a quantitative property of the distribution of
+$F_i$, $a_H(i)$, and $a_M(i,A)$; it does not follow from fixed costs alone.
+
+The integrated monopolist may also have a private scale advantage. A task-specific
+automation investment can be reused across model generations or commercial uses,
+allowing the developer to spread $F_i$ over a larger base. Knowledge spillovers
+create the opposite wedge: if other firms can reuse the resulting evaluations,
+tools, or methods, the private developer does not capture the full return to paying
+the fixed cost. The planner and the monopolist can consequently choose different
+automation frontiers even at the same $A_t$ and $w_t/\xi_t$.
+
+An equilibrium in this extension consists of the objects in Section
+\ref{sec:extended}, task quantities $q_t(i)$, human and automated task inputs,
+and the set $\mathcal A_t$. Conditional on aggregate states and prices, the
+developer first compares the two cost schedules for every task. It then chooses the
+task quantities that minimize the cost of producing $E_t$ and chooses the scale of
+research using the private shadow value of capability. Market clearing and the
+state equations determine the aggregate transition. A quantitative version must
+calibrate the distribution of task-level fixed costs and AI productivities; the CES
+model remains the parsimonious baseline until those objects can be disciplined.

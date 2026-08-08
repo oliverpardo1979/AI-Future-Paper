@@ -299,6 +299,49 @@ to recover only after automated research has become quantitatively important. Th
 automation share is thus a state of the transition, not a sufficient statistic for
 the growth rate.
 
+\subsection{Initial human dominance and the singularity threshold}
+
+Figure~\ref{fig:numerical-automation-feedback} solves the internally consistent
+reduced system in equations \eqref{eq:ces-transition-growth-dynamics} and
+\eqref{eq:reduced-consistent-automation-dynamics}. The exercise holds
+$\theta=2$, $\nu=0.35$, and initial capability growth at 2.27 percent. It varies
+the initial automated share between 0.1, 1, and 10 percent. Equation
+\eqref{eq:initial-automation-odds} implies corresponding initial values of
+$w_0/\xi_0$ equal to 0.0035, 0.0348, and 0.3832. A small automated share is thus
+the equilibrium counterpart of initially inexpensive human research relative to a
+standardized unit of automated research. The automated share reaches one half in
+years 1,090, 743, and 388.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/numerical_automation_feedback.png}
+    \caption{Relative research costs, research automation, and the feedback
+    denominator. The exercise varies $s^M_0$ and uses the high-feedback calibration
+    $(\phi,\eta)=(0.86,0.62)$. Relative-wage growth is determined jointly with
+    the input-growth rates; it is not imposed as an independent path. The last panel
+    applies the reduced proportional-allocation closure; each line ends at its
+    numerical singularity. The upper-left panel is shown only through
+    $w_t/\xi_t=10^6$. The exercise is a mechanism illustration, not a forecast.}
+    \label{fig:numerical-automation-feedback}
+\end{figure}
+
+In the high-feedback calibration, the critical share in
+\eqref{eq:critical-automation-share} is $s^\dagger=90.3$ percent. The feedback
+denominator crosses zero in years 1,254, 907, and 560 as the initial automated share
+increases. Applying the integral condition in
+\eqref{eq:time-varying-singularity-condition}, the reduced system reaches a
+finite-time singularity in years 1,452, 1,105, and 759. A lower initial value of
+$w_0/\xi_0$ delays the entire transition, but it does not prevent the singularity in
+this calibration because $D_{\mathrm{AI}}<0$ and $s^M_t$ eventually converges to
+one.
+
+The exercise clarifies why $D_{\mathrm{AI}}<0$ is not an event date. The economy
+first has to move from a small automated share to the critical share, and the
+negative feedback denominator must then persist long enough for the integral in
+\eqref{eq:time-varying-singularity-condition} to reach zero. A rising compute cost,
+an endogenous reduction in research spending, or a boundary allocation can delay or
+prevent the singularity in the full model.
+
 \subsection{Automation intensity and the scale of AI research}
 
 The decline of human research relative to automated research does not determine
@@ -396,6 +439,14 @@ $(\phi,\eta)=(0.86,0.62)$, for which
 $1-\phi-\eta\upsilon=-0.015$. Initial capability growth and the allocation shares
 are again common.
 
+The high-feedback case isolates the role of human essentiality. If research were
+Cobb--Douglas, its feedback denominator would be
+$1-\phi-\eta\nu\upsilon=0.08575>0$. The same values of $\phi$, $\eta$, and
+$\upsilon$ would then admit a constant-growth path because only the automated-input
+elasticity $\nu$ transmits the expansion of output back into research. The negative
+AI-dominated denominator arises when automated research can asymptotically replace
+the human input.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/numerical_growth_feedback.png}
@@ -410,7 +461,10 @@ the automated share is 99.6 percent, capability growth reaches 18.3 percent, and
 per-capita output growth reaches 4.32 percent. The latter path does not approach a
 positive constant growth rate. It illustrates why failure of
 \eqref{eq:cd-ai-bg-condition} should be interpreted as a candidate acceleration
-regime rather than as another balanced-growth path.
+regime rather than as another balanced-growth path. It also provides the numerical
+counterpart to Proposition~\ref{prop:human-essentiality-acceleration}: the
+Cobb--Douglas research counterfactual remains stable, whereas the AI-dominated path
+accelerates.
 
 \subsection{Scope of the numerical evidence}
 

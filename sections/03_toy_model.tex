@@ -546,6 +546,30 @@ Equations \eqref{eq:research-input-ratio} and
     \left(\frac{w_t}{\xi}\right)^{\theta-1}.
     \label{eq:automation-odds}
 \end{equation}
+An initially human-dominated research sector is an initial-condition assumption,
+not a consequence of the CES specification. Define
+\begin{equation}
+    \Omega_0
+    \equiv
+    \left(\frac{\nu}{1-\nu}\right)^\theta
+    \left(\frac{w_0}{\xi_0}\right)^{\theta-1}.
+    \label{eq:initial-automation-odds}
+\end{equation}
+Then $s^M_0=\Omega_0/(1+\Omega_0)$, so $s^M_0\simeq0$ requires
+\begin{equation}
+    \frac{w_0}{\xi_0}
+    \ll
+    \left(\frac{1-\nu}{\nu}\right)^{\theta/(\theta-1)}.
+    \label{eq:initial-human-dominance-condition}
+\end{equation}
+The right-hand side is the relative-price threshold at which automated services
+account for one half of effective research. A low initial value of $w_0/\xi_0$
+means that human researchers are inexpensive relative to a standardized unit of
+automated research. A smaller CES weight $\nu$ reinforces this initial human
+dominance. The statement depends on the units used to measure $M$ and on the
+corresponding normalization of $\xi$; its economic content is a restriction on
+relative unit costs, not on either nominal price in isolation.
+
 More generally, if the unit cost of automated research varies at rate $g_{\xi,t}$,
 the automation share evolves according to
 \begin{equation}
@@ -556,6 +580,39 @@ the automation share evolves according to
     \label{eq:automation-share-dynamics}
 \end{equation}
 The baseline holds $\xi$ constant, so $g_{\xi,t}=0$.
+Integrating \eqref{eq:automation-share-dynamics} gives
+\begin{equation}
+    \frac{s^M_t}{1-s^M_t}
+    =
+    \frac{s^M_0}{1-s^M_0}
+    \exp\left\{
+        (\theta-1)\int_0^t
+        \left(g_{w,\tau}-g_{\xi,\tau}\right)\dd\tau
+    \right\}.
+    \label{eq:integrated-automation-odds}
+\end{equation}
+If the relative-cost growth gap is constant at $\Delta_g>0$, the transition is
+logistic:
+\begin{equation}
+    s^M_t
+    =
+    \left[
+        1+\frac{1-s^M_0}{s^M_0}
+        e^{-(\theta-1)\Delta_g t}
+    \right]^{-1}.
+    \label{eq:logistic-automation-transition}
+\end{equation}
+The date at which the automated share reaches one half is
+\begin{equation}
+    t_{1/2}
+    =
+    \frac{\log[(1-s^M_0)/s^M_0]}
+    {(\theta-1)\Delta_g}.
+    \label{eq:automation-half-time}
+\end{equation}
+Starting close to zero can therefore produce a long human-dominated phase even when
+$s^M_t\to1$. A larger $\theta$ or a faster increase in the research wage relative
+to automated-research cost compresses that transition.
 
 \begin{proposition}[Gradual research automation]
 \label{prop:gradual-automation}
@@ -831,6 +888,234 @@ The fraction of the population employed in frontier research therefore converges
 zero. The number of human researchers need not fall in levels: it grows at rate
 $n-(\theta-1)\gamma^\infty$ and declines only if the second term exceeds population
 growth.
+
+\subsubsection{Human essentiality and the growth regime}
+
+The CES aggregator provides a unified way to state the feedback condition during
+the transition. Because it is constant returns to scale, its exact growth
+decomposition is
+\begin{equation}
+    g_{E,t}
+    =
+    (1-s^M_t)g_{H,t}+s^M_tg_{M,t}.
+    \label{eq:ces-research-growth-decomposition}
+\end{equation}
+Consider a reduced proportional-allocation closure with $g_H=n$,
+$g_M=n+\gamma_t$, and $\gamma_t=\upsilon g_{A,t}$. These relations hold on the
+Cobb--Douglas balanced-growth path and are extended here to the transition only to
+isolate the feedback mechanism. Equations \eqref{eq:ideas} and
+\eqref{eq:ces-research-growth-decomposition} imply
+\begin{align}
+    \dot g_{A,t}
+    &=
+    g_{A,t}\left[\eta n-D(s^M_t)g_{A,t}\right],
+    \label{eq:ces-transition-growth-dynamics}\\
+    D(s)
+    &\equiv
+    1-\phi-\eta\upsilon s.
+    \label{eq:automation-feedback-denominator}
+\end{align}
+Human-dominated research has $D(0)=1-\phi$. The AI-dominated limit has
+$D(1)=1-\phi-\eta\upsilon$. Research automation therefore reduces the force that
+stabilizes capability growth.
+Under the same closure, cost minimization makes the relative-price path consistent
+with the input-growth rates:
+\begin{equation}
+    g_{w,t}-g_{\xi,t}
+    =
+    \frac{g_{M,t}-g_{H,t}}{\theta}
+    =
+    \frac{\upsilon}{\theta}g_{A,t}.
+    \label{eq:consistent-relative-cost-growth}
+\end{equation}
+The automation share consequently satisfies
+\begin{equation}
+    \dot s^M_t
+    =
+    s^M_t(1-s^M_t)
+    \frac{\theta-1}{\theta}\upsilon g_{A,t}.
+    \label{eq:reduced-consistent-automation-dynamics}
+\end{equation}
+Equations \eqref{eq:ces-transition-growth-dynamics} and
+\eqref{eq:reduced-consistent-automation-dynamics} form a two-dimensional reduced
+system for the automation share and capability growth. They do not impose an
+independent relative-wage path.
+
+The AI-dominated path is not the Cobb--Douglas limit of the research technology.
+To isolate the role of human essentiality, consider instead the counterfactual
+\begin{equation}
+    E_t^{\mathrm{CD}}
+    =
+    H_t^{1-\nu}M_t^\nu.
+    \label{eq:cd-research-counterfactual}
+\end{equation}
+Both inputs are essential in \eqref{eq:cd-research-counterfactual}. Along an interior
+balanced-growth path, a constant allocation of population implies $g_H=n$, while a
+constant automated-research resource share implies $g_M=n+\gamma$. Effective
+research therefore grows at
+\begin{equation}
+    g_E^{\mathrm{CD}}
+    =
+    n+\nu\gamma.
+    \label{eq:cd-research-growth}
+\end{equation}
+Combining this expression with $\gamma=\upsilon g_A$ gives
+\begin{align}
+    g_A^{\mathrm{CD}}
+    &=
+    \frac{\eta n}{1-\phi-\eta\nu\upsilon},
+    \label{eq:full-cd-ga}\\
+    \gamma^{\mathrm{CD}}
+    &=
+    \frac{\upsilon\eta n}{1-\phi-\eta\nu\upsilon}.
+    \label{eq:full-cd-gamma}
+\end{align}
+Define the two feedback denominators
+\begin{equation}
+    D_{\mathrm{CD}}
+    \equiv
+    1-\phi-\eta\nu\upsilon,
+    \qquad
+    D_{\mathrm{AI}}
+    \equiv
+    1-\phi-\eta\upsilon.
+    \label{eq:growth-feedback-denominators}
+\end{equation}
+
+\begin{proposition}[Human essentiality and acceleration]
+\label{prop:human-essentiality-acceleration}
+Suppose production is Cobb--Douglas, $n>0$, and the relevant allocations are
+interior. The Cobb--Douglas research counterfactual admits a positive
+constant-growth path only if $D_{\mathrm{CD}}>0$. The AI-dominated research limit
+admits a positive constant-growth path only if $D_{\mathrm{AI}}>0$. Moreover,
+\begin{equation}
+    D_{\mathrm{CD}}-D_{\mathrm{AI}}
+    =
+    \eta(1-\nu)\upsilon>0.
+    \label{eq:feedback-denominator-gap}
+\end{equation}
+There is consequently a nonempty parameter region with
+$D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the economy has balanced growth if human
+research remains essential but no positive constant-growth path after automated
+research becomes asymptotically dominant.
+\end{proposition}
+
+\begin{proof}
+Equations~\eqref{eq:cd-research-growth} and
+\eqref{eq:cd-ai-growth-relations} imply
+\eqref{eq:full-cd-ga}--\eqref{eq:full-cd-gamma}. Equations
+\eqref{eq:cd-ai-ga}--\eqref{eq:cd-ai-gamma} give the AI-dominated rates. Positive
+finite rates require the corresponding denominator to be positive. Subtracting the
+two denominators gives \eqref{eq:feedback-denominator-gap}.
+\end{proof}
+
+The denominator condition is necessary but not sufficient for an interior
+equilibrium. The automated-research resource share in the Cobb--Douglas
+counterfactual is
+\begin{equation}
+    m_M^{\mathrm{CD}}
+    \equiv
+    \frac{\xi M_t}{Y_t}
+    =
+    \frac{\beta^2\eta\nu g_A^{\mathrm{CD}}}
+    {\rho-n+(1-\phi)g_A^{\mathrm{CD}}}.
+    \label{eq:full-cd-research-resource-share}
+\end{equation}
+An interior path also requires a positive denominator in
+\eqref{eq:full-cd-research-resource-share} and a positive consumption share after
+replacing $m_R^\infty$ with $m_M^{\mathrm{CD}}$ in
+\eqref{eq:bg-consumption-share}.
+
+For Cobb--Douglas research, the automated-research contribution is fixed at $\nu$,
+so \eqref{eq:ces-transition-growth-dynamics} becomes
+\begin{equation}
+    \dot g_{A,t}
+    =
+    g_{A,t}\left(\eta n-D_{\mathrm{CD}}g_{A,t}\right).
+    \label{eq:full-cd-growth-dynamics}
+\end{equation}
+
+\begin{definition}[Finite-time singularity]
+A finite-time singularity occurs if there is a finite date $T^*$ such that
+$g_{A,t}$ and $A_t$ diverge as $t\uparrow T^*$. Accelerating growth that remains
+finite at every finite date is not a finite-time singularity.
+\end{definition}
+
+\begin{proposition}[Balanced growth, acceleration, and singularity]
+\label{prop:singularity-conditions}
+Suppose $g_{A,0}>0$, $n>0$, and the reduced proportional-allocation closure in
+\eqref{eq:ces-transition-growth-dynamics} holds.
+\begin{enumerate}[label=(\roman*)]
+    \item If $D(s^M_t)\geq0$ for every $t$, no finite-time singularity occurs. For
+    a constant $D>0$, $g_A$ converges to the stable rate $\eta n/D$.
+    \item If $D=0$ is constant, $g_A$ grows exponentially and $A$ grows double
+    exponentially, but both remain finite at every finite date.
+    \item If $D<0$ is constant, the economy reaches a finite-time singularity at
+    \begin{equation}
+        T^*
+        =
+        \frac{1}{\eta n}
+        \log\left[
+            1+\frac{\eta n}{(-D)g_{A,0}}
+        \right].
+        \label{eq:constant-feedback-singularity-time}
+    \end{equation}
+    \item With the endogenous CES share, a singularity occurs if and only if the
+    bracket in
+    \begin{equation}
+        \frac{1}{g_{A,t}}
+        =
+        e^{-\eta nt}
+        \left[
+            \frac{1}{g_{A,0}}
+            +\int_0^t e^{\eta n\tau}D(s^M_\tau)\dd\tau
+        \right]
+        \label{eq:time-varying-singularity-condition}
+    \end{equation}
+    reaches zero at a finite date.
+\end{enumerate}
+\end{proposition}
+
+The proposition separates three objects that are sometimes conflated. A positive
+constant-growth path requires $D>0$. The knife-edge $D=0$ eliminates balanced
+growth but does not create a finite-time singularity. A negative and persistent
+$D$ does. In the CES transition, the instantaneous threshold is
+\begin{equation}
+    s^\dagger
+    =
+    \frac{1-\phi}{\eta\upsilon}.
+    \label{eq:critical-automation-share}
+\end{equation}
+When $D_{\mathrm{AI}}>0$, $D(s)>0$ for every $s\in[0,1]$ and the reduced system
+cannot produce a singularity. When $D_{\mathrm{AI}}=0$, the damping term converges
+to zero but remains nonnegative, so there is no finite-time singularity. When
+$D_{\mathrm{AI}}<0$ and $s^M_t\to1$, the automation share eventually exceeds
+$s^\dagger$ and remains bounded above it; the integral in
+\eqref{eq:time-varying-singularity-condition} then reaches zero at a finite date.
+A temporary interval with $D(s^M_t)<0$ is not sufficient by itself: the exact
+condition is the accumulated, exponentially weighted integral in
+\eqref{eq:time-varying-singularity-condition}.
+
+These are singularity conditions for the reduced closure, not a global explosion
+theorem for the fully optimizing monopoly. The proportional spending rule, the
+capital--output relation, or the interior consumption allocation may fail before
+$T^*$. A full equilibrium can therefore approach a resource constraint or a
+boundary allocation instead. The denominator $D_{\mathrm{AI}}<0$ should be read as
+a candidate singularity region whose equilibrium relevance must be checked with the
+complete transition system.
+
+The comparison in Proposition~\ref{prop:human-essentiality-acceleration} does not
+assume that the research elasticity changes over time. In the baseline CES model,
+the fixed elasticity $\theta>1$ permits a transition from the human-dominated growth
+rate in \eqref{eq:human-dominated-ga} to the AI-dominated dynamics in
+\eqref{eq:ai-growth-rate-dynamics}. The Cobb--Douglas counterfactual asks what would
+happen if the human input remained essential throughout. Under the baseline
+calibration, $D_{\mathrm{CD}}=0.3106$ and $D_{\mathrm{AI}}=0.2375$, so both
+technologies admit balanced growth. Under the high-feedback calibration used in
+Section~\ref{sec:numerical}, $D_{\mathrm{CD}}=0.08575$ but
+$D_{\mathrm{AI}}=-0.015$. That parameterization is stable when human research is
+essential and enters the candidate acceleration region only when automated research
+can become asymptotically dominant.
 
 \subsubsection{Why the production CES matters}
 
