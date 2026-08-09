@@ -33,14 +33,14 @@ human AI research, $H_t$:
 \end{equation}
 The dynasty owns the capital stock and the frontier developer. Capital evolves as
 \begin{equation}
-    \dot K_t=I_t-\delta_KK_t.
+    \dot K_t=I_t-\delta K_t.
     \label{eq:capital-law}
 \end{equation}
 Let $k_t\equiv K_t/N_t$. The per-capita budget constraint is
 \begin{equation}
     \dot k_t
     =
-    (r_t-\delta_K-n)k_t+w_t
+    (r_t-\delta-n)k_t+w_t
     +\frac{\pi^X_t-w_tH_t-\xi M_t}{N_t}
     -c_t,
     \label{eq:household-budget}
@@ -48,7 +48,7 @@ Let $k_t\equiv K_t/N_t$. The per-capita budget constraint is
 where $\pi^X_t$ is the developer's operating profit before research expenditure.
 The household's Euler equation is
 \begin{equation}
-    \frac{\dot c_t}{c_t}=r_t-\delta_K-\rho.
+    \frac{\dot c_t}{c_t}=r_t-\delta-\rho.
     \label{eq:euler}
 \end{equation}
 
@@ -689,7 +689,7 @@ fully optimizing monopoly.
 
 The private shadow value continues to satisfy
 \begin{equation}
-    (r_t-\delta_K)q_t
+    (r_t-\delta)q_t
     =
     \pi^X_{A,t}+q_tF_{A,t}+\dot q_t,
     \qquad
@@ -844,11 +844,11 @@ The remaining balanced-growth objects are
     &
     g_{p^X}&=-g_A^\infty,
     \label{eq:other-bg-rates}\\
-    r^\infty&=\rho+\delta_K+\gamma^\infty,
+    r^\infty&=\rho+\delta+\gamma^\infty,
     &
     \frac{K_t}{Y_t}
     &=
-    \frac{\alpha}{\rho+\delta_K+\gamma^\infty}.
+    \frac{\alpha}{\rho+\delta+\gamma^\infty}.
     \label{eq:bg-capital-output}
 \end{align}
 The costate equation and the research first-order condition imply
@@ -863,14 +863,14 @@ Consequently,
 \begin{align}
     \frac{I_t}{Y_t}
     &=
-    \frac{\alpha(n+\gamma^\infty+\delta_K)}
-    {\rho+\delta_K+\gamma^\infty},
+    \frac{\alpha(n+\gamma^\infty+\delta)}
+    {\rho+\delta+\gamma^\infty},
     \label{eq:bg-investment-share}\\
     \frac{C_t}{Y_t}
     &=
     1-
-    \frac{\alpha(n+\gamma^\infty+\delta_K)}
-    {\rho+\delta_K+\gamma^\infty}
+    \frac{\alpha(n+\gamma^\infty+\delta)}
+    {\rho+\delta+\gamma^\infty}
     -\beta^2-m_R^\infty.
     \label{eq:bg-consumption-share}
 \end{align}

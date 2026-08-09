@@ -22,7 +22,7 @@ Conditional on $(K_t,A_t,N_t)$, the algorithm jointly solves the monopoly condit
 \eqref{eq:monopoly-ai-price}, labor-market clearing, and the research-input ratio
 \eqref{eq:research-input-ratio}. The state variables then follow
 \begin{align}
-    \dot K_t&=s_IY_t-\delta_KK_t,
+    \dot K_t&=s_IY_t-\delta K_t,
     &
     \dot A_t&=\chi A_t^\phi E_t^\eta,
     &
@@ -61,7 +61,7 @@ divergence a dynamic result rather than a difference imposed at date zero.
         $\alpha$ & 0.33 & capital elasticity \\
         $\omega$ & 0.20 & AI weight in the service composite \\
         $n$ & 1.20\% & population growth \\
-        $\delta_K$ & 5.00\% & capital depreciation \\
+        $\delta$ & 5.00\% & capital depreciation \\
         $\rho$ & 4.00\% & discount rate \\
         $\sigma_{XL}$ & varies & production CES: $L_Y$ versus $X$ \\
         $(\phi,\eta)$ & $(0.65,0.45)$ & ideas-production elasticities \\
@@ -76,7 +76,7 @@ divergence a dynamic result rather than a difference imposed at date zero.
     \end{tabular}
 \end{table}
 
-The core experiments hold $\alpha$, $n$, $\delta_K$, and $\rho$ fixed at the values
+The core experiments hold $\alpha$, $n$, $\delta$, and $\rho$ fixed at the values
 in Table~\ref{tab:numerical-calibration}. We do not report a generic sensitivity
 analysis for these four parameters. The deliberate exception is the wage-decline
 exercise below, which raises population growth to construct the labor-supply and
