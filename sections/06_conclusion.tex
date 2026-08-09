@@ -5,7 +5,7 @@ The economic consequences of advanced AI depend on more than whether machines ca
 perform existing jobs. A distinct transition occurs when AI can perform the research
 required to produce better AI. The toy model represents this transition as a gradual
 change in the composition of research. When human and automated-research services are
-gross substitutes ($\theta>1$), the automated share rises with the research wage
+gross substitutes ($\sigma_{HM}>1$), the automated share rises with the research wage
 relative to its unit resource cost.
 
 Population growth matters while human research dominates. With $\phi<1$ and a
@@ -44,10 +44,10 @@ wage, or an expansion of the research program can move tasks across their automa
 thresholds. The resulting aggregate elasticity can vary endogenously with the
 distribution of task-level costs, while the CES remains the parsimonious baseline.
 
-The production elasticity $\sigma$ also separates the wage response from the
+The production elasticity $\sigma_{XL}$ also separates the wage response from the
 response of the production-labor share. An expansion of AI services reduces this share when
-$\sigma>1$, but it raises the wage when $\sigma<1/\alpha$. Hence both outcomes occur
-when $1<\sigma<1/\alpha$. This conditional result is a benchmark, not the paper's
+$\sigma_{XL}>1$, but it raises the wage when $\sigma_{XL}<1/\alpha$. Hence both outcomes occur
+when $1<\sigma_{XL}<1/\alpha$. This conditional result is a benchmark, not the paper's
 standalone contribution. In general equilibrium, capital deepening and the
 reallocation of workers between production and research also affect wages and the
 aggregate labor share. More precisely, aggregate labor-share growth equals
@@ -66,10 +66,10 @@ of human research as a relative input therefore does not imply that human resear
 employment must fall during the transition.
 
 The production elasticity determines whether the economy reaches that asymptotic
-research regime. When $\sigma<1$, labor remains essential and the productive return
-to further reductions in the unit cost of AI services vanishes. When $\sigma=1$,
+research regime. When $\sigma_{XL}<1$, labor remains essential and the productive return
+to further reductions in the unit cost of AI services vanishes. When $\sigma_{XL}=1$,
 positive wage growth makes automated research asymptotically dominant. When
-$\sigma>1$, the production-labor share converges to zero and the return to capital
+$\sigma_{XL}>1$, the production-labor share converges to zero and the return to capital
 rises with capability, so a conventional balanced-growth path with positive
 capability growth cannot maintain a constant capital--output ratio.
 
@@ -80,11 +80,18 @@ AI-dominated growth rate for centuries. Different initial capability stocks prod
 different early growth rates but converge to the same path. The wage experiments
 also reject an unconditional wage-growth result. Wage growth equals a
 capital-deepening term plus an AI-services-deepening term whose sign turns negative
-when $\sigma>1/\alpha$. Under high population growth and a very high production
-elasticity $\sigma$, the negative latter term can dominate even when the capital
+when $\sigma_{XL}>1/\alpha$. Under high population growth and a very high production
+elasticity $\sigma_{XL}$, the negative latter term can dominate even when the capital
 term is positive. The labor-share experiments also show that the production and aggregate shares need not
-move together: with $\sigma=1$, the first remains constant while the second falls as
-the human-research employment share declines. By contrast, strong production
+move together. In the baseline with $\sigma_{HM}=2$ and $\sigma_{XL}=1$, the
+production share remains constant while the aggregate share falls as the
+human-research employment share declines. Under Cobb--Douglas research,
+$\sigma_{HM}=1$, the result changes. A fixed automated-research spending share makes
+the human-research wage bill a constant share of output. The production and
+aggregate labor-income shares then rise by the same number of percentage points
+when $\sigma_{XL}<1$ and both remain constant when $\sigma_{XL}=1$. In the
+complementarity experiments, this distributional protection coincides with
+per-capita output growth converging to zero. By contrast, strong production
 substitution or a negative value of
 $1-\phi-\eta\beta/(1-\alpha-\beta)$ produces accelerating growth rather than a
 second constant-growth steady state. These experiments use fixed investment and
@@ -99,3 +106,43 @@ AI-service price without replacing the lost innovation return can therefore impr
 current deployment while slowing capability growth. The natural policy comparison is
 between laissez-faire monopoly, regulated access, explicit research support, and a
 joint policy that targets both margins.
+
+A further extension should make explicit an agency problem that is only implicit in
+the current model. As $H/M$ falls and automated systems choose a larger share of the
+experiments, code, and model modifications that move the frontier, human owners and
+researchers may become less able to observe their actions, verify their objectives,
+or anticipate the consequences of every research decision. Supervision would then
+be a costly choice rather than an implicit component of $H_t$. More intensive
+oversight could reduce the probability that automated research departs from the
+human principal's objectives, but it could also slow capability growth. Research
+automation would thus generate a principal--agent problem with costly monitoring in
+the spirit of \citet{holmstrom1979}.
+
+Market structure may alter this trade-off, although its sign is not predetermined.
+A protected monopolist internalizes a larger share of the loss to its installed
+rents and franchise value if its automated researchers escape effective control. It
+also faces less pressure to preempt a competitor. These forces may induce it to
+moderate capability growth or invest more in supervision. Under monopolistic
+competition, by contrast, each developer captures the private benefit of arriving
+first, while part of the expected cost of inadequate supervision is borne by rivals
+and society. Firms may consequently underinvest in oversight in order to accelerate
+development and preserve their competitive position. Monopoly is not, however, a
+guarantee of better control: concentration creates its own governance problems, and
+the threat of entry or a foreign rival can restore the race incentive. The race and
+slowdown branches in \citet{kokotajlo2025} illustrate precisely this tension: even a
+concentrated frontier developer that observes evidence of misalignment may hesitate
+to pause when another developer is close behind. A formal extension should therefore
+allow developers to choose innovation speed and supervisory effort, make the
+probability of an agency failure depend on automation and oversight, and compare
+monopoly with monopolistic competition. If human research provides supervision that
+is socially valuable but not fully remunerated, the extension could also evaluate a
+second-best policy that subsidizes $H_t$ and taxes $M_t$. The purpose of these wedges
+would not be to preserve human research employment, but to correct the effect of the
+research-input mix on agency risk. A subsidy to verifiable supervision or liability
+for agency failures would generally target the distortion more directly. A subsidy
+to $H_t$ and a tax on $M_t$ become relevant when supervision cannot be separately
+observed or contracted. These policies cannot be evaluated in the current model,
+which contains neither agency losses nor an explicit supervision technology. The
+central open question is when the
+monopolist's internalization of agency losses dominates the governance costs of
+concentration, and when competition turns effective supervision into an externality.

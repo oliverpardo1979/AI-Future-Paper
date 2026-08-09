@@ -65,24 +65,24 @@ labor and AI services:
     Z_t
     &=
     \left[
-        (1-\omega)L_{Y,t}^{(\sigma-1)/\sigma}
-        +\omega X_t^{(\sigma-1)/\sigma}
-    \right]^{\sigma/(\sigma-1)},
+        (1-\omega)L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+    \right]^{\sigma_{XL}/(\sigma_{XL}-1)},
     \qquad
-    \omega\in(0,1),\quad \sigma>0.
+    \omega\in(0,1),\quad \sigma_{XL}>0.
     \label{eq:service-composite}
 \end{align}
 The elasticity of substitution between capital and the service composite is one.
-The elasticity between production labor and AI services is $\sigma$. The
-Cobb--Douglas composite is obtained by continuity when $\sigma=1$.
+The elasticity between production labor and AI services is $\sigma_{XL}$. The
+Cobb--Douglas composite is obtained by continuity when $\sigma_{XL}=1$.
 
 Define the contribution of AI services to the CES composite as
 \begin{equation}
     s^X_t
     \equiv
-    \frac{\omega X_t^{(\sigma-1)/\sigma}}
-    {(1-\omega)L_{Y,t}^{(\sigma-1)/\sigma}
-        +\omega X_t^{(\sigma-1)/\sigma}}.
+    \frac{\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}
+    {(1-\omega)L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}.
     \label{eq:ai-composite-share}
 \end{equation}
 Let $p^X_t$ denote the price of AI services. Profit maximization gives
@@ -104,7 +104,7 @@ and relative demand satisfies
     \left[
         \frac{\omega}{1-\omega}
         \frac{w_t}{p^X_t}
-    \right]^\sigma.
+    \right]^{\sigma_{XL}}.
     \label{eq:relative-ai-demand}
 \end{equation}
 
@@ -173,11 +173,11 @@ New AI capability is produced with effective research services, $E_t$:
     E_t
     &=
     \left[
-        (1-\nu)H_t^{(\theta-1)/\theta}
-        +\nu M_t^{(\theta-1)/\theta}
-    \right]^{\theta/(\theta-1)},
+        (1-\nu)H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+        +\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+    \right]^{\sigma_{HM}/(\sigma_{HM}-1)},
     \qquad
-    \nu\in(0,1),\quad \theta>1.
+    \nu\in(0,1),\quad \sigma_{HM}>1.
     \label{eq:effective-research}
 \end{align}
 Here, $M_t$ is a flow of standardized automated-research services. It includes
@@ -187,16 +187,16 @@ services to one unit in the research aggregator and assigns it the common resour
 cost $\xi$. A capability-dependent conversion from compute into automated-research
 services is left for an extension.
 
-The elasticity $\theta$ governs substitution between human and automated research.
-The restriction $\theta>1$ makes the two inputs gross substitutes and allows
+The elasticity $\sigma_{HM}$ governs substitution between human and automated research.
+The restriction $\sigma_{HM}>1$ makes the two inputs gross substitutes and allows
 positive research output when $H_t=0$. It does not impose that human research
 disappears. That outcome depends on the equilibrium path of the wage relative to
 $\xi$. The exponent $\phi$ captures how the existing stock of knowledge affects the
 productivity of both research inputs.
 
 The two CES elasticities operate in different nests. The production elasticity
-$\sigma$ governs substitution between $L_{Y,t}$ and $X_t$. The research elasticity
-$\theta$ governs substitution between $H_t$ and $M_t$. The variable $E_t$ is the
+$\sigma_{XL}$ governs substitution between $L_{Y,t}$ and $X_t$. The research elasticity
+$\sigma_{HM}$ governs substitution between $H_t$ and $M_t$. The variable $E_t$ is the
 output of the research CES in \eqref{eq:effective-research}; it is not a separate
 input combined with $H_t$.
 
@@ -281,17 +281,17 @@ Holding $K_t$ and $L_{Y,t}$ fixed, an expansion of AI services satisfies
     &=(1-\alpha)s^X_t>0,
     \label{eq:output-ai-elasticity}\\
     \frac{\partial\log \ell^Y_t}{\partial\log X_t}
-    &=-\left(1-\frac{1}{\sigma}\right)s^X_t,
+    &=-\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t,
     \label{eq:labor-share-ai-elasticity}\\
     \frac{\partial\log w_t}{\partial\log X_t}
-    &=\left(\frac{1}{\sigma}-\alpha\right)s^X_t.
+    &=\left(\frac{1}{\sigma_{XL}}-\alpha\right)s^X_t.
     \label{eq:wage-ai-elasticity}
 \end{align}
-Consequently, the production-labor share falls if and only if $\sigma>1$, whereas
-the wage rises if and only if $\sigma<1/\alpha$. Since $\alpha\in(0,1)$, there is
+Consequently, the production-labor share falls if and only if $\sigma_{XL}>1$, whereas
+the wage rises if and only if $\sigma_{XL}<1/\alpha$. Since $\alpha\in(0,1)$, there is
 a nonempty interval
 \begin{equation}
-    1<\sigma<\frac{1}{\alpha}
+    1<\sigma_{XL}<\frac{1}{\alpha}
     \label{eq:wage-share-decoupling-region}
 \end{equation}
 in which an expansion of AI raises the wage while reducing production labor's share
@@ -303,7 +303,7 @@ The CES expenditure share in \eqref{eq:ai-composite-share} implies
 \[
     \frac{\partial\log(1-s^X_t)}{\partial\log X_t}
     =
-    -\left(1-\frac{1}{\sigma}\right)s^X_t.
+    -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t.
 \]
 The output elasticity follows directly from
 \eqref{eq:final-production}--\eqref{eq:service-composite}. Combining these two
@@ -334,12 +334,12 @@ Along an equilibrium transition, the two labor-income shares obey
 \begin{align}
     g_{\ell^Y,t}
     &=
-    -\left(1-\frac{1}{\sigma}\right)s^X_t
+    -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
     \left(g_{X,t}-g_{L_Y,t}\right),
     \label{eq:dynamic-production-labor-share}\\
     g_{\ell^N,t}
     &=
-    -\left(1-\frac{1}{\sigma}\right)s^X_t
+    -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
     \left(g_{X,t}-g_{L_Y,t}\right)
     +
     \frac{\dot h_t}{1-h_t}
@@ -350,7 +350,7 @@ Along an equilibrium transition, the two labor-income shares obey
 \end{align}
 The production-labor share rises if
 \begin{equation}
-    \left(1-\frac{1}{\sigma}\right)
+    \left(1-\frac{1}{\sigma_{XL}}\right)
     \left(g_{X,t}-g_{L_Y,t}\right)<0
     \label{eq:production-labor-share-rise-condition}
 \end{equation}
@@ -358,7 +358,7 @@ and falls if the inequality is reversed. The aggregate labor-income share rises 
 \begin{equation}
     \frac{\dot h_t}{1-h_t}
     >
-    \left(1-\frac{1}{\sigma}\right)s^X_t
+    \left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
     \left(g_{X,t}-g_{L_Y,t}\right),
     \label{eq:aggregate-labor-share-rise-condition}
 \end{equation}
@@ -374,11 +374,11 @@ Log-differentiating \eqref{eq:aggregate-labor-share} then gives
 \end{proof}
 
 If AI services grow faster than production labor, the production-labor share rises
-when $\sigma<1$, is constant when $\sigma=1$, and falls when $\sigma>1$. The
+when $\sigma_{XL}<1$, is constant when $\sigma_{XL}=1$, and falls when $\sigma_{XL}>1$. The
 aggregate share has an additional reallocation term. An increasing human-research
 share raises aggregate labor income relative to the production-labor share, while a
 declining human-research share lowers it. If $h_t$ is constant, the two shares have
-the same growth rate and the familiar threshold $\sigma=1$ applies to both.
+the same growth rate and the familiar threshold $\sigma_{XL}=1$ applies to both.
 
 Equation~\eqref{eq:wage-ai-elasticity} decomposes the wage response into a
 productivity effect and a displacement effect:
@@ -387,7 +387,7 @@ productivity effect and a displacement effect:
     =
     \underbrace{(1-\alpha)s^X_t}_{\text{productivity effect}}
     -
-    \underbrace{\left(1-\frac{1}{\sigma}\right)s^X_t}
+    \underbrace{\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t}
     _{\text{displacement effect}}.
     \label{eq:wage-decomposition}
 \end{equation}
@@ -410,13 +410,13 @@ identity
     =
     \alpha\left(g_{K,t}-g_{L_Y,t}\right)
     +
-    s^X_t\left(\frac{1}{\sigma}-\alpha\right)
+    s^X_t\left(\frac{1}{\sigma_{XL}}-\alpha\right)
     \left(g_{X,t}-g_{L_Y,t}\right).
     \label{eq:dynamic-wage-decomposition}
 \end{equation}
 When the research-employment share is constant, $g_{L_Y,t}=n$. Capital deepening can
 therefore raise wages even when the direct expansion of AI services lowers them.
-Conversely, $\sigma<1/\alpha$ is not sufficient for wage growth along an equilibrium
+Conversely, $\sigma_{XL}<1/\alpha$ is not sufficient for wage growth along an equilibrium
 transition if capital per production worker contracts. The monopoly problem below
 determines the supply of $X_t$, while household saving and the resource constraint
 determine $K_t$; the equilibrium wage response depends on both paths.
@@ -430,7 +430,7 @@ the monopolist is
     \equiv
     -\frac{\partial\log p^X_t}{\partial\log X_t}
     =
-    \frac{1-s^X_t}{\sigma}+\alpha s^X_t.
+    \frac{1-s^X_t}{\sigma_{XL}}+\alpha s^X_t.
     \label{eq:inverse-demand-elasticity}
 \end{equation}
 For an interior solution with $\varepsilon^X_t<1$, the first-order condition is
@@ -462,10 +462,10 @@ The marginal products of the two research inputs in
 \eqref{eq:effective-research} are
 \begin{equation}
     E_{H,t}
-    =(1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\theta},
+    =(1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
     \qquad
     E_{M,t}
-    =\nu\left(\frac{E_t}{M_t}\right)^{1/\theta}.
+    =\nu\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
     \label{eq:research-ces-marginal-products}
 \end{equation}
 The developer's first-order conditions are therefore
@@ -473,12 +473,12 @@ The developer's first-order conditions are therefore
     w_t
     &=
     q_t\chi\eta A_t^\phi E_t^{\eta-1}
-    (1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\theta},
+    (1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
     \label{eq:foc-human}\\
     \xi
     &=
     q_t\chi\eta A_t^\phi E_t^{\eta-1}
-    \nu\left(\frac{E_t}{M_t}\right)^{1/\theta}.
+    \nu\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
     \label{eq:private-compute-foc}
 \end{align}
 Their ratio determines the research-input mix:
@@ -487,7 +487,7 @@ Their ratio determines the research-input mix:
     =
     \left[
         \frac{\nu}{1-\nu}\frac{w_t}{\xi}
-    \right]^\theta.
+    \right]^{\sigma_{HM}}.
     \label{eq:research-input-ratio}
 \end{equation}
 
@@ -496,18 +496,18 @@ The unit cost of effective research services is
     P^E_t
     =
     \left[
-        (1-\nu)^\theta w_t^{1-\theta}
-        +\nu^\theta\xi^{1-\theta}
-    \right]^{1/(1-\theta)}.
+        (1-\nu)^{\sigma_{HM}} w_t^{1-\sigma_{HM}}
+        +\nu^{\sigma_{HM}}\xi^{1-\sigma_{HM}}
+    \right]^{1/(1-\sigma_{HM})}.
     \label{eq:research-unit-cost}
 \end{equation}
 Conditional input demands are
 \begin{equation}
-    H_t=(1-\nu)^\theta
-    \left(\frac{P^E_t}{w_t}\right)^\theta E_t,
+    H_t=(1-\nu)^{\sigma_{HM}}
+    \left(\frac{P^E_t}{w_t}\right)^{\sigma_{HM}} E_t,
     \qquad
-    M_t=\nu^\theta
-    \left(\frac{P^E_t}{\xi}\right)^\theta E_t.
+    M_t=\nu^{\sigma_{HM}}
+    \left(\frac{P^E_t}{\xi}\right)^{\sigma_{HM}} E_t.
     \label{eq:research-conditional-demands}
 \end{equation}
 The developer can consequently choose the scale of research in two stages. For
@@ -526,9 +526,9 @@ Define the contribution of automated services to effective research as
 \begin{equation}
     s^M_t
     \equiv
-    \frac{\nu M_t^{(\theta-1)/\theta}}
-    {(1-\nu)H_t^{(\theta-1)/\theta}
-        +\nu M_t^{(\theta-1)/\theta}}.
+    \frac{\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}
+    {(1-\nu)H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+        +\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}.
     \label{eq:automated-research-share}
 \end{equation}
 At an interior cost-minimizing allocation, this is also the share of research
@@ -542,8 +542,8 @@ Equations \eqref{eq:research-input-ratio} and
 \begin{equation}
     \frac{s^M_t}{1-s^M_t}
     =
-    \left(\frac{\nu}{1-\nu}\right)^\theta
-    \left(\frac{w_t}{\xi}\right)^{\theta-1}.
+    \left(\frac{\nu}{1-\nu}\right)^{\sigma_{HM}}
+    \left(\frac{w_t}{\xi}\right)^{\sigma_{HM}-1}.
     \label{eq:automation-odds}
 \end{equation}
 An initially human-dominated research sector is an initial-condition assumption,
@@ -551,15 +551,15 @@ not a consequence of the CES specification. Define
 \begin{equation}
     \Omega_0
     \equiv
-    \left(\frac{\nu}{1-\nu}\right)^\theta
-    \left(\frac{w_0}{\xi_0}\right)^{\theta-1}.
+    \left(\frac{\nu}{1-\nu}\right)^{\sigma_{HM}}
+    \left(\frac{w_0}{\xi_0}\right)^{\sigma_{HM}-1}.
     \label{eq:initial-automation-odds}
 \end{equation}
 Then $s^M_0=\Omega_0/(1+\Omega_0)$, so $s^M_0\simeq0$ requires
 \begin{equation}
     \frac{w_0}{\xi_0}
     \ll
-    \left(\frac{1-\nu}{\nu}\right)^{\theta/(\theta-1)}.
+    \left(\frac{1-\nu}{\nu}\right)^{\sigma_{HM}/(\sigma_{HM}-1)}.
     \label{eq:initial-human-dominance-condition}
 \end{equation}
 The right-hand side is the relative-price threshold at which automated services
@@ -575,7 +575,7 @@ the automation share evolves according to
 \begin{equation}
     \dot s^M_t
     =
-    s^M_t(1-s^M_t)(\theta-1)
+    s^M_t(1-s^M_t)(\sigma_{HM}-1)
     \left(g_{w,t}-g_{\xi,t}\right).
     \label{eq:automation-share-dynamics}
 \end{equation}
@@ -586,7 +586,7 @@ Integrating \eqref{eq:automation-share-dynamics} gives
     =
     \frac{s^M_0}{1-s^M_0}
     \exp\left\{
-        (\theta-1)\int_0^t
+        (\sigma_{HM}-1)\int_0^t
         \left(g_{w,\tau}-g_{\xi,\tau}\right)\dd\tau
     \right\}.
     \label{eq:integrated-automation-odds}
@@ -598,7 +598,7 @@ logistic:
     =
     \left[
         1+\frac{1-s^M_0}{s^M_0}
-        e^{-(\theta-1)\Delta_g t}
+        e^{-(\sigma_{HM}-1)\Delta_g t}
     \right]^{-1}.
     \label{eq:logistic-automation-transition}
 \end{equation}
@@ -607,24 +607,24 @@ The date at which the automated share reaches one half is
     t_{1/2}
     =
     \frac{\log[(1-s^M_0)/s^M_0]}
-    {(\theta-1)\Delta_g}.
+    {(\sigma_{HM}-1)\Delta_g}.
     \label{eq:automation-half-time}
 \end{equation}
 Starting close to zero can therefore produce a long human-dominated phase even when
-$s^M_t\to1$. A larger $\theta$ or a faster increase in the research wage relative
+$s^M_t\to1$. A larger $\sigma_{HM}$ or a faster increase in the research wage relative
 to automated-research cost compresses that transition.
 
 \begin{proposition}[Gradual research automation]
 \label{prop:gradual-automation}
-Suppose $\theta>1$. If $w_t/\xi\to\infty$, then $s^M_t\to1$ and
-$H_t/E_t\to0$. If $w_t/\xi$ remains bounded, $\theta>1$ alone does not imply that
+Suppose $\sigma_{HM}>1$. If $w_t/\xi\to\infty$, then $s^M_t\to1$ and
+$H_t/E_t\to0$. If $w_t/\xi$ remains bounded, $\sigma_{HM}>1$ alone does not imply that
 the human contribution disappears.
 \end{proposition}
 
 Proposition~\ref{prop:gradual-automation} replaces a discrete automation threshold
 with a continuous equilibrium transition. The research elasticity determines
 whether human research can become asymptotically inessential. The production
-elasticity $\sigma$ affects whether that limit is reached by determining the wage
+elasticity $\sigma_{XL}$ affects whether that limit is reached by determining the wage
 path.
 
 \subsubsection{Automation intensity and human research employment}
@@ -642,7 +642,7 @@ Equation~\eqref{eq:research-input-ratio} and population growth imply
 \begin{equation}
     g_{h,t}
     =
-    \theta\left(g_{\xi,t}-g_{w,t}\right)
+    \sigma_{HM}\left(g_{\xi,t}-g_{w,t}\right)
     +g_{M,t}-n,
     \qquad
     g_{h,t}\equiv\frac{\dot h_t}{h_t}.
@@ -657,7 +657,7 @@ population nevertheless rises if and only if
 \begin{equation}
     g_{M,t}-n
     >
-    \theta\left(g_{w,t}-g_{\xi,t}\right).
+    \sigma_{HM}\left(g_{w,t}-g_{\xi,t}\right).
     \label{eq:human-research-expansion-condition}
 \end{equation}
 \end{proposition}
@@ -679,7 +679,7 @@ equation~\eqref{eq:human-research-share-growth} becomes
 \begin{equation}
     g_{h,t}
     =
-    g_{Y,t}-n-\theta g_{w,t}+(\theta-1)g_{\xi,t}.
+    g_{Y,t}-n-\sigma_{HM} g_{w,t}+(\sigma_{HM}-1)g_{\xi,t}.
     \label{eq:numerical-human-research-share-growth}
 \end{equation}
 The baseline holds $\xi$ constant. In that case, $H_t/N_t$ rises exactly when
@@ -703,7 +703,7 @@ When $s^M_t$ is close to zero,
 \begin{equation}
     E_t
     \simeq
-    (1-\nu)^{\theta/(\theta-1)}H_t.
+    (1-\nu)^{\sigma_{HM}/(\sigma_{HM}-1)}H_t.
     \label{eq:human-dominated-research}
 \end{equation}
 If a constant share $s_H\in(0,1)$ of the population works in research,
@@ -731,7 +731,7 @@ When $s^M_t\to1$, the research aggregator satisfies
 \begin{equation}
     E_t
     \simeq
-    \nu^{\theta/(\theta-1)}M_t.
+    \nu^{\sigma_{HM}/(\sigma_{HM}-1)}M_t.
     \label{eq:ai-dominated-research}
 \end{equation}
 The asymptotic law of motion is therefore
@@ -741,7 +741,7 @@ The asymptotic law of motion is therefore
     \kappa A_t^\phi M_t^\eta,
     \qquad
     \kappa\equiv
-    \chi\nu^{\eta\theta/(\theta-1)}.
+    \chi\nu^{\eta\sigma_{HM}/(\sigma_{HM}-1)}.
     \label{eq:ai-dominated-ideas}
 \end{equation}
 Its growth rate obeys
@@ -881,12 +881,12 @@ Proposition~\ref{prop:gradual-automation} applies. More precisely,
 \begin{equation}
     g_{H/N}
     =
-    -(\theta-1)\gamma^\infty<0.
+    -(\sigma_{HM}-1)\gamma^\infty<0.
     \label{eq:human-research-population-share}
 \end{equation}
 The fraction of the population employed in frontier research therefore converges to
 zero. The number of human researchers need not fall in levels: it grows at rate
-$n-(\theta-1)\gamma^\infty$ and declines only if the second term exceeds population
+$n-(\sigma_{HM}-1)\gamma^\infty$ and declines only if the second term exceeds population
 growth.
 
 \subsubsection{Human essentiality and the growth regime}
@@ -923,9 +923,9 @@ with the input-growth rates:
 \begin{equation}
     g_{w,t}-g_{\xi,t}
     =
-    \frac{g_{M,t}-g_{H,t}}{\theta}
+    \frac{g_{M,t}-g_{H,t}}{\sigma_{HM}}
     =
-    \frac{\upsilon}{\theta}g_{A,t}.
+    \frac{\upsilon}{\sigma_{HM}}g_{A,t}.
     \label{eq:consistent-relative-cost-growth}
 \end{equation}
 The automation share consequently satisfies
@@ -933,7 +933,7 @@ The automation share consequently satisfies
     \dot s^M_t
     =
     s^M_t(1-s^M_t)
-    \frac{\theta-1}{\theta}\upsilon g_{A,t}.
+    \frac{\sigma_{HM}-1}{\sigma_{HM}}\upsilon g_{A,t}.
     \label{eq:reduced-consistent-automation-dynamics}
 \end{equation}
 Equations \eqref{eq:ces-transition-growth-dynamics} and
@@ -1036,9 +1036,11 @@ so \eqref{eq:ces-transition-growth-dynamics} becomes
 \end{equation}
 
 \begin{definition}[Finite-time singularity]
-A finite-time singularity occurs if there is a finite date $T^*$ such that
-$g_{A,t}$ and $A_t$ diverge as $t\uparrow T^*$. Accelerating growth that remains
-finite at every finite date is not a finite-time singularity.
+Following \citet{aghionjonesjones2019}, we reserve the term singularity for an
+unbounded outcome reached in finite time. In this model, a finite-time singularity
+occurs if there is a finite date $T^*$ such that $g_{A,t}$ and $A_t$ diverge as
+$t\uparrow T^*$. Accelerating growth that remains finite at every finite date is not
+a singularity.
 \end{definition}
 
 \begin{proposition}[Balanced growth, acceleration, and singularity]
@@ -1106,7 +1108,7 @@ complete transition system.
 
 The comparison in Proposition~\ref{prop:human-essentiality-acceleration} does not
 assume that the research elasticity changes over time. In the baseline CES model,
-the fixed elasticity $\theta>1$ permits a transition from the human-dominated growth
+the fixed elasticity $\sigma_{HM}>1$ permits a transition from the human-dominated growth
 rate in \eqref{eq:human-dominated-ga} to the AI-dominated dynamics in
 \eqref{eq:ai-growth-rate-dynamics}. The Cobb--Douglas counterfactual asks what would
 happen if the human input remained essential throughout. Under the baseline
@@ -1120,7 +1122,7 @@ can become asymptotically dominant.
 \subsubsection{Why the production CES matters}
 
 The Cobb--Douglas case is the knife-edge at which expenditure shares remain
-constant. For $\sigma\neq1$, the monopoly condition
+constant. For $\sigma_{XL}\neq1$, the monopoly condition
 \eqref{eq:monopoly-ai-price} implies different asymptotic regimes as the marginal
 cost $\xi/A_t$ falls.
 
@@ -1128,25 +1130,25 @@ cost $\xi/A_t$ falls.
 \label{prop:production-ces-regimes}
 Suppose $A_t\to\infty$ and the service-market solution remains interior.
 \begin{enumerate}[label=(\roman*)]
-    \item If $\sigma<1$, the monopolist's AI share converges to
+    \item If $\sigma_{XL}<1$, the monopolist's AI share converges to
     \begin{equation}
         \bar s^X
         =
-        \frac{1-\sigma}{1-\alpha\sigma}.
+        \frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}.
         \label{eq:low-sigma-ai-share}
     \end{equation}
     The ratio $X_t/L_{Y,t}$ remains bounded and the productive effect of further
     reductions in $\xi/A_t$ vanishes.
-    \item If $\sigma=1$, factor shares are constant and the AI-dominated
+    \item If $\sigma_{XL}=1$, factor shares are constant and the AI-dominated
     balanced-growth path is characterized by
     \eqref{eq:cd-ai-ga}--\eqref{eq:bg-consumption-share}.
-    \item If $\sigma>1$, $s^X_t\to1$, the production-labor share converges to zero,
+    \item If $\sigma_{XL}>1$, $s^X_t\to1$, the production-labor share converges to zero,
     and
     \begin{equation}
         \frac{Y_t}{K_t}
         \sim
-        D_\sigma A_t^{(1-\alpha)/\alpha},
-        \qquad D_\sigma>0.
+        D_{XL} A_t^{(1-\alpha)/\alpha},
+        \qquad D_{XL}>0.
         \label{eq:high-sigma-ak-limit}
     \end{equation}
     A conventional balanced-growth path with $g_A>0$ cannot have a constant
@@ -1155,14 +1157,93 @@ Suppose $A_t\to\infty$ and the service-market solution remains interior.
 \end{enumerate}
 \end{proposition}
 
-For $\sigma<1$, a rising wage relative to $\xi$ is not guaranteed: labor remains
+For $\sigma_{XL}<1$, a rising wage relative to $\xi$ is not guaranteed: labor remains
 essential and the monopoly supply of AI services approaches a finite
 revenue-maximizing ratio. Research automation can therefore stop short of
-$s^M=1$ even though $\theta>1$. For $\sigma=1$, the positive wage growth in
+$s^M=1$ even though $\sigma_{HM}>1$. For $\sigma_{XL}=1$, the positive wage growth in
 \eqref{eq:other-bg-rates} makes automated research asymptotically dominant. For
-$\sigma>1$, production itself becomes an acceleration mechanism. Research
+$\sigma_{XL}>1$, production itself becomes an acceleration mechanism. Research
 automation reinforces that mechanism, but the wage path must be solved jointly with
 capital accumulation before concluding that the human research share disappears.
+
+The stabilization result in Proposition~\ref{prop:human-essentiality-acceleration}
+is therefore conditional on Cobb--Douglas production. To make the distinction
+explicit, let
+\begin{equation}
+    q\equiv\frac{1-\alpha}{\alpha}>0.
+    \label{eq:high-sigma-capability-exponent}
+\end{equation}
+If research is Cobb--Douglas, $E_t=H_t^{1-\nu}M_t^\nu$, the automated contribution
+share remains equal to $\nu$ and the human input remains essential. Nevertheless,
+equation~\eqref{eq:high-sigma-ak-limit} implies, under a fixed positive investment
+share $s_I$, that
+\begin{equation}
+    g_{K,t}
+    =s_I\frac{Y_t}{K_t}-\delta
+    \sim s_ID_{XL} A_t^q-\delta.
+    \label{eq:sigma-hm-one-high-sigma-xl-capital-growth}
+\end{equation}
+Thus, if $A_t\to\infty$, capital growth cannot converge to a finite constant.
+
+\begin{proposition}[Human-essential research does not restore balanced growth]
+\label{prop:sigma-hm-one-high-sigma-xl}
+Suppose $\sigma_{HM}=1$, $\sigma_{XL}>1$, $A_t\to\infty$, and the interior monopoly solution
+continues to apply. With a fixed positive investment share, there is no balanced-growth
+path on which all aggregate variables grow at finite constant rates. Under the
+additional reduced-form closure
+\begin{equation}
+    H_t=hN_t,\qquad
+    \xi M_t=m_RY_t,
+    \qquad h,m_R>0,
+    \label{eq:sigma-hm-one-fixed-share-closure}
+\end{equation}
+and constant $\xi$, any $\nu>0$ preserves a feedback from the scale of output to
+capability. The corresponding high-capability asymptotic system reaches a finite-time
+singularity.
+\end{proposition}
+
+\begin{proof}
+The first claim follows directly from
+\eqref{eq:sigma-hm-one-high-sigma-xl-capital-growth}. For the second, set
+$x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\nu$, and
+$d=1-\phi-qb$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
+vanish in the high-capability limit, the reduced system can be written as
+\begin{align}
+    \dot x_t
+    &=C\exp\!\left\{\eta(1-\nu)nt+bk_t-dx_t\right\},
+    \label{eq:sigma-hm-one-high-sigma-xl-x}\\
+    \dot k_t
+    &=S\exp(qx_t)-\delta,
+    \qquad C,S>0.
+    \label{eq:sigma-hm-one-high-sigma-xl-k}
+\end{align}
+Define $u_t\equiv\dot x_t\exp(-qx_t)$. In this asymptotic system,
+\begin{equation}
+    \frac{\dot u_t}{u_t}
+    =
+    \eta(1-\nu)n-b\delta
+    +\left[bS-(d+q)u_t\right]\exp(qx_t).
+    \label{eq:sigma-hm-one-high-sigma-xl-u}
+\end{equation}
+By the maintained assumption $A_t\to\infty$, $x_t$ eventually becomes arbitrarily
+large. Because $b>0$, equation~\eqref{eq:sigma-hm-one-high-sigma-xl-u} then keeps $u_t$
+bounded away from zero, whether $d+q$ is positive, zero, or negative. It follows that
+\begin{equation}
+    \frac{\dd}{\dd t}\exp(-qx_t)=-qu_t
+\end{equation}
+is eventually bounded above by a negative constant. Hence $\exp(-qx_t)$ reaches
+zero in finite time, so $A_t$ diverges at a finite date.
+\end{proof}
+
+This proposition separates two meanings of human essentiality. At $\sigma_{HM}=1$, the
+human contribution to each unit of effective research never disappears. But a
+positive automated-input elasticity $\nu$ still lets the expanding scale of output
+raise $M_t$ and therefore research productivity. If $\nu=0$, production growth still
+accelerates when $\sigma_{XL}>1$, but the finite-time research feedback in the reduced
+system disappears. The singularity result is conditional on fixed positive saving
+and research shares. It is not yet a theorem for the fully optimizing equilibrium:
+endogenous expenditure shares, a boundary at $H_t=N_t$, rising compute costs, or
+physical constraints may interrupt the feedback.
 
 \subsubsection{Private and social research}
 

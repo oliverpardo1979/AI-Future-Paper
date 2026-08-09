@@ -1,0 +1,194 @@
+{
+  "additions": [
+    {
+      "citation_key": "jones2022semiendogenous",
+      "entry_type": "article",
+      "authors": "Jones, Charles I.",
+      "title": "The Past and Future of Economic Growth: A Semi-Endogenous Perspective",
+      "year": "2022",
+      "venue": "Annual Review of Economics",
+      "volume": "14",
+      "pages": "125--152",
+      "doi": "10.1146/annurev-economics-080521-012458",
+      "document_url": "https://web.stanford.edu/~chadj/annualreview.pdf",
+      "landing_page_url": "https://www.annualreviews.org/content/journals/10.1146/annurev-economics-080521-012458",
+      "source_group": "conversation_addition",
+      "topics": "semi-endogenous growth; research automation; singularity"
+    },
+    {
+      "citation_key": "good1965",
+      "entry_type": "incollection",
+      "authors": "Good, I. J.",
+      "title": "Speculations Concerning the First Ultraintelligent Machine",
+      "year": "1965",
+      "venue": "Advances in Computers",
+      "volume": "6",
+      "pages": "31--88",
+      "doi": "10.1016/S0065-2458(08)60418-0",
+      "document_url": "https://vtechworks.lib.vt.edu/bitstreams/a5e423ee-54e0-4eec-aeca-32b73f851af5/download",
+      "landing_page_url": "https://www.sciencedirect.com/science/article/pii/S0065245808604180",
+      "source_group": "conversation_addition",
+      "topics": "intelligence explosion; recursive self-improvement; superintelligence",
+      "abstract": "Good argues that a machine able to design better machines could initiate an intelligence explosion. The chapter surveys questions surrounding the construction, embodiment, learning, and control of such a system.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.sciencedirect.com/science/article/pii/S0065245808604180",
+      "notes": "No conventional abstract was available in the metadata consulted. This is an editorial synopsis. Some databases date the volume 1966; the chapter is conventionally cited as 1965."
+    },
+    {
+      "citation_key": "vinge1993",
+      "entry_type": "inproceedings",
+      "authors": "Vinge, Vernor",
+      "title": "The Coming Technological Singularity: How to Survive in the Post-Human Era",
+      "year": "1993",
+      "venue": "Vision 21: Interdisciplinary Science and Engineering in the Era of Cyberspace",
+      "document_url": "https://ntrs.nasa.gov/api/citations/19940022856/downloads/19940022856.pdf",
+      "landing_page_url": "https://ntrs.nasa.gov/citations/19940022856",
+      "source_group": "conversation_addition",
+      "topics": "technological singularity; superhuman intelligence; AI forecasting",
+      "abstract": "The paper argues that technology may soon create intelligence greater than the human level and examines whether that transition can be avoided or guided so that humanity survives.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://ntrs.nasa.gov/citations/19940022856"
+    },
+    {
+      "citation_key": "kremer1993",
+      "entry_type": "article",
+      "authors": "Kremer, Michael",
+      "title": "Population Growth and Technological Change: One Million B.C. to 1990",
+      "year": "1993",
+      "venue": "Quarterly Journal of Economics",
+      "volume": "108",
+      "number": "3",
+      "pages": "681--716",
+      "doi": "10.2307/2118405",
+      "landing_page_url": "https://academic.oup.com/qje/article-abstract/108/3/681/1881850",
+      "source_group": "conversation_addition",
+      "topics": "population growth; technological change; long-run growth; hyperbolic dynamics"
+    },
+    {
+      "citation_key": "vonfoerster1960",
+      "entry_type": "article",
+      "authors": "von Foerster, Heinz and Mora, Patricia M. and Amiot, Lawrence W.",
+      "title": "Doomsday: Friday, 13 November, A.D. 2026",
+      "year": "1960",
+      "venue": "Science",
+      "volume": "132",
+      "number": "3436",
+      "pages": "1291--1295",
+      "doi": "10.1126/science.132.3436.1291",
+      "landing_page_url": "https://pubmed.ncbi.nlm.nih.gov/13782058/",
+      "source_group": "conversation_addition",
+      "topics": "population; finite-time singularity; hyperbolic growth",
+      "abstract": "The authors fit a hyperbolic law to historical world population data and extrapolate a finite date at which the fitted population path diverges. The exercise is an antecedent of mathematical finite-time singularity models, not a forecast supported by later demographic evidence.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://pubmed.ncbi.nlm.nih.gov/13782058/",
+      "notes": "PubMed explicitly reports that no abstract is available; this is an editorial synopsis."
+    },
+    {
+      "citation_key": "revankar1971",
+      "entry_type": "article",
+      "authors": "Revankar, Nagesh S.",
+      "title": "A Class of Variable Elasticity of Substitution Production Functions",
+      "year": "1971",
+      "venue": "Econometrica",
+      "volume": "39",
+      "number": "1",
+      "pages": "61--71",
+      "doi": "10.2307/1909140",
+      "source_group": "conversation_addition",
+      "topics": "variable elasticity of substitution; production functions; VES",
+      "abstract": "The paper introduces a class of production functions in which the elasticity of substitution varies with input proportions or scale, nesting familiar constant-elasticity cases under parameter restrictions.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://doi.org/10.2307/1909140",
+      "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis."
+    },
+    {
+      "citation_key": "satohofmann1968",
+      "entry_type": "article",
+      "authors": "Sato, Ryuzo and Hoffman, Ronald F.",
+      "title": "Production Functions with Variable Elasticities of Factor Substitution: Some Analysis and Testing",
+      "year": "1968",
+      "venue": "Review of Economics and Statistics",
+      "volume": "50",
+      "number": "4",
+      "pages": "453--460",
+      "doi": "10.2307/1926813",
+      "source_group": "conversation_addition",
+      "topics": "variable elasticity of substitution; production functions; empirical testing",
+      "abstract": "The paper analyzes production functions whose elasticity of factor substitution is not constant and studies how those specifications can be taken to the data.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://doi.org/10.2307/1926813",
+      "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis."
+    }
+  ],
+  "overrides": {
+    "demireretal2025": {
+      "abstract": "Using API usage data from OpenRouter and Microsoft Azure, the paper documents rapid entry by models and providers, substantial price declines, persistent price dispersion within quality tiers, and frequent turnover among market leaders. It also finds horizontal and vertical differentiation across applications, preliminary short-run price elasticities slightly above one, and increasing experimentation with multiple models even though most firms concentrate usage in a single model.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.nber.org/papers/w34608",
+      "document_url": "https://www.nber.org/system/files/working_papers/w34608/w34608.pdf",
+      "landing_page_url": "https://www.nber.org/papers/w34608",
+      "metadata_source": "NBER",
+      "verification_status": "official_landing_page"
+    },
+    "aghionjonesjones2019": {
+      "abstract": "This paper examines the potential impact of artificial intelligence (A.I.) on economic growth. We model A.I. as the latest form of automation, a broader process dating back more than 200 years. Electricity, internal combustion engines, and semiconductors facilitated automation in the last century, but A.I. now seems poised to automate many tasks once thought to be out of reach, from driving cars to making medical recommendations and beyond. How will this affect economic growth and the division of income between labor and capital? What about the potential emergence of singularities and superintelligence? How will the linkages between A.I. and growth be mediated by firm-level considerations, including organization and market structure? The goal throughout is to refine a set of critical questions about A.I. and economic growth and to contribute to shaping an agenda for the field. One theme that emerges is based on Baumol's cost disease insight: growth may be constrained not by what we are good at but rather by what is essential and yet hard to improve.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://www.nber.org/papers/w23928",
+      "document_url": "https://www.nber.org/papers/w23928.pdf",
+      "metadata_source": "NBER"
+    },
+    "trammellkorinek2023": {
+      "abstract": "Recent advances in AI may herald the near arrival of systems that can automate essentially all work. We review the macroeconomic implications of this scenario, in a framework synthesizing several strands of the relevant literature. Robustly, fully automating production alone (so that machines can self-replicate) would dramatically raise the growth rate and lower the labor share, breaking the Kaldor Facts that have long characterized frontier growth. Automating R&D (so that machines can self-improve) would accelerate the transformation, but may not produce it in isolation. Wages—the product of exploding output and a plummeting labor share—may rise or fall, depending on the returns to scale, the importance of natural resources, and the direction of technical change.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://www.nber.org/papers/w31815",
+      "document_url": "https://www.nber.org/system/files/working_papers/w31815/w31815.pdf",
+      "landing_page_url": "https://www.nber.org/papers/w31815",
+      "metadata_source": "NBER",
+      "verification_status": "official_landing_page"
+    },
+    "kokotajlo2025": {
+      "abstract": "AI 2027 presents a scenario in which AI systems automate a growing share of AI research during 2027, rapidly produce systems with capabilities beyond those of human researchers, and create severe alignment and geopolitical risks. The scenario is a forecast exercise rather than an estimated economic model.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://ai-2027.com/summary",
+      "document_url": "https://ai-2027.com/scenario.pdf",
+      "landing_page_url": "https://ai-2027.com/",
+      "metadata_source": "AI 2027",
+      "verification_status": "official_landing_page"
+    },
+    "sevillaroldan2024": {
+      "abstract": "Epoch AI's expanded model database indicates that training compute for recent notable and frontier models grew by roughly four to five times per year between 2010 and May 2024. Similar growth appears across recent large language models and models produced by leading AI companies.",
+      "abstract_type": "source_summary",
+      "abstract_source_url": "https://epoch.ai/publications/training-compute-of-frontier-ai-models-grows-by-4-5x-per-year",
+      "metadata_source": "Epoch AI",
+      "verification_status": "official_landing_page"
+    },
+    "stanfordaiindex2025": {
+      "abstract": "The 2025 AI Index synthesizes evidence on technical performance, investment, adoption, responsible AI, public opinion, education, and policy. It documents rapid improvements in benchmark performance and falling inference costs while emphasizing persistent limitations in reliability, transparency, and standardized evaluation.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://hai.stanford.edu/ai-index/2025-ai-index-report",
+      "metadata_source": "Stanford HAI",
+      "verification_status": "official_landing_page"
+    },
+    "stanfordaiindex2026": {
+      "abstract": "The 2026 AI Index compiles evidence on frontier-model performance, compute capacity, costs, investment, industry structure, adoption, policy, and public attitudes. The report emphasizes the increasing scale of industry-led model development and the rapid growth of the physical and commercial infrastructure supporting AI.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://hai.stanford.edu/ai-index/2026-ai-index-report",
+      "metadata_source": "Stanford HAI",
+      "verification_status": "official_landing_page"
+    },
+    "iea2026": {
+      "abstract": "The report examines how artificial intelligence changes electricity demand, where data-center demand is concentrated, how AI may improve energy systems, and which infrastructure, efficiency, and policy choices determine its net energy effects.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.iea.org/reports/key-questions-on-energy-and-ai",
+      "metadata_source": "International Energy Agency",
+      "verification_status": "official_landing_page"
+    },
+    "nvidia2026": {
+      "abstract": "NVIDIA's Form 10-K reports the company's audited financial results, business segments, risk factors, and operating discussion for the fiscal year ended January 25, 2026. For this project, the relevant evidence is the scale and growth of data-center revenue; the filing is not a measure of total AI-industry revenue.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+      "metadata_source": "U.S. SEC",
+      "verification_status": "official_filing"
+    }
+  }
+}

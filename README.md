@@ -13,6 +13,10 @@ Draft paper on endogenous automation of AI research, market structure, and regul
 - `sections/06_conclusion.tex`: conclusions.
 - `sections/appendix.tex`: proofs.
 - `references.bib`: bibliography.
+- `literature/literature_browser.html`: searchable literature database with
+  abstracts or explicitly labeled editorial summaries and document links.
+- `scripts/build_literature_database.py`: reproducible literature updater and
+  coverage validator.
 
 ## Build
 

@@ -31,13 +31,13 @@ RESULT_DIR = ROOT / "numerical"
 class Parameters:
     alpha: float = 0.33
     omega: float = 0.20
-    sigma: float = 1.00
+    sigma_xl: float = 1.00
     n: float = 0.012
     delta: float = 0.05
     discount: float = 0.04
     xi: float = 1.00
     nu: float = 0.35
-    theta: float = 2.00
+    sigma_hm: float = 2.00
     phi: float = 0.65
     eta: float = 0.45
     chi: float = 0.01
@@ -123,13 +123,13 @@ def production_from_ratio(
 ) -> dict[str, float]:
     alpha = parameters.alpha
     omega = parameters.omega
-    sigma = parameters.sigma
+    sigma_xl = parameters.sigma_xl
 
-    if abs(sigma - 1.0) < 1e-9:
+    if abs(sigma_xl - 1.0) < 1e-9:
         log_z_per_worker = omega * log_ai_labor_ratio
         ai_share = omega
     else:
-        rho = (sigma - 1.0) / sigma
+        rho = (sigma_xl - 1.0) / sigma_xl
         log_human_term = math.log1p(-omega)
         log_ai_term = math.log(omega) + rho * log_ai_labor_ratio
         log_denominator = float(np.logaddexp(log_human_term, log_ai_term))
@@ -160,7 +160,7 @@ def monopoly_ai_ratio(
         )
         ai_share = production["ai_share"]
         inverse_demand_elasticity = (
-            (1.0 - ai_share) / parameters.sigma
+            (1.0 - ai_share) / parameters.sigma_xl
             + parameters.alpha * ai_share
         )
         markup_term = 1.0 - inverse_demand_elasticity
@@ -180,8 +180,17 @@ def monopoly_ai_ratio(
             + log_capability
         )
 
-    lower, upper = -45.0, 45.0
-    return bisect_root(residual, lower, upper)
+    # Strong-substitution paths can require very large service-to-labor ratios.
+    # All calculations inside the residual are in logs, so a wider bracket is
+    # numerically safe and prevents the solver from stopping before the economic
+    # acceleration cutoff is reached.
+    lower, upper = -500.0, 500.0
+    # The low-substitution cases approach the zero-markup boundary.  Near that
+    # boundary the log FOC is much steeper than the log service ratio, so the
+    # generic root tolerance leaves a visibly large FOC residual even though
+    # quantities are already close to their limiting values.  Tighten the
+    # static solve here; this is still comfortably above machine precision.
+    return bisect_root(residual, lower, upper, tolerance=1e-13, iterations=90)
 
 
 def research_aggregator(
@@ -189,8 +198,14 @@ def research_aggregator(
     log_automated_research: float,
     parameters: Parameters,
 ) -> tuple[float, float]:
-    theta = parameters.theta
-    rho = (theta - 1.0) / theta
+    sigma_hm = parameters.sigma_hm
+    if abs(sigma_hm - 1.0) < 1e-9:
+        log_effective_research = (
+            (1.0 - parameters.nu) * log_human_research
+            + parameters.nu * log_automated_research
+        )
+        return log_effective_research, parameters.nu
+    rho = (sigma_hm - 1.0) / sigma_hm
     log_human_term = math.log1p(-parameters.nu) + rho * log_human_research
     log_machine_term = math.log(parameters.nu) + rho * log_automated_research
     log_sum = float(np.logaddexp(log_human_term, log_machine_term))
@@ -231,7 +246,7 @@ def static_block(
             - math.log(parameters.xi)
         )
         log_actual_ratio = log_human_research - log_automated_research
-        log_target_ratio = parameters.theta * (
+        log_target_ratio = parameters.sigma_hm * (
             math.log1p(-parameters.nu)
             - math.log(parameters.nu)
             + math.log(parameters.xi)
@@ -239,7 +254,7 @@ def static_block(
         )
         return log_actual_ratio - log_target_ratio
 
-    lower, upper = -32.0, 12.0
+    lower, upper = -32.0, 32.0
     logit_human_share = bisect_root(labor_residual, lower, upper)
     human_share = min(max(logistic(logit_human_share), 1e-12), 1.0 - 1e-12)
     log_human_research = log_population + math.log(human_share)
@@ -268,7 +283,7 @@ def static_block(
         log_human_research, log_automated_research, parameters
     )
     inverse_demand_elasticity = (
-        (1.0 - ai_share) / parameters.sigma + parameters.alpha * ai_share
+        (1.0 - ai_share) / parameters.sigma_xl + parameters.alpha * ai_share
     )
     log_inference_compute = log_ai_services - log_capability
     inference_share = math.exp(
@@ -295,7 +310,7 @@ def static_block(
     research_mix_log_error = (
         log_human_research
         - log_automated_research
-        - parameters.theta
+        - parameters.sigma_hm
         * (
             math.log1p(-parameters.nu)
             - math.log(parameters.nu)
@@ -475,7 +490,7 @@ def simulate(
         )
         row["ai_substitution_wage_contribution"] = (
             float(row["ai_share"])
-            * (1.0 / parameters.sigma - parameters.alpha)
+            * (1.0 / parameters.sigma_xl - parameters.alpha)
             * (
                 float(ai_service_growth[index])
                 - float(production_labor_growth[index])
@@ -498,7 +513,7 @@ def simulate(
             aggregate_labor_share_growth[index]
         )
         row["ai_displacement_share_contribution"] = (
-            -(1.0 - 1.0 / parameters.sigma)
+            -(1.0 - 1.0 / parameters.sigma_xl)
             * float(row["ai_share"])
             * (
                 float(ai_service_growth[index])
@@ -536,7 +551,7 @@ def simulate(
         row["human_research_population_share_growth_identity"] = float(
             output_growth[index]
             - parameters.n
-            - parameters.theta * wage_growth[index]
+            - parameters.sigma_hm * wage_growth[index]
         )
     return rows
 
@@ -626,7 +641,7 @@ def calibrate_research_weight(
     initial_state: tuple[float, float, float],
     target_automated_share: float,
 ) -> Parameters:
-    """Choose nu so theta experiments share the same initial automation share."""
+    """Choose nu so sigma_hm experiments share the same initial automation share."""
 
     log_capital, log_capability, log_population = map(math.log, initial_state)
 
@@ -943,7 +958,7 @@ def draw_marker(
 def draw_wage_frontier_figure(
     output_path: Path,
     grid_rows: list[dict[str, float | str]],
-    sigma_rows: list[dict[str, float | str]],
+    sigma_xl_rows: list[dict[str, float | str]],
 ) -> None:
     width, height = 2400, 1150
     image = Image.new("RGB", (width, height), "white")
@@ -971,11 +986,11 @@ def draw_wage_frontier_figure(
     left_box = (120, 235, 1150, 1080)
     right_box = (1270, 235, 2300, 1080)
 
-    # Heatmap: population growth by investment share at sigma = 4.
+    # Heatmap: population growth by investment share at sigma_XL = 4.
     left, top, right, bottom = left_box
     draw.text(
         (left, top),
-        "Population growth and investment (sigma = 4)",
+        "Population growth and investment (σ_XL = 4)",
         fill=COLORS["ink"],
         font=panel_title_font,
     )
@@ -1055,14 +1070,14 @@ def draw_wage_frontier_figure(
     )
     plot_left, plot_top = left + 120, top + 85
     plot_right, plot_bottom = right - 35, bottom - 120
-    sigma_values = sorted({float(row["sigma"]) for row in sigma_rows})
+    sigma_xl_values = sorted({float(row["sigma_xl"]) for row in sigma_xl_rows})
     grouped_investment = sorted(
-        {float(row["investment_share"]) for row in sigma_rows}
+        {float(row["investment_share"]) for row in sigma_xl_rows}
     )
-    y_values = [float(row["minimum_wage_change_pct"]) for row in sigma_rows]
+    y_values = [float(row["minimum_wage_change_pct"]) for row in sigma_xl_rows]
     y_min = 5.0 * math.floor(min(y_values) / 5.0)
     y_max = 2.0
-    x_min, x_max = min(sigma_values), max(sigma_values)
+    x_min, x_max = min(sigma_xl_values), max(sigma_xl_values)
 
     for tick in nice_ticks(y_min, y_max, 6):
         y_pixel = plot_bottom - (tick - y_min) / (y_max - y_min) * (
@@ -1089,8 +1104,8 @@ def draw_wage_frontier_figure(
         fill=COLORS["ink"],
         width=3,
     )
-    for sigma in sigma_values:
-        x_pixel = plot_left + (sigma - x_min) / (x_max - x_min) * (
+    for sigma_xl in sigma_xl_values:
+        x_pixel = plot_left + (sigma_xl - x_min) / (x_max - x_min) * (
             plot_right - plot_left
         )
         draw.line(
@@ -1098,7 +1113,7 @@ def draw_wage_frontier_figure(
             fill=COLORS["ink"],
             width=2,
         )
-        label = f"{sigma:g}"
+        label = f"{sigma_xl:g}"
         bbox = draw.textbbox((0, 0), label, font=axis_font)
         draw.text(
             (x_pixel - (bbox[2] - bbox[0]) / 2, plot_bottom + 14),
@@ -1118,7 +1133,7 @@ def draw_wage_frontier_figure(
     )
     draw.text(
         ((plot_left + plot_right) / 2 - 80, plot_bottom + 62),
-        "Production sigma",
+        "Production elasticity, σ_XL",
         fill=COLORS["muted"],
         font=axis_font,
     )
@@ -1129,16 +1144,16 @@ def draw_wage_frontier_figure(
         rows = sorted(
             (
                 row
-                for row in sigma_rows
+                for row in sigma_xl_rows
                 if abs(float(row["investment_share"]) - investment_share) < 1e-10
             ),
-            key=lambda row: float(row["sigma"]),
+            key=lambda row: float(row["sigma_xl"]),
         )
         points = []
         for row in rows:
-            sigma = float(row["sigma"])
+            sigma_xl = float(row["sigma_xl"])
             value = float(row["minimum_wage_change_pct"])
-            x_pixel = plot_left + (sigma - x_min) / (x_max - x_min) * (
+            x_pixel = plot_left + (sigma_xl - x_min) / (x_max - x_min) * (
                 plot_right - plot_left
             )
             y_pixel = plot_bottom - (value - y_min) / (y_max - y_min) * (
@@ -1213,7 +1228,7 @@ def automation_feedback_path(
     scenario: str,
     initial_automation_share: float,
     *,
-    theta: float = 2.0,
+    sigma_hm: float = 2.0,
     nu: float = 0.35,
     phi: float = 0.86,
     eta: float = 0.62,
@@ -1226,13 +1241,13 @@ def automation_feedback_path(
     """Solve the internally consistent reduced automation-feedback system."""
 
     initial_odds = initial_automation_share / (1.0 - initial_automation_share)
-    weight_odds = (nu / (1.0 - nu)) ** theta
+    weight_odds = (nu / (1.0 - nu)) ** sigma_hm
     initial_relative_cost = (
         initial_odds / weight_odds
-    ) ** (1.0 / (theta - 1.0))
+    ) ** (1.0 / (sigma_hm - 1.0))
     critical_share = (1.0 - phi) / (eta * upsilon)
     population_term = eta * population_growth
-    automation_speed = (theta - 1.0) * upsilon / theta
+    automation_speed = (sigma_hm - 1.0) * upsilon / sigma_hm
     initial_log_odds = math.log(initial_odds)
 
     rows: list[dict[str, float | str]] = []
@@ -1258,8 +1273,8 @@ def automation_feedback_path(
         automation_share = logistic(log_odds)
         feedback_denominator = 1.0 - phi - eta * upsilon * automation_share
         log_relative_cost = (
-            log_odds - theta * math.log(nu / (1.0 - nu))
-        ) / (theta - 1.0)
+            log_odds - sigma_hm * math.log(nu / (1.0 - nu))
+        ) / (sigma_hm - 1.0)
         if step_count % 5 == 0 and (
             capability_growth / initial_capability_growth <= 1.0e4
         ):
@@ -1367,19 +1382,19 @@ def main() -> None:
     )
 
     regimes: dict[str, Parameters] = {}
-    for key, sigma in [
+    for key, sigma_xl in [
         ("complements", 0.75),
         ("cobb_douglas", 1.00),
         ("substitutes", 2.00),
         ("strong_substitutes", 4.00),
     ]:
-        candidate = replace(baseline, sigma=sigma)
+        candidate = replace(baseline, sigma_xl=sigma_xl)
         regimes[key] = calibrate_research_productivity(
             candidate, initial_state, analytical["capability_growth"]
         )
 
     high_feedback = replace(
-        baseline, sigma=1.0, phi=0.86, eta=0.62
+        baseline, sigma_xl=1.0, phi=0.86, eta=0.62
     )
     high_feedback = calibrate_research_productivity(
         high_feedback, initial_state, analytical["capability_growth"]
@@ -1392,7 +1407,7 @@ def main() -> None:
         "high_feedback", high_feedback, initial_state, horizon=600.0, step=2.0
     )
 
-    theta_rows: dict[str, list[dict[str, float | str]]] = {}
+    sigma_hm_rows: dict[str, list[dict[str, float | str]]] = {}
     initial_baseline_block = static_block(
         math.log(initial_state[0]),
         math.log(initial_state[1]),
@@ -1400,15 +1415,15 @@ def main() -> None:
         baseline,
     )
     target_automated_share = initial_baseline_block["automated_research_share"]
-    for key, theta in [("theta_low", 1.25), ("theta_base", 2.0), ("theta_high", 4.0)]:
-        candidate = replace(baseline, theta=theta)
+    for key, sigma_hm in [("sigma_hm_low", 1.25), ("sigma_hm_base", 2.0), ("sigma_hm_high", 4.0)]:
+        candidate = replace(baseline, sigma_hm=sigma_hm)
         candidate = calibrate_research_weight(
             candidate, initial_state, target_automated_share
         )
         candidate = calibrate_research_productivity(
             candidate, initial_state, analytical["capability_growth"]
         )
-        theta_rows[key] = simulate(
+        sigma_hm_rows[key] = simulate(
             key, candidate, initial_state, horizon=400.0, step=2.0
         )
 
@@ -1443,12 +1458,12 @@ def main() -> None:
     # research employment, H/N, as production substitution changes.
     research_labor_parameters: dict[str, Parameters] = {}
     research_labor_rows: dict[str, list[dict[str, float | str]]] = {}
-    for key, sigma in [
-        ("research_sigma_cd", 1.0),
-        ("research_sigma_substitutes", 2.0),
-        ("research_sigma_high", 2.25),
+    for key, sigma_xl in [
+        ("research_sigma_xl_cd", 1.0),
+        ("research_sigma_xl_substitutes", 2.0),
+        ("research_sigma_xl_high", 2.25),
     ]:
-        candidate = replace(baseline, sigma=sigma)
+        candidate = replace(baseline, sigma_xl=sigma_xl)
         candidate = calibrate_research_productivity(
             candidate, initial_state, analytical["capability_growth"]
         )
@@ -1483,22 +1498,22 @@ def main() -> None:
     wage_case_specs = {
         "wage_reference": {
             "n": 0.012,
-            "sigma": 4.0,
+            "sigma_xl": 4.0,
             "investment_share": baseline.investment_share,
         },
         "wage_high_population": {
             "n": 0.030,
-            "sigma": 4.0,
+            "sigma_xl": 4.0,
             "investment_share": baseline.investment_share,
         },
         "wage_high_substitution": {
             "n": 0.030,
-            "sigma": 10.0,
+            "sigma_xl": 10.0,
             "investment_share": baseline.investment_share,
         },
         "wage_low_investment": {
             "n": 0.030,
-            "sigma": 10.0,
+            "sigma_xl": 10.0,
             "investment_share": 0.150,
         },
     }
@@ -1508,7 +1523,7 @@ def main() -> None:
         candidate = replace(
             baseline,
             n=float(specification["n"]),
-            sigma=float(specification["sigma"]),
+            sigma_xl=float(specification["sigma_xl"]),
             investment_share=float(specification["investment_share"]),
         )
         candidate = calibrate_research_productivity(
@@ -1544,7 +1559,7 @@ def main() -> None:
             {
                 "scenario": key,
                 "population_growth": parameters.n,
-                "sigma": parameters.sigma,
+                "sigma_xl": parameters.sigma_xl,
                 "investment_share": parameters.investment_share,
                 "minimum_wage_index": minimum_index,
                 "minimum_wage_change_pct": 100.0 * (minimum_index - 1.0),
@@ -1586,14 +1601,14 @@ def main() -> None:
         0.250,
         0.275,
     )
-    sigma_four = replace(baseline, sigma=4.0)
-    sigma_four = calibrate_research_productivity(
-        sigma_four, initial_state, analytical["capability_growth"]
+    sigma_xl_four = replace(baseline, sigma_xl=4.0)
+    sigma_xl_four = calibrate_research_productivity(
+        sigma_xl_four, initial_state, analytical["capability_growth"]
     )
     for population_growth in population_grid:
         for investment_share in investment_grid:
             candidate = replace(
-                sigma_four,
+                sigma_xl_four,
                 n=population_growth,
                 investment_share=investment_share,
             )
@@ -1613,7 +1628,7 @@ def main() -> None:
             wage_grid_rows.append(
                 {
                     "population_growth": population_growth,
-                    "sigma": 4.0,
+                    "sigma_xl": 4.0,
                     "investment_share": investment_share,
                     "minimum_wage_change_pct": 100.0 * minimum_change,
                     "minimum_wage_growth_pct": 100.0
@@ -1622,20 +1637,20 @@ def main() -> None:
             )
     write_rows(RESULT_DIR / "wage_decline_grid.csv", wage_grid_rows)
 
-    wage_sigma_rows: list[dict[str, float | str]] = []
+    wage_sigma_xl_rows: list[dict[str, float | str]] = []
     for investment_share in (0.150, 0.200, baseline.investment_share):
-        for sigma in (3.1, 4.0, 6.0, 8.0, 10.0):
+        for sigma_xl in (3.1, 4.0, 6.0, 8.0, 10.0):
             candidate = replace(
                 baseline,
                 n=0.030,
-                sigma=sigma,
+                sigma_xl=sigma_xl,
                 investment_share=investment_share,
             )
             candidate = calibrate_research_productivity(
                 candidate, initial_state, analytical["capability_growth"]
             )
             rows = simulate(
-                "wage_sigma",
+                "wage_sigma_xl",
                 candidate,
                 initial_state,
                 horizon=80.0,
@@ -1647,24 +1662,24 @@ def main() -> None:
                 math.exp(float(row["log_wage"]) - initial_log_wage) - 1.0
                 for row in rows
             )
-            wage_sigma_rows.append(
+            wage_sigma_xl_rows.append(
                 {
                     "population_growth": 0.030,
-                    "sigma": sigma,
+                    "sigma_xl": sigma_xl,
                     "investment_share": investment_share,
                     "minimum_wage_change_pct": 100.0 * minimum_change,
                     "minimum_wage_growth_pct": 100.0
                     * min(float(row["wage_growth"]) for row in rows),
                 }
             )
-    write_rows(RESULT_DIR / "wage_sigma_frontier.csv", wage_sigma_rows)
+    write_rows(RESULT_DIR / "wage_sigma_xl_frontier.csv", wage_sigma_xl_rows)
 
     all_rows = [
         row
         for collection in [
             *regime_rows.values(),
             feedback_rows,
-            *theta_rows.values(),
+            *sigma_hm_rows.values(),
             *research_labor_rows.values(),
             *initial_rows.values(),
         ]
@@ -1686,7 +1701,7 @@ def main() -> None:
         research_labor_summary_rows.append(
             {
                 "scenario": key,
-                "sigma": research_labor_parameters[key].sigma,
+                "sigma_xl": research_labor_parameters[key].sigma_xl,
                 "last_year": float(final_row["time"]),
                 "initial_human_to_automated_ratio": math.exp(
                     float(initial_row["log_human_to_automated_research_ratio"])
@@ -1731,8 +1746,8 @@ def main() -> None:
         summary_rows.append(
             {
                 "scenario": key,
-                "sigma": parameters.sigma,
-                "theta": parameters.theta,
+                "sigma_xl": parameters.sigma_xl,
+                "sigma_hm": parameters.sigma_hm,
                 "phi": parameters.phi,
                 "eta": parameters.eta,
                 "cd_stability_denominator": stability_denominator,
@@ -1776,7 +1791,7 @@ def main() -> None:
         labor_share_summary_rows.append(
             {
                 "scenario": key,
-                "sigma": regimes[key].sigma,
+                "sigma_xl": regimes[key].sigma_xl,
                 "last_year": float(final_row["time"]),
                 "initial_production_labor_share_pct": 100.0
                 * initial_production_share,
@@ -1888,7 +1903,7 @@ def main() -> None:
             "discount": baseline.discount,
             "xi": baseline.xi,
             "nu": baseline.nu,
-            "theta": baseline.theta,
+            "sigma_hm": baseline.sigma_hm,
             "phi": baseline.phi,
             "eta": baseline.eta,
             "chi": baseline.chi,
@@ -1937,10 +1952,10 @@ def main() -> None:
         ],
         regime_rows,
         {
-            "complements": "sigma = 0.75",
-            "cobb_douglas": "sigma = 1",
-            "substitutes": "sigma = 2",
-            "strong_substitutes": "sigma = 4",
+            "complements": "σ_XL = 0.75",
+            "cobb_douglas": "σ_XL = 1",
+            "substitutes": "σ_XL = 2",
+            "strong_substitutes": "σ_XL = 4",
         },
         regime_palette,
     )
@@ -1981,10 +1996,10 @@ def main() -> None:
         ],
         regime_rows,
         {
-            "complements": "sigma = 0.75",
-            "cobb_douglas": "sigma = 1",
-            "substitutes": "sigma = 2",
-            "strong_substitutes": "sigma = 4",
+            "complements": "σ_XL = 0.75",
+            "cobb_douglas": "σ_XL = 1",
+            "substitutes": "σ_XL = 2",
+            "strong_substitutes": "σ_XL = 4",
         },
         regime_palette,
     )
@@ -2027,23 +2042,23 @@ def main() -> None:
         ],
         wage_paths,
         {
-            "wage_reference": "n=1.2%, sigma=4, sI=23.3%",
-            "wage_high_population": "n=3%, sigma=4, sI=23.3%",
-            "wage_high_substitution": "n=3%, sigma=10, sI=23.3%",
-            "wage_low_investment": "n=3%, sigma=10, sI=15%",
+            "wage_reference": "n=1.2%, σ_XL=4, sI=23.3%",
+            "wage_high_population": "n=3%, σ_XL=4, sI=23.3%",
+            "wage_high_substitution": "n=3%, σ_XL=10, sI=23.3%",
+            "wage_low_investment": "n=3%, σ_XL=10, sI=15%",
         },
         wage_palette,
     )
     draw_wage_frontier_figure(
         FIGURE_DIR / "numerical_wage_decline_frontier.png",
         wage_grid_rows,
-        wage_sigma_rows,
+        wage_sigma_xl_rows,
     )
 
-    theta_palette = {
-        "theta_low": COLORS["blue"],
-        "theta_base": COLORS["gold"],
-        "theta_high": COLORS["orange"],
+    sigma_hm_palette = {
+        "sigma_hm_low": COLORS["blue"],
+        "sigma_hm_base": COLORS["gold"],
+        "sigma_hm_high": COLORS["orange"],
     }
     draw_multiplot(
         FIGURE_DIR / "numerical_research_automation.png",
@@ -2076,13 +2091,13 @@ def main() -> None:
                 "format": lambda value: f"{value:.2f}",
             },
         ],
-        theta_rows,
+        sigma_hm_rows,
         {
-            "theta_low": "theta = 1.25",
-            "theta_base": "theta = 2",
-            "theta_high": "theta = 4",
+            "sigma_hm_low": "σ_HM = 1.25",
+            "sigma_hm_base": "σ_HM = 2",
+            "sigma_hm_high": "σ_HM = 4",
         },
-        theta_palette,
+        sigma_hm_palette,
     )
 
     automation_feedback_palette = {
@@ -2098,7 +2113,7 @@ def main() -> None:
     draw_multiplot(
         FIGURE_DIR / "numerical_automation_feedback.png",
         "Relative research costs and the automation transition",
-        "theta=2; high-feedback calibration; internally consistent proportional-allocation closure",
+        "σ_HM=2; high-feedback calibration; internally consistent proportional-allocation closure",
         [
             {
                 "title": "Relative research cost (log scale; shown to 1e6)",
@@ -2140,19 +2155,19 @@ def main() -> None:
     )
 
     research_labor_palette = {
-        "research_sigma_cd": COLORS["blue"],
-        "research_sigma_substitutes": COLORS["orange"],
-        "research_sigma_high": COLORS["olive"],
+        "research_sigma_xl_cd": COLORS["blue"],
+        "research_sigma_xl_substitutes": COLORS["orange"],
+        "research_sigma_xl_high": COLORS["olive"],
     }
     research_labor_markers = {
-        "research_sigma_cd": "circle",
-        "research_sigma_substitutes": "square",
-        "research_sigma_high": "triangle",
+        "research_sigma_xl_cd": "circle",
+        "research_sigma_xl_substitutes": "square",
+        "research_sigma_xl_high": "triangle",
     }
     draw_multiplot(
         FIGURE_DIR / "numerical_research_labor_dynamics.png",
         "Human employment during AI research automation",
-        "theta=2; common initial states and capability growth; fixed investment and research-compute shares",
+        "σ_HM=2; common initial states and capability growth; fixed investment and research-compute shares",
         [
             {
                 "title": "Human-to-automated research ratio, H/M (log scale)",
@@ -2182,9 +2197,9 @@ def main() -> None:
         ],
         research_labor_rows,
         {
-            "research_sigma_cd": "sigma = 1",
-            "research_sigma_substitutes": "sigma = 2",
-            "research_sigma_high": "sigma = 2.25",
+            "research_sigma_xl_cd": "σ_XL = 1",
+            "research_sigma_xl_substitutes": "σ_XL = 2",
+            "research_sigma_xl_high": "σ_XL = 2.25",
         },
         research_labor_palette,
         markers=research_labor_markers,
