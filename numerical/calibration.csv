@@ -8,12 +8,14 @@ research_compute_share,0.005109259953161593
 investment_share,0.23343234323432344
 capital_output_ratio,3.448844884488449
 alpha,0.33
-omega,0.2
+omega_l,0.8
+omega_x,0.2
 n,0.012
 delta,0.05
 discount,0.04
 xi,1.0
-nu,0.35
+omega_h,0.65
+omega_m,0.35
 sigma_hm,2.0
 phi,0.65
 eta,0.45

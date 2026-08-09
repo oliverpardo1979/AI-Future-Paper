@@ -30,13 +30,13 @@ RESULT_DIR = ROOT / "numerical"
 @dataclass(frozen=True)
 class Parameters:
     alpha: float = 0.33
-    omega: float = 0.20
+    omega_x: float = 0.20
     sigma_xl: float = 1.00
     n: float = 0.012
     delta: float = 0.05
     discount: float = 0.04
     xi: float = 1.00
-    nu: float = 0.35
+    omega_m: float = 0.35
     sigma_hm: float = 2.00
     phi: float = 0.65
     eta: float = 0.45
@@ -122,16 +122,16 @@ def production_from_ratio(
     parameters: Parameters,
 ) -> dict[str, float]:
     alpha = parameters.alpha
-    omega = parameters.omega
+    omega_x = parameters.omega_x
     sigma_xl = parameters.sigma_xl
 
     if abs(sigma_xl - 1.0) < 1e-9:
-        log_z_per_worker = omega * log_ai_labor_ratio
-        ai_share = omega
+        log_z_per_worker = omega_x * log_ai_labor_ratio
+        ai_share = omega_x
     else:
         rho = (sigma_xl - 1.0) / sigma_xl
-        log_human_term = math.log1p(-omega)
-        log_ai_term = math.log(omega) + rho * log_ai_labor_ratio
+        log_human_term = math.log1p(-omega_x)
+        log_ai_term = math.log(omega_x) + rho * log_ai_labor_ratio
         log_denominator = float(np.logaddexp(log_human_term, log_ai_term))
         log_z_per_worker = log_denominator / rho
         ai_share = math.exp(log_ai_term - log_denominator)
@@ -199,15 +199,17 @@ def research_aggregator(
     parameters: Parameters,
 ) -> tuple[float, float]:
     sigma_hm = parameters.sigma_hm
+    omega_m = parameters.omega_m
+    omega_h = 1.0 - omega_m
     if abs(sigma_hm - 1.0) < 1e-9:
         log_effective_research = (
-            (1.0 - parameters.nu) * log_human_research
-            + parameters.nu * log_automated_research
+            omega_h * log_human_research
+            + omega_m * log_automated_research
         )
-        return log_effective_research, parameters.nu
+        return log_effective_research, omega_m
     rho = (sigma_hm - 1.0) / sigma_hm
-    log_human_term = math.log1p(-parameters.nu) + rho * log_human_research
-    log_machine_term = math.log(parameters.nu) + rho * log_automated_research
+    log_human_term = math.log1p(-omega_m) + rho * log_human_research
+    log_machine_term = math.log(omega_m) + rho * log_automated_research
     log_sum = float(np.logaddexp(log_human_term, log_machine_term))
     log_effective_research = log_sum / rho
     automated_share = math.exp(log_machine_term - log_sum)
@@ -247,8 +249,8 @@ def static_block(
         )
         log_actual_ratio = log_human_research - log_automated_research
         log_target_ratio = parameters.sigma_hm * (
-            math.log1p(-parameters.nu)
-            - math.log(parameters.nu)
+            math.log1p(-parameters.omega_m)
+            - math.log(parameters.omega_m)
             + math.log(parameters.xi)
             - log_wage
         )
@@ -312,8 +314,8 @@ def static_block(
         - log_automated_research
         - parameters.sigma_hm
         * (
-            math.log1p(-parameters.nu)
-            - math.log(parameters.nu)
+            math.log1p(-parameters.omega_m)
+            - math.log(parameters.omega_m)
             + math.log(parameters.xi)
             - log_wage
         )
@@ -597,7 +599,7 @@ def simulate(
 
 
 def analytical_calibration(parameters: Parameters) -> tuple[Parameters, dict[str, float]]:
-    beta = (1.0 - parameters.alpha) * parameters.omega
+    beta = (1.0 - parameters.alpha) * parameters.omega_x
     upsilon = beta / (1.0 - parameters.alpha - beta)
     denominator = 1.0 - parameters.phi - parameters.eta * upsilon
     if denominator <= 0:
@@ -681,13 +683,13 @@ def calibrate_research_weight(
     initial_state: tuple[float, float, float],
     target_automated_share: float,
 ) -> Parameters:
-    """Choose nu so sigma_hm experiments share the same initial automation share."""
+    """Choose omega_m so sigma_hm experiments share one initial automation share."""
 
     log_capital, log_capability, log_population = map(math.log, initial_state)
 
     def residual(logit_weight: float) -> float:
         weight = logistic(logit_weight)
-        candidate = replace(parameters, nu=weight)
+        candidate = replace(parameters, omega_m=weight)
         block = static_block(
             log_capital, log_capability, log_population, candidate
         )
@@ -697,7 +699,7 @@ def calibrate_research_weight(
     logit_weight = (
         lower if lower == upper else bisect_root(residual, lower, upper)
     )
-    return replace(parameters, nu=logistic(logit_weight))
+    return replace(parameters, omega_m=logistic(logit_weight))
 
 
 COLORS = {
@@ -1288,7 +1290,7 @@ def automation_feedback_path(
     initial_automation_share: float,
     *,
     sigma_hm: float = 2.0,
-    nu: float = 0.35,
+    omega_m: float = 0.35,
     phi: float = 0.86,
     eta: float = 0.62,
     upsilon: float = 0.25,
@@ -1300,7 +1302,8 @@ def automation_feedback_path(
     """Solve the internally consistent reduced automation-feedback system."""
 
     initial_odds = initial_automation_share / (1.0 - initial_automation_share)
-    weight_odds = (nu / (1.0 - nu)) ** sigma_hm
+    omega_h = 1.0 - omega_m
+    weight_odds = (omega_m / omega_h) ** sigma_hm
     initial_relative_cost = (
         initial_odds / weight_odds
     ) ** (1.0 / (sigma_hm - 1.0))
@@ -1332,7 +1335,7 @@ def automation_feedback_path(
         automation_share = logistic(log_odds)
         feedback_denominator = 1.0 - phi - eta * upsilon * automation_share
         log_relative_cost = (
-            log_odds - sigma_hm * math.log(nu / (1.0 - nu))
+            log_odds - sigma_hm * math.log(omega_m / omega_h)
         ) / (sigma_hm - 1.0)
         if step_count % 5 == 0 and (
             capability_growth / initial_capability_growth <= 1.0e4
@@ -2036,12 +2039,14 @@ def main() -> None:
         for key, value in {
             **analytical,
             "alpha": baseline.alpha,
-            "omega": baseline.omega,
+            "omega_l": 1.0 - baseline.omega_x,
+            "omega_x": baseline.omega_x,
             "n": baseline.n,
             "delta": baseline.delta,
             "discount": baseline.discount,
             "xi": baseline.xi,
-            "nu": baseline.nu,
+            "omega_h": 1.0 - baseline.omega_m,
+            "omega_m": baseline.omega_m,
             "sigma_hm": baseline.sigma_hm,
             "phi": baseline.phi,
             "eta": baseline.eta,

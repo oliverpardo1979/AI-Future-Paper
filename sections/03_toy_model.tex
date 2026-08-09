@@ -65,24 +65,26 @@ labor and AI services:
     Z_t
     &=
     \left[
-        (1-\omega)L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
-        +\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}
-    \right]^{\sigma_{XL}/(\sigma_{XL}-1)},
-    \qquad
-    \omega\in(0,1),\quad \sigma_{XL}>0.
+        \omega_L L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+    \right]^{\sigma_{XL}/(\sigma_{XL}-1)}.
     \label{eq:service-composite}
 \end{align}
 The elasticity of substitution between capital and the service composite is one.
 The elasticity between production labor and AI services is $\sigma_{XL}$. The
-Cobb--Douglas composite is obtained by continuity when $\sigma_{XL}=1$.
+Cobb--Douglas composite is obtained by continuity when $\sigma_{XL}=1$. We assume
+$\sigma_{XL}>0$. The pair $(\omega_L,\omega_X)$ contains positive CES distribution
+weights satisfying $\omega_L+\omega_X=1$, not generally observed factor-income
+shares; the latter are endogenous and vary with relative quantities when
+$\sigma_{XL}\neq1$.
 
 Define the contribution of AI services to the CES composite as
 \begin{equation}
     s^X_t
     \equiv
-    \frac{\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}
-    {(1-\omega)L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
-        +\omega X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}.
+    \frac{\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}
+    {\omega_L L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}.
     \label{eq:ai-composite-share}
 \end{equation}
 Let $p^X_t$ denote the price of AI services. Profit maximization gives
@@ -102,7 +104,7 @@ and relative demand satisfies
     \frac{X_t}{L_{Y,t}}
     =
     \left[
-        \frac{\omega}{1-\omega}
+        \frac{\omega_X}{\omega_L}
         \frac{w_t}{p^X_t}
     \right]^{\sigma_{XL}}.
     \label{eq:relative-ai-demand}
@@ -173,11 +175,9 @@ New AI capability is produced with effective research services, $E_t$:
     E_t
     &=
     \left[
-        (1-\nu)H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
-        +\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}
-    \right]^{\sigma_{HM}/(\sigma_{HM}-1)},
-    \qquad
-    \nu\in(0,1),\quad \sigma_{HM}>1.
+        \omega_H H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+        +\omega_M M_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+    \right]^{\sigma_{HM}/(\sigma_{HM}-1)}.
     \label{eq:effective-research}
 \end{align}
 Here, $M_t$ is a flow of standardized automated-research services. It includes
@@ -187,7 +187,10 @@ services to one unit in the research aggregator and assigns it the common resour
 cost $\xi$. A capability-dependent conversion from compute into automated-research
 services is left for an extension.
 
-The elasticity $\sigma_{HM}$ governs substitution between human and automated research.
+The elasticity $\sigma_{HM}>1$ governs substitution between human and automated
+research. The pair $(\omega_H,\omega_M)$ contains positive CES distribution weights
+satisfying $\omega_H+\omega_M=1$. The contribution of each input to effective research
+is endogenous except in the Cobb--Douglas limit.
 The restriction $\sigma_{HM}>1$ makes the two inputs gross substitutes and allows
 positive research output when $H_t=0$. It does not impose that human research
 disappears. That outcome depends on the equilibrium path of the wage relative to
@@ -462,10 +465,10 @@ The marginal products of the two research inputs in
 \eqref{eq:effective-research} are
 \begin{equation}
     E_{H,t}
-    =(1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
+    =\omega_H\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
     \qquad
     E_{M,t}
-    =\nu\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
+    =\omega_M\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
     \label{eq:research-ces-marginal-products}
 \end{equation}
 The developer's first-order conditions are therefore
@@ -473,12 +476,12 @@ The developer's first-order conditions are therefore
     w_t
     &=
     q_t\chi\eta A_t^\phi E_t^{\eta-1}
-    (1-\nu)\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
+    \omega_H\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
     \label{eq:foc-human}\\
     \xi
     &=
     q_t\chi\eta A_t^\phi E_t^{\eta-1}
-    \nu\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
+    \omega_M\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}}.
     \label{eq:private-compute-foc}
 \end{align}
 Their ratio determines the research-input mix:
@@ -486,7 +489,7 @@ Their ratio determines the research-input mix:
     \frac{M_t}{H_t}
     =
     \left[
-        \frac{\nu}{1-\nu}\frac{w_t}{\xi}
+        \frac{\omega_M}{\omega_H}\frac{w_t}{\xi}
     \right]^{\sigma_{HM}}.
     \label{eq:research-input-ratio}
 \end{equation}
@@ -496,17 +499,17 @@ The unit cost of effective research services is
     P^E_t
     =
     \left[
-        (1-\nu)^{\sigma_{HM}} w_t^{1-\sigma_{HM}}
-        +\nu^{\sigma_{HM}}\xi^{1-\sigma_{HM}}
+        \omega_H^{\sigma_{HM}} w_t^{1-\sigma_{HM}}
+        +\omega_M^{\sigma_{HM}}\xi^{1-\sigma_{HM}}
     \right]^{1/(1-\sigma_{HM})}.
     \label{eq:research-unit-cost}
 \end{equation}
 Conditional input demands are
 \begin{equation}
-    H_t=(1-\nu)^{\sigma_{HM}}
+    H_t=\omega_H^{\sigma_{HM}}
     \left(\frac{P^E_t}{w_t}\right)^{\sigma_{HM}} E_t,
     \qquad
-    M_t=\nu^{\sigma_{HM}}
+    M_t=\omega_M^{\sigma_{HM}}
     \left(\frac{P^E_t}{\xi}\right)^{\sigma_{HM}} E_t.
     \label{eq:research-conditional-demands}
 \end{equation}
@@ -526,9 +529,9 @@ Define the contribution of automated services to effective research as
 \begin{equation}
     s^M_t
     \equiv
-    \frac{\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}
-    {(1-\nu)H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
-        +\nu M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}.
+    \frac{\omega_M M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}
+    {\omega_H H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+        +\omega_M M_t^{(\sigma_{HM}-1)/\sigma_{HM}}}.
     \label{eq:automated-research-share}
 \end{equation}
 At an interior cost-minimizing allocation, this is also the share of research
@@ -542,7 +545,7 @@ Equations \eqref{eq:research-input-ratio} and
 \begin{equation}
     \frac{s^M_t}{1-s^M_t}
     =
-    \left(\frac{\nu}{1-\nu}\right)^{\sigma_{HM}}
+    \left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
     \left(\frac{w_t}{\xi}\right)^{\sigma_{HM}-1}.
     \label{eq:automation-odds}
 \end{equation}
@@ -551,7 +554,7 @@ not a consequence of the CES specification. Define
 \begin{equation}
     \Omega_0
     \equiv
-    \left(\frac{\nu}{1-\nu}\right)^{\sigma_{HM}}
+    \left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
     \left(\frac{w_0}{\xi_0}\right)^{\sigma_{HM}-1}.
     \label{eq:initial-automation-odds}
 \end{equation}
@@ -559,13 +562,13 @@ Then $s^M_0=\Omega_0/(1+\Omega_0)$, so $s^M_0\simeq0$ requires
 \begin{equation}
     \frac{w_0}{\xi_0}
     \ll
-    \left(\frac{1-\nu}{\nu}\right)^{\sigma_{HM}/(\sigma_{HM}-1)}.
+    \left(\frac{\omega_H}{\omega_M}\right)^{\sigma_{HM}/(\sigma_{HM}-1)}.
     \label{eq:initial-human-dominance-condition}
 \end{equation}
 The right-hand side is the relative-price threshold at which automated services
 account for one half of effective research. A low initial value of $w_0/\xi_0$
 means that human researchers are inexpensive relative to a standardized unit of
-automated research. A smaller CES weight $\nu$ reinforces this initial human
+automated research. A smaller CES weight $\omega_M$ reinforces this initial human
 dominance. The statement depends on the units used to measure $M$ and on the
 corresponding normalization of $\xi$; its economic content is a restriction on
 relative unit costs, not on either nominal price in isolation.
@@ -703,7 +706,7 @@ When $s^M_t$ is close to zero,
 \begin{equation}
     E_t
     \simeq
-    (1-\nu)^{\sigma_{HM}/(\sigma_{HM}-1)}H_t.
+    \omega_H^{\sigma_{HM}/(\sigma_{HM}-1)}H_t.
     \label{eq:human-dominated-research}
 \end{equation}
 If a constant share $s_H\in(0,1)$ of the population works in research,
@@ -731,7 +734,7 @@ When $s^M_t\to1$, the research aggregator satisfies
 \begin{equation}
     E_t
     \simeq
-    \nu^{\sigma_{HM}/(\sigma_{HM}-1)}M_t.
+    \omega_M^{\sigma_{HM}/(\sigma_{HM}-1)}M_t.
     \label{eq:ai-dominated-research}
 \end{equation}
 The asymptotic law of motion is therefore
@@ -741,7 +744,7 @@ The asymptotic law of motion is therefore
     \kappa A_t^\phi M_t^\eta,
     \qquad
     \kappa\equiv
-    \chi\nu^{\eta\sigma_{HM}/(\sigma_{HM}-1)}.
+    \chi\omega_M^{\eta\sigma_{HM}/(\sigma_{HM}-1)}.
     \label{eq:ai-dominated-ideas}
 \end{equation}
 Its growth rate obeys
@@ -768,7 +771,7 @@ profits, and the private value of capability.
 The Cobb--Douglas limit of the production CES provides a closed-form benchmark.
 Define
 \begin{equation}
-    \beta\equiv(1-\alpha)\omega,
+    \beta\equiv(1-\alpha)\omega_X,
     \qquad
     \upsilon\equiv\frac{\beta}{1-\alpha-\beta}.
     \label{eq:beta-definition}
@@ -946,7 +949,7 @@ To isolate the role of human essentiality, consider instead the counterfactual
 \begin{equation}
     E_t^{\mathrm{CD}}
     =
-    H_t^{1-\nu}M_t^\nu.
+    H_t^{\omega_H}M_t^{\omega_M}.
     \label{eq:cd-research-counterfactual}
 \end{equation}
 Both inputs are essential in \eqref{eq:cd-research-counterfactual}. Along an interior
@@ -956,25 +959,25 @@ research therefore grows at
 \begin{equation}
     g_E^{\mathrm{CD}}
     =
-    n+\nu\gamma.
+    n+\omega_M\gamma.
     \label{eq:cd-research-growth}
 \end{equation}
 Combining this expression with $\gamma=\upsilon g_A$ gives
 \begin{align}
     g_A^{\mathrm{CD}}
     &=
-    \frac{\eta n}{1-\phi-\eta\nu\upsilon},
+    \frac{\eta n}{1-\phi-\eta\omega_M\upsilon},
     \label{eq:full-cd-ga}\\
     \gamma^{\mathrm{CD}}
     &=
-    \frac{\upsilon\eta n}{1-\phi-\eta\nu\upsilon}.
+    \frac{\upsilon\eta n}{1-\phi-\eta\omega_M\upsilon}.
     \label{eq:full-cd-gamma}
 \end{align}
 Define the two feedback denominators
 \begin{equation}
     D_{\mathrm{CD}}
     \equiv
-    1-\phi-\eta\nu\upsilon,
+    1-\phi-\eta\omega_M\upsilon,
     \qquad
     D_{\mathrm{AI}}
     \equiv
@@ -991,7 +994,7 @@ admits a positive constant-growth path only if $D_{\mathrm{AI}}>0$. Moreover,
 \begin{equation}
     D_{\mathrm{CD}}-D_{\mathrm{AI}}
     =
-    \eta(1-\nu)\upsilon>0.
+    \eta\omega_H\upsilon>0.
     \label{eq:feedback-denominator-gap}
 \end{equation}
 There is consequently a nonempty parameter region with
@@ -1017,7 +1020,7 @@ counterfactual is
     \equiv
     \frac{\xi M_t}{Y_t}
     =
-    \frac{\beta^2\eta\nu g_A^{\mathrm{CD}}}
+    \frac{\beta^2\eta\omega_M g_A^{\mathrm{CD}}}
     {\rho-n+(1-\phi)g_A^{\mathrm{CD}}}.
     \label{eq:full-cd-research-resource-share}
 \end{equation}
@@ -1026,7 +1029,7 @@ An interior path also requires a positive denominator in
 replacing $m_R^\infty$ with $m_M^{\mathrm{CD}}$ in
 \eqref{eq:bg-consumption-share}.
 
-For Cobb--Douglas research, the automated-research contribution is fixed at $\nu$,
+For Cobb--Douglas research, the automated-research contribution is fixed at $\omega_M$,
 so \eqref{eq:ces-transition-growth-dynamics} becomes
 \begin{equation}
     \dot g_{A,t}
@@ -1173,8 +1176,9 @@ explicit, let
     q\equiv\frac{1-\alpha}{\alpha}>0.
     \label{eq:high-sigma-capability-exponent}
 \end{equation}
-If research is Cobb--Douglas, $E_t=H_t^{1-\nu}M_t^\nu$, the automated contribution
-share remains equal to $\nu$ and the human input remains essential. Nevertheless,
+If research is Cobb--Douglas, $E_t=H_t^{\omega_H}M_t^{\omega_M}$, the automated
+contribution share remains equal to $\omega_M$ and the human input remains essential.
+Nevertheless,
 equation~\eqref{eq:high-sigma-ak-limit} implies, under a fixed positive investment
 share $s_I$, that
 \begin{equation}
@@ -1197,7 +1201,7 @@ additional reduced-form closure
     \qquad h,m_R>0,
     \label{eq:sigma-hm-one-fixed-share-closure}
 \end{equation}
-and constant $\xi$, any $\nu>0$ preserves a feedback from the scale of output to
+and constant $\xi$, any $\omega_M>0$ preserves a feedback from the scale of output to
 capability. The corresponding high-capability asymptotic system reaches a finite-time
 singularity.
 \end{proposition}
@@ -1205,12 +1209,12 @@ singularity.
 \begin{proof}
 The first claim follows directly from
 \eqref{eq:sigma-hm-one-high-sigma-xl-capital-growth}. For the second, set
-$x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\nu$, and
+$x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\omega_M$, and
 $d=1-\phi-qb$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
 vanish in the high-capability limit, the reduced system can be written as
 \begin{align}
     \dot x_t
-    &=C\exp\!\left\{\eta(1-\nu)nt+bk_t-dx_t\right\},
+    &=C\exp\!\left\{\eta\omega_Hnt+bk_t-dx_t\right\},
     \label{eq:sigma-hm-one-high-sigma-xl-x}\\
     \dot k_t
     &=S\exp(qx_t)-\delta,
@@ -1221,7 +1225,7 @@ Define $u_t\equiv\dot x_t\exp(-qx_t)$. In this asymptotic system,
 \begin{equation}
     \frac{\dot u_t}{u_t}
     =
-    \eta(1-\nu)n-b\delta
+    \eta\omega_Hn-b\delta
     +\left[bS-(d+q)u_t\right]\exp(qx_t).
     \label{eq:sigma-hm-one-high-sigma-xl-u}
 \end{equation}
@@ -1237,8 +1241,8 @@ zero in finite time, so $A_t$ diverges at a finite date.
 
 This proposition separates two meanings of human essentiality. At $\sigma_{HM}=1$, the
 human contribution to each unit of effective research never disappears. But a
-positive automated-input elasticity $\nu$ still lets the expanding scale of output
-raise $M_t$ and therefore research productivity. If $\nu=0$, production growth still
+positive automated-input elasticity $\omega_M$ still lets the expanding scale of output
+raise $M_t$ and therefore research productivity. If $\omega_M=0$, production growth still
 accelerates when $\sigma_{XL}>1$, but the finite-time research feedback in the reduced
 system disappears. The singularity result is conditional on fixed positive saving
 and research shares. It is not yet a theorem for the fully optimizing equilibrium:

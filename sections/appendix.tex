@@ -5,7 +5,7 @@ Equation~\eqref{eq:automation-odds} gives
 \[
     \frac{s^M_t}{1-s^M_t}
     =
-    \left(\frac{\nu}{1-\nu}\right)^{\sigma_{HM}}
+    \left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
     \left(\frac{w_t}{\xi}\right)^{\sigma_{HM}-1}.
 \]
 If $\sigma_{HM}>1$ and $w_t/\xi\to\infty$, the right-hand side diverges and
@@ -13,7 +13,7 @@ $s^M_t\to1$. Moreover, the unit cost in
 \eqref{eq:research-unit-cost} converges to
 \[
     P^E_t\longrightarrow
-    \nu^{-\sigma_{HM}/(\sigma_{HM}-1)}\xi.
+    \omega_M^{-\sigma_{HM}/(\sigma_{HM}-1)}\xi.
 \]
 The first expression in \eqref{eq:research-conditional-demands} then implies
 $H_t/E_t\to0$. If $w_t/\xi$ remains bounded, the odds in
@@ -82,7 +82,7 @@ Solving this condition gives
 Because the CES mapping between $s^X$ and $X/L_Y$ is one-to-one, the corresponding
 service ratio is finite.
 
-For $\sigma_{XL}=1$, the CES contribution $s^X_t$ equals the constant weight $\omega$.
+For $\sigma_{XL}=1$, the CES contribution $s^X_t$ equals the constant weight $\omega_X$.
 
 For $\sigma_{XL}>1$, revenue is unbounded as $x_t\to\infty$ when marginal cost is zero,
 so $x_t\to\infty$ and $s^X_t\to1$. Consequently,
@@ -93,14 +93,14 @@ $\varepsilon^X_t\to\alpha$, and the monopoly first-order condition implies
 Since
 \[
     Z_t\sim
-    \omega^{\sigma_{XL}/(\sigma_{XL}-1)}X_t,
+    \omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}X_t,
 \]
 substituting $X_t=A_tU_t$ and the limiting compute share into production yields
 \[
     \frac{Y_t}{K_t}
     \sim
     \left[
-        \frac{\omega^{\sigma_{XL}/(\sigma_{XL}-1)}(1-\alpha)^2}{\xi}
+        \frac{\omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}(1-\alpha)^2}{\xi}
     \right]^{(1-\alpha)/\alpha}
     A_t^{(1-\alpha)/\alpha}.
 \]

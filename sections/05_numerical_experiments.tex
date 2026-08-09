@@ -59,14 +59,14 @@ divergence a dynamic result rather than a difference imposed at date zero.
         Object & Value & Interpretation \\
         \midrule
         $\alpha$ & 0.33 & capital elasticity \\
-        $\omega$ & 0.20 & AI weight in the service composite \\
+        $(\omega_L,\omega_X)$ & $(0.80,0.20)$ & labor and AI service weights \\
         $n$ & 1.20\% & population growth \\
         $\delta$ & 5.00\% & capital depreciation \\
         $\rho$ & 4.00\% & discount rate \\
         $\sigma_{XL}$ & varies & production CES: $L_Y$ versus $X$ \\
         $(\phi,\eta)$ & $(0.65,0.45)$ & ideas-production elasticities \\
         $\sigma_{HM}$ & 2.00 & research CES: $H$ versus $M$ \\
-        $\nu$ & 0.35 & automated-research CES weight \\
+        $(\omega_H,\omega_M)$ & $(0.65,0.35)$ & human and automated research weights \\
         $m_R$ & 0.51\% & automated-research spending share \\
         $s_I$ & 23.34\% & investment share \\
         $K_0/Y_0$ & 3.45 & initial capital--output ratio \\
@@ -356,7 +356,8 @@ will shift the frontier.
 Figure~\ref{fig:numerical-research-automation} changes the research elasticity
 $\sigma_{HM}$ between $H$ and $M$ while holding the
 initial automated-research share at 10.9 percent and initial capability growth at
-2.27 percent. The CES weight $\nu$ and the scale parameter $\chi$ are renormalized
+2.27 percent. The CES weight $\omega_M$ (and hence $\omega_H=1-\omega_M$) and the
+scale parameter $\chi$ are renormalized
 for this comparison. The exercise therefore isolates the curvature of substitution
 rather than confounding it with a different initial input mix.
 We are not aware of a direct estimate of $\sigma_{HM}$. Existing work
@@ -389,7 +390,8 @@ the growth rate.
 Figure~\ref{fig:numerical-automation-feedback} solves the internally consistent
 reduced system in equations \eqref{eq:ces-transition-growth-dynamics} and
 \eqref{eq:reduced-consistent-automation-dynamics}. The exercise holds
-$\sigma_{HM}=2$, $\nu=0.35$, and initial capability growth at 2.27 percent. It varies
+$\sigma_{HM}=2$, $(\omega_H,\omega_M)=(0.65,0.35)$, and initial capability growth
+at 2.27 percent. It varies
 the initial automated share between 0.1, 1, and 10 percent. Equation
 \eqref{eq:initial-automation-odds} implies corresponding initial values of
 $w_0/\xi_0$ equal to 0.0035, 0.0348, and 0.3832. A small automated share is thus
@@ -526,9 +528,9 @@ are again common.
 
 The high-feedback case isolates the role of human essentiality. If research were
 Cobb--Douglas, its feedback denominator would be
-$1-\phi-\eta\nu\upsilon=0.08575>0$. The same values of $\phi$, $\eta$, and
+$1-\phi-\eta\omega_M\upsilon=0.08575>0$. The same values of $\phi$, $\eta$, and
 $\upsilon$ would then admit a constant-growth path because only the automated-input
-elasticity $\nu$ transmits the expansion of output back into research. The negative
+elasticity $\omega_M$ transmits the expansion of output back into research. The negative
 AI-dominated denominator arises when automated research can asymptotically replace
 the human input.
 
@@ -556,7 +558,7 @@ accelerates.
 The preceding comparison holds production fixed at $\sigma_{XL}=1$. Figure
 \ref{fig:numerical-sigma-hm-one-sigma-xl} instead fixes $\sigma_{HM}=1$, so research is
 Cobb--Douglas in $H$ and $M$, and varies the production elasticity. The automated
-contribution to effective research is therefore exactly $\nu=35$ percent in every
+contribution to effective research is therefore exactly $\omega_M=35$ percent in every
 period and every experiment. Initial capability growth, stocks, investment, and
 research-compute spending are held fixed. Each accelerating path ends when annual
 capital growth reaches 50 percent; the stopping rule avoids treating the reduced
@@ -568,7 +570,7 @@ singularity.
     \includegraphics[width=\textwidth]{figures/numerical_sigma_hm_one_sigma_xl.png}
     \caption{Production-side acceleration when human research remains essential.
     Research is Cobb--Douglas, $\sigma_{HM}=1$, and the automated contribution share is
-    fixed at $\nu=0.35$. The $\sigma_{XL}>1$ paths end when capital growth reaches 50
+    fixed at $\omega_M=0.35$. The $\sigma_{XL}>1$ paths end when capital growth reaches 50
     percent per year.}
     \label{fig:numerical-sigma-hm-one-sigma-xl}
 \end{figure}
@@ -599,7 +601,7 @@ Cobb--Douglas research first-order condition implies
 \begin{equation}
     w_tH_t
     =
-    \frac{1-\nu}{\nu}\xi M_t.
+    \frac{\omega_H}{\omega_M}\xi M_t.
     \label{eq:cd-research-wage-bill}
 \end{equation}
 Combining this condition with the numerical rule
@@ -607,11 +609,11 @@ $\xi M_t=m_RY_t$ gives
 \begin{equation}
     \frac{w_tH_t}{Y_t}
     =
-    \frac{1-\nu}{\nu}m_R,
+    \frac{\omega_H}{\omega_M}m_R,
     \qquad
     \ell^N_t
     =
-    \ell^Y_t+\frac{1-\nu}{\nu}m_R.
+    \ell^Y_t+\frac{\omega_H}{\omega_M}m_R.
     \label{eq:cd-research-aggregate-labor-share}
 \end{equation}
 The wage bill of human researchers is therefore a constant share of output even
@@ -650,7 +652,8 @@ expenditure share falls as the service-to-labor ratio expands. Production labor
 therefore receives a larger share of output. The human-research employment share
 also falls, but equation~\eqref{eq:cd-research-wage-bill} keeps the researchers'
 wage bill at 0.95 percent of output. The level comparison across elasticities should
-not be read as a causal ranking: holding the CES weight $\omega$ fixed changes the
+not be read as a causal ranking: holding the CES weights
+$(\omega_L,\omega_X)$ fixed changes the
 date-zero expenditure share when $\sigma_{XL}$ changes. The robust comparison is
 within each path.
 
