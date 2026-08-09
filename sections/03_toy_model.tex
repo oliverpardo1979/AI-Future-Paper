@@ -944,90 +944,202 @@ Equations \eqref{eq:ces-transition-growth-dynamics} and
 system for the automation share and capability growth. They do not impose an
 independent relative-wage path.
 
+\subsubsection{The fully Cobb--Douglas particular case}
+
 The AI-dominated path is not the Cobb--Douglas limit of the research technology.
-To isolate the role of human essentiality, consider instead the counterfactual
-\begin{equation}
+To isolate the case in which human research remains essential, set
+$\sigma_{XL}=\sigma_{HM}=1$. The two technologies become
+\begin{align}
+    Y_t
+    &=K_t^\alpha L_t^{(1-\alpha)\omega_L}
+        X_t^{(1-\alpha)\omega_X},
+    \label{eq:fully-cd-production}\\
     E_t^{\mathrm{CD}}
-    =
-    H_t^{\omega_H}M_t^{\omega_M}.
+    &=H_t^{\omega_H}M_t^{\omega_M}.
     \label{eq:cd-research-counterfactual}
-\end{equation}
-Both inputs are essential in \eqref{eq:cd-research-counterfactual}. Along an interior
-balanced-growth path, a constant allocation of population implies $g_H=n$, while a
-constant automated-research resource share implies $g_M=n+\gamma$. Effective
-research therefore grows at
+\end{align}
+Both research inputs are essential. The monopoly solution can be written directly
+in terms of the primitive production weights:
 \begin{equation}
-    g_E^{\mathrm{CD}}
+    U_t
     =
-    n+\omega_M\gamma.
-    \label{eq:cd-research-growth}
+    \frac{[(1-\alpha)\omega_X]^2}{\xi}Y_t,
+    \qquad
+    X_t
+    =
+    \frac{[(1-\alpha)\omega_X]^2}{\xi}A_tY_t.
+    \label{eq:fully-cd-monopoly-primitives}
 \end{equation}
-Combining this expression with $\gamma=\upsilon g_A$ gives
+
+Consider an interior constant-growth path. Constant population allocations imply
+$g_H=g_L=n$, while constant automated-research expenditure relative to output implies
+$g_M=g_Y$. Production and research growth then satisfy
+\begin{align}
+    g_Y-n
+    &=
+    \frac{\omega_X}{\omega_L}g_A,
+    \label{eq:fully-cd-output-capability-growth}\\
+    g_E^{\mathrm{CD}}
+    &=
+    n+\omega_M(g_Y-n).
+    \label{eq:cd-research-growth}
+\end{align}
+The first equation is the production feedback: capability raises services per unit
+of compute, services expand output, and the output expansion scales the resources
+available to automated research. The second equation shows that only the
+$\omega_M$ contribution of faster-growing automated research enters effective
+research when the human input remains essential.
+
+Log-differentiating the ideas equation and imposing constant $g_A$ gives
+$(1-\phi)g_A=\eta g_E$. Combining this condition with
+\eqref{eq:fully-cd-output-capability-growth}--\eqref{eq:cd-research-growth} yields
 \begin{align}
     g_A^{\mathrm{CD}}
     &=
-    \frac{\eta n}{1-\phi-\eta\omega_M\upsilon},
+    \frac{\eta n}
+    {1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L}},
     \label{eq:full-cd-ga}\\
-    \gamma^{\mathrm{CD}}
+    g_Y^{\mathrm{CD}}-n
     &=
-    \frac{\upsilon\eta n}{1-\phi-\eta\omega_M\upsilon}.
+    \frac{\omega_X}{\omega_L}
+    \frac{\eta n}
+    {1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L}}.
     \label{eq:full-cd-gamma}
 \end{align}
-Define the two feedback denominators
+The remaining growth rates are
+\begin{align}
+    g_H=g_L=g_N&=n,
+    \notag\\
+    g_K=g_C=g_U=g_M
+    &=g_Y^{\mathrm{CD}},
+    \notag\\
+    g_X&=g_Y^{\mathrm{CD}}+g_A^{\mathrm{CD}},
+    &
+    g_w&=g_Y^{\mathrm{CD}}-n,
+    &
+    g_{p^X}&=-g_A^{\mathrm{CD}}.
+    \label{eq:fully-cd-growth-rates}
+\end{align}
+Thus $H/N$ and $L/N$ are constant, but $H/M$ falls at rate
+$n-g_Y^{\mathrm{CD}}<0$. Human research becomes small relative to automated research
+without ceasing to be essential.
+
+A positive finite constant-growth path requires
+\begin{equation}
+    1-\phi
+    -\eta\omega_M\frac{\omega_X}{\omega_L}
+    >0.
+    \label{eq:fully-cd-stability-condition}
+\end{equation}
+The term $1-\phi$ measures the force of diminishing returns to the existing
+capability stock. The term
+$\eta\omega_M\omega_X/\omega_L$ measures the complete feedback loop. A one-percent
+increase in capability raises per-capita output by $\omega_X/\omega_L$ percent;
+the resulting expansion of automated research affects effective research with
+weight $\omega_M$ and affects capability growth with elasticity $\eta$. Constant
+growth exists only when diminishing returns dominate this loop. Equality removes
+the stabilizing force, while a negative difference makes the loop self-reinforcing.
+
+The condition in \eqref{eq:fully-cd-stability-condition} is not sufficient for an
+interior allocation. The Euler equation, capital accumulation, and the developer's
+research condition imply
+\begin{align}
+    \frac{K_t}{Y_t}
+    &=
+    \frac{\alpha}{\rho+\delta+g_Y^{\mathrm{CD}}-n},
+    \label{eq:fully-cd-capital-output}\\
+    \frac{I_t}{Y_t}
+    &=
+    \frac{\alpha(g_Y^{\mathrm{CD}}+\delta)}
+    {\rho+\delta+g_Y^{\mathrm{CD}}-n},
+    \label{eq:fully-cd-investment-share}\\
+    \frac{\xi U_t}{Y_t}
+    &=
+    [(1-\alpha)\omega_X]^2,
+    \label{eq:fully-cd-inference-share}\\
+    \frac{\xi M_t}{Y_t}
+    &=
+    \frac{[(1-\alpha)\omega_X]^2\eta\omega_M g_A^{\mathrm{CD}}}
+    {\rho-n+(1-\phi)g_A^{\mathrm{CD}}}.
+    \label{eq:full-cd-research-resource-share}
+\end{align}
+The resource constraint requires $C_t/Y_t>0$. Substituting the growth rates and
+resource shares above gives the following restriction entirely in primitive
+parameters:
+\begin{equation}
+\begin{aligned}
+&\frac{\alpha\left\{(n+\delta)
+    \left(1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L}\right)
+    +\eta n\frac{\omega_X}{\omega_L}\right\}}
+{(\rho+\delta)
+    \left(1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L}\right)
+    +\eta n\frac{\omega_X}{\omega_L}}
++[(1-\alpha)\omega_X]^2
+\\
+&\qquad
++\frac{[(1-\alpha)\omega_X]^2\eta^2\omega_M n}
+{(\rho-n)
+    \left(1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L}\right)
+    +(1-\phi)\eta n}
+<1.
+\end{aligned}
+\label{eq:fully-cd-consumption-feasibility}
+\end{equation}
+The three terms on the left are, respectively, the output shares absorbed by
+physical investment, inference compute, and automated research. The inequality is
+equivalent to a positive consumption share when
+\eqref{eq:fully-cd-stability-condition} holds. The allocation of workers is also
+constant because
+\begin{equation}
+    \frac{H_t}{L_t}
+    =
+    \frac{\omega_H}{\omega_M}
+    \frac{\xi M_t/Y_t}{(1-\alpha)\omega_L}.
+    \label{eq:fully-cd-labor-allocation}
+\end{equation}
+
+For comparison with the AI-dominated research limit, define
 \begin{equation}
     D_{\mathrm{CD}}
     \equiv
-    1-\phi-\eta\omega_M\upsilon,
+    1-\phi-\eta\omega_M\frac{\omega_X}{\omega_L},
     \qquad
     D_{\mathrm{AI}}
     \equiv
-    1-\phi-\eta\upsilon.
+    1-\phi-\eta\frac{\omega_X}{\omega_L}.
     \label{eq:growth-feedback-denominators}
 \end{equation}
 
 \begin{proposition}[Human essentiality and acceleration]
 \label{prop:human-essentiality-acceleration}
 Suppose production is Cobb--Douglas, $n>0$, and the relevant allocations are
-interior. The Cobb--Douglas research counterfactual admits a positive
-constant-growth path only if $D_{\mathrm{CD}}>0$. The AI-dominated research limit
-admits a positive constant-growth path only if $D_{\mathrm{AI}}>0$. Moreover,
+interior. The fully Cobb--Douglas model admits a positive constant-growth path only
+if $D_{\mathrm{CD}}>0$ and \eqref{eq:fully-cd-consumption-feasibility} holds. The
+AI-dominated research limit admits a positive constant-growth path only if
+$D_{\mathrm{AI}}>0$. Moreover,
 \begin{equation}
     D_{\mathrm{CD}}-D_{\mathrm{AI}}
     =
-    \eta\omega_H\upsilon>0.
+    \eta\omega_H\frac{\omega_X}{\omega_L}>0.
     \label{eq:feedback-denominator-gap}
 \end{equation}
 There is consequently a nonempty parameter region with
-$D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the economy has balanced growth if human
-research remains essential but no positive constant-growth path after automated
-research becomes asymptotically dominant.
+$D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the economy can have balanced growth while
+human research remains essential but no positive constant-growth path after
+automated research becomes asymptotically dominant.
 \end{proposition}
 
 \begin{proof}
-Equations~\eqref{eq:cd-research-growth} and
-\eqref{eq:cd-ai-growth-relations} imply
+Equations~\eqref{eq:fully-cd-output-capability-growth} and
+\eqref{eq:cd-research-growth} imply
 \eqref{eq:full-cd-ga}--\eqref{eq:full-cd-gamma}. Equations
 \eqref{eq:cd-ai-ga}--\eqref{eq:cd-ai-gamma} give the AI-dominated rates. Positive
 finite rates require the corresponding denominator to be positive. Subtracting the
-two denominators gives \eqref{eq:feedback-denominator-gap}.
+two denominators gives \eqref{eq:feedback-denominator-gap}. The resource constraint
+gives \eqref{eq:fully-cd-consumption-feasibility} after substituting
+\eqref{eq:full-cd-ga}--\eqref{eq:fully-cd-inference-share} and
+\eqref{eq:full-cd-research-resource-share}.
 \end{proof}
-
-The denominator condition is necessary but not sufficient for an interior
-equilibrium. The automated-research resource share in the Cobb--Douglas
-counterfactual is
-\begin{equation}
-    m_M^{\mathrm{CD}}
-    \equiv
-    \frac{\xi M_t}{Y_t}
-    =
-    \frac{\beta^2\eta\omega_M g_A^{\mathrm{CD}}}
-    {\rho-n+(1-\phi)g_A^{\mathrm{CD}}}.
-    \label{eq:full-cd-research-resource-share}
-\end{equation}
-An interior path also requires a positive denominator in
-\eqref{eq:full-cd-research-resource-share} and a positive consumption share after
-replacing $m_R^\infty$ with $m_M^{\mathrm{CD}}$ in
-\eqref{eq:bg-consumption-share}.
 
 For Cobb--Douglas research, the automated-research contribution is fixed at $\omega_M$,
 so \eqref{eq:ces-transition-growth-dynamics} becomes
@@ -1160,14 +1272,60 @@ Suppose $A_t\to\infty$ and the service-market solution remains interior.
 \end{enumerate}
 \end{proposition}
 
-For $\sigma_{XL}<1$, a rising wage relative to $\xi$ is not guaranteed: labor remains
-essential and the monopoly supply of AI services approaches a finite
-revenue-maximizing ratio. Research automation can therefore stop short of
-$s^M=1$ even though $\sigma_{HM}>1$. For $\sigma_{XL}=1$, the positive wage growth in
-\eqref{eq:other-bg-rates} makes automated research asymptotically dominant. For
-$\sigma_{XL}>1$, production itself becomes an acceleration mechanism. Research
-automation reinforces that mechanism, but the wage path must be solved jointly with
-capital accumulation before concluding that the human research share disappears.
+The proposition can be sharpened into a conditional characterization of constant
+growth away from Cobb--Douglas production.
+
+\begin{proposition}[Constant-growth limits with a non-unit production elasticity]
+\label{prop:nonunit-ces-steady-states}
+Suppose $n>0$, $A_t\to\infty$, $\xi$ is constant, and the service-market solution
+remains interior. Consider a constant-growth path with constant $K/Y$, $H/N$, and
+$\xi M/Y$, and with positive human and automated research inputs.
+\begin{enumerate}[label=(\roman*)]
+    \item If $\sigma_{XL}<1$, any such path satisfies
+    \begin{equation}
+        g_X=g_L=g_Y=g_K=g_C=g_H=g_M=g_E=n,
+        \qquad
+        g_A=\frac{\eta n}{1-\phi},
+        \qquad
+        g_U=n-g_A.
+        \label{eq:low-sigma-constant-growth-rates}
+    \end{equation}
+    Output, capital, and consumption per capita are constant. The real wage, the
+    return to capital, $X/L$, and the research mix are also constant. The AI-services
+    contribution converges to \eqref{eq:low-sigma-ai-share}, while the resource cost
+    of inference, $\xi U/Y$, converges to zero.
+    \item If $\sigma_{XL}>1$, there is no such path with $g_A>0$ on which all
+    aggregate variables grow at finite constant rates.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+When $\sigma_{XL}<1$, Proposition~\ref{prop:production-ces-regimes} implies that
+$X/L$ is asymptotically constant, so $g_X=g_L=n$. Constant $K/Y$ and the
+constant-returns production function then require $g_Y=g_K=n$. The Euler equation
+and constant $C/Y$ give $g_C=n$. Since $X=AU$, $g_U=n-g_A$. Constant $H/N$ and
+$\xi M/Y$ imply $g_H=g_M=n$, hence $g_E=n$ for any constant-returns research CES.
+The ideas equation then gives $g_A=\eta n/(1-\phi)$. The second claim follows from
+\eqref{eq:high-sigma-ak-limit}: if $g_A>0$, $Y/K$ and the return to capital cannot
+remain constant.
+\end{proof}
+
+When $\sigma_{XL}<1$, the wage and $\xi$ are constant on the candidate path. The
+relative research-input condition therefore keeps $H/M$ and $s^M$ constant even
+when $\sigma_{HM}\neq1$. The research elasticity changes the level and composition
+of effective research, but not the asymptotic growth rates in
+\eqref{eq:low-sigma-constant-growth-rates}. This is a necessary characterization,
+not a general existence theorem for the optimizing monopoly. As the productive
+effect of additional capability vanishes, the private value of further research may
+also vanish; an interior path still requires the developer's first-order conditions,
+transversality, a feasible labor allocation, and $C/Y>0$.
+
+When $\sigma_{XL}=1$, the positive wage growth in
+\eqref{eq:other-bg-rates} makes automated research asymptotically dominant if
+$\sigma_{HM}>1$. When $\sigma_{XL}>1$, production itself becomes an acceleration
+mechanism. Research automation reinforces that mechanism, but the wage path must be
+solved jointly with capital accumulation before concluding that the human research
+share disappears.
 
 The stabilization result in Proposition~\ref{prop:human-essentiality-acceleration}
 is therefore conditional on Cobb--Douglas production. To make the distinction
