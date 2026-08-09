@@ -152,7 +152,7 @@ def monopoly_ai_ratio(
     log_capability: float,
     parameters: Parameters,
 ) -> float:
-    """Solve the monopolist's static first-order condition for log(X/L_Y)."""
+    """Solve the monopolist's static first-order condition for log(X/L)."""
 
     def residual(log_ratio: float) -> float:
         production = production_from_ratio(

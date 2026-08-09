@@ -63,7 +63,7 @@ divergence a dynamic result rather than a difference imposed at date zero.
         $n$ & 1.20\% & population growth \\
         $\delta$ & 5.00\% & capital depreciation \\
         $\rho$ & 4.00\% & discount rate \\
-        $\sigma_{XL}$ & varies & production CES: $L_Y$ versus $X$ \\
+        $\sigma_{XL}$ & varies & production CES: $L$ versus $X$ \\
         $(\phi,\eta)$ & $(0.65,0.45)$ & ideas-production elasticities \\
         $\sigma_{HM}$ & 2.00 & research CES: $H$ versus $M$ \\
         $(\omega_H,\omega_M)$ & $(0.65,0.35)$ & human and automated research weights \\
@@ -265,7 +265,7 @@ researchers. The production-labor share satisfies
 \eqref{eq:dynamic-production-labor-share}. It rises when the substitution term
 \[
     \left(1-\frac{1}{\sigma_{XL}}\right)
-    \left(g_X-g_{L_Y}\right)
+    \left(g_X-g_L\right)
 \]
 is negative and falls when it is positive. Thus, if AI services per production
 worker increase, the threshold is $\sigma_{XL}=1$: complementarity raises the share,
@@ -273,14 +273,14 @@ Cobb--Douglas production keeps it constant, and gross substitution lowers it. Th
 condition does not depend directly on capital accumulation.
 
 The aggregate labor-income share adds the reallocation term
-$\dot h/(1-h)=n-g_{L_Y}$, where $h=H/N$ is the human-research share of population.
+$\dot h/(1-h)=n-g_L$, where $h=H/N$ is the human-research share of population.
 An increase in $h$ raises the aggregate share relative to the production-labor
 share; a decrease in $h$ lowers it. The aggregate share therefore rises if
 \begin{equation}
     \frac{\dot h_t}{1-h_t}
     >
     \left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
-    \left(g_{X,t}-g_{L_Y,t}\right),
+    \left(g_{X,t}-g_{L,t}\right),
     \label{eq:numerical-aggregate-share-rise}
 \end{equation}
 and falls if the inequality is reversed. When the research-employment share is
@@ -295,7 +295,7 @@ both labor-income shares.
     researchers. The $\sigma_{XL}=2$ path ends at the acceleration cutoff.}
     \label{fig:numerical-labor-shares}
 \end{figure}
-\enlargethispage{\baselineskip}
+\enlargethispage{2\baselineskip}
 
 \begin{sloppypar}
 Figure~\ref{fig:numerical-labor-shares} shows that the distinction is quantitatively
@@ -321,9 +321,9 @@ The static threshold $\sigma_{XL}=1/\alpha$ is not, by itself, a prediction for 
 equilibrium wage path because capital, AI services, and production labor all move.
 Define capital and AI-services deepening relative to production labor as
 \begin{equation}
-    \Delta_{K,t}\equiv g_{K,t}-g_{L_Y,t},
+    \Delta_{K,t}\equiv g_{K,t}-g_{L,t},
     \qquad
-    \Delta_{X,t}\equiv g_{X,t}-g_{L_Y,t}.
+    \Delta_{X,t}\equiv g_{X,t}-g_{L,t}.
 \end{equation}
 Equation~\eqref{eq:dynamic-wage-decomposition} implies the exact condition
 \begin{equation}

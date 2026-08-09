@@ -25,10 +25,10 @@ The representative dynasty has preferences
     \label{eq:utility}
 \end{equation}
 where $C_t$ is aggregate consumption. Each household member supplies one unit of
-labor inelastically. Labor is allocated between final production, $L_{Y,t}$, and
+labor inelastically. Labor is allocated between final production, $L_t$, and
 human AI research, $H_t$:
 \begin{equation}
-    L_{Y,t}+H_t=N_t.
+    L_t+H_t=N_t.
     \label{eq:labor-clearing}
 \end{equation}
 The dynasty owns the capital stock and the frontier developer. Capital evolves as
@@ -65,7 +65,7 @@ labor and AI services:
     Z_t
     &=
     \left[
-        \omega_L L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+        \omega_L L_t^{(\sigma_{XL}-1)/\sigma_{XL}}
         +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}
     \right]^{\sigma_{XL}/(\sigma_{XL}-1)}.
     \label{eq:service-composite}
@@ -83,7 +83,7 @@ Define the contribution of AI services to the CES composite as
     s^X_t
     \equiv
     \frac{\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}
-    {\omega_L L_{Y,t}^{(\sigma_{XL}-1)/\sigma_{XL}}
+    {\omega_L L_t^{(\sigma_{XL}-1)/\sigma_{XL}}
         +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}.
     \label{eq:ai-composite-share}
 \end{equation}
@@ -93,7 +93,7 @@ Let $p^X_t$ denote the price of AI services. Profit maximization gives
     &=\alpha\frac{Y_t}{K_t},
     \label{eq:capital-demand}\\
     w_t
-    &=(1-\alpha)(1-s^X_t)\frac{Y_t}{L_{Y,t}},
+    &=(1-\alpha)(1-s^X_t)\frac{Y_t}{L_t},
     \label{eq:labor-demand}\\
     p^X_t
     &=(1-\alpha)s^X_t\frac{Y_t}{X_t},
@@ -101,7 +101,7 @@ Let $p^X_t$ denote the price of AI services. Profit maximization gives
 \end{align}
 and relative demand satisfies
 \begin{equation}
-    \frac{X_t}{L_{Y,t}}
+    \frac{X_t}{L_t}
     =
     \left[
         \frac{\omega_X}{\omega_L}
@@ -152,7 +152,7 @@ sector and solves
 \begin{equation}
     \max_{X_t\geq0}
     \left\{
-        p^X_t(X_t;K_t,L_{Y,t})X_t
+        p^X_t(X_t;K_t,L_t)X_t
         -\xi\frac{X_t}{A_t}
     \right\}.
     \label{eq:monopoly-service-problem}
@@ -198,7 +198,7 @@ $\xi$. The exponent $\phi$ captures how the existing stock of knowledge affects 
 productivity of both research inputs.
 
 The two CES elasticities operate in different nests. The production elasticity
-$\sigma_{XL}$ governs substitution between $L_{Y,t}$ and $X_t$. The research elasticity
+$\sigma_{XL}$ governs substitution between $L_t$ and $X_t$. The research elasticity
 $\sigma_{HM}$ governs substitution between $H_t$ and $M_t$. The variable $E_t$ is the
 output of the research CES in \eqref{eq:effective-research}; it is not a separate
 input combined with $H_t$.
@@ -235,7 +235,7 @@ knowledge and appropriability wedge.
 
 A decentralized equilibrium is a sequence
 \[
-    \{C_t,c_t,I_t,K_t,N_t,L_{Y,t},H_t,X_t,U_t,M_t,A_t\}_{t\geq0}
+    \{C_t,c_t,I_t,K_t,N_t,L_t,H_t,X_t,U_t,M_t,A_t\}_{t\geq0}
 \]
 and prices
 \[
@@ -268,7 +268,7 @@ additional exogenous cap.
 
 Let
 \begin{equation}
-    \ell^Y_t\equiv\frac{w_tL_{Y,t}}{Y_t}
+    \ell^Y_t\equiv\frac{w_tL_t}{Y_t}
     =(1-\alpha)(1-s^X_t)
     \label{eq:production-labor-share}
 \end{equation}
@@ -278,7 +278,7 @@ share and output per production worker.
 
 \begin{proposition}[The wage and production-labor-share thresholds]
 \label{prop:wage-share-thresholds}
-Holding $K_t$ and $L_{Y,t}$ fixed, an expansion of AI services satisfies
+Holding $K_t$ and $L_t$ fixed, an expansion of AI services satisfies
 \begin{align}
     \frac{\partial\log Y_t}{\partial\log X_t}
     &=(1-\alpha)s^X_t>0,
@@ -321,7 +321,7 @@ aggregate labor-income share and the human-research employment share as
     \equiv
     \frac{w_tN_t}{Y_t}
     =
-    \frac{N_t}{L_{Y,t}}\ell^Y_t
+    \frac{N_t}{L_t}\ell^Y_t
     =
     \frac{\ell^Y_t}{1-h_t},
     \qquad
@@ -338,23 +338,23 @@ Along an equilibrium transition, the two labor-income shares obey
     g_{\ell^Y,t}
     &=
     -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
-    \left(g_{X,t}-g_{L_Y,t}\right),
+    \left(g_{X,t}-g_{L,t}\right),
     \label{eq:dynamic-production-labor-share}\\
     g_{\ell^N,t}
     &=
     -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
-    \left(g_{X,t}-g_{L_Y,t}\right)
+    \left(g_{X,t}-g_{L,t}\right)
     +
     \frac{\dot h_t}{1-h_t}
     \notag\\
     &=
-    g_{\ell^Y,t}+n-g_{L_Y,t}.
+    g_{\ell^Y,t}+n-g_{L,t}.
     \label{eq:dynamic-aggregate-labor-share}
 \end{align}
 The production-labor share rises if
 \begin{equation}
     \left(1-\frac{1}{\sigma_{XL}}\right)
-    \left(g_{X,t}-g_{L_Y,t}\right)<0
+    \left(g_{X,t}-g_{L,t}\right)<0
     \label{eq:production-labor-share-rise-condition}
 \end{equation}
 and falls if the inequality is reversed. The aggregate labor-income share rises if
@@ -362,7 +362,7 @@ and falls if the inequality is reversed. The aggregate labor-income share rises 
     \frac{\dot h_t}{1-h_t}
     >
     \left(1-\frac{1}{\sigma_{XL}}\right)s^X_t
-    \left(g_{X,t}-g_{L_Y,t}\right),
+    \left(g_{X,t}-g_{L,t}\right),
     \label{eq:aggregate-labor-share-rise-condition}
 \end{equation}
 and falls if the inequality is reversed.
@@ -371,7 +371,7 @@ and falls if the inequality is reversed.
 \begin{proof}
 Log-differentiating \eqref{eq:production-labor-share} and using the CES share
 equation gives \eqref{eq:dynamic-production-labor-share}. Since
-$L_{Y,t}=(1-h_t)N_t$, $g_{L_Y,t}=n-\dot h_t/(1-h_t)$.
+$L_t=(1-h_t)N_t$, $g_{L,t}=n-\dot h_t/(1-h_t)$.
 Log-differentiating \eqref{eq:aggregate-labor-share} then gives
 \eqref{eq:dynamic-aggregate-labor-share}.
 \end{proof}
@@ -411,13 +411,13 @@ identity
 \begin{equation}
     g_{w,t}
     =
-    \alpha\left(g_{K,t}-g_{L_Y,t}\right)
+    \alpha\left(g_{K,t}-g_{L,t}\right)
     +
     s^X_t\left(\frac{1}{\sigma_{XL}}-\alpha\right)
-    \left(g_{X,t}-g_{L_Y,t}\right).
+    \left(g_{X,t}-g_{L,t}\right).
     \label{eq:dynamic-wage-decomposition}
 \end{equation}
-When the research-employment share is constant, $g_{L_Y,t}=n$. Capital deepening can
+When the research-employment share is constant, $g_{L,t}=n$. Capital deepening can
 therefore raise wages even when the direct expansion of AI services lowers them.
 Conversely, $\sigma_{XL}<1/\alpha$ is not sufficient for wage growth along an equilibrium
 transition if capital per production worker contracts. The monopoly problem below
@@ -426,7 +426,7 @@ determine $K_t$; the equilibrium wage response depends on both paths.
 
 \subsubsection{Monopoly supply of AI services}
 
-Holding $K_t$ and $L_{Y,t}$ fixed, the absolute elasticity of inverse demand faced by
+Holding $K_t$ and $L_t$ fixed, the absolute elasticity of inverse demand faced by
 the monopolist is
 \begin{equation}
     \varepsilon^X_t
@@ -454,7 +454,7 @@ The markup and operating rent are
     \varepsilon^X_t p^X_tX_t.
     \label{eq:monopoly-rents}
 \end{align}
-Conditional on $A_t$, $K_t$, and $L_{Y,t}$, the monopolist supplies less AI than an
+Conditional on $A_t$, $K_t$, and $L_t$, the monopolist supplies less AI than an
 allocation that prices services at marginal cost. The household receives the rents,
 so the toy model retains the output distortion and the innovation incentive from
 market power while abstracting from concentrated ownership.
@@ -713,7 +713,7 @@ If a constant share $s_H\in(0,1)$ of the population works in research,
 \begin{equation}
     H_t=s_HN_t,
     \qquad
-    L_{Y,t}=(1-s_H)N_t,
+    L_t=(1-s_H)N_t,
     \label{eq:research-share}
 \end{equation}
 the ideas equation implies
@@ -778,7 +778,7 @@ Define
 \end{equation}
 Production becomes
 \begin{equation}
-    Y_t=K_t^\alpha L_{Y,t}^{1-\alpha-\beta}X_t^\beta.
+    Y_t=K_t^\alpha L_t^{1-\alpha-\beta}X_t^\beta.
     \label{eq:cd-production}
 \end{equation}
 The monopolist chooses
@@ -799,7 +799,7 @@ Substitution into production gives
     \left(\frac{\beta^2}{\xi}\right)^{\beta/(1-\beta)}
     A_t^{\beta/(1-\beta)}
     K_t^{\alpha/(1-\beta)}
-    L_{Y,t}^{(1-\alpha-\beta)/(1-\beta)}.
+    L_t^{(1-\alpha-\beta)/(1-\beta)}.
     \label{eq:reduced-production}
 \end{equation}
 
@@ -1140,7 +1140,7 @@ Suppose $A_t\to\infty$ and the service-market solution remains interior.
         \frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}.
         \label{eq:low-sigma-ai-share}
     \end{equation}
-    The ratio $X_t/L_{Y,t}$ remains bounded and the productive effect of further
+    The ratio $X_t/L_t$ remains bounded and the productive effect of further
     reductions in $\xi/A_t$ vanishes.
     \item If $\sigma_{XL}=1$, factor shares are constant and the AI-dominated
     balanced-growth path is characterized by
