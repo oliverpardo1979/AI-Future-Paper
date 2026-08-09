@@ -1266,22 +1266,68 @@ Suppose $A_t\to\infty$ and the service-market solution remains interior.
         \qquad D_{XL}>0.
         \label{eq:high-sigma-ak-limit}
     \end{equation}
-    A conventional balanced-growth path with $g_A>0$ cannot have a constant
-    capital--output ratio. The return to capital and the aggregate growth rate rise
-    with capability.
+    The output--capital ratio and the return to capital therefore diverge with
+    capability.
 \end{enumerate}
 \end{proposition}
 
-The proposition can be sharpened into a conditional characterization of constant
-growth away from Cobb--Douglas production.
+The previous result rules out more than a path with a constant capital--output ratio.
+It rules out an interior steady state under the paper's definition: a path on which
+all aggregate variables eventually grow at finite constant rates.
+
+\begin{proposition}[Gross production substitution and nonexistence of an interior steady state]
+\label{prop:gross-substitution-no-steady-state}
+Suppose $\sigma_{XL}>1$, $A_t\to\infty$, the service-market solution remains
+interior, and consumption is positive so that the household Euler equation holds.
+Then $g_{C,t}$ cannot converge to a finite constant. Consequently, there is no
+interior steady state on which all aggregate variables grow at finite constant
+rates. In particular, there is no such steady state with a positive constant
+$g_A$.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:production-ces-regimes} and
+\eqref{eq:high-sigma-ak-limit} imply
+\begin{equation}
+    r_t
+    =\alpha\frac{Y_t}{K_t}
+    \sim
+    \alpha D_{XL}A_t^{(1-\alpha)/\alpha}
+    \longrightarrow\infty.
+    \label{eq:high-sigma-return-divergence}
+\end{equation}
+Because $c_t=C_t/N_t$ and $g_N=n$, the Euler equation
+\eqref{eq:euler} gives
+\begin{equation}
+    g_{C,t}
+    =n+r_t-\delta-\rho
+    \longrightarrow\infty.
+    \label{eq:high-sigma-consumption-growth-divergence}
+\end{equation}
+This contradicts the requirement that aggregate consumption grow at a finite
+constant rate. If $g_A$ is a positive constant, then $A_t\to\infty$, so the final
+claim follows immediately.
+\end{proof}
+
+The assumption $A_t\to\infty$ is essential. The inequality $\sigma_{XL}>1$ by
+itself does not exclude a boundary path on which research shuts down and capability
+remains bounded. Conditional on a finite constant capability stock, the production
+side becomes a standard constant-returns economy and does not mechanically rule out
+a stationary per-capita allocation. This observation is a logical counterexample to
+the unconditional statement, not a claim that the no-research boundary is optimal in
+the baseline monopoly. Whether that boundary is an equilibrium depends on the
+developer's research first-order conditions and the private value of capability.
+
+The nonexistence result can be paired with a conditional characterization of
+constant growth on the other side of the Cobb--Douglas threshold.
 
 \begin{proposition}[Constant-growth limits with a non-unit production elasticity]
 \label{prop:nonunit-ces-steady-states}
 Suppose $n>0$, $A_t\to\infty$, $\xi$ is constant, and the service-market solution
-remains interior. Consider a constant-growth path with constant $K/Y$, $H/N$, and
-$\xi M/Y$, and with positive human and automated research inputs.
+remains interior.
 \begin{enumerate}[label=(\roman*)]
-    \item If $\sigma_{XL}<1$, any such path satisfies
+    \item If $\sigma_{XL}<1$, any constant-growth path with constant $K/Y$, $H/N$,
+    and $\xi M/Y$, and with positive human and automated research inputs, satisfies
     \begin{equation}
         g_X=g_L=g_Y=g_K=g_C=g_H=g_M=g_E=n,
         \qquad
@@ -1294,8 +1340,9 @@ $\xi M/Y$, and with positive human and automated research inputs.
     return to capital, $X/L$, and the research mix are also constant. The AI-services
     contribution converges to \eqref{eq:low-sigma-ai-share}, while the resource cost
     of inference, $\xi U/Y$, converges to zero.
-    \item If $\sigma_{XL}>1$, there is no such path with $g_A>0$ on which all
-    aggregate variables grow at finite constant rates.
+    \item If $\sigma_{XL}>1$ and consumption is positive, there is no interior
+    steady state with unbounded capability on which all aggregate variables grow at
+    finite constant rates.
 \end{enumerate}
 \end{proposition}
 
@@ -1305,9 +1352,8 @@ $X/L$ is asymptotically constant, so $g_X=g_L=n$. Constant $K/Y$ and the
 constant-returns production function then require $g_Y=g_K=n$. The Euler equation
 and constant $C/Y$ give $g_C=n$. Since $X=AU$, $g_U=n-g_A$. Constant $H/N$ and
 $\xi M/Y$ imply $g_H=g_M=n$, hence $g_E=n$ for any constant-returns research CES.
-The ideas equation then gives $g_A=\eta n/(1-\phi)$. The second claim follows from
-\eqref{eq:high-sigma-ak-limit}: if $g_A>0$, $Y/K$ and the return to capital cannot
-remain constant.
+The ideas equation then gives $g_A=\eta n/(1-\phi)$. The second claim is
+Proposition~\ref{prop:gross-substitution-no-steady-state}.
 \end{proof}
 
 When $\sigma_{XL}<1$, the wage and $\xi$ are constant on the candidate path. The
