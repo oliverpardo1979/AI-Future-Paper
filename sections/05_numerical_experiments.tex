@@ -76,6 +76,13 @@ divergence a dynamic result rather than a difference imposed at date zero.
     \end{tabular}
 \end{table}
 
+The core experiments hold $\alpha$, $n$, $\delta_K$, and $\rho$ fixed at the values
+in Table~\ref{tab:numerical-calibration}. We do not report a generic sensitivity
+analysis for these four parameters. The deliberate exception is the wage-decline
+exercise below, which raises population growth to construct the labor-supply and
+capital-dilution forces in equation~\eqref{eq:numerical-wage-decline-condition}.
+That change is a mechanism experiment, not an alternative demographic calibration.
+
 The initial stocks are $A_0=N_0=1$ and $K_0=2.509$. The common compute cost is
 normalized to $\xi=1$. All reported terminal growth rates are averages over the
 last ten simulated years. The static monopoly and research-mix residuals are below
@@ -88,6 +95,11 @@ $\sigma$ between production labor and AI services, apart from the normalization
 of $\chi$ described above. Each output and wage series is expressed as the
 base-10 logarithm of its own date-zero index. The figure confirms that $\sigma=1$
 is not a neutral approximation to a general CES transition.
+The values $\sigma=0.75$ and $\sigma=1$ represent complementarity and the
+Cobb--Douglas benchmark. The value $\sigma=2$ is close to, but above, the
+software--labor elasticity of 1.6 estimated by \citet{aumshin2024}; $\sigma=4$ is a
+strong-substitution mechanism experiment. The software estimate does not identify
+the elasticity between AI services and labor in this model.
 
 \begin{figure}[H]
     \centering
@@ -279,6 +291,10 @@ initial automated-research share at 10.9 percent and initial capability growth a
 2.27 percent. The CES weight $\nu$ and the scale parameter $\chi$ are renormalized
 for this comparison. The exercise therefore isolates the curvature of substitution
 rather than confounding it with a different initial input mix.
+We are not aware of an estimate that maps directly into $\theta$. Existing work
+measures task exposure and complementary bottlenecks rather than substitution
+between human and automated inputs inside AI research
+\citep{jones2025rd,trammellkorinek2023}.
 
 \begin{figure}[H]
     \centering

@@ -19,6 +19,63 @@ current AI revenues. We instead begin after productive AI services already exist
 while frontier research remains primarily dependent on human researchers. The object
 of the paper is the subsequent automation of AI research.
 
+\subsection{Empirical motivation}
+
+The distinction between capability, inference compute, and research compute is not
+only a modeling convenience. The physical scale of the AI industry has increased
+rapidly. The compute used to train notable models grew by a factor of approximately
+4.1 per year between 2010 and May 2024; for recent frontier models, the estimated
+factor was approximately 4.2 per year \citep{sevillaroldan2024}. A separate estimate
+reported by the Stanford AI Index indicates that global AI compute capacity grew by
+a factor of 3.3 per year between 2022 and 2025 and reached 17.1 million
+H100-equivalent units in 2025 \citep{stanfordaiindex2026}. Training compute is
+closer to the model's research input $M_t$, whereas installed compute capacity
+supplies both research and inference. Neither measure reveals what fraction of
+research tasks has been automated.
+
+The cost of obtaining quality-adjusted AI services has also changed. The lowest
+observed price for querying a model that reached the GPT-3.5 performance level on
+MMLU fell from \$20 per million tokens in November 2022 to \$0.07 in October 2024.
+Over a similar period, the AI Index reports annual declines of 30 percent in hardware
+costs and annual improvements of 40 percent in energy efficiency
+\citep{stanfordaiindex2025}. These changes motivate the separation between raw
+inference compute $U_t$ and quality-adjusted services $X_t=A_tU_t$. They do not,
+however, identify $A_t$ separately. A lower quality-adjusted price can reflect better
+algorithms, better hardware, greater utilization, or a lower markup.
+
+Compute remains a real resource rather than a freely reproducible unit of
+intelligence. Global electricity consumption by data centers reached 485 TWh in
+2025, 17 percent more than in 2024, while electricity consumption by AI-focused data
+centers increased by 50 percent. The International Energy Agency projects total data
+center consumption of approximately 950 TWh in 2030 and a tripling of consumption by
+AI-focused facilities between 2025 and 2030 \citep{iea2026}. These observations
+motivate the common resource cost $\xi$ and the compute and electricity constraints
+reserved for the extended model. The baseline normalization of $\xi$ is therefore an
+abstraction, not a claim that the marginal cost of compute will remain constant.
+
+Commercial scale has increased at the same time. NVIDIA's data-center revenue rose
+from \$47.5 billion in fiscal year 2024 to \$115.2 billion in fiscal year 2025 and
+\$193.7 billion in fiscal year 2026 \citep{nvidia2026}. This is audited revenue from
+compute hardware and networking, not total revenue from AI services. For frontier
+model developers, the Stanford AI Index reports directional annualized-revenue
+estimates of \$25 billion for OpenAI and \$19 billion for Anthropic around the
+beginning of 2026, while emphasizing differences in source quality and accounting
+definitions \citep{stanfordaiindex2026}. The same report finds that industry produced
+more than 90 percent of notable models in 2025. These facts motivate a model in which
+private demand, compute expenditure, and operating rents finance frontier research.
+They do not establish that the industry is a monopoly or identify the markup earned
+by an integrated developer.
+
+Taken together, the evidence shows rapid growth in the resources devoted to AI, in
+the services obtained from those resources, and in the revenues generated along the
+AI value chain. It does not yet provide a time series for the automated share of AI
+research or a direct estimate of the substitution elasticity between human and
+automated research. We therefore use these facts to motivate the state variables and
+market structure. We do not use them at this stage to calibrate the transition or the
+probability of a singularity.
+
+\subsection{Economic mechanism and contribution}
+
 This possibility raises an economic question before it raises a forecasting question.
 Suppose frontier improvements combine human researchers and automated-research
 services. Firms then choose both the scale and the composition of research. When the
