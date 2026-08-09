@@ -77,6 +77,18 @@ equation then makes consumption growth diverge, so no interior steady state with
 finite constant growth rates exists. The qualification is important:
 $\sigma_{XL}>1$ alone does not exclude a boundary path with bounded capability.
 
+The discontinuity at unit elasticity is an infinite-horizon classification, not a
+jump in finite allocations. At every finite relative price, the CES contribution
+share is continuous in $\sigma_{XL}$. But the limits $w/p^X\to\infty$ and
+$\sigma_{XL}\downarrow1$ do not commute: the share remains $\omega_X$ at exactly
+one and converges to one for every fixed elasticity above one. Under the paper's
+high-capability regularity condition, unbounded capability induces this relative-price
+limit. The relative-price threshold for the
+transition diverges as $\sigma_{XL}$ approaches one. This makes the result a singular
+perturbation and explains why an economy with $\sigma_{XL}$ only slightly above one
+can look Cobb--Douglas for a very long time without possessing a finite-growth
+steady state asymptotically.
+
 The numerical experiments show why transitional dynamics cannot be inferred from
 these asymptotic results alone. In the stable Cobb--Douglas benchmark, research
 automation is sufficiently gradual that the economy remains below its
@@ -85,7 +97,13 @@ different early growth rates but converge to the same path. With $\sigma_{XL}=2$
 however, output- and consumption-per-capita growth initially fall and then turn
 upward. The path reaches the numerical cutoff in year 196, when their growth rates
 are approximately 71 percent per year. The reacceleration therefore does not require
-the earlier $\sigma_{XL}=4$ extreme. The wage experiments
+the earlier $\sigma_{XL}=4$ extreme. The near-unit experiments show the other side
+of the same result. The $\sigma_{XL}=1.01$ path remains close to Cobb--Douglas after
+one thousand simulated years, while $\sigma_{XL}=1.05$ shows visible but still
+moderate reacceleration and $\sigma_{XL}=1.10$ reaches the cutoff in year 744. The
+simulations therefore reject both an immediate-takeoff reading of
+$\sigma_{XL}>1$ and an inference of eventual balanced growth from a long,
+apparently stable transition. The wage experiments
 also reject an unconditional wage-growth result. Wage growth equals a
 capital-deepening term plus an AI-services-deepening term whose sign turns negative
 when $\sigma_{XL}>1/\alpha$. Under high population growth and a very high production

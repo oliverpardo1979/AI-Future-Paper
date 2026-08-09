@@ -202,6 +202,68 @@ large values should not be read as calibrated forecasts. They show why a path th
 looks temporarily stable can leave that neighborhood once substitution reallocates
 production and research toward machine inputs.
 
+\subsubsection{The neighborhood of unit elasticity}
+
+Proposition~\ref{prop:production-unit-elasticity-knife-edge} shows that the
+asymptotic classification is discontinuous at $\sigma_{XL}=1$ even though every
+finite allocation is continuous in the elasticity. Figure~\ref{fig:production-knife-edge}
+first illustrates the exact CES mapping, independently of the dynamic closure.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/production_knife_edge.png}
+    \caption{The unit-elasticity singular perturbation. The left panel uses the
+    exact share equation \eqref{eq:production-share-odds}. The right panel reports
+    the base-10 logarithm of the relative-price threshold in
+    \eqref{eq:production-share-threshold}. The CES weights are the benchmark values
+    $\omega_X=0.2$ and $\omega_L=0.8$.}
+    \label{fig:production-knife-edge}
+\end{figure}
+
+At $\sigma_{XL}=1$, the AI contribution remains at 20 percent for every relative
+price. For any fixed elasticity above one it eventually approaches one, but the
+relative-price scale required for this transition diverges as the elasticity
+approaches one. An AI contribution of 50 percent requires $w/p^X$ of approximately
+$10^{60.81}$, $10^{12.64}$, and $10^{6.62}$ when $\sigma_{XL}$ equals 1.01, 1.05,
+and 1.10, respectively. These are thresholds in a relative price, not predictions
+about calendar time. Their role is to expose the nonuniformity of the asymptotic
+limit.
+
+Figure~\ref{fig:numerical-near-unit-production} feeds the same elasticities into the
+dynamic numerical closure. Each case has the benchmark parameters, initial stocks,
+spending shares, and initial capability growth. The horizon is one thousand years;
+the $\sigma_{XL}=1.10$ path ends earlier when capital growth crosses the numerical
+cutoff.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/numerical_near_unit_production.png}
+    \caption{Dynamic paths near unit production elasticity. The panels report the
+    AI contribution to the production CES, capability growth, output-per-capita
+    growth, and the net return to capital. The $\sigma_{XL}=1.10$ path ends in year
+    744 at the numerical acceleration cutoff; the other paths are shown through
+    year 1,000.}
+    \label{fig:numerical-near-unit-production}
+\end{figure}
+
+The $\sigma_{XL}=1.01$ economy remains close to the Cobb--Douglas path even at year
+1,000: its AI contribution is 22.77 percent, capability growth is 1.95 percent,
+output-per-capita growth is 0.58 percent, and the net return is 4.58 percent. The
+$\sigma_{XL}=1.05$ path has not reached the cutoff by that date, but reacceleration
+is already visible: the corresponding values are 46.23 percent, 4.72 percent, 4.04
+percent, and 8.98 percent. With $\sigma_{XL}=1.10$, the transition is substantially
+faster. The path reaches the cutoff in year 744, when the AI contribution is 80.99
+percent, capability growth is 47.12 percent, output-per-capita growth is 86.08
+percent, and the net return is 118.04 percent.
+
+The exercise reconciles the two theoretical results. There is no interior
+finite-growth steady state with unbounded capability for any fixed
+$\sigma_{XL}>1$, but the time and relative-price scale at which that asymptotic
+force becomes quantitatively important can diverge as $\sigma_{XL}\downarrow1$.
+Near-unit elasticities can therefore generate a long quasi-Cobb--Douglas transition
+without restoring balanced growth in the infinite-horizon limit. The numerical
+paths are mechanism experiments, not forecasts over a literal millennium.
+
 \subsection{The return to capital and the numerical closure}
 
 Competitive final-good firms equate the gross rental rate of capital to its marginal

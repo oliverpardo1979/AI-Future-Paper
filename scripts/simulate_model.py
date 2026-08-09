@@ -1014,6 +1014,280 @@ def draw_marker(
         )
 
 
+def production_knife_edge_data(
+    omega_x: float,
+) -> tuple[list[dict[str, float | str]], list[dict[str, float | str]]]:
+    """Analytical CES shares and relative-price thresholds near sigma_XL=1."""
+
+    omega_l = 1.0 - omega_x
+    share_rows: list[dict[str, float | str]] = []
+    for sigma_xl in (1.0, 1.01, 1.05, 1.10):
+        for log10_relative_price in np.linspace(0.0, 65.0, 261):
+            log_odds = (
+                sigma_xl * math.log(omega_x / omega_l)
+                + (sigma_xl - 1.0)
+                * math.log(10.0)
+                * float(log10_relative_price)
+            )
+            share_rows.append(
+                {
+                    "scenario": f"sigma_{sigma_xl:.2f}",
+                    "sigma_xl": sigma_xl,
+                    "log10_relative_price": float(log10_relative_price),
+                    "ai_share": logistic(log_odds),
+                }
+            )
+
+    threshold_rows: list[dict[str, float | str]] = []
+    for target_share in (0.50, 0.90):
+        target_odds = target_share / (1.0 - target_share)
+        for sigma_xl in (1.01, 1.02, 1.05, 1.10, 1.25, 1.50, 2.00):
+            log10_threshold = (
+                math.log10(target_odds)
+                - sigma_xl * math.log10(omega_x / omega_l)
+            ) / (sigma_xl - 1.0)
+            threshold_rows.append(
+                {
+                    "target_share": target_share,
+                    "sigma_xl": sigma_xl,
+                    "log10_relative_price_threshold": log10_threshold,
+                }
+            )
+    return share_rows, threshold_rows
+
+
+def draw_production_knife_edge_figure(
+    output_path: Path,
+    share_rows: list[dict[str, float | str]],
+    threshold_rows: list[dict[str, float | str]],
+) -> None:
+    width, height = 2400, 1050
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    title_font = load_font(48, bold=True)
+    subtitle_font = load_font(28)
+    panel_title_font = load_font(30, bold=True)
+    axis_font = load_font(23)
+    legend_font = load_font(24)
+
+    draw.text(
+        (120, 55),
+        "Near-unit production substitution",
+        fill=COLORS["ink"],
+        font=title_font,
+    )
+    draw.text(
+        (120, 120),
+        "CES contribution shares and the relative-price scale required for AI dominance",
+        fill=COLORS["muted"],
+        font=subtitle_font,
+    )
+
+    left_box = (120, 230, 1140, 950)
+    right_box = (1270, 230, 2300, 950)
+    palette = {
+        "sigma_1.00": COLORS["blue"],
+        "sigma_1.01": COLORS["gold"],
+        "sigma_1.05": COLORS["orange"],
+        "sigma_1.10": COLORS["olive"],
+    }
+    markers = {
+        "sigma_1.00": "circle",
+        "sigma_1.01": "square",
+        "sigma_1.05": "triangle",
+        "sigma_1.10": "diamond",
+    }
+
+    left, top, right, bottom = left_box
+    plot_left, plot_top = left + 115, top + 70
+    plot_right, plot_bottom = right - 30, bottom - 95
+    draw.text(
+        (left, top),
+        "AI contribution to the production CES",
+        fill=COLORS["ink"],
+        font=panel_title_font,
+    )
+    for tick in (0, 20, 40, 60, 80, 100):
+        y_pixel = plot_bottom - tick / 100.0 * (plot_bottom - plot_top)
+        draw.line(
+            (plot_left, y_pixel, plot_right, y_pixel),
+            fill=COLORS["grid"],
+            width=2,
+        )
+        draw.text(
+            (plot_left - 70, y_pixel - 12),
+            f"{tick}%",
+            fill=COLORS["muted"],
+            font=axis_font,
+        )
+    for tick in (0, 15, 30, 45, 60):
+        x_pixel = plot_left + tick / 65.0 * (plot_right - plot_left)
+        draw.line(
+            (x_pixel, plot_bottom, x_pixel, plot_bottom + 8),
+            fill=COLORS["ink"],
+            width=2,
+        )
+        draw.text(
+            (x_pixel - 12, plot_bottom + 14),
+            str(tick),
+            fill=COLORS["muted"],
+            font=axis_font,
+        )
+    draw.line((plot_left, plot_top, plot_left, plot_bottom), fill=COLORS["ink"], width=3)
+    draw.line((plot_left, plot_bottom, plot_right, plot_bottom), fill=COLORS["ink"], width=3)
+    draw.text(
+        (plot_left + 230, plot_bottom + 55),
+        "log10(w / pX)",
+        fill=COLORS["muted"],
+        font=axis_font,
+    )
+    for key in palette:
+        rows = [row for row in share_rows if row["scenario"] == key]
+        points = [
+            (
+                plot_left
+                + float(row["log10_relative_price"]) / 65.0
+                * (plot_right - plot_left),
+                plot_bottom
+                - float(row["ai_share"]) * (plot_bottom - plot_top),
+            )
+            for row in rows
+        ]
+        draw.line(points, fill=palette[key], width=6, joint="curve")
+        for x_pixel, y_pixel in points[::52]:
+            draw_marker(draw, x_pixel, y_pixel, palette[key], markers[key], radius=7)
+
+    legend_x = plot_left + 10
+    legend_y = plot_top + 10
+    for key, label in [
+        ("sigma_1.00", "sigma_XL = 1"),
+        ("sigma_1.01", "sigma_XL = 1.01"),
+        ("sigma_1.05", "sigma_XL = 1.05"),
+        ("sigma_1.10", "sigma_XL = 1.10"),
+    ]:
+        draw.line(
+            (legend_x, legend_y + 12, legend_x + 45, legend_y + 12),
+            fill=palette[key],
+            width=6,
+        )
+        draw_marker(
+            draw,
+            legend_x + 22,
+            legend_y + 12,
+            palette[key],
+            markers[key],
+            radius=7,
+        )
+        draw.text(
+            (legend_x + 58, legend_y),
+            label,
+            fill=COLORS["ink"],
+            font=legend_font,
+        )
+        legend_y += 42
+
+    left, top, right, bottom = right_box
+    plot_left, plot_top = left + 120, top + 70
+    plot_right, plot_bottom = right - 30, bottom - 95
+    draw.text(
+        (left, top),
+        "Relative-price threshold for a target AI share",
+        fill=COLORS["ink"],
+        font=panel_title_font,
+    )
+    for tick in (0, 40, 80, 120, 160):
+        y_pixel = plot_bottom - tick / 160.0 * (plot_bottom - plot_top)
+        draw.line(
+            (plot_left, y_pixel, plot_right, y_pixel),
+            fill=COLORS["grid"],
+            width=2,
+        )
+        draw.text(
+            (plot_left - 65, y_pixel - 12),
+            str(tick),
+            fill=COLORS["muted"],
+            font=axis_font,
+        )
+    for tick in (1.0, 1.25, 1.5, 1.75, 2.0):
+        x_pixel = plot_left + (tick - 1.0) * (plot_right - plot_left)
+        draw.line(
+            (x_pixel, plot_bottom, x_pixel, plot_bottom + 8),
+            fill=COLORS["ink"],
+            width=2,
+        )
+        label = f"{tick:g}"
+        draw.text(
+            (x_pixel - 18, plot_bottom + 14),
+            label,
+            fill=COLORS["muted"],
+            font=axis_font,
+        )
+    draw.line((plot_left, plot_top, plot_left, plot_bottom), fill=COLORS["ink"], width=3)
+    draw.line((plot_left, plot_bottom, plot_right, plot_bottom), fill=COLORS["ink"], width=3)
+    draw.text(
+        (plot_left + 300, plot_bottom + 55),
+        "sigma_XL",
+        fill=COLORS["muted"],
+        font=axis_font,
+    )
+    draw.text(
+        (plot_left - 105, plot_top - 42),
+        "log10 threshold for w / pX",
+        fill=COLORS["muted"],
+        font=axis_font,
+    )
+    target_palette = {0.50: COLORS["blue"], 0.90: COLORS["orange"]}
+    target_markers = {0.50: "circle", 0.90: "triangle"}
+    for target in (0.50, 0.90):
+        rows = [row for row in threshold_rows if row["target_share"] == target]
+        points = [
+            (
+                plot_left
+                + (float(row["sigma_xl"]) - 1.0)
+                * (plot_right - plot_left),
+                plot_bottom
+                - min(float(row["log10_relative_price_threshold"]), 160.0)
+                / 160.0
+                * (plot_bottom - plot_top),
+            )
+            for row in rows
+        ]
+        draw.line(points, fill=target_palette[target], width=6, joint="curve")
+        for x_pixel, y_pixel in points:
+            draw_marker(
+                draw,
+                x_pixel,
+                y_pixel,
+                target_palette[target],
+                target_markers[target],
+                radius=8,
+            )
+    legend_x, legend_y = plot_left + 350, plot_top + 15
+    for target, label in [(0.50, "50% AI share"), (0.90, "90% AI share")]:
+        draw.line(
+            (legend_x, legend_y + 12, legend_x + 45, legend_y + 12),
+            fill=target_palette[target],
+            width=6,
+        )
+        draw_marker(
+            draw,
+            legend_x + 22,
+            legend_y + 12,
+            target_palette[target],
+            target_markers[target],
+            radius=7,
+        )
+        draw.text(
+            (legend_x + 58, legend_y),
+            label,
+            fill=COLORS["ink"],
+            font=legend_font,
+        )
+        legend_y += 42
+
+    image.save(output_path, dpi=(220, 220))
+
+
 def draw_wage_frontier_figure(
     output_path: Path,
     grid_rows: list[dict[str, float | str]],
@@ -1476,6 +1750,72 @@ def main() -> None:
         )
     feedback_rows = simulate(
         "high_feedback", high_feedback, initial_state, horizon=600.0, step=2.0
+    )
+
+    near_unit_parameters: dict[str, Parameters] = {}
+    near_unit_rows: dict[str, list[dict[str, float | str]]] = {}
+    for key, sigma_xl in [
+        ("near_unit_100", 1.00),
+        ("near_unit_101", 1.01),
+        ("near_unit_105", 1.05),
+        ("near_unit_110", 1.10),
+    ]:
+        candidate = replace(baseline, sigma_xl=sigma_xl)
+        candidate = calibrate_research_productivity(
+            candidate, initial_state, analytical["capability_growth"]
+        )
+        near_unit_parameters[key] = candidate
+        near_unit_rows[key] = simulate(
+            key,
+            candidate,
+            initial_state,
+            horizon=1000.0,
+            step=2.0,
+        )
+
+    knife_edge_share_rows, knife_edge_threshold_rows = (
+        production_knife_edge_data(baseline.omega_x)
+    )
+    write_rows(
+        RESULT_DIR / "production_knife_edge_shares.csv",
+        knife_edge_share_rows,
+    )
+    write_rows(
+        RESULT_DIR / "production_knife_edge_thresholds.csv",
+        knife_edge_threshold_rows,
+    )
+    write_rows(
+        RESULT_DIR / "near_unit_production_paths.csv",
+        [row for rows in near_unit_rows.values() for row in rows],
+    )
+    near_unit_summary: list[dict[str, float | str]] = []
+    for key, rows in near_unit_rows.items():
+        endpoint = rows[-1]
+        minimum_output_growth = min(
+            rows, key=lambda row: float(row["output_per_capita_growth"])
+        )
+        near_unit_summary.append(
+            {
+                "scenario": key,
+                "sigma_xl": near_unit_parameters[key].sigma_xl,
+                "endpoint_year": endpoint["time"],
+                "endpoint_ai_share": endpoint["ai_share"],
+                "endpoint_capability_growth": endpoint["capability_growth"],
+                "endpoint_output_per_capita_growth": endpoint[
+                    "output_per_capita_growth"
+                ],
+                "endpoint_net_capital_return": endpoint["net_capital_return"],
+                "minimum_output_per_capita_growth": minimum_output_growth[
+                    "output_per_capita_growth"
+                ],
+                "year_of_minimum_output_per_capita_growth": minimum_output_growth[
+                    "time"
+                ],
+            }
+        )
+    write_rows(
+        RESULT_DIR / "near_unit_production_summary.csv",
+        near_unit_summary,
     )
 
     sigma_hm_rows: dict[str, list[dict[str, float | str]]] = {}
@@ -2243,6 +2583,74 @@ def main() -> None:
         regime_labels,
         regime_palette,
         markers=regime_markers,
+    )
+
+    draw_production_knife_edge_figure(
+        FIGURE_DIR / "production_knife_edge.png",
+        knife_edge_share_rows,
+        knife_edge_threshold_rows,
+    )
+
+    near_unit_palette = {
+        "near_unit_100": COLORS["blue"],
+        "near_unit_101": COLORS["gold"],
+        "near_unit_105": COLORS["orange"],
+        "near_unit_110": COLORS["olive"],
+    }
+    near_unit_labels = {
+        "near_unit_100": "sigma_XL = 1",
+        "near_unit_101": "sigma_XL = 1.01",
+        "near_unit_105": "sigma_XL = 1.05",
+        "near_unit_110": "sigma_XL = 1.10",
+    }
+    near_unit_markers = {
+        "near_unit_100": "circle",
+        "near_unit_101": "square",
+        "near_unit_105": "triangle",
+        "near_unit_110": "diamond",
+    }
+    draw_multiplot(
+        FIGURE_DIR / "numerical_near_unit_production.png",
+        "Dynamics near the unit production elasticity",
+        "Same benchmark and initial capability growth; accelerated paths end at the numerical cutoff",
+        [
+            {
+                "title": "AI contribution to the production CES",
+                "field": "ai_share",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 100.0),
+                "xlim": (0.0, 1000.0),
+            },
+            {
+                "title": "Capability growth",
+                "field": "capability_growth",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 50.0),
+                "xlim": (0.0, 1000.0),
+            },
+            {
+                "title": "Output per capita growth",
+                "field": "output_per_capita_growth",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 90.0),
+                "xlim": (0.0, 1000.0),
+            },
+            {
+                "title": "Net return to capital",
+                "field": "net_capital_return",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 125.0),
+                "xlim": (0.0, 1000.0),
+            },
+        ],
+        near_unit_rows,
+        near_unit_labels,
+        near_unit_palette,
+        markers=near_unit_markers,
     )
 
     draw_multiplot(

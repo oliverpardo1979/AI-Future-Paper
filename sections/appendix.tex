@@ -131,6 +131,36 @@ substituting $X_t=A_tU_t$ and the limiting compute share into production yields
 This establishes \eqref{eq:high-sigma-ak-limit}.
 \end{proof}
 
+\begin{proof}[Proof of Proposition~\ref{prop:production-unit-elasticity-knife-edge}]
+Combining relative demand in \eqref{eq:relative-ai-demand} with the definition of
+$s^X_t$ gives
+\[
+    \frac{s^X_t}{1-s^X_t}
+    =
+    \frac{\omega_X}{\omega_L}
+    \left(\frac{X_t}{L_t}\right)^{(\sigma_{XL}-1)/\sigma_{XL}}
+    =
+    \left(\frac{\omega_X}{\omega_L}\right)^{\sigma_{XL}}
+    \left(\frac{w_t}{p^X_t}\right)^{\sigma_{XL}-1}.
+\]
+For finite $w_t/p^X_t>0$, the right-hand side converges to
+$\omega_X/\omega_L$ as $\sigma_{XL}\to1$, which implies $s^X_t\to\omega_X$.
+At $\sigma_{XL}=1$, the exponent on the relative price is zero and the share is
+identically $\omega_X$. For every fixed $\sigma_{XL}>1$, the odds diverge when
+$w_t/p^X_t\to\infty$, so $s^X_t\to1$. These observations establish the two
+iterated limits in \eqref{eq:noncommuting-production-limits}.
+
+Finally, set $s^X_t=\bar s$ in \eqref{eq:production-share-odds} and solve for
+$w_t/p^X_t$ to obtain \eqref{eq:production-share-threshold}. Because
+$\bar s>\omega_X$,
+\[
+    \log\frac{\bar s}{1-\bar s}
+    +\log\frac{\omega_L}{\omega_X}>0.
+\]
+The logarithm of \eqref{eq:production-share-threshold} therefore diverges at rate
+$1/(\sigma_{XL}-1)$ as $\sigma_{XL}\downarrow1$.
+\end{proof}
+
 \begin{proof}[Proof of Proposition~\ref{prop:gross-substitution-no-steady-state}]
 The CES share definition gives the exact identity
 \begin{equation}

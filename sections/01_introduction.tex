@@ -124,6 +124,15 @@ state with finite constant growth rates. This is a separate production-side
 acceleration mechanism. Human essentiality weakens the research feedback but does
 not by itself restore balanced growth.
 
+The break at $\sigma_{XL}=1$ is asymptotic rather than a jump in finite allocations.
+The exact CES share is continuous in the elasticity for every finite relative price,
+but the limits in which $w/p^X$ becomes unbounded and the elasticity approaches one
+do not commute. Under the high-capability regularity condition used below, unbounded
+capability generates precisely this relative-price limit. Moreover, the relative-price threshold required for a given AI
+share diverges exponentially in $1/(\sigma_{XL}-1)$. An elasticity just above one
+can therefore produce an arbitrarily long quasi-Cobb--Douglas transition even though
+its infinite-horizon regime has no finite constant-growth steady state.
+
 The failure of the balanced-growth condition is not sufficient for a finite-time
 singularity. Under the proportional-allocation closure used to isolate the feedback,
 $D>0$ gives stable balanced growth, $D=0$ gives accelerating growth that remains
@@ -200,7 +209,9 @@ balanced growth when gross substitution in production makes the output--capital
 ratio rise with capability. Seventh, the production CES separates a
 labor-bottlenecked constant-growth limit with zero per-capita growth, a
 constant-share Cobb--Douglas benchmark, and a regime in which the return to capital
-diverges with unbounded capability and no interior steady state exists. Eighth, the production structure
+diverges with unbounded capability and no interior steady state exists. The break at
+unit elasticity is a singular perturbation, so the gross-substitution regime may
+remain quantitatively remote when $\sigma_{XL}$ is close to one. Eighth, the production structure
 yields distinct substitution thresholds for the real wage and the
 production-labor share, while the aggregate labor-income share also depends on
 worker reallocation between production and research. Under Cobb--Douglas research,
@@ -216,6 +227,11 @@ consumption-per-capita growth initially fall, reach minima after approximately f
 decades, and then reaccelerate until the path reaches the numerical capital-growth
 cutoff in year 196. A sufficiently strong feedback from output to automated research
 generates a separate acceleration mechanism even under Cobb--Douglas production.
+Near-unit experiments sharpen the asymptotic qualification. With
+$\sigma_{XL}=1.01$, the economy remains close to the Cobb--Douglas path after one
+thousand simulated years; with $\sigma_{XL}=1.05$, reacceleration is visible but the
+path remains below the cutoff; and with $\sigma_{XL}=1.10$, the path reaches the
+cutoff in year 744.
 The wage experiments reject an unconditional wage-growth result. With high
 population growth and a very high production elasticity $\sigma_{XL}$, the displacement
 contribution from AI-services deepening can exceed the contribution from capital deepening, so the

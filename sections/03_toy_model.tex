@@ -1304,6 +1304,76 @@ $\sigma_{XL}>1$, it implies $X_t/L_t\to\infty$ and therefore $s^X_t\to1$.
 Appendix~\ref{sec:appendix-proofs} provides the proof and derives the constant
 $D_{XL}$ in \eqref{eq:high-sigma-ak-limit}.
 
+The apparent discontinuity at unit elasticity is real as an asymptotic statement,
+but it is not a discontinuity in finite allocations. The distinction follows from
+the exact CES share equation.
+
+\begin{proposition}[The unit-elasticity singular perturbation]
+\label{prop:production-unit-elasticity-knife-edge}
+Let $q_t\equiv w_t/p^X_t$ and suppose $\omega_L,\omega_X>0$ with
+$\omega_L+\omega_X=1$. At every interior allocation,
+\begin{equation}
+    \frac{s^X_t}{1-s^X_t}
+    =
+    \left(\frac{\omega_X}{\omega_L}\right)^{\sigma_{XL}}
+    q_t^{\sigma_{XL}-1}.
+    \label{eq:production-share-odds}
+\end{equation}
+Consequently:
+\begin{enumerate}[label=(\roman*)]
+    \item for every finite $q_t>0$, $s^X_t$ is continuous in $\sigma_{XL}$ at one
+    and converges to $\omega_X$ as $\sigma_{XL}\to1$;
+    \item if $q_t\to\infty$, then $s^X_t=\omega_X$ when $\sigma_{XL}=1$, whereas
+    $s^X_t\to1$ for every fixed $\sigma_{XL}>1$; hence
+    \begin{equation}
+        \lim_{\sigma_{XL}\downarrow1}\lim_{q\to\infty}s^X(q,\sigma_{XL})=1,
+        \qquad
+        \lim_{q\to\infty}\lim_{\sigma_{XL}\downarrow1}s^X(q,\sigma_{XL})
+        =\omega_X;
+        \label{eq:noncommuting-production-limits}
+    \end{equation}
+    \item for any target $\bar s\in(\omega_X,1)$ and
+    $\sigma_{XL}>1$, the relative price required to attain $s^X=\bar s$ is
+    \begin{equation}
+        q_{\bar s}(\sigma_{XL})
+        =
+        \left[
+            \frac{\bar s}{1-\bar s}
+            \left(\frac{\omega_L}{\omega_X}\right)^{\sigma_{XL}}
+        \right]^{1/(\sigma_{XL}-1)},
+        \label{eq:production-share-threshold}
+    \end{equation}
+    and $q_{\bar s}(\sigma_{XL})\to\infty$ as
+    $\sigma_{XL}\downarrow1$.
+\end{enumerate}
+\end{proposition}
+
+Proposition~\ref{prop:production-unit-elasticity-knife-edge} explains why the
+Cobb--Douglas result and the gross-substitution result are not contradictory. At
+$\sigma_{XL}=1$, the relative price affects the input ratio but not the CES
+contribution share. For every fixed elasticity above one, however small the gap,
+an unbounded increase in $w/p^X$ eventually makes AI services dominant. The limits
+in \eqref{eq:noncommuting-production-limits} do not commute. This is a singular
+perturbation: equilibrium allocations are continuous in $\sigma_{XL}$ at every
+finite relative price and date, while their infinite-horizon classification is not
+uniform near one.
+
+The scale of the transition becomes arbitrarily large as the elasticity approaches
+one. With $\omega_X=0.2$, for example, reaching $s^X=1/2$ requires
+$\log_{10}(w/p^X)=60.81$ when $\sigma_{XL}=1.01$, $12.64$ when it is $1.05$, and
+$6.62$ when it is $1.10$. The AI-dominated coefficient in
+\eqref{eq:high-sigma-ak-limit} also satisfies
+$D_{XL}\to0$ as $\sigma_{XL}\downarrow1$ because $\omega_X\in(0,1)$. Both facts
+warn against using the asymptotic regime as a medium-run approximation when the
+elasticity is close to one. Section~\ref{sec:numerical} quantifies this transition.
+
+Assumption~\ref{ass:stable-human-essential-benchmark} stabilizes the fully
+Cobb--Douglas research feedback at exactly $\sigma_{XL}=1$. It does not remove the
+separate production-side mechanism for a fixed $\sigma_{XL}>1$ and unbounded
+capability. The first condition concerns feedback through automated research; the
+second concerns the way the production CES converts an ever lower effective AI
+price into the return to capital.
+
 The previous result rules out more than a path with a constant capital--output ratio.
 It rules out an interior steady state under the paper's definition: a path on which
 all aggregate variables eventually grow at finite constant rates.
