@@ -561,6 +561,12 @@ def simulate(
         row["log_output_per_capita"] = (
             float(row["log_output"]) - float(row["log_population"])
         )
+        row["log_consumption_per_capita"] = float(
+            log_consumption_per_capita[index]
+        )
+        row["log_capital_per_capita"] = (
+            float(row["log_capital"]) - float(row["log_population"])
+        )
         row["log_capital_per_production_worker"] = (
             float(row["log_capital"]) - float(row["log_production_labor"])
         )
@@ -1464,7 +1470,10 @@ def main() -> None:
 
     regime_rows: dict[str, list[dict[str, float | str]]] = {}
     for key, parameters in regimes.items():
-        regime_rows[key] = simulate(key, parameters, initial_state)
+        horizon = 200.0 if key != "strong_substitutes" else 160.0
+        regime_rows[key] = simulate(
+            key, parameters, initial_state, horizon=horizon
+        )
     feedback_rows = simulate(
         "high_feedback", high_feedback, initial_state, horizon=600.0, step=2.0
     )
@@ -1843,6 +1852,130 @@ def main() -> None:
         )
     write_rows(RESULT_DIR / "scenario_summary.csv", summary_rows)
 
+    central_transition_summary_rows: list[dict[str, float | str]] = []
+    for key in ("complements", "cobb_douglas", "substitutes"):
+        rows = regime_rows[key]
+        final_row = rows[-1]
+        minimum_output_row = min(
+            rows, key=lambda row: float(row["output_per_capita_growth"])
+        )
+        minimum_consumption_row = min(
+            rows,
+            key=lambda row: float(row["consumption_per_capita_growth"]),
+        )
+        minimum_capability_row = min(
+            rows, key=lambda row: float(row["capability_growth"])
+        )
+        minimum_capital_row = min(
+            rows, key=lambda row: float(row["capital_growth"])
+        )
+        central_transition_summary_rows.append(
+            {
+                "scenario": key,
+                "sigma_xl": regimes[key].sigma_xl,
+                "last_year": float(final_row["time"]),
+                "minimum_capability_growth_pct": 100.0
+                * float(minimum_capability_row["capability_growth"]),
+                "minimum_capability_growth_year": float(
+                    minimum_capability_row["time"]
+                ),
+                "minimum_output_per_capita_growth_pct": 100.0
+                * float(minimum_output_row["output_per_capita_growth"]),
+                "minimum_output_per_capita_growth_year": float(
+                    minimum_output_row["time"]
+                ),
+                "minimum_consumption_per_capita_growth_pct": 100.0
+                * float(
+                    minimum_consumption_row[
+                        "consumption_per_capita_growth"
+                    ]
+                ),
+                "minimum_consumption_per_capita_growth_year": float(
+                    minimum_consumption_row["time"]
+                ),
+                "minimum_capital_growth_pct": 100.0
+                * float(minimum_capital_row["capital_growth"]),
+                "minimum_capital_growth_year": float(
+                    minimum_capital_row["time"]
+                ),
+                "terminal_capability_growth_pct": 100.0
+                * float(final_row["capability_growth"]),
+                "terminal_output_per_capita_growth_pct": 100.0
+                * float(final_row["output_per_capita_growth"]),
+                "terminal_consumption_per_capita_growth_pct": 100.0
+                * float(final_row["consumption_per_capita_growth"]),
+                "terminal_capital_growth_pct": 100.0
+                * float(final_row["capital_growth"]),
+                "terminal_wage_growth_pct": 100.0
+                * float(final_row["wage_growth"]),
+                "terminal_real_wage_index": math.exp(
+                    float(final_row["log_wage"])
+                    - float(rows[0]["log_wage"])
+                ),
+                "terminal_ai_services_per_worker_index": math.exp(
+                    float(
+                        final_row[
+                            "log_ai_services_per_production_worker"
+                        ]
+                    )
+                    - float(
+                        rows[0][
+                            "log_ai_services_per_production_worker"
+                        ]
+                    )
+                ),
+                "initial_human_to_automated_research_ratio": math.exp(
+                    float(
+                        rows[0][
+                            "log_human_to_automated_research_ratio"
+                        ]
+                    )
+                ),
+                "terminal_human_to_automated_research_ratio": math.exp(
+                    float(
+                        final_row[
+                            "log_human_to_automated_research_ratio"
+                        ]
+                    )
+                ),
+                "terminal_automated_research_per_capita_index": math.exp(
+                    float(
+                        final_row[
+                            "log_automated_research_per_capita"
+                        ]
+                    )
+                    - float(
+                        rows[0][
+                            "log_automated_research_per_capita"
+                        ]
+                    )
+                ),
+                "terminal_ai_production_share_pct": 100.0
+                * float(final_row["ai_share"]),
+                "terminal_automated_research_share_pct": 100.0
+                * float(final_row["automated_research_share"]),
+                "terminal_human_research_population_pct": 100.0
+                * float(final_row["human_research_share"]),
+                "terminal_production_labor_share_pct": 100.0
+                * float(final_row["production_labor_income_share"]),
+                "terminal_aggregate_labor_share_pct": 100.0
+                * float(final_row["aggregate_labor_income_share"]),
+                "terminal_consumption_share_pct": 100.0
+                * float(final_row["consumption_share"]),
+                "terminal_net_capital_return_pct": 100.0
+                * float(final_row["net_capital_return"]),
+                "terminal_capital_output_ratio": float(
+                    final_row["capital_output_ratio"]
+                ),
+                "terminal_euler_gap_pct_points": 100.0
+                * float(final_row["euler_gap"]),
+            }
+        )
+    write_rows(
+        RESULT_DIR / "central_transition_summary.csv",
+        central_transition_summary_rows,
+    )
+
     interest_rate_summary_rows: list[dict[str, float | str]] = []
     for key, rows in regime_rows.items():
         parameters = regimes[key]
@@ -2056,23 +2189,67 @@ def main() -> None:
     ]
     write_rows(RESULT_DIR / "calibration.csv", calibration_rows)
 
+    central_regime_rows = {
+        key: regime_rows[key]
+        for key in ("complements", "cobb_douglas", "substitutes")
+    }
     regime_palette = {
         "complements": COLORS["blue"],
         "cobb_douglas": COLORS["gold"],
         "substitutes": COLORS["orange"],
-        "strong_substitutes": COLORS["olive"],
     }
+    regime_labels = {
+        "complements": "σ_XL = 0.75",
+        "cobb_douglas": "σ_XL = 1",
+        "substitutes": "σ_XL = 2",
+    }
+    regime_markers = {
+        "complements": "circle",
+        "cobb_douglas": "square",
+        "substitutes": "triangle",
+    }
+
     draw_multiplot(
         FIGURE_DIR / "numerical_production_regimes.png",
-        "Numerical transitions across production elasticities",
-        "Common initial states, spending rules, and capability growth; monopoly service supply",
+        "Aggregate quantities across production elasticities",
+        "Log10 change from date zero; common initial states, spending rules, and capability growth",
         [
+            {
+                "title": "Frontier capability (log10 index)",
+                "field": "log_capability",
+                "transform": log10_index_transform,
+                "format": lambda value: f"{value:.1f}",
+            },
             {
                 "title": "Output per capita (log10 index)",
                 "field": "log_output_per_capita",
                 "transform": log10_index_transform,
                 "format": lambda value: f"{value:.1f}",
             },
+            {
+                "title": "Consumption per capita (log10 index)",
+                "field": "log_consumption_per_capita",
+                "transform": log10_index_transform,
+                "format": lambda value: f"{value:.1f}",
+            },
+            {
+                "title": "Capital per capita (log10 index)",
+                "field": "log_capital_per_capita",
+                "transform": log10_index_transform,
+                "format": lambda value: f"{value:.1f}",
+            },
+        ],
+        central_regime_rows,
+        regime_labels,
+        regime_palette,
+        markers=regime_markers,
+    )
+
+    draw_multiplot(
+        FIGURE_DIR / "numerical_growth_rates.png",
+        "Growth rates across production elasticities",
+        "Annual rates; the σ_XL=2 path ends when capital growth crosses 50 percent",
+        [
             {
                 "title": "Capability growth",
                 "field": "capability_growth",
@@ -2081,33 +2258,73 @@ def main() -> None:
                 "ylim": (0.0, 12.0),
             },
             {
+                "title": "Output per capita growth",
+                "field": "output_per_capita_growth",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 75.0),
+            },
+            {
+                "title": "Consumption per capita growth",
+                "field": "consumption_per_capita_growth",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 75.0),
+            },
+            {
+                "title": "Capital growth",
+                "field": "capital_growth",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 60.0),
+            },
+        ],
+        central_regime_rows,
+        regime_labels,
+        regime_palette,
+        markers=regime_markers,
+    )
+
+    draw_multiplot(
+        FIGURE_DIR / "numerical_input_allocation.png",
+        "Wages and input allocation across production elasticities",
+        "Common initial stocks; ratios use production labor and population as denominators",
+        [
+            {
                 "title": "Real wage (log10 index)",
                 "field": "log_wage",
                 "transform": log10_index_transform,
                 "format": lambda value: f"{value:.1f}",
             },
             {
-                "title": "Production labor income share",
-                "field": "production_labor_income_share",
-                "transform": percent_transform,
-                "format": lambda value: f"{value:.0f}%",
-                "ylim": (0.0, 70.0),
+                "title": "AI services per production worker (log10 index)",
+                "field": "log_ai_services_per_production_worker",
+                "transform": log10_index_transform,
+                "format": lambda value: f"{value:.1f}",
+            },
+            {
+                "title": "Human-to-automated research, H/M (log10)",
+                "field": "log_human_to_automated_research_ratio",
+                "transform": log10_level_transform,
+                "format": lambda value: f"{value:.1f}",
+            },
+            {
+                "title": "Automated research per capita (log10 index)",
+                "field": "log_automated_research_per_capita",
+                "transform": log10_index_transform,
+                "format": lambda value: f"{value:.1f}",
             },
         ],
-        regime_rows,
-        {
-            "complements": "σ_XL = 0.75",
-            "cobb_douglas": "σ_XL = 1",
-            "substitutes": "σ_XL = 2",
-            "strong_substitutes": "σ_XL = 4",
-        },
+        central_regime_rows,
+        regime_labels,
         regime_palette,
+        markers=regime_markers,
     )
 
     draw_multiplot(
         FIGURE_DIR / "numerical_labor_share_paths.png",
-        "Production and aggregate labor-income shares",
-        "Common initial capability growth; aggregate share includes human researchers",
+        "Production, research, and labor-income shares",
+        "Common initial capability growth; aggregate labor share includes human researchers",
         [
             {
                 "title": "Production labor income share",
@@ -2124,36 +2341,26 @@ def main() -> None:
                 "ylim": (0.0, 75.0),
             },
             {
-                "title": "AI expenditure share in service composite",
+                "title": "AI share in production composite",
                 "field": "ai_share",
                 "transform": percent_transform,
                 "format": lambda value: f"{value:.0f}%",
                 "ylim": (0.0, 100.0),
             },
             {
-                "title": "Human researchers as share of population",
-                "field": "human_research_share",
+                "title": "Automated share of effective research",
+                "field": "automated_research_share",
                 "transform": percent_transform,
                 "format": lambda value: f"{value:.0f}%",
                 "ylim": (0.0, 100.0),
             },
         ],
-        regime_rows,
-        {
-            "complements": "σ_XL = 0.75",
-            "cobb_douglas": "σ_XL = 1",
-            "substitutes": "σ_XL = 2",
-            "strong_substitutes": "σ_XL = 4",
-        },
+        central_regime_rows,
+        regime_labels,
         regime_palette,
+        markers=regime_markers,
     )
 
-    regime_markers = {
-        "complements": "circle",
-        "cobb_douglas": "square",
-        "substitutes": "triangle",
-        "strong_substitutes": "diamond",
-    }
     draw_multiplot(
         FIGURE_DIR / "numerical_interest_rate_paths.png",
         "Returns to capital across production elasticities",
@@ -2188,13 +2395,8 @@ def main() -> None:
                 "reference_y": 0.0,
             },
         ],
-        regime_rows,
-        {
-            "complements": "σ_XL = 0.75",
-            "cobb_douglas": "σ_XL = 1",
-            "substitutes": "σ_XL = 2",
-            "strong_substitutes": "σ_XL = 4",
-        },
+        central_regime_rows,
+        regime_labels,
         regime_palette,
         markers=regime_markers,
     )

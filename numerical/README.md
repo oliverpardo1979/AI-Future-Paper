@@ -19,17 +19,22 @@ The script requires Python 3.10 or later, NumPy, and Pillow. It:
    substitution, and investment shares;
 6. traces the analytical automation law and the time-varying feedback denominator
    from an initially human-dominated research sector; and
-7. regenerates the nine PNG figures used by the paper.
+7. regenerates the twelve PNG figures used by the paper, including the complete
+   three-scenario diagnostics for aggregate levels, growth rates, input allocation,
+   income shares, and returns to capital.
 
 `transition_paths.csv`, `wage_sensitivity_paths.csv`, and
 `automation_feedback_paths.csv` are generated locally but ignored by Git because
 they are large intermediate files. The wage-path file contains the four detailed
 wage experiments. The smaller `wage_sensitivity_summary.csv`,
-`wage_decline_grid.csv`, and `wage_sigma_frontier.csv` report the results used in
+`wage_decline_grid.csv`, and `wage_sigma_xl_frontier.csv` report the results used in
 the text and figures. `labor_share_summary.csv` reports the production and aggregate
 labor-income-share comparisons. `research_labor_paths.csv` and
 `research_labor_summary.csv` report the transition of $H/M$, $M/N$, and $H/N$ used
 to study employment inside the AI-development industry.
+`central_transition_summary.csv` reports the turning points and endpoint values for
+the central $\sigma_{XL}=0.75$, $1$, and $2$ experiments. The first two paths run
+through year 200; the third ends at the acceleration cutoff.
 `automation_feedback_summary.csv` reports the relative-cost transition, the
 critical automation share, and the singularity date under the reduced
 proportional-allocation closure. The committed `validation.csv`

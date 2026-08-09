@@ -90,48 +90,111 @@ $10^{-6}$, and the consumption share remains positive in every experiment.
 
 \subsection{Production substitution}
 
-Figure~\ref{fig:numerical-production-regimes} changes only the production elasticity
-$\sigma_{XL}$ between production labor and AI services, apart from the normalization
-of $\chi$ described above. Each output and wage series is expressed as the
-base-10 logarithm of its own date-zero index. The figure confirms that $\sigma_{XL}=1$
-is not a neutral approximation to a general CES transition.
-The values $\sigma_{XL}=0.75$ and $\sigma_{XL}=1$ represent complementarity and the
-Cobb--Douglas benchmark. The value $\sigma_{XL}=2$ is close to, but above, the
-software--labor elasticity of 1.6 estimated by \citet{aumshin2024}; $\sigma_{XL}=4$ is a
-strong-substitution mechanism experiment. The software estimate does not identify
-the elasticity between AI services and labor in this model.
+The central comparison changes only the production elasticity $\sigma_{XL}$ between
+production labor and AI services, apart from the normalization of $\chi$ described
+above. The values $\sigma_{XL}=0.75$ and $\sigma_{XL}=1$ represent complementarity
+and the Cobb--Douglas benchmark. The value $\sigma_{XL}=2$ is close to, but above,
+the software--labor elasticity of 1.6 estimated by \citet{aumshin2024}. That estimate
+does not identify the elasticity between AI services and labor in this model.
+
+The figures deliberately exclude the earlier $\sigma_{XL}=4$ mechanism experiment.
+The value $\sigma_{XL}=2$ is sufficient to generate reacceleration, so the main
+result does not depend on an extreme substitution elasticity. The complementary and
+Cobb--Douglas paths are shown through year 200. The $\sigma_{XL}=2$ path ends in year
+196, when capital growth first crosses the numerical cutoff of 50 percent per year.
+Population is not plotted because its exogenous path is common across experiments.
+The fixed investment and automated-research spending shares are reported in
+Table~\ref{tab:numerical-calibration} rather than repeated as constant lines.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/numerical_production_regimes.png}
-    \caption{Numerical transitions across production elasticities. The allocation
-    rules and initial capability growth are common across cases. The
-    strong-substitution path ends when capital growth crosses 50 percent per year.}
+    \caption{Aggregate quantities across production elasticities. Each panel reports
+    the base-10 logarithm of the change relative to its own date-zero value. The
+    allocation rules, initial stocks, and initial capability growth are common across
+    cases. The $\sigma_{XL}=2$ path ends at the acceleration cutoff.}
     \label{fig:numerical-production-regimes}
 \end{figure}
 
-With $\sigma_{XL}=0.75$, per-capita output growth is 0.18 percent in year 160 and
-capability growth is 1.54 percent. The AI contribution to the service composite
-converges toward an interior value, so the production-labor income share rises from
-36.4 to 43.1 percent. Capability continues to grow because the numerical closure
-holds research spending positive, but its productive effect becomes progressively
-smaller.
+Figure~\ref{fig:numerical-production-regimes} reports the stocks and per-capita
+quantities. Under complementarity and Cobb--Douglas production, the four paths remain
+close to log-linear over the reported horizon. With $\sigma_{XL}=2$, capability,
+output, consumption, and capital initially expand at moderate rates and then bend
+sharply upward. The curvature appears in consumption as well as output; it is not an
+artifact of plotting only the technology stock or the scale of production.
 
-With $\sigma_{XL}=1$, the production-labor income share remains at 53.6 percent. At year
-160, capability growth is 1.58 percent and per-capita output growth is 0.42 percent,
-both below their AI-dominated limits. The reason is not a different steady state:
-automated services still account for only 20.1 percent of effective research. The
-transition to the asymptotic regime is slow.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/numerical_growth_rates.png}
+    \caption{Growth rates of capability, output per capita, consumption per capita,
+    and capital. Rates are annual. The $\sigma_{XL}=2$ path ends when capital growth
+    crosses 50 percent per year; the terminal observation is retained to make the
+    stopping rule visible.}
+    \label{fig:numerical-growth-rates}
+\end{figure}
 
-With $\sigma_{XL}=2$, per-capita output growth reaches 4.10 percent and the real wage
-grows by 1.77 percent in year 160, while the production-labor income share falls to
-29.4 percent. This is the dynamic counterpart of the interval
-$1<\sigma_{XL}<1/\alpha$: wages and labor's share move in opposite directions. With
-$\sigma_{XL}=4$, the production-labor income share falls to 2.1 percent and ten-year
-average per-capita growth reaches 36.1 percent before the path stops in year 135.5,
-when capital growth crosses the 50 percent cutoff. These values are not a steady
-state; they mark the acceleration regime described in Proposition
-\ref{prop:production-ces-regimes}.
+The growth rates in Figure~\ref{fig:numerical-growth-rates} reveal a U-shaped
+transition when $\sigma_{XL}=2$. Output-per-capita growth falls to 0.38 percent in
+year 44.5, consumption-per-capita growth falls to 0.31 percent in year 49, and
+capital growth falls to 1.64 percent in year 65. All three then increase. Capability
+growth turns later: it reaches a minimum of 1.91 percent in year 104 before rising to
+11.55 percent at the endpoint. Thus the apparent moderation during the first several
+decades is not convergence to balanced growth. Production substitution first raises
+the scale of the economy, and the larger scale subsequently finances enough
+automated research to reverse the decline in capability growth.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Endpoint of the central production-elasticity experiments}
+    \label{tab:numerical-central-transition}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{ccccccccc}
+        \toprule
+        $\sigma_{XL}$ & Year & $g_A$ & $g_{Y/N}$ & $g_{C/N}$ & $g_K$ & $s^X$ & $s^M$ & $C/Y$ \\
+        \midrule
+        0.75 & 200 & 1.50\% & 0.11\% & 0.11\% & 1.33\% & 34.59\% & 11.67\% & 75.83\% \\
+        1.00 & 200 & 1.51\% & 0.39\% & 0.39\% & 1.60\% & 20.00\% & 23.03\% & 74.35\% \\
+        2.00 & 196 & 11.55\% & 70.99\% & 70.13\% & 54.03\% & 98.93\% & 88.04\% & 31.86\% \\
+        \bottomrule
+    \end{tabular}}
+    \begin{minipage}{0.96\textwidth}
+    \footnotesize\emph{Notes:} Entries are endpoint values rather than ten-year
+    averages. The $\sigma_{XL}=2$ endpoint is a numerical stopping point, not a
+    steady state or a quantitative forecast.
+    \end{minipage}
+\end{table}
+
+Table~\ref{tab:numerical-central-transition} makes the regime difference explicit.
+At the $\sigma_{XL}=2$ stopping point, output- and consumption-per-capita growth are
+approximately 71 percent per year. AI services account for 98.93 percent of the
+production composite and automated services account for 88.04 percent of effective
+research. By contrast, the complementary and Cobb--Douglas paths retain low and
+declining capability growth over the same two-century horizon.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/numerical_input_allocation.png}
+    \caption{Wages and input allocation across production elasticities. Wage and
+    scale variables are indexed to date zero where indicated. The research-input
+    ratio $H/M$ is shown in levels on a logarithmic scale.}
+    \label{fig:numerical-input-allocation}
+\end{figure}
+
+Figure~\ref{fig:numerical-input-allocation} identifies the quantities behind the
+reacceleration. With $\sigma_{XL}=2$, AI services per production worker and automated
+research per capita both accelerate. The human-to-automated research ratio falls,
+even though the scale of the research sector expands. The real wage also rises
+sharply. The acceleration result is therefore distinct from the real-wage decline
+counterexample studied below: gross substitution can reduce labor's income share
+while the level of the wage continues to increase.
+
+The magnitudes at the stopping point illustrate the strength of the mechanism. In
+the $\sigma_{XL}=2$ experiment, the real-wage index reaches 36.96 and AI services per
+production worker reach 18.3 million times their initial level. Automated research
+per capita rises by a factor of 3,203, while $H/M$ falls from 7.32 to 0.0054. These
+large values should not be read as calibrated forecasts. They show why a path that
+looks temporarily stable can leave that neighborhood once substitution reallocates
+production and research toward machine inputs.
 
 \subsection{The return to capital and the numerical closure}
 
@@ -157,19 +220,19 @@ capital rises.
 
 Figure~\ref{fig:numerical-interest-rates} shows a non-monotone transition. With
 $\sigma_{XL}=0.75$, the net return starts at 2.17 percent, reaches 4.34 percent in
-year 71, and equals 4.05 percent in year 160. In the Cobb--Douglas case it moves
-from 4.57 to 4.36 percent over the same horizon. These values do not describe two
+year 71, and equals 3.95 percent in year 200. In the Cobb--Douglas case it moves
+from 4.57 to 4.33 percent over the same horizon. These values do not describe two
 different calibrations of the initial interest rate. The experiments hold the
 initial stocks fixed, so the change in $\sigma_{XL}$ changes initial output and the
 marginal product of capital.
 
 The dynamics reverse under stronger substitution. With $\sigma_{XL}=2$, the net
 return falls from 8.25 to 4.39 percent by year 65, but subsequently rises to 8.73
-percent in year 160. With $\sigma_{XL}=4$, it falls from 9.27 to 4.32 percent by year
-58.5 and then rises to 75.81 percent before the simulation stops in year 135.5.
-The late increase is the price counterpart of the acceleration regime: AI raises
-output faster than the fixed investment rule accumulates capital, so capital becomes
-scarce relative to the effective production input.
+percent in year 160 and 78.45 percent at the year-196 stopping point. The late
+increase is the price counterpart of the acceleration regime: AI raises output
+faster than the fixed investment rule accumulates capital, so capital becomes scarce
+relative to the effective production input. This reversal occurs without the
+$\sigma_{XL}=4$ path used in earlier mechanism experiments.
 
 The lower-right panel reports an important limitation. The numerical closure fixes
 $s_I$ and calculates consumption as a residual. It therefore does not impose
@@ -177,7 +240,9 @@ $g_{c,t}=r_t-\delta-\rho$ along the transition. A nonzero Euler gap is not a num
 error; it measures the difference between the fixed-share transition and the
 household's optimal saving path. The fully optimizing equilibrium must endogenize
 investment. Higher returns would induce additional saving, which could attenuate the
-increase in $r_t-\delta$ and change the speed of the transition.
+increase in $r_t-\delta$ and change the speed of the transition. At the
+$\sigma_{XL}=2$ stopping point, the Euler gap is 4.32 percentage points, so the
+terminal fixed-share path is visibly not an optimizing household equilibrium.
 
 \begin{figure}[H]
     \centering
@@ -185,10 +250,10 @@ increase in $r_t-\delta$ and change the speed of the transition.
     \caption{Returns to capital across production elasticities. The upper panels
     show the same net return on different vertical scales; the detailed panel omits
     values above 12 percent, while the full-scale panel shows the complete
-    strong-substitution path. The Euler gap is
+    $\sigma_{XL}=2$ path. The Euler gap is
     $r_t-\delta-\rho-g_{c,t}$. Initial stocks are common across cases, so changing
     $\sigma_{XL}$ changes the initial marginal product of capital. The
-    strong-substitution path ends at the acceleration cutoff.}
+    $\sigma_{XL}=2$ path ends at the acceleration cutoff.}
     \label{fig:numerical-interest-rates}
 \end{figure}
 
@@ -225,30 +290,30 @@ both labor-income shares.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/numerical_labor_share_paths.png}
-    \caption{Production and aggregate labor-income shares across production
-    elasticities. The aggregate share includes the wage bill of human researchers.
-    The strong-substitution path ends at the acceleration cutoff.}
+    \caption{Production, research, and labor-income shares across production
+    elasticities. The aggregate labor-income share includes the wage bill of human
+    researchers. The $\sigma_{XL}=2$ path ends at the acceleration cutoff.}
     \label{fig:numerical-labor-shares}
 \end{figure}
+\enlargethispage{\baselineskip}
 
 \begin{sloppypar}
 Figure~\ref{fig:numerical-labor-shares} shows that the distinction is quantitatively
-relevant. With $\sigma_{XL}=0.75$, the production-labor share rises from 36.3 to 43.2
-percent of output. The aggregate share rises from 43.7 to 47.3 percent. Its increase
-is smaller because the human-research share of population falls from 17.0 to 8.7
+relevant. With $\sigma_{XL}=0.75$, the production-labor share rises from 36.3 to 43.8
+percent of output. The aggregate share rises from 43.7 to 47.7 percent. Its increase
+is smaller because the human-research share of population falls from 17.0 to 8.1
 percent. In the Cobb--Douglas case, the production-labor share remains exactly equal
-to 53.6 percent, but the aggregate share falls from 57.8 to 55.6 percent because the
-human-research share falls from 7.3 to 3.6 percent.
+to 53.6 percent, but the aggregate share falls from 57.8 to 55.3 percent because the
+human-research share falls from 7.3 to 3.1 percent.
 \end{sloppypar}
 
-With $\sigma_{XL}=2$, the human-research share changes little and both income shares fall
-by approximately 60.5 percent relative to their initial values. With $\sigma_{XL}=4$,
-the production-labor share falls from 67.0 percent to 0.05 percent before the path
-reaches the acceleration cutoff. Human research absorbs 90.9 percent of the
-population at that point, so the aggregate labor-income share remains above the
-production-labor share, but it still falls from 69.3 to 0.55 percent. A large
-reallocation into research can attenuate the fall in the aggregate share; in this
-experiment it cannot offset the displacement term.
+With $\sigma_{XL}=2$, the production-labor share falls from 65.6 to 0.72 percent and
+the aggregate share falls from 68.1 to 0.79 percent by year 196. Human research rises
+from 3.8 to 8.8 percent of the population, so reallocation toward AI development
+slightly attenuates the fall in the aggregate share. It does not offset the
+displacement term. The comparison with the rising wage in Figure
+\ref{fig:numerical-input-allocation} is important: labor can receive a rapidly
+growing real wage and a vanishing share of an even more rapidly growing economy.
 
 \subsection{When can the real wage fall?}
 
