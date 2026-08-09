@@ -1243,7 +1243,12 @@ cost $\xi/A_t$ falls.
 
 \begin{proposition}[Production regimes under increasingly capable AI]
 \label{prop:production-ces-regimes}
-Suppose $A_t\to\infty$ and the service-market solution remains interior.
+Suppose $A_t\to\infty$, the service-market solution remains interior, and the
+effective marginal cost of AI services vanishes relative to capital intensity:
+\begin{equation}
+    \frac{\xi}{A_t(K_t/L_t)^\alpha}\longrightarrow0.
+    \label{eq:vanishing-normalized-ai-cost}
+\end{equation}
 \begin{enumerate}[label=(\roman*)]
     \item If $\sigma_{XL}<1$, the monopolist's AI share converges to
     \begin{equation}
@@ -1271,6 +1276,12 @@ Suppose $A_t\to\infty$ and the service-market solution remains interior.
 \end{enumerate}
 \end{proposition}
 
+The condition in \eqref{eq:vanishing-normalized-ai-cost} is satisfied whenever
+$A_t\to\infty$ and $K_t/L_t$ does not collapse too quickly. For
+$\sigma_{XL}>1$, it implies $X_t/L_t\to\infty$ and therefore $s^X_t\to1$.
+Appendix~\ref{sec:appendix-proofs} provides the proof and derives the constant
+$D_{XL}$ in \eqref{eq:high-sigma-ak-limit}.
+
 The previous result rules out more than a path with a constant capital--output ratio.
 It rules out an interior steady state under the paper's definition: a path on which
 all aggregate variables eventually grow at finite constant rates.
@@ -1285,29 +1296,13 @@ rates. In particular, there is no such steady state with a positive constant
 $g_A$.
 \end{proposition}
 
-\begin{proof}
-Proposition~\ref{prop:production-ces-regimes} and
-\eqref{eq:high-sigma-ak-limit} imply
-\begin{equation}
-    r_t
-    =\alpha\frac{Y_t}{K_t}
-    \sim
-    \alpha D_{XL}A_t^{(1-\alpha)/\alpha}
-    \longrightarrow\infty.
-    \label{eq:high-sigma-return-divergence}
-\end{equation}
-Because $c_t=C_t/N_t$ and $g_N=n$, the Euler equation
-\eqref{eq:euler} gives
-\begin{equation}
-    g_{C,t}
-    =n+r_t-\delta-\rho
-    \longrightarrow\infty.
-    \label{eq:high-sigma-consumption-growth-divergence}
-\end{equation}
-This contradicts the requirement that aggregate consumption grow at a finite
-constant rate. If $g_A$ is a positive constant, then $A_t\to\infty$, so the final
-claim follows immediately.
-\end{proof}
+The result does not require $s^X_t\to1$. The exact equilibrium identity derived in
+Appendix~\ref{sec:appendix-proofs} gives a positive lower bound for
+$(Y_t/K_t)/A_t^{(1-\alpha)/\alpha}$ for every interior $s^X_t\in(0,1)$. The proof
+then uses the household Euler equation to rule out finite constant consumption
+growth. If \eqref{eq:vanishing-normalized-ai-cost} also holds, the stronger limit
+$s^X_t\to1$ delivers the asymptotic equality
+\eqref{eq:high-sigma-ak-limit}.
 
 The assumption $A_t\to\infty$ is essential. The inequality $\sigma_{XL}>1$ by
 itself does not exclude a boundary path on which research shuts down and capability
@@ -1326,8 +1321,9 @@ constant growth on the other side of the Cobb--Douglas threshold.
 Suppose $n>0$, $A_t\to\infty$, $\xi$ is constant, and the service-market solution
 remains interior.
 \begin{enumerate}[label=(\roman*)]
-    \item If $\sigma_{XL}<1$, any constant-growth path with constant $K/Y$, $H/N$,
-    and $\xi M/Y$, and with positive human and automated research inputs, satisfies
+    \item If $\sigma_{XL}<1$ and \eqref{eq:vanishing-normalized-ai-cost} holds, any
+    constant-growth path with constant $K/Y$, $H/N$, and $\xi M/Y$, and with
+    positive human and automated research inputs, satisfies
     \begin{equation}
         g_X=g_L=g_Y=g_K=g_C=g_H=g_M=g_E=n,
         \qquad

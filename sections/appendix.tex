@@ -1,4 +1,5 @@
 \section{Proofs}
+\label{sec:appendix-proofs}
 
 \begin{proof}[Proof of Proposition~\ref{prop:gradual-automation}]
 Equation~\eqref{eq:automation-odds} gives
@@ -60,21 +61,41 @@ $D(s^M_t)$, the same divergence occurs exactly when the bracket in
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{prop:production-ces-regimes}]
-Let $x_t\equiv X_t/L_t$, $y_t\equiv Y_t/L_t$, and write
-$s_t\equiv s^X_t$. The monopoly condition can be written as
+Let $x_t\equiv X_t/L_t$, $k_t\equiv K_t/L_t$, and write
+$s_t\equiv s^X_t$. Final output per production worker is
 \[
-    \frac{\xi x_t}{A_ty_t}
+    \frac{Y_t}{L_t}
     =
-    (1-\alpha)s_t[1-\varepsilon(s_t)],
+    k_t^\alpha
+    \left[
+        \omega_L
+        +\omega_Xx_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+    \right]^{(1-\alpha)\sigma_{XL}/(\sigma_{XL}-1)}.
+\]
+Using this expression in the monopoly first-order condition gives
+\begin{equation}
+    \frac{\xi}{A_tk_t^\alpha}
+    =
+    (1-\alpha)s_t[1-\varepsilon(s_t)]
+    \frac{
+        \left[
+            \omega_L
+            +\omega_Xx_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+        \right]^{(1-\alpha)\sigma_{XL}/(\sigma_{XL}-1)}
+    }{x_t},
     \qquad
     \varepsilon(s)
     =
     \frac{1-s}{\sigma_{XL}}+\alpha s.
-\]
+    \label{eq:appendix-normalized-monopoly-condition}
+\end{equation}
+Condition~\eqref{eq:vanishing-normalized-ai-cost} makes the left-hand side
+converge to zero.
 
 For $\sigma_{XL}<1$, revenue approaches zero both as $x_t\to0$ and as
-$x_t\to\infty$. As marginal cost converges to zero, the monopolist approaches the
-interior revenue-maximizing quantity, which satisfies $\varepsilon(\bar s^X)=1$.
+$x_t\to\infty$. As normalized marginal cost converges to zero, the monopolist
+approaches the interior revenue-maximizing quantity, which satisfies
+$\varepsilon(\bar s^X)=1$.
 Solving this condition gives
 \[
     \bar s^X=\frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}.
@@ -84,9 +105,12 @@ service ratio is finite.
 
 For $\sigma_{XL}=1$, the CES contribution $s^X_t$ equals the constant weight $\omega_X$.
 
-For $\sigma_{XL}>1$, revenue is unbounded as $x_t\to\infty$ when marginal cost is zero,
-so $x_t\to\infty$ and $s^X_t\to1$. Consequently,
-$\varepsilon^X_t\to\alpha$, and the monopoly first-order condition implies
+For $\sigma_{XL}>1$, the right-hand side of
+\eqref{eq:appendix-normalized-monopoly-condition} is strictly positive at every
+finite $x_t>0$ and diverges as $x_t\to0$. It can therefore converge to zero only if
+$x_t\to\infty$. The CES share equation then implies $s^X_t\to1$. Consequently,
+$\varepsilon^X_t\to\alpha$. Multiplying the monopoly first-order condition by
+$X_t/Y_t$ and using $X_t=A_tU_t$ gives
 \[
     \frac{\xi U_t}{Y_t}\longrightarrow(1-\alpha)^2.
 \]
@@ -105,6 +129,102 @@ substituting $X_t=A_tU_t$ and the limiting compute share into production yields
     A_t^{(1-\alpha)/\alpha}.
 \]
 This establishes \eqref{eq:high-sigma-ak-limit}.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:gross-substitution-no-steady-state}]
+The CES share definition gives the exact identity
+\begin{equation}
+    \frac{Z_t}{X_t}
+    =
+    \left(\frac{\omega_X}{s^X_t}\right)^{
+        \sigma_{XL}/(\sigma_{XL}-1)}.
+    \label{eq:appendix-z-x-share-identity}
+\end{equation}
+The monopoly first-order condition and final-good demand for AI services imply
+\begin{equation}
+    \frac{X_t}{Y_t}
+    =
+    \frac{A_t}{\xi}(1-\alpha)s^X_t
+    (1-\varepsilon^X_t).
+    \label{eq:appendix-x-y-monopoly-identity}
+\end{equation}
+Since
+\[
+    \frac{Y_t}{K_t}
+    =
+    \left(
+        \frac{Z_t}{X_t}
+        \frac{X_t}{Y_t}
+        \frac{Y_t}{K_t}
+    \right)^{1-\alpha},
+\]
+substitution of \eqref{eq:appendix-z-x-share-identity} and
+\eqref{eq:appendix-x-y-monopoly-identity}, followed by solving for $Y_t/K_t$,
+yields
+\begin{equation}
+    \frac{Y_t}{K_t}
+    =
+    \left[
+        \frac{1-\alpha}{\xi}
+        \omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}
+        (s^X_t)^{-1/(\sigma_{XL}-1)}
+        (1-\varepsilon^X_t)A_t
+    \right]^{(1-\alpha)/\alpha}.
+    \label{eq:exact-high-sigma-output-capital}
+\end{equation}
+This equality makes clear which parts of the result require AI dominance. If
+$s^X_t\to1$, then $\varepsilon^X_t\to\alpha$, and
+\eqref{eq:exact-high-sigma-output-capital} becomes
+\begin{equation}
+    \frac{Y_t}{K_t}
+    \sim
+    D_{XL}A_t^{(1-\alpha)/\alpha},
+    \qquad
+    D_{XL}
+    =
+    \left[
+        \frac{(1-\alpha)^2}{\xi}
+        \omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}
+    \right]^{(1-\alpha)/\alpha}>0.
+    \label{eq:appendix-high-sigma-output-capital-limit}
+\end{equation}
+Proposition~\ref{prop:production-ces-regimes} establishes $s^X_t\to1$ under
+\eqref{eq:vanishing-normalized-ai-cost}.
+
+The nonexistence result does not require that additional condition. When
+$\sigma_{XL}>1$ and $s^X_t\in(0,1)$,
+\[
+    (s^X_t)^{-1/(\sigma_{XL}-1)}\geq1,
+    \qquad
+    1-\varepsilon^X_t
+    \geq
+    \min\left\{1-\alpha,1-\frac{1}{\sigma_{XL}}\right\}>0.
+\]
+Equation~\eqref{eq:exact-high-sigma-output-capital} therefore implies
+\begin{equation}
+    \frac{Y_t}{K_t}
+    \geq
+    \underline D_{XL}A_t^{(1-\alpha)/\alpha},
+    \qquad
+    \underline D_{XL}>0.
+    \label{eq:high-sigma-output-capital-lower-bound}
+\end{equation}
+If $A_t\to\infty$, capital demand gives
+\begin{equation}
+    r_t
+    =\alpha\frac{Y_t}{K_t}
+    \longrightarrow\infty.
+    \label{eq:high-sigma-return-divergence}
+\end{equation}
+Because $c_t=C_t/N_t$ and $g_N=n$, the Euler equation implies
+\begin{equation}
+    g_{C,t}
+    =n+r_t-\delta-\rho
+    \longrightarrow\infty.
+    \label{eq:high-sigma-consumption-growth-divergence}
+\end{equation}
+Aggregate consumption cannot consequently grow at a finite constant rate. If $g_A$
+is a positive constant, then $A_t\to\infty$, so the final claim follows.
 \end{proof}
 
 \begin{proof}[Derivation of Equation~\eqref{eq:bg-research-resource-share}]
