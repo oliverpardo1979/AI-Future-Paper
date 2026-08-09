@@ -133,6 +133,65 @@ when capital growth crosses the 50 percent cutoff. These values are not a steady
 state; they mark the acceleration regime described in Proposition
 \ref{prop:production-ces-regimes}.
 
+\subsection{The return to capital and the numerical closure}
+
+Competitive final-good firms equate the gross rental rate of capital to its marginal
+product. The gross and net returns are therefore
+\begin{equation}
+    r_t=\alpha\frac{Y_t}{K_t},
+    \qquad
+    r_t-\delta=\alpha\frac{Y_t}{K_t}-\delta.
+    \label{eq:numerical-capital-return}
+\end{equation}
+The second object is the net real return that enters the household's Euler equation.
+Its dynamics can be read directly from
+\begin{equation}
+    g_{r,t}=g_{Y,t}-g_{K,t},
+    \qquad
+    g_{K,t}=\frac{s_I}{\alpha}r_t-\delta.
+    \label{eq:numerical-capital-return-growth}
+\end{equation}
+The rental rate is constant only when output and capital grow at the same rate. If
+output grows faster than capital, the capital--output ratio falls and the return to
+capital rises.
+
+Figure~\ref{fig:numerical-interest-rates} shows a non-monotone transition. With
+$\sigma_{XL}=0.75$, the net return starts at 2.17 percent, reaches 4.34 percent in
+year 71, and equals 4.05 percent in year 160. In the Cobb--Douglas case it moves
+from 4.57 to 4.36 percent over the same horizon. These values do not describe two
+different calibrations of the initial interest rate. The experiments hold the
+initial stocks fixed, so the change in $\sigma_{XL}$ changes initial output and the
+marginal product of capital.
+
+The dynamics reverse under stronger substitution. With $\sigma_{XL}=2$, the net
+return falls from 8.25 to 4.39 percent by year 65, but subsequently rises to 8.73
+percent in year 160. With $\sigma_{XL}=4$, it falls from 9.27 to 4.32 percent by year
+58.5 and then rises to 75.81 percent before the simulation stops in year 135.5.
+The late increase is the price counterpart of the acceleration regime: AI raises
+output faster than the fixed investment rule accumulates capital, so capital becomes
+scarce relative to the effective production input.
+
+The lower-right panel reports an important limitation. The numerical closure fixes
+$s_I$ and calculates consumption as a residual. It therefore does not impose
+$g_{c,t}=r_t-\delta-\rho$ along the transition. A nonzero Euler gap is not a numerical
+error; it measures the difference between the fixed-share transition and the
+household's optimal saving path. The fully optimizing equilibrium must endogenize
+investment. Higher returns would induce additional saving, which could attenuate the
+increase in $r_t-\delta$ and change the speed of the transition.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/numerical_interest_rate_paths.png}
+    \caption{Returns to capital across production elasticities. The upper panels
+    show the same net return on different vertical scales; the detailed panel omits
+    values above 12 percent, while the full-scale panel shows the complete
+    strong-substitution path. The Euler gap is
+    $r_t-\delta-\rho-g_{c,t}$. Initial stocks are common across cases, so changing
+    $\sigma_{XL}$ changes the initial marginal product of capital. The
+    strong-substitution path ends at the acceleration cutoff.}
+    \label{fig:numerical-interest-rates}
+\end{figure}
+
 \subsection{When does labor's income share rise or fall?}
 
 Proposition~\ref{prop:dynamic-labor-share} separates the income share paid to

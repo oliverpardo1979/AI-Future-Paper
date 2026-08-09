@@ -327,6 +327,11 @@ def static_block(
             - log_automated_research
         )
     )
+    gross_capital_return = parameters.alpha * math.exp(
+        log_output - log_capital
+    )
+    net_capital_return = gross_capital_return - parameters.delta
+    capital_output_ratio = math.exp(log_capital - log_output)
     return {
         "log_output": log_output,
         "log_wage": log_wage,
@@ -342,6 +347,9 @@ def static_block(
         "inverse_demand_elasticity": inverse_demand_elasticity,
         "inference_share": inference_share,
         "consumption_share": consumption_share,
+        "gross_capital_return": gross_capital_return,
+        "net_capital_return": net_capital_return,
+        "capital_output_ratio": capital_output_ratio,
         "monopoly_foc_log_error": monopoly_foc_log_error,
         "research_mix_log_error": research_mix_log_error,
         "automation_share_cost_error": automated_research_share
@@ -438,6 +446,20 @@ def simulate(
     log_population = np.asarray(
         [float(row["log_population"]) for row in rows]
     )
+    capital_growth = np.asarray(
+        [float(row["capital_growth"]) for row in rows]
+    )
+    net_capital_return = np.asarray(
+        [float(row["net_capital_return"]) for row in rows]
+    )
+    consumption_share = np.asarray(
+        [float(row["consumption_share"]) for row in rows]
+    )
+    log_consumption_per_capita = (
+        log_output
+        - log_population
+        + np.log(np.maximum(consumption_share, 1e-300))
+    )
     human_research_population_share = np.asarray(
         [float(row["human_research_share"]) for row in rows]
     )
@@ -469,6 +491,9 @@ def simulate(
         human_research_population_share_growth = np.gradient(
             np.log(human_research_population_share), times
         )
+        consumption_per_capita_growth = np.gradient(
+            log_consumption_per_capita, times
+        )
     else:
         output_growth = np.full(len(rows), np.nan)
         wage_growth = np.full(len(rows), np.nan)
@@ -477,6 +502,7 @@ def simulate(
         production_labor_share_growth = np.full(len(rows), np.nan)
         aggregate_labor_share_growth = np.full(len(rows), np.nan)
         human_research_population_share_growth = np.full(len(rows), np.nan)
+        consumption_per_capita_growth = np.full(len(rows), np.nan)
     for index, row in enumerate(rows):
         row["output_growth"] = float(output_growth[index])
         row["output_per_capita_growth"] = float(
@@ -552,6 +578,20 @@ def simulate(
             output_growth[index]
             - parameters.n
             - parameters.sigma_hm * wage_growth[index]
+        )
+        row["capital_return_growth"] = float(
+            output_growth[index] - capital_growth[index]
+        )
+        row["consumption_per_capita_growth"] = float(
+            consumption_per_capita_growth[index]
+        )
+        row["euler_implied_net_return"] = float(
+            parameters.discount + consumption_per_capita_growth[index]
+        )
+        row["euler_gap"] = float(
+            net_capital_return[index]
+            - parameters.discount
+            - consumption_per_capita_growth[index]
         )
     return rows
 
@@ -941,6 +981,17 @@ def draw_marker(
             fill=color,
             outline="white",
         )
+    elif shape == "diamond":
+        draw.polygon(
+            [
+                (x_value, y_value - radius - 2),
+                (x_value - radius - 2, y_value),
+                (x_value, y_value + radius + 2),
+                (x_value + radius + 2, y_value),
+            ],
+            fill=color,
+            outline="white",
+        )
     else:
         draw.ellipse(
             (
@@ -1222,6 +1273,14 @@ def percent_transform(
     rows: list[dict[str, float | str]], values: np.ndarray
 ) -> np.ndarray:
     return 100.0 * values
+
+
+def percent_through_twelve_transform(
+    rows: list[dict[str, float | str]], values: np.ndarray
+) -> np.ndarray:
+    del rows
+    transformed = 100.0 * values
+    return np.where(transformed <= 12.0, transformed, np.nan)
 
 
 def automation_feedback_path(
@@ -1768,9 +1827,53 @@ def main() -> None:
                 * final_average(rows, "human_research_share"),
                 "final_consumption_share_pct": 100.0
                 * final_average(rows, "consumption_share"),
+                "initial_net_capital_return_pct": 100.0
+                * float(rows[0]["net_capital_return"]),
+                "final_net_capital_return_pct": 100.0
+                * final_average(rows, "net_capital_return"),
+                "final_capital_output_ratio": final_average(
+                    rows, "capital_output_ratio"
+                ),
+                "final_euler_gap_pct_points": 100.0
+                * final_average(rows, "euler_gap"),
             }
         )
     write_rows(RESULT_DIR / "scenario_summary.csv", summary_rows)
+
+    interest_rate_summary_rows: list[dict[str, float | str]] = []
+    for key, rows in regime_rows.items():
+        parameters = regimes[key]
+        minimum_row = min(rows, key=lambda row: float(row["net_capital_return"]))
+        maximum_row = max(rows, key=lambda row: float(row["net_capital_return"]))
+        final_row = rows[-1]
+        interest_rate_summary_rows.append(
+            {
+                "scenario": key,
+                "sigma_xl": parameters.sigma_xl,
+                "last_year": float(final_row["time"]),
+                "initial_gross_capital_return_pct": 100.0
+                * float(rows[0]["gross_capital_return"]),
+                "initial_net_capital_return_pct": 100.0
+                * float(rows[0]["net_capital_return"]),
+                "minimum_net_capital_return_pct": 100.0
+                * float(minimum_row["net_capital_return"]),
+                "minimum_net_capital_return_year": float(minimum_row["time"]),
+                "maximum_net_capital_return_pct": 100.0
+                * float(maximum_row["net_capital_return"]),
+                "maximum_net_capital_return_year": float(maximum_row["time"]),
+                "final_net_capital_return_pct": 100.0
+                * float(final_row["net_capital_return"]),
+                "final_capital_output_ratio": float(
+                    final_row["capital_output_ratio"]
+                ),
+                "final_euler_gap_pct_points": 100.0
+                * float(final_row["euler_gap"]),
+            }
+        )
+    write_rows(
+        RESULT_DIR / "interest_rate_summary.csv",
+        interest_rate_summary_rows,
+    )
 
     labor_share_summary_rows: list[dict[str, float | str]] = []
     for key, rows in regime_rows.items():
@@ -1888,6 +1991,42 @@ def main() -> None:
                 "minimum_consumption_share": min(
                     float(row["consumption_share"]) for row in rows
                 ),
+                "max_abs_gross_capital_return_identity_error": max(
+                    abs(
+                        float(row["gross_capital_return"])
+                        - baseline.alpha
+                        * math.exp(
+                            float(row["log_output"])
+                            - float(row["log_capital"])
+                        )
+                    )
+                    for row in rows
+                ),
+                "max_abs_net_capital_return_identity_error": max(
+                    abs(
+                        float(row["net_capital_return"])
+                        - float(row["gross_capital_return"])
+                        + baseline.delta
+                    )
+                    for row in rows
+                ),
+                "max_abs_capital_return_growth_identity_error": max(
+                    abs(
+                        float(row["capital_return_growth"])
+                        - float(row["output_growth"])
+                        + float(row["capital_growth"])
+                    )
+                    for row in rows
+                ),
+                "max_abs_euler_gap_identity_error": max(
+                    abs(
+                        float(row["euler_gap"])
+                        - float(row["net_capital_return"])
+                        + baseline.discount
+                        + float(row["consumption_per_capita_growth"])
+                    )
+                    for row in rows
+                ),
             }
         )
     write_rows(RESULT_DIR / "validation.csv", validation_rows)
@@ -2002,6 +2141,57 @@ def main() -> None:
             "strong_substitutes": "σ_XL = 4",
         },
         regime_palette,
+    )
+
+    regime_markers = {
+        "complements": "circle",
+        "cobb_douglas": "square",
+        "substitutes": "triangle",
+        "strong_substitutes": "diamond",
+    }
+    draw_multiplot(
+        FIGURE_DIR / "numerical_interest_rate_paths.png",
+        "Returns to capital across production elasticities",
+        "Net real return is r - delta; detailed panel is shown only through 12 percent",
+        [
+            {
+                "title": "Net real return (percent; full scale)",
+                "field": "net_capital_return",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 85.0),
+            },
+            {
+                "title": "Net real return (percent; detailed scale)",
+                "field": "net_capital_return",
+                "transform": percent_through_twelve_transform,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 12.0),
+            },
+            {
+                "title": "Capital-output ratio, K/Y",
+                "field": "capital_output_ratio",
+                "format": lambda value: f"{value:.1f}",
+                "ylim": (0.0, 5.0),
+            },
+            {
+                "title": "Euler gap (percentage points)",
+                "field": "euler_gap",
+                "transform": percent_transform,
+                "format": lambda value: f"{value:.0f}",
+                "ylim": (-2.5, 5.0),
+                "reference_y": 0.0,
+            },
+        ],
+        regime_rows,
+        {
+            "complements": "σ_XL = 0.75",
+            "cobb_douglas": "σ_XL = 1",
+            "substitutes": "σ_XL = 2",
+            "strong_substitutes": "σ_XL = 4",
+        },
+        regime_palette,
+        markers=regime_markers,
     )
 
     wage_palette = {
