@@ -40,14 +40,34 @@ def value(row: dict[str, str], field: str, fallback: float = 0.0) -> float:
     return float(raw) if raw not in {"", None} else fallback
 
 
+PER_CAPITA_LOG_FIELDS = {
+    "log_ai_services_per_capita": "log_ai_services",
+    "log_inference_compute_per_capita": "log_inference_compute",
+    "log_human_research_per_capita": "log_human_research",
+    "log_automated_research_per_capita": "log_automated_research",
+    "log_effective_research_per_capita": "log_effective_research",
+}
+
+
+def log_level(row: dict[str, str], field: str) -> float:
+    numerator = PER_CAPITA_LOG_FIELDS.get(field)
+    if numerator is None:
+        return value(row, field)
+    return value(row, numerator) - value(row, "log_population")
+
+
 def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
     initial = rows[0]
     initial_levels = {
-        "log_capability": value(initial, "log_capability"),
-        "log_output_per_capita": value(initial, "log_output_per_capita"),
-        "log_consumption_per_capita": value(initial, "log_consumption_per_capita"),
-        "log_capital_per_capita": value(initial, "log_capital_per_capita"),
-        "log_wage": value(initial, "log_wage"),
+        field: log_level(initial, field)
+        for field in (
+            "log_capability",
+            "log_output_per_capita",
+            "log_consumption_per_capita",
+            "log_capital_per_capita",
+            "log_wage",
+            *PER_CAPITA_LOG_FIELDS,
+        )
     }
     converted: list[dict[str, float]] = []
     for row in downsample(rows):
@@ -79,6 +99,9 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "human_research_share": value(row, "human_research_share"),
             "ai_share": value(row, "ai_share"),
             "automated_research_share": value(row, "automated_research_share"),
+            "human_research_aggregate_share": (
+                1.0 - value(row, "automated_research_share")
+            ),
             "production_labor_share": value(row, "production_labor_share"),
             "aggregate_labor_share": value(row, "aggregate_labor_share"),
             "consumption_share": value(row, "consumption_share"),
@@ -87,10 +110,14 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "research_resource_share": value(row, "research_resource_share"),
             "output_capital_ratio": output_capital,
             "human_machine_ratio": human_machine,
+            "log_human_machine_ratio": (
+                value(row, "log_human_research")
+                - value(row, "log_automated_research")
+            ) / math.log(10.0),
         }
         for field, initial_value in initial_levels.items():
             current[field + "_change"] = (
-                value(row, field) - initial_value
+                log_level(row, field) - initial_value
             ) / math.log(10.0)
         converted.append(current)
     return converted

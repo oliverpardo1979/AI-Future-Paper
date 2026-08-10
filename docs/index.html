@@ -164,18 +164,23 @@
           </div>
 
           <div class="chart-grid">
+            <header class="chart-stage chart-stage-first">
+              <p class="eyebrow">Production block</p>
+              <div><h3>Producción final</h3><span>L + X → Z; K + Z → Y</span></div>
+            </header>
+
             <article class="chart-card chart-card-wide">
               <div class="chart-heading">
-                <div><p class="eyebrow">Quantities</p><h3>Niveles relativos · escala logarítmica</h3></div>
+                <div><p class="eyebrow">Outcomes</p><h3>Producto, capital, consumo y salario</h3></div>
                 <span>log₁₀(Vₜ/V₀)</span>
               </div>
-              <canvas id="levels-chart" aria-label="Gráfico logarítmico de niveles relativos"></canvas>
-              <div class="legend" id="levels-legend"></div>
+              <canvas id="production-levels-chart" aria-label="Gráfico logarítmico de producción, capital, consumo y salario"></canvas>
+              <div class="legend" id="production-levels-legend"></div>
             </article>
 
             <article class="chart-card">
               <div class="chart-heading">
-                <div><p class="eyebrow">Growth & prices</p><h3>Crecimiento e interés</h3></div>
+                <div><p class="eyebrow">Growth & return</p><h3>Tasas de crecimiento e interés</h3></div>
                 <span>porcentaje anual</span>
               </div>
               <canvas id="growth-chart" aria-label="Gráfico de crecimiento e interés"></canvas>
@@ -184,20 +189,71 @@
 
             <article class="chart-card">
               <div class="chart-heading">
-                <div><p class="eyebrow">Distribution</p><h3>Participaciones</h3></div>
-                <span>porcentaje del producto o del agregado</span>
+                <div><p class="eyebrow">L–X margin</p><h3>Sustitución y distribución</h3></div>
+                <span>porcentaje de Z o de Y</span>
               </div>
-              <canvas id="shares-chart" aria-label="Gráfico de participaciones"></canvas>
-              <div class="legend" id="shares-legend"></div>
+              <canvas id="production-shares-chart" aria-label="Gráfico de sustitución entre trabajo e inteligencia artificial y distribución"></canvas>
+              <div class="legend" id="production-shares-legend"></div>
             </article>
+
+            <header class="chart-stage">
+              <p class="eyebrow">Resource allocation</p>
+              <div><h3>Uso del producto</h3><span>Y → C + I + ξU + ξM</span></div>
+            </header>
 
             <article class="chart-card chart-card-wide">
               <div class="chart-heading">
-                <div><p class="eyebrow">AI industry</p><h3>Composición de la investigación</h3></div>
-                <span>humanos, máquinas y escala</span>
+                <div><p class="eyebrow">Uses of Y</p><h3>Asignación de recursos</h3></div>
+                <span>participaciones en el producto; suman 100%</span>
               </div>
-              <canvas id="research-chart" aria-label="Gráfico de investigación en IA"></canvas>
-              <div class="legend" id="research-legend"></div>
+              <canvas id="allocation-chart" aria-label="Gráfico de la asignación del producto entre consumo, inversión, inferencia e investigación automatizada"></canvas>
+              <div class="legend" id="allocation-legend"></div>
+            </article>
+
+            <header class="chart-stage">
+              <p class="eyebrow">AI services</p>
+              <div><h3>Producción de servicios de IA</h3><span>A + U → X</span></div>
+            </header>
+
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Capability & inference</p><h3>Capacidad, cómputo operativo y servicios</h3></div>
+                <span>log₁₀(Vₜ/V₀)</span>
+              </div>
+              <canvas id="ai-services-chart" aria-label="Gráfico logarítmico de capacidad, inferencia y servicios de inteligencia artificial"></canvas>
+              <div class="legend" id="ai-services-legend"></div>
+            </article>
+
+            <header class="chart-stage">
+              <p class="eyebrow">AI research</p>
+              <div><h3>Producción de mejores sistemas</h3><span>H + M → E; A + E → Ȧ</span></div>
+            </header>
+
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Research quantities</p><h3>Escala de la investigación</h3></div>
+                <span>log₁₀(Vₜ/V₀)</span>
+              </div>
+              <canvas id="research-levels-chart" aria-label="Gráfico logarítmico de investigación humana, automatizada y efectiva"></canvas>
+              <div class="legend" id="research-levels-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Research mix</p><h3>Humanos y máquinas</h3></div>
+                <span>porcentaje de E o de N</span>
+              </div>
+              <canvas id="research-composition-chart" aria-label="Gráfico de la composición humana y automatizada de la investigación"></canvas>
+              <div class="legend" id="research-composition-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Research ratio</p><h3>Intensidad humana relativa</h3></div>
+                <span>log₁₀(H/M)</span>
+              </div>
+              <canvas id="research-ratio-chart" aria-label="Gráfico logarítmico de la relación entre investigación humana y automatizada"></canvas>
+              <div class="legend" id="research-ratio-legend"></div>
             </article>
           </div>
 

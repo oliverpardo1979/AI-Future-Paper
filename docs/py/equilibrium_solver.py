@@ -1075,6 +1075,21 @@ def evaluate(
             "log_output_per_capita": block["log_output"] - block["log_population"],
             "log_consumption_per_capita": state[2] - block["log_population"],
             "log_capital_per_capita": state[0] - block["log_population"],
+            "log_ai_services_per_capita": (
+                block["log_ai_services"] - block["log_population"]
+            ),
+            "log_inference_compute_per_capita": (
+                block["log_inference_compute"] - block["log_population"]
+            ),
+            "log_human_research_per_capita": (
+                block["log_human_research"] - block["log_population"]
+            ),
+            "log_automated_research_per_capita": (
+                block["log_automated_research"] - block["log_population"]
+            ),
+            "log_effective_research_per_capita": (
+                block["log_effective_research"] - block["log_population"]
+            ),
             "log_wage": block["log_wage"],
             "capability_growth": block["capability_growth"],
             "consumption_per_capita_growth": block["consumption_growth"] - p.n,
@@ -1082,6 +1097,9 @@ def evaluate(
             "human_research_share": human_share,
             "ai_share": block["ai_share"],
             "automated_research_share": block["automated_research_share"],
+            "human_research_aggregate_share": (
+                1.0 - block["automated_research_share"]
+            ),
             "production_labor_share": production_labor_share,
             "aggregate_labor_share": aggregate_labor_share,
             "consumption_share": consumption_share,
@@ -1092,6 +1110,9 @@ def evaluate(
             "human_machine_ratio": math.exp(
                 block["log_human_research"] - block["log_automated_research"]
             ),
+            "log_human_machine_ratio": (
+                block["log_human_research"] - block["log_automated_research"]
+            ) / math.log(10.0),
         }
         rows.append(row)
 
@@ -1105,6 +1126,11 @@ def evaluate(
         "log_output_per_capita",
         "log_consumption_per_capita",
         "log_capital_per_capita",
+        "log_ai_services_per_capita",
+        "log_inference_compute_per_capita",
+        "log_human_research_per_capita",
+        "log_automated_research_per_capita",
+        "log_effective_research_per_capita",
         "log_wage",
     ):
         initial = rows[0][field]

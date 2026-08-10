@@ -61,11 +61,10 @@ const els = {
 
 const charts = [
   {
-    canvas: document.querySelector("#levels-chart"),
-    legend: document.querySelector("#levels-legend"),
+    canvas: document.querySelector("#production-levels-chart"),
+    legend: document.querySelector("#production-levels-legend"),
     format: formatAxis,
     series: [
-      ["log_capability_change", "Capacidad A", COLORS.ink],
       ["log_capital_per_capita_change", "Capital per cápita", COLORS.violet],
       ["log_output_per_capita_change", "Producto per cápita", COLORS.blue],
       ["log_consumption_per_capita_change", "Consumo per cápita", COLORS.teal],
@@ -85,27 +84,68 @@ const charts = [
     ],
   },
   {
-    canvas: document.querySelector("#shares-chart"),
-    legend: document.querySelector("#shares-legend"),
+    canvas: document.querySelector("#production-shares-chart"),
+    legend: document.querySelector("#production-shares-legend"),
     scale: 100,
+    floor: 0,
     format: (value) => `${formatAxis(value)}%`,
     series: [
-      ["aggregate_labor_share", "Trabajo total / Y", COLORS.blue],
-      ["production_labor_share", "Trabajo final / Y", COLORS.teal],
-      ["ai_share", "Participación IA en CES", COLORS.orange],
-      ["consumption_share", "Consumo / Y", COLORS.gold],
+      ["ai_share", "IA en el CES Z", COLORS.orange],
+      ["production_labor_share", "Trabajo de producción / Y", COLORS.teal],
+      ["aggregate_labor_share", "Ingreso laboral total / Y", COLORS.blue],
     ],
   },
   {
-    canvas: document.querySelector("#research-chart"),
-    legend: document.querySelector("#research-legend"),
+    canvas: document.querySelector("#allocation-chart"),
+    legend: document.querySelector("#allocation-legend"),
     scale: 100,
+    floor: 0,
     format: (value) => `${formatAxis(value)}%`,
     series: [
-      ["automated_research_share", "Máquinas en E", COLORS.orange],
+      ["consumption_share", "Consumo C/Y", COLORS.gold],
+      ["investment_share", "Inversión I/Y", COLORS.violet],
+      ["inference_share", "Inferencia ξU/Y", COLORS.teal],
+      ["research_resource_share", "Investigación automatizada ξM/Y", COLORS.orange],
+    ],
+  },
+  {
+    canvas: document.querySelector("#ai-services-chart"),
+    legend: document.querySelector("#ai-services-legend"),
+    format: formatAxis,
+    series: [
+      ["log_capability_change", "Capacidad A", COLORS.ink],
+      ["log_ai_services_per_capita_change", "Servicios X/N", COLORS.blue],
+      ["log_inference_compute_per_capita_change", "Inferencia U/N", COLORS.teal],
+    ],
+  },
+  {
+    canvas: document.querySelector("#research-levels-chart"),
+    legend: document.querySelector("#research-levels-legend"),
+    format: formatAxis,
+    series: [
+      ["log_human_research_per_capita_change", "Investigadores H/N", COLORS.blue],
+      ["log_automated_research_per_capita_change", "Máquinas M/N", COLORS.orange],
+      ["log_effective_research_per_capita_change", "Investigación efectiva E/N", COLORS.violet],
+    ],
+  },
+  {
+    canvas: document.querySelector("#research-composition-chart"),
+    legend: document.querySelector("#research-composition-legend"),
+    scale: 100,
+    floor: 0,
+    format: (value) => `${formatAxis(value)}%`,
+    series: [
+      ["automated_research_share", "Participación de M en E", COLORS.orange],
+      ["human_research_aggregate_share", "Participación de H en E", COLORS.violet],
       ["human_research_share", "Investigadores H/N", COLORS.blue],
-      ["research_resource_share", "Recursos de I+D / Y", COLORS.violet],
-      ["inference_share", "Cómputo operativo / Y", COLORS.teal],
+    ],
+  },
+  {
+    canvas: document.querySelector("#research-ratio-chart"),
+    legend: document.querySelector("#research-ratio-legend"),
+    format: formatAxis,
+    series: [
+      ["log_human_machine_ratio", "Relación H/M", COLORS.ink],
     ],
   },
 ];
@@ -438,6 +478,7 @@ function drawChart(config, rows) {
   let yMin = Math.min(...all.map((point) => point.y));
   let yMax = Math.max(...all.map((point) => point.y));
   [yMin, yMax] = niceBounds(yMin, yMax);
+  if (Number.isFinite(config.floor)) yMin = Math.max(yMin, config.floor);
   const xRange = xMax - xMin || 1;
   const yRange = yMax - yMin || 1;
   const xPos = (value) => margin.left + (value - xMin) / xRange * plotWidth;
