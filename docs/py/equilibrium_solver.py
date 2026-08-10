@@ -1112,7 +1112,7 @@ def evaluate(
             ),
             "log_human_machine_ratio": (
                 block["log_human_research"] - block["log_automated_research"]
-            ) / math.log(10.0),
+            ),
         }
         rows.append(row)
 
@@ -1135,7 +1135,7 @@ def evaluate(
     ):
         initial = rows[0][field]
         for row in rows:
-            row[field + "_change"] = (row[field] - initial) / math.log(10.0)
+            row[field + "_change"] = row[field] - initial
 
     boundary_error = endpoint_residual(solution, p, targets, duration)
     collocation = float(

@@ -113,12 +113,12 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "log_human_machine_ratio": (
                 value(row, "log_human_research")
                 - value(row, "log_automated_research")
-            ) / math.log(10.0),
+            ),
         }
         for field, initial_value in initial_levels.items():
             current[field + "_change"] = (
                 log_level(row, field) - initial_value
-            ) / math.log(10.0)
+            )
         converted.append(current)
     return converted
 
