@@ -66,6 +66,7 @@ const charts = [
     format: formatAxis,
     series: [
       ["log_capability_change", "Capacidad A", COLORS.ink],
+      ["log_capital_per_capita_change", "Capital per cápita", COLORS.violet],
       ["log_output_per_capita_change", "Producto per cápita", COLORS.blue],
       ["log_consumption_per_capita_change", "Consumo per cápita", COLORS.teal],
       ["log_wage_change", "Salario real", COLORS.orange],
@@ -425,6 +426,7 @@ function drawChart(config, rows) {
   const width = rect.width;
   const height = rect.height;
   const margin = { top: 12, right: 13, bottom: 38, left: 60 };
+  const xTickCount = width < 320 ? 2 : 4;
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
   const scale = config.scale || 1;
@@ -459,11 +461,11 @@ function drawChart(config, rows) {
     ctx.fillText(config.format(value), margin.left - 8, y);
   }
 
-  for (let index = 0; index <= 4; index += 1) {
-    const value = xMin + xRange * index / 4;
+  for (let index = 0; index <= xTickCount; index += 1) {
+    const value = xMin + xRange * index / xTickCount;
     const x = xPos(value);
     ctx.fillStyle = "#637075";
-    ctx.textAlign = "center";
+    ctx.textAlign = index === 0 ? "left" : index === xTickCount ? "right" : "center";
     ctx.textBaseline = "top";
     ctx.fillText(formatAxis(value), x, height - margin.bottom + 10);
   }
