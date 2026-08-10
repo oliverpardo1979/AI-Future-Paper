@@ -34,7 +34,7 @@ the paper, so the human-essential Cobb--Douglas benchmark is stable by construct
 This condition is weaker because only the automated-input elasticity $\omega_M$
 transmits the expansion of output back into research. There is therefore a parameter region in which growth remains balanced
 when human research is essential but accelerates when automated research can become
-asymptotically dominant. The high-feedback numerical experiment lies in this region.
+asymptotically dominant.
 The Cobb--Douglas comparison is a counterfactual technology, not a change in the
 research elasticity during the CES transition.
 
@@ -60,11 +60,12 @@ Research automation also has two distinct margins within the AI-development
 industry. The ratio $H/M$ measures human intensity, while $H/N$ measures the scale
 of human research employment. The first can fall while the second rises. This occurs
 when automated research per capita expands more rapidly than human input per unit of
-automated research contracts. The numerical experiments produce both a monotone
-decline in $H/N$ and a U-shaped path in which human research employment first falls
-and then expands, even though $H/M$ declines throughout. The asymptotic disappearance
-of human research as a relative input therefore does not imply that human research
-employment must fall during the transition.
+automated research contracts. In the equilibrium complementarity path, $H/N$
+declines monotonically. In the Cobb--Douglas equilibrium, it rises during the first
+part of the transition and later converges to zero while the automated research
+share approaches one. The asymptotic disappearance of human research as a relative
+input therefore does not imply that human research employment must fall throughout
+the transition.
 
 The production elasticity determines whether the economy reaches that asymptotic
 research regime. When $\sigma_{XL}<1$, labor remains essential and the productive return
@@ -86,58 +87,44 @@ high-capability regularity condition, unbounded capability induces this relative
 limit. The relative-price threshold for the
 transition diverges as $\sigma_{XL}$ approaches one. This makes the result a singular
 perturbation and explains why an economy with $\sigma_{XL}$ only slightly above one
-can look Cobb--Douglas for a very long time without possessing a finite-growth
-steady state asymptotically.
+can look Cobb--Douglas over an extremely large range of finite relative prices
+without possessing a finite-growth steady state asymptotically.
 
-The numerical experiments show why transitional dynamics cannot be inferred from
-these asymptotic results alone. In the stable Cobb--Douglas benchmark, research
-automation is sufficiently gradual that the economy remains below its
-AI-dominated growth rate for centuries. Different initial capability stocks produce
-different early growth rates but converge to the same path. With $\sigma_{XL}=2$,
-however, output- and consumption-per-capita growth initially fall and then turn
-upward. The path reaches the numerical cutoff in year 196, when their growth rates
-are approximately 71 percent per year. The reacceleration therefore does not require
-the earlier $\sigma_{XL}=4$ extreme. The near-unit experiments show the other side
-of the same result. The $\sigma_{XL}=1.01$ path remains close to Cobb--Douglas after
-one thousand simulated years, while $\sigma_{XL}=1.05$ shows visible but still
-moderate reacceleration and $\sigma_{XL}=1.10$ reaches the cutoff in year 744. The
-simulations therefore provide counterexamples, within the fixed-share closure, to
-both an immediate-takeoff reading of $\sigma_{XL}>1$ and an inference of eventual
-balanced growth from a long, apparently stable transition. The wage experiments
-also reject an unconditional wage-growth result. Wage growth equals a
-capital-deepening term plus an AI-services-deepening term whose sign turns negative
-when $\sigma_{XL}>1/\alpha$. Under high population growth and a very high production
-elasticity $\sigma_{XL}$, the negative latter term can dominate even when the capital
-term is positive. The labor-share experiments also show that the production and aggregate shares need not
-move together. In the baseline with $\sigma_{HM}=2$ and $\sigma_{XL}=1$, the
-production share remains constant while the aggregate share falls as the
-human-research employment share declines. Under Cobb--Douglas research,
-$\sigma_{HM}=1$, the result changes. A fixed automated-research spending share makes
-the human-research wage bill a constant share of output. The production and
-aggregate labor-income shares then rise by the same number of percentage points
-when $\sigma_{XL}<1$ and both remain constant when $\sigma_{XL}=1$. In the
-complementarity experiments, this distributional protection coincides with
-per-capita output growth converging to zero. More generally, any candidate interior
-constant-growth limit with $\sigma_{XL}<1$ has $g_Y=n$. If the developer's first-order
-and costate conditions also hold, the necessary capability-growth rate is
-$g_A=\eta n/(1-\phi+\eta)$ and the research shares decline. The fixed-share numerical
-closure instead imposes $g_A=\eta n/(1-\phi)$. By contrast, $\sigma_{XL}>1$ rules out
-an interior steady state whenever $A_t\to\infty$, while a negative value of
-$1-\phi-\eta\omega_X/\omega_L$ generates an additional research-feedback
-acceleration mechanism under Cobb--Douglas production. These experiments use fixed investment and
-research-spending shares; a full quantitative equilibrium must endogenize both
-decisions before drawing welfare or policy conclusions.
+The numerical experiments solve the decentralized perfect-foresight canonical system.
+Investment and research spending are endogenous, the household Euler equation holds,
+and the developer satisfies its research first-order and costate conditions. With
+$\sigma_{XL}=0.75$, output per capita falls initially, recovers, and then approaches
+a constant level even though capability continues to grow. By year 600,
+output-per-capita growth is 0.0056 percent and capability growth is 0.703 percent,
+close to its analytical limit of 0.675 percent. The production-labor share rises as
+labor becomes the bottleneck. With $\sigma_{XL}=1$, capability growth rises gradually
+and reaches 2.271 percent by year 2,000. Output- and consumption-per-capita growth
+then approach 0.568 percent, while the automated research share approaches one.
+These transitions confirm that the asymptotic regime need not be a good medium-run
+approximation.
+
+For $\sigma_{XL}>1$, the paper solves a free-boundary equilibrium branch instead of
+imposing a finite-growth terminal state. Conditional on an AI-dominated singular
+limit, $g_A/(Y/K)$, the consumption share, the research-resource share, and $qA/K$
+converge to constants, while $Y/K$ grows in inverse proportion to the remaining
+time. The terminal conditions impose the limiting values of $C/Y$ and $qA/K$;
+those two ratios are not independent validation moments. For $\sigma_{XL}=1.35$,
+1.50, and 2.00, the non-imposed growth and resource-share ratios approach their
+analytical predictions, while the initial jumps and estimated boundary dates remain
+stable as the boundary moves outward. The estimated dates are 333.38, 280.45, and 209.08
+years, respectively. These dates illustrate the comparative dynamics of the model;
+they are not calibrated forecasts.
 
 The return to capital supplies the price counterpart to these quantity dynamics.
-The net marginal return is $r_t-\delta=\alpha Y_t/K_t-\delta$. It moves toward four
-percent in the complementarity experiment and remains close to that value in the
-Cobb--Douglas experiment, but eventually rises under gross substitution as output
-expands faster than capital. With $\sigma_{XL}=2$, the net return first falls to 4.39
-percent and then rises to 78.45 percent before the numerical cutoff. Because the
-simulations fix the investment share, these paths are marginal
-returns implied by production rather than intertemporal prices from the fully
-optimizing equilibrium. Endogenizing saving is necessary to determine how strongly
-capital accumulation attenuates the increase in the interest rate.
+Because saving is endogenous, the net return is an intertemporal equilibrium price
+rather than a marginal product evaluated along an imposed investment path. It
+converges to 4 percent under complementarity and to 4.568 percent in the
+Cobb--Douglas AI-dominated limit. Under gross substitution, the net return first
+remains moderate and then diverges with $Y/K$. Output and consumption growth also
+accelerate. The real wage rises in all three reported gross-substitution paths,
+while the aggregate labor share approaches zero. The earlier fixed-share paths
+remain available as mechanism exercises but are not evidence about equilibrium
+takeoff, interest rates, or wage declines.
 
 Taken together, these results explain why the automation of AI research matters for
 humans even when the real wage does not fall. It can change the growth regime, reduce
@@ -145,23 +132,24 @@ labor's share of an expanding economy, increase the return to capital, and shift
 income toward the owners of AI firms and other productive assets. It can also reduce
 the number of humans required per unit of research without reducing human research
 employment, because the development industry may expand faster than its human
-intensity falls. The time dimension is equally important: an economy can display
-moderate growth for a long period and still lack an asymptotic finite-growth steady
-state. Observed stability over a finite transition therefore does not by itself
-identify the long-run regime.
+intensity falls. The distinction between finite and asymptotic behavior is equally
+important: observed stability over a finite range of capability and relative prices
+does not by itself identify the long-run regime.
 
 The current model does not establish whether an acceleration regime improves human
 welfare. Monopoly rents accrue to a representative household, so the model abstracts
 from unequal ownership and understates the distributional importance of a declining
 labor share. It also excludes agency failures, misalignment, existential damage, and
-political power. The numerical closure fixes investment and automated-research
-spending shares and should be read as a collection of mechanism experiments rather
-than as a quantitative forecast or a solved optimal transition. The paper's result
-is therefore conditional: it identifies the economic mechanisms and parameter
-restrictions that characterize or rule out constant-growth limits. Its acceleration
-and singularity classifications apply to the reduced closures stated in the relevant
-propositions, not automatically to the fully optimizing transition. The paper does
-not assign probabilities to those regimes or determine their full welfare ranking.
+political power. The numerical paths reported in the paper solve the decentralized
+canonical equilibrium conditions. For $\sigma_{XL}>1$, they use the conditional singular
+ratios derived in Proposition~\ref{prop:high-sigma-singular-scaling} and pass a
+free-boundary convergence test. This procedure provides numerical evidence for a
+locally regular singular branch from the stated initial conditions, but it is not a
+proof of the developer's global dynamic optimality, global existence, or uniqueness.
+The paper's acceleration and singularity results
+remain conditional on the assumptions stated in the relevant propositions and are
+not quantitative forecasts. The paper does not assign probabilities to those
+regimes or determine their full welfare ranking.
 
 Market power creates a genuine policy trade-off. The monopolist restricts the current
 supply of AI services, but its operating rents raise the private return to frontier

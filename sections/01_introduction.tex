@@ -28,10 +28,10 @@ intensive, the research workforce cannot grow persistently faster than populatio
 Automated research relaxes that constraint because additional output can finance
 additional research services, which improve capability and expand output again. The
 model determines when diminishing returns absorb this feedback and when the economy
-instead enters an acceleration regime. It also shows why a long period of moderate
-growth need not establish convergence: when the production elasticity is close to
-one, the transition can remain near Cobb--Douglas for centuries before the asymptotic
-force becomes quantitatively important.
+instead enters an acceleration regime. It also shows why finite-scale observations
+need not identify the asymptotic regime: when the production elasticity is close to
+one, the relative-price threshold at which the gross-substitution force becomes
+quantitatively important can be extremely large.
 
 The distributional question is different from the growth question. A decline in
 labor's share of output does not imply that the real wage falls, because productivity
@@ -216,10 +216,12 @@ not, by itself, evidence that the real wage has fallen. In the full model, the
 aggregate labor share also depends on how workers are reallocated between production
 and research. An increase in the human-research employment share raises aggregate
 labor income relative to production labor income; a decrease lowers it.
-There is a sharper result under Cobb--Douglas research and the fixed-spending
-closure used in the numerical experiments. The human-research wage bill is then a
-constant share of output, so the production and aggregate labor-income shares rise
-together when $\sigma_{XL}<1$ and remain constant when $\sigma_{XL}=1$.
+There is a sharper conditional result under Cobb--Douglas research and a fixed
+automated-research spending share. The human-research wage bill is then a constant
+share of output, so the production and aggregate labor-income shares rise together
+when $\sigma_{XL}<1$ and remain constant when $\sigma_{XL}=1$. This result belongs
+to a reduced allocation rule and is not used to characterize the numerical
+equilibrium paths.
 
 A separate distinction operates within the AI-development industry. The ratio
 $H/M$ measures the human intensity of research, whereas $H/N$ measures the fraction
@@ -277,39 +279,35 @@ Fourth, the production structure separates factor-income outcomes. An expansion 
 AI services lowers production labor's share when $\sigma_{XL}>1$, whereas its direct
 effect raises the real wage when $\sigma_{XL}<1/\alpha$. Capital deepening and the
 reallocation of workers between production and research determine the corresponding
-general-equilibrium paths. The numerical counterexample shows that the real wage can
-fall when AI-services deepening dominates capital deepening. The aggregate labor
-share can also differ from the production-labor share because it includes human
-researchers. Finally, monopoly creates a static deployment distortion but also the
-rents that give frontier capability a private value; incomplete appropriability
-creates a distinct reason for private research to remain below the social level.
+general-equilibrium paths. The exact wage-growth decomposition identifies when
+AI-services deepening works against wage growth, but the paper does not claim that
+this force dominates without solving the associated equilibrium transition. The
+aggregate labor share can also differ from the production-labor share because it
+includes human researchers. Finally, monopoly creates a static deployment
+distortion but also the rents that give frontier capability a private value;
+incomplete appropriability creates a distinct reason for private research to remain
+below the social level.
 
-Numerical transition experiments show that the asymptotic classification can be a
-poor description of medium-run dynamics. In the constant-share benchmark, research
-automation and convergence to the AI-dominated growth rate can take centuries under
-illustrative parameters. The central gross-substitution experiment sets
-$\sigma_{XL}=2$, without relying on the earlier $\sigma_{XL}=4$ extreme. Output- and
-consumption-per-capita growth initially fall, reach minima after approximately five
-decades, and then reaccelerate until the path reaches the numerical capital-growth
-cutoff in year 196. A sufficiently strong feedback from output to automated research
-generates a separate acceleration mechanism even under Cobb--Douglas production.
-Near-unit experiments sharpen the asymptotic qualification. With
-$\sigma_{XL}=1.01$, the economy remains close to the Cobb--Douglas path after one
-thousand simulated years; with $\sigma_{XL}=1.05$, reacceleration is visible but the
-path remains below the cutoff; and with $\sigma_{XL}=1.10$, the path reaches the
-cutoff in year 744.
-The wage experiments reject an unconditional wage-growth result. With high
-population growth and a very high production elasticity $\sigma_{XL}$, the displacement
-contribution from AI-services deepening can exceed the contribution from capital deepening, so the
-real wage eventually falls even though capital per production worker continues to
-rise. Remark~\ref{rem:numerical-wage-counterexample} reports an explicit
-parametrization and decomposes the negative wage-growth rate into these two terms.
-The labor-share experiments show that Cobb--Douglas production can keep the
-production-labor share constant while the aggregate share falls as workers leave
-human research. Additional experiments show that $H/M$ falls in every reported
-research-industry transition, while $H/N$ either declines or follows a U-shaped
-path as automated research expands. Different initial capability stocks change the transition but
-converge to the same stable path when the parameterization has a unique attractor.
+The numerical section solves the decentralized perfect-foresight canonical system,
+rather than fixing investment and research-spending shares. Under
+$\sigma_{XL}=0.75$, output per capita falls initially, recovers, and then converges
+toward a constant level while capability continues to grow. The production-labor
+share rises as labor becomes the bottleneck. Under Cobb--Douglas production,
+research automation is gradual: the automated contribution to research rises from
+10.6 percent initially to 45.4 percent after 600 years and approaches one only over
+a much longer horizon. Capability and per-capita output growth converge to their
+analytical constant-growth values. Human research employment is non-monotone along
+this path even though its long-run share of the population is zero.
+
+For $\sigma_{XL}>1$, the numerical section uses the model's singular asymptotic
+ratios rather than imposing a nonexistent finite-growth terminal state. Calendar
+time to a large output--capital ratio is endogenous, and the boundary is moved
+outward until the initial jump variables and the implied singularity date converge.
+For $\sigma_{XL}=1.35$, 1.50, and 2.00, the selected equilibrium branch remains close to moderate
+growth for a long interval and then accelerates toward a finite-time singularity.
+Higher substitution brings the acceleration forward. The wage rises throughout
+all three paths, while the aggregate labor share approaches zero. These dates are
+conditional numerical examples, not calibrated forecasts.
 
 The extended model retains the integrated monopolist and adds distributional
 heterogeneity and richer capital and compute accumulation. It will compare a

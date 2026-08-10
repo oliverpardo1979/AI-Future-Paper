@@ -240,6 +240,23 @@ Hamiltonian is
     +q_tF(A_t,H_t,M_t).
     \label{eq:private-hamiltonian}
 \end{equation}
+More explicitly, taking the paths of $r_t$, $w_t$, $K_t$, and $L_t$ as given, the
+developer's global problem is
+\begin{equation}
+\begin{aligned}
+    &\max_{\{X_t,H_t,M_t,A_t\}_{t\geq0}}
+    \int_0^\infty
+    \exp\!\left[-\int_0^t(r_s-\delta)\dd s\right]
+    \left[\pi^X_t-w_tH_t-\xi M_t\right]\dd t,\\
+    &\text{subject to }\dot A_t=F(A_t,H_t,M_t),
+    \qquad A_0\text{ given}.
+\end{aligned}
+    \label{eq:developer-market-value-program}
+\end{equation}
+The pointwise inverse demand faced by the developer is the one induced by final-good
+firms. Writing the global program explicitly matters because the canonical first-order
+and transversality conditions below need not by themselves be sufficient for a global
+optimum when the state--control problem is nonconcave.
 
 \subsection{Social planner}
 
@@ -275,6 +292,149 @@ such that:
         \label{eq:resource-constraint}
     \end{equation}
 \end{enumerate}
+
+\clearpage
+The following system records the market-clearing identities and canonical conditions
+used to compute an interior equilibrium candidate. On any interval over which
+the allocation is interior, all quantities and the private capability shadow value are positive,
+$0<H_t<N_t$, and $0<\varepsilon^X_t<1$. An equilibrium trajectory satisfies
+\begin{subequations}
+\label{eq:equilibrium-trajectory-system}
+\begin{align}
+    \dot N_t&=nN_t,
+    \label{eq:eqsys-population}\\
+    \dot K_t&=I_t-\delta K_t,
+    \label{eq:eqsys-capital}\\
+    \dot K_t&=(r_t-\delta)K_t+w_tN_t+\pi^X_t-w_tH_t-\xi M_t-C_t,
+    \label{eq:eqsys-household-budget}\\
+    \frac{\dot C_t}{C_t}&=n+r_t-\delta-\rho,
+    \label{eq:eqsys-consumption}\\
+    c_t&=\frac{C_t}{N_t},
+    \label{eq:eqsys-per-capita-consumption}\\
+    C_t+I_t+\xi(U_t+M_t)&=Y_t,
+    \label{eq:eqsys-resources}\\
+    L_t+H_t&=N_t,
+    \label{eq:eqsys-labor}\\
+    Y_t&=K_t^\alpha Z_t^{1-\alpha},
+    \label{eq:eqsys-output}\\
+    Z_t&=
+    \left[
+        \omega_L L_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+    \right]^{\sigma_{XL}/(\sigma_{XL}-1)},
+    \label{eq:eqsys-production}\\
+    X_t&=A_tU_t,
+    \label{eq:eqsys-ai-services}\\
+    \dot A_t=F(A_t,H_t,M_t)&=\chi A_t^\phi E_t^\eta,
+    \label{eq:eqsys-capability}\\
+    E_t&=
+    \left[
+        \omega_H H_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+        +\omega_M M_t^{(\sigma_{HM}-1)/\sigma_{HM}}
+    \right]^{\sigma_{HM}/(\sigma_{HM}-1)},
+    \label{eq:eqsys-research}\\
+    E_{H,t}&=\omega_H\left(\frac{E_t}{H_t}\right)^{1/\sigma_{HM}},
+    \label{eq:eqsys-human-research-marginal-product}\\
+    E_{M,t}&=\omega_M\left(\frac{E_t}{M_t}\right)^{1/\sigma_{HM}},
+    \label{eq:eqsys-machine-research-marginal-product}\\
+    s^X_t&=
+    \frac{\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}}
+    {\omega_L L_t^{(\sigma_{XL}-1)/\sigma_{XL}}
+        +\omega_X X_t^{(\sigma_{XL}-1)/\sigma_{XL}}},
+    \label{eq:eqsys-ai-share}\\
+    \varepsilon^X_t&=
+    \frac{1-s^X_t}{\sigma_{XL}}+\alpha s^X_t,
+    \label{eq:eqsys-inverse-elasticity}\\
+    r_t&=\alpha\frac{Y_t}{K_t},
+    \label{eq:eqsys-capital-price}\\
+    w_t&=(1-\alpha)(1-s^X_t)\frac{Y_t}{L_t},
+    \label{eq:eqsys-wage}\\
+    p^X_t&=(1-\alpha)s^X_t\frac{Y_t}{X_t},
+    \label{eq:eqsys-ai-price}\\
+    Y_t&=r_tK_t+w_tL_t+p^X_tX_t,
+    \label{eq:eqsys-final-firm-zero-profit}
+\end{align}
+\end{subequations}
+\begin{subequations}
+\label{eq:equilibrium-optimality-system}
+\begin{align}
+    X_t&\in
+    \underset{\widetilde X\geq0}{\arg\max}\,
+    \left\{
+        p^X_t(\widetilde X;K_t,L_t)\widetilde X
+        -\frac{\xi}{A_t}\widetilde X
+    \right\},
+    \label{eq:eqsys-monopoly-global}\\
+    p^X_t(1-\varepsilon^X_t)&=\frac{\xi}{A_t},
+    \label{eq:eqsys-monopoly-foc}\\
+    -\frac{X_t}{p^X_t}
+    \frac{\partial}{\partial X_t}
+    \left[p^X_t(1-\varepsilon^X_t)\right]
+    &=
+    \varepsilon^X_t(1-\varepsilon^X_t)
+    +\left(\alpha-\frac{1}{\sigma_{XL}}\right)
+    \left(1-\frac{1}{\sigma_{XL}}\right)s^X_t(1-s^X_t)>0,
+    \label{eq:eqsys-monopoly-soc}\\
+    \pi^X_t&=p^X_tX_t-\xi U_t,
+    \label{eq:eqsys-profit}\\
+    w_t&=q_tF_{H,t},
+    \label{eq:eqsys-human-research-foc}\\
+    \xi&=q_tF_{M,t},
+    \label{eq:eqsys-machine-research-foc}\\
+    F_{H,t}&=\chi\eta A_t^\phi E_t^{\eta-1}E_{H,t},
+    \label{eq:eqsys-human-research-product}\\
+    F_{M,t}&=\chi\eta A_t^\phi E_t^{\eta-1}E_{M,t},
+    \label{eq:eqsys-machine-research-product}\\
+    \dot q_t&=(r_t-\delta)q_t-\pi^X_{A,t}-q_tF_{A,t},
+    \label{eq:eqsys-costate}\\
+    \pi^X_{A,t}
+    \equiv
+    \left.\frac{\partial\pi^X_t}{\partial A_t}\right|_{X_t,K_t,L_t}
+    &=\frac{\xi X_t}{A_t^2},
+    \label{eq:eqsys-profit-derivative}\\
+    F_{A,t}&=\phi\frac{\dot A_t}{A_t}.
+    \label{eq:eqsys-capability-derivatives}
+\end{align}
+\end{subequations}
+The global condition~\eqref{eq:eqsys-monopoly-global} is part of the equilibrium
+system. The first-order condition~\eqref{eq:eqsys-monopoly-foc} alone would not be
+sufficient if the monopolist's objective had multiple stationary points. Equation
+\eqref{eq:eqsys-monopoly-soc} verifies a strict local maximum and provides a direct
+numerical diagnostic. Given the maintained concavity of research production,
+$\eta\in(0,1)$, the research first-order conditions characterize the developer's
+optimal input scale and mix whenever both inputs are positive.
+
+Systems~\eqref{eq:equilibrium-trajectory-system}--
+\eqref{eq:equilibrium-optimality-system}, the initial conditions, and the
+transversality or singular-endpoint conditions are therefore necessary for an
+interior equilibrium. They are sufficient for the household, the competitive
+final-good firms, and the developer's pointwise control choices. A full decentralized
+equilibrium additionally requires the developer's path to solve the global program
+\eqref{eq:developer-market-value-program}. The usual concavity sufficiency theorem
+applies, for example, under restrictions that make the Hamiltonian jointly concave in
+the state and controls. The baseline restrictions do not impose such global
+concavity, so satisfying the canonical system is not, by itself, an existence,
+uniqueness, or global-optimality proof.
+
+The initial stocks $N_0$, $K_0$, and $A_0$ are given. Aggregate consumption $C_0$ and the private
+shadow value $q_0$ jump to place the economy on a perfect-foresight path satisfying
+the household and developer transversality conditions:
+\begin{align}
+    \lim_{t\to\infty}
+    e^{-(\rho-n)t}\frac{K_t}{C_t}&=0,
+    \label{eq:household-tvc}\\
+    \lim_{t\to\infty}
+    \exp\!\left[-\int_0^t(r_s-\delta)\dd s\right]q_tA_t&=0.
+    \label{eq:developer-tvc}
+\end{align}
+If a control reaches a boundary, its equality in
+\eqref{eq:eqsys-monopoly-foc} or
+\eqref{eq:eqsys-human-research-foc}--\eqref{eq:eqsys-machine-research-foc} is
+replaced by the corresponding Kuhn--Tucker condition. For the conditional finite-singularity paths
+studied below, the numerical solution instead uses the limiting endpoint conditions
+$K_t/C_t\to0$ and $q_tA_t/C_t\to0$ as $t\uparrow T^*$, together with the remaining
+asymptotic restrictions in Proposition~\ref{prop:high-sigma-singular-scaling}.
+
 There is no common physical-capacity constraint between $U_t$ and $M_t$. The two
 uses of compute compete through the final-good resource constraint, not through an
 additional exogenous cap.
@@ -694,7 +854,7 @@ research. The second expands the scale of the research sector. Either force can
 dominate during a transition, so $H_t/N_t$ need not be monotone even when $H_t/M_t$
 falls monotonically.
 
-Under the numerical allocation rule $\xi_tM_t=m_RY_t$, with constant $m_R$,
+Under the proportional allocation rule $\xi_tM_t=m_RY_t$, with constant $m_R$,
 equation~\eqref{eq:human-research-share-growth} becomes
 \begin{equation}
     g_{h,t}
@@ -704,8 +864,9 @@ equation~\eqref{eq:human-research-share-growth} becomes
 \end{equation}
 The baseline holds $\xi$ constant. In that case, $H_t/N_t$ rises exactly when
 per-capita output grows faster than the wage multiplied by the research-substitution
-elasticity. This last condition belongs to the numerical closure rather than to the
-fully optimizing monopoly.
+elasticity. This last condition belongs to a reduced allocation closure rather than
+to the fully optimizing monopoly. It is useful for isolating a mechanism but is not
+used to construct the equilibrium simulations in Section~\ref{sec:numerical}.
 
 The private shadow value continues to satisfy
 \begin{equation}
@@ -1286,8 +1447,8 @@ rate in \eqref{eq:human-dominated-ga} to the AI-dominated dynamics in
 \eqref{eq:ai-growth-rate-dynamics}. The Cobb--Douglas counterfactual asks what would
 happen if the human input remained essential throughout. Under the baseline
 calibration, $D_{\mathrm{CD}}=0.3106$ and $D_{\mathrm{AI}}=0.2375$, so both
-technologies admit balanced growth. Under the high-feedback calibration used in
-Section~\ref{sec:numerical}, $D_{\mathrm{CD}}=0.08575$ but
+technologies admit balanced growth. Under a high-feedback mechanism calibration,
+$D_{\mathrm{CD}}=0.08575$ but
 $D_{\mathrm{AI}}=-0.015$. That parameterization is stable when human research is
 essential and enters the candidate acceleration region only when automated research
 can become asymptotically dominant.
@@ -1317,8 +1478,8 @@ effective marginal cost of AI services vanishes relative to capital intensity:
     \end{equation}
     The ratio $X_t/L_t$ remains bounded and the productive effect of further
     reductions in $\xi/A_t$ vanishes.
-    \item If $\sigma_{XL}=1$, factor shares are constant and the AI-dominated
-    balanced-growth path is characterized by
+    \item If $\sigma_{XL}=1$, factor shares are constant and any AI-dominated
+    balanced-growth candidate, when it exists, is characterized by
     \eqref{eq:cd-ai-ga}--\eqref{eq:bg-consumption-share}.
     \item If $\sigma_{XL}>1$, $s^X_t\to1$, the production-labor share converges to zero,
     and
@@ -1346,32 +1507,33 @@ the exact CES share equation.
 
 \begin{proposition}[The unit-elasticity singular perturbation]
 \label{prop:production-unit-elasticity-knife-edge}
-Let $q_t\equiv w_t/p^X_t$ and suppose $\omega_L,\omega_X>0$ with
+Let $\mathcal R_t\equiv w_t/p^X_t$ denote the relative price of production labor
+and suppose $\omega_L,\omega_X>0$ with
 $\omega_L+\omega_X=1$. At every interior allocation,
 \begin{equation}
     \frac{s^X_t}{1-s^X_t}
     =
     \left(\frac{\omega_X}{\omega_L}\right)^{\sigma_{XL}}
-    q_t^{\sigma_{XL}-1}.
+    \mathcal R_t^{\sigma_{XL}-1}.
     \label{eq:production-share-odds}
 \end{equation}
 Consequently:
 \begin{enumerate}[label=(\roman*)]
-    \item for every finite $q_t>0$, $s^X_t$ is continuous in $\sigma_{XL}$ at one
+    \item for every finite $\mathcal R_t>0$, $s^X_t$ is continuous in $\sigma_{XL}$ at one
     and converges to $\omega_X$ as $\sigma_{XL}\to1$;
-    \item if $q_t\to\infty$, then $s^X_t=\omega_X$ when $\sigma_{XL}=1$, whereas
+    \item if $\mathcal R_t\to\infty$, then $s^X_t=\omega_X$ when $\sigma_{XL}=1$, whereas
     $s^X_t\to1$ for every fixed $\sigma_{XL}>1$; hence
     \begin{equation}
-        \lim_{\sigma_{XL}\downarrow1}\lim_{q\to\infty}s^X(q,\sigma_{XL})=1,
+            \lim_{\sigma_{XL}\downarrow1}\lim_{\mathcal R\to\infty}s^X(\mathcal R,\sigma_{XL})=1,
         \qquad
-        \lim_{q\to\infty}\lim_{\sigma_{XL}\downarrow1}s^X(q,\sigma_{XL})
+            \lim_{\mathcal R\to\infty}\lim_{\sigma_{XL}\downarrow1}s^X(\mathcal R,\sigma_{XL})
         =\omega_X;
         \label{eq:noncommuting-production-limits}
     \end{equation}
     \item for any target $\bar s\in(\omega_X,1)$ and
     $\sigma_{XL}>1$, the relative price required to attain $s^X=\bar s$ is
     \begin{equation}
-        q_{\bar s}(\sigma_{XL})
+        \mathcal R_{\bar s}(\sigma_{XL})
         =
         \left[
             \frac{\bar s}{1-\bar s}
@@ -1379,7 +1541,7 @@ Consequently:
         \right]^{1/(\sigma_{XL}-1)},
         \label{eq:production-share-threshold}
     \end{equation}
-    and $q_{\bar s}(\sigma_{XL})\to\infty$ as
+    and $\mathcal R_{\bar s}(\sigma_{XL})\to\infty$ as
     $\sigma_{XL}\downarrow1$.
 \end{enumerate}
 \end{proposition}
@@ -1401,7 +1563,8 @@ $6.62$ when it is $1.10$. The AI-dominated coefficient in
 \eqref{eq:high-sigma-ak-limit} also satisfies
 $D_{XL}\to0$ as $\sigma_{XL}\downarrow1$ because $\omega_X\in(0,1)$. Both facts
 warn against using the asymptotic regime as a medium-run approximation when the
-elasticity is close to one. Section~\ref{sec:numerical} quantifies this transition.
+elasticity is close to one. This calculation characterizes the analytical scale of
+the asymptotic transition; it is not a simulated equilibrium path.
 
 Assumption~\ref{ass:stable-human-essential-benchmark} stabilizes the fully
 Cobb--Douglas research feedback at exactly $\sigma_{XL}=1$. It does not remove the
@@ -1440,6 +1603,79 @@ a stationary per-capita allocation. This observation is a logical counterexample
 the unconditional statement, not a claim that the no-research boundary is optimal in
 the baseline monopoly. Whether that boundary is an equilibrium depends on the
 developer's research first-order conditions and the private value of capability.
+
+The absence of a finite-growth steady state leaves open the form of an accelerating
+equilibrium. The following proposition characterizes its limiting ratios. It is a
+conditional result: it describes an interior path that reaches an AI-dominated
+finite-time singularity, but does not by itself prove that the path exists from
+arbitrary initial conditions.
+
+Define
+\begin{equation}
+    \vartheta\equiv\frac{1-\alpha}{\alpha},
+    \qquad
+    d_U\equiv(1-\alpha)^2.
+    \label{eq:high-sigma-singular-definitions}
+\end{equation}
+The first term is the capability elasticity of $Y/K$ in the AI-dominated
+production limit. The second is the limiting share of output used for inference
+compute under monopoly.
+
+\begin{proposition}[Conditional singular-equilibrium scaling]
+\label{prop:high-sigma-singular-scaling}
+Suppose $1<\sigma_{XL}<1/\alpha$, $\sigma_{HM}>1$, and consider an interior
+equilibrium that reaches a finite date $T^*$ with $A_t\to\infty$,
+$s^X_t\to1$, and $s^M_t\to1$. Suppose also that $C/Y$, investment and
+automated-research resource shares, $g_A/(Y/K)$, and $qA/K$ converge to positive
+finite limits. Then
+\begin{align}
+    \frac{g_A}{Y/K}
+    &\longrightarrow
+    \bar a
+    \equiv
+    \frac{\eta\alpha}{1-\phi+\vartheta},
+    &
+    \frac{qA}{K}
+    &\longrightarrow
+    \frac{d_U}{\eta\alpha},
+    \label{eq:high-sigma-singular-a-q}\\
+    \frac{\xi M}{Y}
+    &\longrightarrow
+    \bar m_R
+    \equiv
+    \frac{\eta d_U}{1-\phi+\vartheta},
+    &
+    \frac{I}{Y}
+    &\longrightarrow
+    \bar i
+    \equiv
+    \alpha-\vartheta\bar a,
+    \label{eq:high-sigma-singular-resource-shares}\\
+    \frac{C}{Y}
+    &\longrightarrow
+    \bar c
+    \equiv
+    1-d_U-\bar m_R-\bar i.
+    \label{eq:high-sigma-singular-consumption-share}
+\end{align}
+If $\bar c>0$ and $\bar i>0$, the output--capital ratio satisfies
+\begin{equation}
+    \frac{Y_t}{K_t}
+    \sim
+    \frac{1}{\vartheta\bar a\,(T^*-t)}.
+    \label{eq:high-sigma-time-to-singularity}
+\end{equation}
+Thus the output--capital ratio, the return to capital, and growth rates diverge at
+the finite date $T^*$ along this conditional limit. At the same time,
+$K/C\to0$ and $qA/C\to0$, so neither capital nor capability retains a positive
+terminal value relative to consumption at the singular boundary.
+\end{proposition}
+
+The proof is in Appendix~\ref{sec:appendix-proofs}. The limiting ratios depend on
+the capital, capability, and research elasticities, but not directly on the value
+of $\sigma_{XL}$ within the stated region. The production elasticity instead has
+a large effect on when the economy reaches the AI-dominated region. This distinction
+motivates the free-boundary equilibrium computations in Section~\ref{sec:numerical}.
 
 The nonexistence result can be paired with a conditional characterization of
 constant growth on the other side of the Cobb--Douglas threshold.
@@ -1484,16 +1720,18 @@ remains interior.
 \end{enumerate}
 \end{proposition}
 
-The proof is in Appendix~\ref{sec:appendix-proofs}. The first result differs from the
-fixed-research-share closure used in Section~\ref{sec:numerical}. Holding $H/N$ and
+The proof is in Appendix~\ref{sec:appendix-proofs}. The first result differs from a
+fixed-research-share mechanism closure. Holding $H/N$ and
 $\xi M/Y$ constant would instead give $g_E=n$ and
 $g_A=\eta n/(1-\phi)$. That technological path does not satisfy the developer's
 intertemporal optimality conditions when $\sigma_{XL}<1$: as the productive value of
 additional capability vanishes, an optimizing developer lets research grow more
 slowly than output. Equations~\eqref{eq:low-sigma-optimizing-growth-rates}--
 \eqref{eq:low-sigma-declining-research-shares} are necessary conditions, not a
-general existence theorem. Existence still requires the level first-order
-conditions, transversality, a feasible labor allocation, and $C/Y>0$.
+general existence theorem. The simulations in Section~\ref{sec:numerical} instead
+impose the developer's first-order and costate conditions. Existence still requires
+the level first-order conditions, transversality, a feasible labor allocation, and
+$C/Y>0$.
 
 When $\sigma_{XL}=1$, the positive wage growth in
 \eqref{eq:other-bg-rates} makes automated research asymptotically dominant if
@@ -1503,12 +1741,9 @@ solved jointly with capital accumulation before concluding that the human resear
 share disappears.
 
 The stabilization result in Proposition~\ref{prop:human-essentiality-acceleration}
-is therefore conditional on Cobb--Douglas production. To make the distinction
-explicit, let
-\begin{equation}
-    q\equiv\frac{1-\alpha}{\alpha}>0.
-    \label{eq:high-sigma-capability-exponent}
-\end{equation}
+is therefore conditional on Cobb--Douglas production. Recall that
+$\vartheta=(1-\alpha)/\alpha>0$ from
+\eqref{eq:high-sigma-singular-definitions}.
 If research is Cobb--Douglas, $E_t=H_t^{\omega_H}M_t^{\omega_M}$, the automated
 contribution share remains equal to $\omega_M$ and the human input remains essential.
 Nevertheless,
@@ -1517,7 +1752,7 @@ share $s_I$, that
 \begin{equation}
     g_{K,t}
     =s_I\frac{Y_t}{K_t}-\delta
-    \sim s_ID_{XL} A_t^q-\delta.
+    \sim s_ID_{XL} A_t^\vartheta-\delta.
     \label{eq:sigma-hm-one-high-sigma-xl-capital-growth}
 \end{equation}
 Thus, if $A_t\to\infty$, capital growth cannot converge to a finite constant.
@@ -1550,25 +1785,25 @@ vanish in the high-capability limit, the reduced system can be written as
     &=C\exp\!\left\{\eta\omega_Hnt+bk_t-dx_t\right\},
     \label{eq:sigma-hm-one-high-sigma-xl-x}\\
     \dot k_t
-    &=S\exp(qx_t)-\delta,
+    &=S\exp(\vartheta x_t)-\delta,
     \qquad C,S>0.
     \label{eq:sigma-hm-one-high-sigma-xl-k}
 \end{align}
-Define $u_t\equiv\dot x_t\exp(-qx_t)$. In this asymptotic system,
+Define $u_t\equiv\dot x_t\exp(-\vartheta x_t)$. In this asymptotic system,
 \begin{equation}
     \frac{\dot u_t}{u_t}
     =
     \eta\omega_Hn-b\delta
-    +\left[bS-(d+q)u_t\right]\exp(qx_t).
+    +\left[bS-(d+\vartheta)u_t\right]\exp(\vartheta x_t).
     \label{eq:sigma-hm-one-high-sigma-xl-u}
 \end{equation}
 By the maintained assumption $A_t\to\infty$, $x_t$ eventually becomes arbitrarily
 large. Because $b>0$, equation~\eqref{eq:sigma-hm-one-high-sigma-xl-u} then keeps $u_t$
-bounded away from zero, whether $d+q$ is positive, zero, or negative. It follows that
+bounded away from zero, whether $d+\vartheta$ is positive, zero, or negative. It follows that
 \begin{equation}
-    \frac{\dd}{\dd t}\exp(-qx_t)=-qu_t
+    \frac{\dd}{\dd t}\exp(-\vartheta x_t)=-\vartheta u_t
 \end{equation}
-is eventually bounded above by a negative constant. Hence $\exp(-qx_t)$ reaches
+is eventually bounded above by a negative constant. Hence $\exp(-\vartheta x_t)$ reaches
 zero in finite time, so $A_t$ diverges at a finite date.
 \end{proof}
 

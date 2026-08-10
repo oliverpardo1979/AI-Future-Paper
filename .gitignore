@@ -5,3 +5,4 @@ numerical/automation_feedback_paths.csv
 __pycache__/
 output/pdf/
 tmp/
+.python-packages/

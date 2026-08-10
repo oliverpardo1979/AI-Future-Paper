@@ -1,0 +1,169 @@
+scenario,sigma_xl,group,equation,maximum_absolute_residual,tolerance,passes
+equilibrium_sigma_0_75,0.75,algebraic identity,population_log_law,0.0,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,per_capita_consumption_identity,5.551115123125783e-17,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,production_log_identity,1.7763568394002505e-15,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,research_ces_log_identity,8.15347789284715e-13,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,ai_service_log_identity,0.0,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,ai_share_identity,2.7755575615628914e-16,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,inverse_elasticity_identity,0.0,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,capital_price_log_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,wage_log_identity,0.0,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,ai_price_log_identity,0.0,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,final_firm_zero_profit,3.3306690738754696e-16,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,household_budget,5.204170427930421e-16,1e-09,True
+equilibrium_sigma_0_75,0.75,algebraic identity,monopoly_rent_identity,6.467659741105081e-12,1e-09,True
+equilibrium_sigma_0_75,0.75,dynamic equation,capital_law,7.480180932474545e-08,2e-05,True
+equilibrium_sigma_0_75,0.75,dynamic equation,capability_law,2.665552572070351e-09,2e-05,True
+equilibrium_sigma_0_75,0.75,dynamic equation,consumption_euler_path,5.3154325014431736e-08,2e-05,True
+equilibrium_sigma_0_75,0.75,dynamic equation,shadow_costate,4.100685268692422e-08,2e-05,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,resource_constraint,3.3306690738754696e-16,1e-08,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,labor_market,4.440892098500626e-16,1e-08,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,monopoly_foc_log,1.4071970255713495e-09,1e-08,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,human_research_foc_log,4.440892098500626e-13,1e-08,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,machine_research_foc_log,9.992007221626409e-16,1e-08,True
+equilibrium_sigma_0_75,0.75,static equilibrium condition,euler_formula,0.0,1e-08,True
+equilibrium_sigma_0_75,0.75,optimality inequality,monopoly_soc_on_path,0.07881207795863282,0.0,True
+equilibrium_sigma_0_75,0.75,optimality inequality,monopoly_soc_full_domain,0.07420167926885671,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,positive_consumption_share,0.7372132616067435,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,positive_investment_share,0.18082311229167253,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,positive_compute_uses,9.80659564578773e-06,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,interior_ai_share,0.336383609261135,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,interior_human_research_share,0.0001582497070329955,0.0,True
+equilibrium_sigma_0_75,0.75,interiority,inverse_demand_elasticity_below_one,0.0041715546253386915,0.0,True
+equilibrium_sigma_0_75,0.75,terminal condition,terminal_consumption_share,5.264368052593227e-09,1e-06,True
+equilibrium_sigma_0_75,0.75,terminal condition,terminal_profit_derivative_to_shadow,1.0202886382981724e-09,1e-06,True
+equilibrium_sigma_1_00,1.0,algebraic identity,population_log_law,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,per_capita_consumption_identity,5.551115123125783e-17,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,production_log_identity,1.0658141036401503e-14,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,research_ces_log_identity,1.8474111129762605e-13,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,ai_service_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,ai_share_identity,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,inverse_elasticity_identity,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,capital_price_log_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,wage_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,ai_price_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,final_firm_zero_profit,6.661338147750939e-16,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,household_budget,3.316791286067655e-15,1e-09,True
+equilibrium_sigma_1_00,1.0,algebraic identity,monopoly_rent_identity,3.0531133177191805e-16,1e-09,True
+equilibrium_sigma_1_00,1.0,dynamic equation,capital_law,1.4688642941722979e-05,2e-05,True
+equilibrium_sigma_1_00,1.0,dynamic equation,capability_law,7.504261326143208e-08,2e-05,True
+equilibrium_sigma_1_00,1.0,dynamic equation,consumption_euler_path,8.809567042310923e-06,2e-05,True
+equilibrium_sigma_1_00,1.0,dynamic equation,shadow_costate,8.172736285214088e-06,2e-05,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,resource_constraint,3.3306690738754696e-16,1e-08,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,labor_market,1.7763568394002505e-15,1e-08,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,monopoly_foc_log,2.1316282072803006e-14,1e-08,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,human_research_foc_log,1.3210765814619663e-11,1e-08,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,machine_research_foc_log,4.440892098500626e-15,1e-08,True
+equilibrium_sigma_1_00,1.0,static equilibrium condition,euler_formula,0.0,1e-08,True
+equilibrium_sigma_1_00,1.0,optimality inequality,monopoly_soc_on_path,0.11604399999999992,0.0,True
+equilibrium_sigma_1_00,1.0,optimality inequality,monopoly_soc_full_domain,0.11604399999999992,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,positive_consumption_share,0.7261175074779256,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,positive_investment_share,0.2289019421061446,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,positive_compute_uses,0.00012357163069518905,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,interior_ai_share,0.2,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,interior_human_research_share,7.1163518041415505e-06,0.0,True
+equilibrium_sigma_1_00,1.0,interiority,inverse_demand_elasticity_below_one,0.1339999999999999,0.0,True
+equilibrium_sigma_1_00,1.0,terminal condition,terminal_consumption_share,1.3322676295501878e-15,1e-06,True
+equilibrium_sigma_1_00,1.0,terminal condition,terminal_shadow_capability_to_output,1.3877787807814457e-15,1e-06,True
+equilibrium_sigma_1_35,1.35,algebraic identity,population_log_law,0.0,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,per_capita_consumption_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,production_log_identity,3.552713678800501e-15,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,research_ces_log_identity,1.4871659459458897e-11,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,ai_service_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,ai_share_identity,2.220446049250313e-16,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,inverse_elasticity_identity,0.0,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,capital_price_log_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,wage_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,ai_price_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,final_firm_zero_profit,2.220446049250313e-16,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,household_budget,4.163336342344337e-16,1e-09,True
+equilibrium_sigma_1_35,1.35,algebraic identity,monopoly_rent_identity,5.88576409832342e-11,1e-09,True
+equilibrium_sigma_1_35,1.35,dynamic equation,capital_law,5.130813219400565e-06,2e-05,True
+equilibrium_sigma_1_35,1.35,dynamic equation,capability_law,1.6604185760216161e-06,2e-05,True
+equilibrium_sigma_1_35,1.35,dynamic equation,consumption_euler_path,8.394375933917786e-06,2e-05,True
+equilibrium_sigma_1_35,1.35,dynamic equation,shadow_costate,3.5528006053775485e-06,2e-05,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,resource_constraint,3.3306690738754696e-16,1e-08,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,labor_market,2.220446049250313e-16,1e-08,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,monopoly_foc_log,1.3517365005100146e-10,1e-08,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,human_research_foc_log,8.919698313292201e-12,1e-08,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,machine_research_foc_log,8.881784197001252e-16,1e-08,True
+equilibrium_sigma_1_35,1.35,static equilibrium condition,euler_formula,0.0,1e-08,True
+equilibrium_sigma_1_35,1.35,optimality inequality,monopoly_soc_on_path,0.19863409828453116,0.0,True
+equilibrium_sigma_1_35,1.35,optimality inequality,monopoly_soc_full_domain,0.1920448084985791,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,positive_consumption_share,0.26289929980903914,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,positive_investment_share,0.20279341292687023,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,positive_compute_uses,0.00012268421554657066,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,interior_ai_share,0.009298845758372365,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,interior_human_research_share,0.0011806885396578027,0.0,True
+equilibrium_sigma_1_35,1.35,interiority,inverse_demand_elasticity_below_one,0.29053895905140215,0.0,True
+equilibrium_sigma_1_35,1.35,terminal condition,terminal_output_capital_ratio,6.963318810448982e-13,1e-06,True
+equilibrium_sigma_1_35,1.35,terminal condition,terminal_consumption_share,1.6653345369377348e-16,1e-06,True
+equilibrium_sigma_1_35,1.35,terminal condition,terminal_shadow_capability_to_capital,8.881784197001252e-16,1e-06,True
+equilibrium_sigma_1_50,1.5,algebraic identity,population_log_law,0.0,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,per_capita_consumption_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,production_log_identity,1.7763568394002505e-15,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,research_ces_log_identity,1.5487167104311084e-11,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,ai_service_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,ai_share_identity,2.220446049250313e-16,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,inverse_elasticity_identity,0.0,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,capital_price_log_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,wage_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,ai_price_log_identity,0.0,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,final_firm_zero_profit,2.220446049250313e-16,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,household_budget,4.163336342344337e-16,1e-09,True
+equilibrium_sigma_1_50,1.5,algebraic identity,monopoly_rent_identity,4.097697181570936e-11,1e-09,True
+equilibrium_sigma_1_50,1.5,dynamic equation,capital_law,1.24168283077708e-06,2e-05,True
+equilibrium_sigma_1_50,1.5,dynamic equation,capability_law,3.813588249634847e-07,2e-05,True
+equilibrium_sigma_1_50,1.5,dynamic equation,consumption_euler_path,2.007821713334579e-06,2e-05,True
+equilibrium_sigma_1_50,1.5,dynamic equation,shadow_costate,8.623327945045389e-07,2e-05,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,resource_constraint,2.220446049250313e-16,1e-08,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,labor_market,2.220446049250313e-16,1e-08,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,monopoly_foc_log,9.828848845927496e-11,1e-08,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,human_research_foc_log,9.289513602794841e-12,1e-08,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,machine_research_foc_log,1.7763568394002505e-15,1e-08,True
+equilibrium_sigma_1_50,1.5,static equilibrium condition,euler_formula,0.0,1e-08,True
+equilibrium_sigma_1_50,1.5,optimality inequality,monopoly_soc_on_path,0.22110679590463958,0.0,True
+equilibrium_sigma_1_50,1.5,optimality inequality,monopoly_soc_full_domain,0.22110002244433227,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,positive_consumption_share,0.26289929980903914,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,positive_investment_share,0.20394093387810724,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,positive_compute_uses,0.00010854827270262238,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,interior_ai_share,0.003032476260897421,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,interior_human_research_share,0.0009622687616264963,0.0,True
+equilibrium_sigma_1_50,1.5,interiority,inverse_demand_elasticity_below_one,0.35181619201889547,0.0,True
+equilibrium_sigma_1_50,1.5,terminal condition,terminal_output_capital_ratio,1.6342482922482304e-13,1e-06,True
+equilibrium_sigma_1_50,1.5,terminal condition,terminal_consumption_share,1.6653345369377348e-16,1e-06,True
+equilibrium_sigma_1_50,1.5,terminal condition,terminal_shadow_capability_to_capital,4.440892098500626e-15,1e-06,True
+equilibrium_sigma_2_00,2.0,algebraic identity,population_log_law,0.0,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,per_capita_consumption_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,production_log_identity,1.7763568394002505e-15,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,research_ces_log_identity,1.035616037370346e-12,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,ai_service_log_identity,0.0,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,ai_share_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,inverse_elasticity_identity,0.0,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,capital_price_log_identity,4.440892098500626e-16,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,wage_log_identity,0.0,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,ai_price_log_identity,0.0,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,final_firm_zero_profit,2.220446049250313e-16,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,household_budget,3.677613769070831e-16,1e-09,True
+equilibrium_sigma_2_00,2.0,algebraic identity,monopoly_rent_identity,8.920750249608034e-11,1e-09,True
+equilibrium_sigma_2_00,2.0,dynamic equation,capital_law,1.0117228908868015e-05,2e-05,True
+equilibrium_sigma_2_00,2.0,dynamic equation,capability_law,3.0965993524367796e-06,2e-05,True
+equilibrium_sigma_2_00,2.0,dynamic equation,consumption_euler_path,1.6415496763233506e-05,2e-05,True
+equilibrium_sigma_2_00,2.0,dynamic equation,shadow_costate,7.009097207522075e-06,2e-05,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,resource_constraint,3.3306690738754696e-16,1e-08,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,labor_market,2.220446049250313e-16,1e-08,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,monopoly_foc_log,1.9872814505106362e-10,1e-08,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,human_research_foc_log,1.3733458814613186e-12,1e-08,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,machine_research_foc_log,9.43689570931383e-16,1e-08,True
+equilibrium_sigma_2_00,2.0,static equilibrium condition,euler_formula,0.0,1e-08,True
+equilibrium_sigma_2_00,2.0,optimality inequality,monopoly_soc_on_path,0.21780305061459174,0.0,True
+equilibrium_sigma_2_00,2.0,optimality inequality,monopoly_soc_full_domain,0.21780303030404002,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,positive_consumption_share,0.2628992998090401,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,positive_investment_share,0.20437855087504983,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,positive_compute_uses,6.103656116835751e-05,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,interior_ai_share,2.4386689666977546e-05,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,interior_human_research_share,0.0004730576297189474,0.0,True
+equilibrium_sigma_2_00,2.0,interiority,inverse_demand_elasticity_below_one,0.5035518899541434,0.0,True
+equilibrium_sigma_2_00,2.0,terminal condition,terminal_output_capital_ratio,5.826450433232822e-13,1e-06,True
+equilibrium_sigma_2_00,2.0,terminal condition,terminal_consumption_share,1.1102230246251565e-15,1e-06,True
+equilibrium_sigma_2_00,2.0,terminal condition,terminal_shadow_capability_to_capital,8.881784197001252e-16,1e-06,True

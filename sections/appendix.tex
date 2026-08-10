@@ -257,6 +257,111 @@ Aggregate consumption cannot consequently grow at a finite constant rate. If $g_
 is a positive constant, then $A_t\to\infty$, so the final claim follows.
 \end{proof}
 
+\begin{proof}[Proof of Proposition~\ref{prop:high-sigma-singular-scaling}]
+Let $z_t\equiv Y_t/K_t$, $u_t\equiv q_tA_t/K_t$, and
+$a_t\equiv g_{A,t}/z_t$. AI dominance and
+\eqref{eq:appendix-high-sigma-output-capital-limit} imply
+\begin{equation}
+    z_t\sim D_{XL}A_t^\vartheta,
+    \qquad
+    \frac{\xi U_t}{Y_t}\longrightarrow d_U,
+    \qquad
+    \frac{r_t}{z_t}\longrightarrow\alpha.
+    \label{eq:appendix-singular-production-limits}
+\end{equation}
+Moreover,
+\begin{equation}
+    \frac{\pi^X_{A,t}/q_t}{z_t}
+    =
+    \frac{A_t\pi^X_{A,t}}{Y_t}\frac{1}{u_t}
+    \longrightarrow
+    \frac{d_U}{u_t}.
+    \label{eq:appendix-singular-profit-value}
+\end{equation}
+
+Let $\bar i$, $\bar c$, $\bar m_R$, $\bar a$, and $\bar u$ denote the
+positive limits of $I/Y$, $C/Y$, $\xi M/Y$, $a_t$, and $u_t$. The household
+Euler equation gives $g_C/z\to\alpha$. A constant consumption share therefore
+requires $g_Y/z\to\alpha$. Because
+$g_z=\vartheta g_A$ and $g_K/z\to\bar i$, output growth also satisfies
+\[
+    \frac{g_Y}{z}
+    \longrightarrow
+    \bar i+\vartheta\bar a.
+\]
+It follows that
+\begin{equation}
+    \bar i=\alpha-\vartheta\bar a.
+    \label{eq:appendix-singular-investment}
+\end{equation}
+
+When $s^M_t\to1$, the automated-research first-order condition becomes
+$\xi=q_t\eta\dot A_t/M_t$ asymptotically. Hence
+\begin{equation}
+    \bar m_R
+    =\eta\bar u\bar a.
+    \label{eq:appendix-singular-research-share}
+\end{equation}
+The growth rate of $u_t=q_tA_t/K_t$ and the developer's costate equation give
+\begin{align}
+    \frac{g_{u,t}}{z_t}
+    &\longrightarrow
+    \alpha-\bar i+(1-\phi)\bar a-\frac{d_U}{\bar u}\notag\\
+    &=
+    (1-\phi+\vartheta)\bar a-\frac{d_U}{\bar u}.
+    \label{eq:appendix-singular-shadow-ratio}
+\end{align}
+Because $u_t$ converges to a positive constant,
+\begin{equation}
+    \bar u
+    =
+    \frac{d_U}{(1-\phi+\vartheta)\bar a}.
+    \label{eq:appendix-singular-shadow-limit}
+\end{equation}
+
+Finally, automated research dominance and a constant research-resource share imply
+$g_M/z\to g_Y/z\to\alpha$. Log differentiation of the ideas-production function
+therefore gives
+\[
+    \frac{g_{g_A}}{z}
+    \longrightarrow
+    (\phi-1)\bar a+\eta\alpha.
+\]
+But $g_A=\bar a z$ asymptotically and $g_z=\vartheta g_A$, so the left-hand side
+also converges to $\vartheta\bar a$. Equating the two expressions yields
+\[
+    \bar a
+    =
+    \frac{\eta\alpha}{1-\phi+\vartheta}.
+\]
+Equations~\eqref{eq:appendix-singular-research-share} and
+\eqref{eq:appendix-singular-shadow-limit} then give
+$\bar u=d_U/(\eta\alpha)$ and
+$\bar m_R=\eta d_U/(1-\phi+\vartheta)$. The resource constraint gives
+$\bar c=1-d_U-\bar m_R-\bar i$.
+
+To obtain the time path, use $g_z=\vartheta g_A\sim\vartheta\bar a z$:
+\[
+    \dot z_t
+    \sim
+    \vartheta\bar a z_t^2.
+\]
+Integration gives
+$z_t\sim[\vartheta\bar a(T^*-t)]^{-1}$. Finally,
+\[
+    \frac{K_t}{C_t}
+    =
+    \frac{1}{(C_t/Y_t)z_t}
+    \longrightarrow0,
+    \qquad
+    \frac{q_tA_t}{C_t}
+    =
+    u_t\frac{K_t}{C_t}
+    \longrightarrow0.
+\]
+These limits establish the terminal-value claims.
+\end{proof}
+
 \begin{proof}[Proof of Proposition~\ref{prop:nonunit-ces-steady-states}]
 Consider first $\sigma_{XL}<1$. Proposition~\ref{prop:production-ces-regimes}
 implies that $X_t/L_t$ converges to a positive constant. Because $L/N$ also
