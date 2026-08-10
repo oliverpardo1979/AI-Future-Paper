@@ -83,9 +83,9 @@
                 <label><span>Retornos a A, φ</span><input data-param="phi" type="number" min="-0.50" max="0.99" step="0.01" value="0.65" /></label>
                 <label><span>Elasticidad de E, η</span><input data-param="eta" type="number" min="0.05" max="0.95" step="0.01" value="0.45" /></label>
                 <label><span>Peso máquina, ωM</span><input data-param="omega_m" type="number" min="0.01" max="0.95" step="0.01" value="0.35" /></label>
-                <label><span>Elasticidad H–M, σHM</span><input data-param="sigma_hm" type="number" min="1.01" max="6.00" step="0.05" value="2.00" /></label>
-                <label><span>Productividad, χ</span><input data-param="chi" type="number" min="0.00001" max="2.00" step="0.00001" value="0.0983886743" /></label>
-                <label><span>Costo de cómputo, ξ</span><input data-param="xi" type="number" min="0.001" max="20.00" step="0.05" value="1.00" /></label>
+                <label><span>Elasticidad H–M, σHM</span><input data-param="sigma_hm" type="number" min="1.01" max="6.00" step="0.01" value="2.00" /></label>
+                <label><span>Productividad, χ</span><input data-param="chi" type="number" min="0.00001" max="2.00" step="any" value="0.0983886743" /></label>
+                <label><span>Costo de cómputo, ξ</span><input data-param="xi" type="number" min="0.001" max="20.00" step="0.001" value="1.00" /></label>
               </div>
             </details>
 
@@ -101,19 +101,19 @@
             <details>
               <summary>Condiciones iniciales</summary>
               <div class="field-grid">
-                <label><span>Capital, K₀</span><input data-param="capital_initial" type="number" min="0.001" max="1000" step="0.0001" value="2.5093528013" /></label>
-                <label><span>Capacidad, A₀</span><input data-param="capability_initial" type="number" min="0.001" max="1000" step="0.1" value="1.0" /></label>
-                <label class="wide"><span>Población, N₀</span><input data-param="population_initial" type="number" min="0.001" max="1000" step="0.1" value="1.0" /></label>
+                <label><span>Capital, K₀</span><input data-param="capital_initial" type="number" min="0.001" max="1000" step="any" value="2.5093528013" /></label>
+                <label><span>Capacidad, A₀</span><input data-param="capability_initial" type="number" min="0.001" max="1000" step="0.001" value="1.0" /></label>
+                <label class="wide"><span>Población, N₀</span><input data-param="population_initial" type="number" min="0.001" max="1000" step="0.001" value="1.0" /></label>
               </div>
             </details>
 
             <details>
               <summary>Opciones numéricas</summary>
               <div class="field-grid">
-                <label><span>Horizonte (años)</span><input data-param="horizon" type="number" min="25" max="3000" step="25" value="1000" /></label>
+                <label><span>Horizonte (años)</span><input data-param="horizon" type="number" min="25" max="3000" step="25" value="2000" /></label>
                 <label><span>Puntos reportados</span><input data-param="points" type="number" min="61" max="401" step="20" value="181" /></label>
                 <label><span>Tolerancia</span><input data-param="tolerance" type="number" min="0.00001" max="0.001" step="0.00001" value="0.00005" /></label>
-                <label><span>Y/K objetivo o conjetura</span><input data-param="terminal_z" type="number" min="1.5" max="100" step="1" value="20" /></label>
+                <label><span>Y/K objetivo o conjetura</span><input data-param="terminal_z" type="number" min="0.001" max="100" step="any" value="0.2899267967" /></label>
                 <label class="wide">
                   <span>Frontera cuando σXL &gt; 1</span>
                   <select data-param="high_method">

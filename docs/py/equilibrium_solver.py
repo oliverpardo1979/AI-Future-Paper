@@ -36,8 +36,8 @@ class Parameters:
     capital_initial: float = 2.5093528013468305
     capability_initial: float = 1.0
     population_initial: float = 1.0
-    horizon: float = 1000.0
-    terminal_z: float = 20.0
+    horizon: float = 2000.0
+    terminal_z: float = 0.2899267966577116
     points: int = 181
     tolerance: float = 5e-5
     high_method: str = "fixed_horizon"
