@@ -38,7 +38,28 @@ Consumption is the residual
 \end{equation}
 The closure in \eqref{eq:numerical-share-rules} isolates the technological and
 market-structure feedbacks. It should not be interpreted as the developer's optimal
-research policy away from the balanced-growth path.
+research policy away from the Cobb--Douglas balanced-growth path. The distinction is
+also asymptotically important when $\sigma_{XL}<1$. The fixed research-spending share
+forces effective research to grow with population and gives
+\begin{equation}
+    g_A^{\mathrm{fixed}}
+    =\frac{\eta n}{1-\phi}.
+    \label{eq:numerical-low-sigma-fixed-share-rate}
+\end{equation}
+By contrast, Proposition~\ref{prop:nonunit-ces-steady-states} shows that any
+nondegenerate constant-growth limit satisfying the developer's first-order and
+costate conditions must have
+\begin{equation}
+    g_A^{\mathrm{opt}}
+    =\frac{\eta n}{1-\phi+\eta},
+    \qquad
+    g_H=g_M=\frac{(1-\phi)n}{1-\phi+\eta}.
+    \label{eq:numerical-low-sigma-optimizing-rate}
+\end{equation}
+For the baseline parameters, the two capability-growth rates are 1.54 and 0.68
+percent. The fixed-share simulations can verify the production bottleneck and the
+zero per-capita output-growth limit, but they cannot identify the optimizing scale of
+research in this regime.
 
 Table~\ref{tab:numerical-calibration} reports the baseline. The investment and
 research-compute shares are obtained from
@@ -796,17 +817,94 @@ less than 0.001 percent by year 800 and aggregate capital growth converges to
 population growth. Complementarity makes production labor essential, so further
 capability improvements have a vanishing effect on output per person.
 
+\subsection{Long-horizon falsification exercises}
+
+The preceding figures select economically informative paths. To test whether those
+paths depend on the selected horizon, initial state, or distance from a theoretical
+boundary, we run 29 additional simulations. The central group varies
+$\sigma_{XL}$ between 0.75 and 2 over a horizon of 2,000 years. A second group sets
+$D_{\mathrm{AI}}$ equal to 0.02, zero, or $-0.02$ while maintaining
+$D_{\mathrm{CD}}>0$. A third group halves or doubles initial capital or initial
+capability for $\sigma_{XL}\in\{0.75,1.05,2\}$. All experiments retain the baseline
+fixed spending shares and initial normalization of research productivity. They test
+the numerical closure; they do not add optimality conditions that the closure omits.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Long-horizon endpoints in the stable-feedback calibration}
+    \label{tab:numerical-long-horizon-stress}
+    \begin{tabular}{crlrrrr}
+        \toprule
+        $\sigma_{XL}$ & Year & Stopping reason & $g_A$ & $g_{Y/N}$ & $r-\delta$ & Euler gap \\
+        \midrule
+        0.75 & 2,000 & horizon & 1.54\% & 0.00\% & 3.76\% & $-0.24$ pp \\
+        0.99 & 2,000 & horizon & 1.98\% & 0.33\% & 4.24\% & $-0.10$ pp \\
+        1.00 & 2,000 & horizon & 2.26\% & 0.57\% & 4.56\% & $-0.00$ pp \\
+        1.01 & 2,000 & horizon & 3.11\% & 1.31\% & 5.60\% & 0.29 pp \\
+        1.05 & 1,086 & acceleration cutoff & 43.65\% & 61.55\% & 82.22\% & 17.82 pp \\
+        2.00 & 196 & acceleration cutoff & 11.55\% & 60.69\% & 78.46\% & 14.71 pp \\
+        \bottomrule
+    \end{tabular}
+    \begin{minipage}{0.96\textwidth}
+    \footnotesize\emph{Notes:} Entries are endpoint values. The acceleration cutoff
+    applies when capability or capital growth reaches 50 percent. The Euler gap is
+    $r_t-\delta-\rho-g_{c,t}$ and would equal zero in the optimizing household
+    equilibrium. The underlying results are reported in
+    \path{numerical/regime_stress_summary.csv}.
+    \end{minipage}
+\end{table}
+
+The complementarity case reaches the fixed-share limit by year 2,000:
+per-capita output growth is numerically zero, the AI contribution is 33.22 percent,
+and capability growth is 1.54 percent. The last number verifies
+\eqref{eq:numerical-low-sigma-fixed-share-rate}, not the optimizing candidate in
+\eqref{eq:numerical-low-sigma-optimizing-rate}. Its Euler gap is $-0.24$ percentage
+points, and the simulation does not impose the developer's costate equation. The
+same experiment therefore cannot be cited as evidence that the optimizing monopoly
+converges to 1.54 percent capability growth.
+
+The transition remains highly nonuniform around unit elasticity. With
+$\sigma_{XL}=0.99$, the AI contribution is still 14.64 percent in year 2,000, far
+above its asymptotic value of 1.49 percent. With $\sigma_{XL}=1.01$, capability and
+per-capita output growth are increasing at the endpoint, but the path has not reached
+the acceleration cutoff. By contrast, the $\sigma_{XL}=1.05$ path reaches the cutoff
+in year 1,086. These observations are consistent with Proposition
+\ref{prop:production-unit-elasticity-knife-edge}: the asymptotic classification is
+not a uniform approximation over elasticities close to one.
+
+The initial-condition exercises do not reveal a second basin in the tested range.
+All four perturbations converge to the same fixed-share limit when
+$\sigma_{XL}=0.75$. When $\sigma_{XL}=2$, the cutoff date ranges from year 182 to
+year 206. This is evidence of qualitative robustness within the numerical closure,
+not a proof of global uniqueness. The feedback-boundary exercises require even more
+caution. At $\sigma_{XL}=1$, the cases with $D_{\mathrm{AI}}=0.02$ and
+$D_{\mathrm{AI}}=0$ encounter a numerical root failure before the 2,000-year
+horizon, while the case with $D_{\mathrm{AI}}=-0.02$ reaches the acceleration cutoff
+in year 744. We record the first two outcomes as numerical failures rather than as
+singularities.
+
+Finally, a step-size check compares half-year, one-year, two-year, and five-year
+integration steps over the first 200 years. For $\sigma_{XL}\leq1.10$, the two-year
+step changes terminal-average growth rates by less than 0.0004 percentage points
+relative to the half-year benchmark. Near the $\sigma_{XL}=2$ cutoff, the difference
+is larger but the half-year, one-year, and two-year runs stop in the same year. The
+five-year run produces a large endpoint error and is rejected. The stress-test code
+and step-size results are reported in \path{scripts/stress_test_regimes.py} and
+\path{numerical/regime_stress_step_convergence.csv}.
+
 \subsection{Scope of the numerical evidence}
 
-The experiments establish that the analytical regime distinctions survive in a
-closed transition system and that convergence can be much slower than the
-asymptotic formulas suggest. They also establish that real-wage declines are
-possible, including along a path with positive capital deepening, when production
-substitution is sufficiently strong. Finally, they show that human essentiality in
-research does not restore balanced growth when $\sigma_{XL}>1$ under the fixed-share
-closure. When $\sigma_{HM}=1$, the same closure implies that production and
-aggregate labor-income shares rise together for $\sigma_{XL}<1$ and remain constant
-at $\sigma_{XL}=1$. They do not yet provide welfare comparisons or
+The experiments illustrate the mechanisms behind the analytical regime distinctions
+and show that convergence can be much slower than the asymptotic formulas suggest.
+They also provide counterexamples to an unconditional wage-growth claim, including a
+fixed-share path with positive capital deepening on which the real wage falls when
+production substitution is sufficiently strong. Finally, they show that human
+essentiality in research does not restore balanced growth under the fixed-share
+closure when $\sigma_{XL}>1$. When $\sigma_{HM}=1$, the same closure implies that
+production and aggregate labor-income shares rise together for $\sigma_{XL}<1$ and
+remain constant at $\sigma_{XL}=1$. These are properties of the stated numerical
+closure, not propositions about the fully optimizing transition. They do not yet
+provide welfare comparisons or
 a quantitative prediction about calendar time. The next numerical step is to
 replace \eqref{eq:numerical-share-rules} with the household Euler equation, the
 developer's costate equation, and transversality conditions. That solution will

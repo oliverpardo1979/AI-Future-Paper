@@ -404,10 +404,14 @@ def simulate(
     horizon: float = 160.0,
     step: float = 0.50,
     acceleration_cutoff: float = 0.50,
+    max_log_state: float = 100.0,
+    catch_numerical_errors: bool = False,
+    report_stop_reason: bool = False,
 ) -> list[dict[str, float | str]]:
     state = np.log(np.asarray(initial_state, dtype=float))
     rows: list[dict[str, float | str]] = []
     time = 0.0
+    stop_reason = "horizon"
 
     while time <= horizon + 1e-10:
         rates, block = state_growth_rates(state, parameters)
@@ -423,11 +427,22 @@ def simulate(
         if (
             block["capability_growth"] >= acceleration_cutoff
             or block["capital_growth"] >= acceleration_cutoff
-            or max(state) > 100.0
-            or block["consumption_share"] <= 0
         ):
+            stop_reason = "acceleration_cutoff"
             break
-        state = rk4_step(state, step, parameters, rates)
+        if max(state) > max_log_state:
+            stop_reason = "state_cutoff"
+            break
+        if block["consumption_share"] <= 0:
+            stop_reason = "nonpositive_consumption"
+            break
+        try:
+            state = rk4_step(state, step, parameters, rates)
+        except (ArithmeticError, OverflowError, ValueError) as error:
+            if not catch_numerical_errors:
+                raise
+            stop_reason = f"numerical_failure:{type(error).__name__}"
+            break
         time += step
 
     times = np.asarray([float(row["time"]) for row in rows])
@@ -601,6 +616,8 @@ def simulate(
             - parameters.discount
             - consumption_per_capita_growth[index]
         )
+    if rows and report_stop_reason:
+        rows[-1]["stop_reason"] = stop_reason
     return rows
 
 
@@ -635,7 +652,7 @@ def analytical_calibration(parameters: Parameters) -> tuple[Parameters, dict[str
     return calibrated, {
         "beta": beta,
         "upsilon": upsilon,
-        "stability_denominator": denominator,
+        "d_ai": denominator,
         "capability_growth": capability_growth,
         "per_capita_growth": per_capita_growth,
         "research_compute_share": research_share,
@@ -2151,9 +2168,12 @@ def main() -> None:
     upsilon = analytical["upsilon"]
     for key, rows in scenario_data.items():
         parameters = scenario_parameters[key]
-        stability_denominator = (
-            1.0 - parameters.phi - parameters.eta * upsilon
+        d_cd = (
+            1.0
+            - parameters.phi
+            - parameters.eta * parameters.omega_m * upsilon
         )
+        d_ai = 1.0 - parameters.phi - parameters.eta * upsilon
         summary_rows.append(
             {
                 "scenario": key,
@@ -2161,7 +2181,8 @@ def main() -> None:
                 "sigma_hm": parameters.sigma_hm,
                 "phi": parameters.phi,
                 "eta": parameters.eta,
-                "cd_stability_denominator": stability_denominator,
+                "d_cd": d_cd,
+                "d_ai": d_ai,
                 "last_year": float(rows[-1]["time"]),
                 "initial_capability_growth_pct": 100.0
                 * float(rows[0]["capability_growth"]),
@@ -2494,15 +2515,10 @@ def main() -> None:
                     )
                     for row in rows
                 ),
-                "max_abs_euler_gap_identity_error": max(
-                    abs(
-                        float(row["euler_gap"])
-                        - float(row["net_capital_return"])
-                        + baseline.discount
-                        + float(row["consumption_per_capita_growth"])
-                    )
-                    for row in rows
+                "max_abs_euler_gap": max(
+                    abs(float(row["euler_gap"])) for row in rows
                 ),
+                "terminal_euler_gap": float(rows[-1]["euler_gap"]),
             }
         )
     write_rows(RESULT_DIR / "validation.csv", validation_rows)

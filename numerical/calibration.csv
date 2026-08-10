@@ -1,7 +1,7 @@
 parameter,value
 beta,0.13399999999999998
 upsilon,0.25
-stability_denominator,0.2375
+d_ai,0.2375
 capability_growth,0.02273684210526316
 per_capita_growth,0.00568421052631579
 research_compute_share,0.005109259953161593

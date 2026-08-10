@@ -896,6 +896,42 @@ Consequently,
 \end{align}
 An interior path requires a positive consumption share.
 
+\begin{proposition}[AI-dominated limit under Cobb--Douglas production]
+\label{prop:ai-dominated-cd-limit}
+Suppose $\sigma_{XL}=1$, $n>0$, $\xi$ is constant, and consider a nondegenerate
+constant-growth limit in which $s^M_t\to1$, $g_A>0$, $\xi M/Y$ is constant, and the
+household and developer optimality conditions hold. Then the capability and
+per-capita growth rates are given by \eqref{eq:cd-ai-ga} and
+\eqref{eq:cd-ai-gamma}; the remaining growth rates, capital--output ratio, research
+share, investment share, and consumption share are given by
+\eqref{eq:aggregate-bg-rates}--\eqref{eq:bg-consumption-share}. Such a limit requires
+\begin{equation}
+    D_{\mathrm{AI}}
+    =1-\phi-\eta\frac{\omega_X}{\omega_L}>0
+    \label{eq:ai-dominated-cd-necessary-stability}
+\end{equation}
+and the consumption share in \eqref{eq:bg-consumption-share} to be positive. If
+$D_{\mathrm{AI}}\leq0$, no AI-dominated constant-growth limit with a positive finite
+$g_A$ exists.
+\end{proposition}
+
+\begin{proof}
+Equations~\eqref{eq:ai-dominated-ga} and
+\eqref{eq:cd-ai-growth-relations} imply
+$D_{\mathrm{AI}}g_A=\eta n$. A positive finite $g_A$ therefore requires
+$D_{\mathrm{AI}}>0$ and gives \eqref{eq:cd-ai-ga}--
+\eqref{eq:cd-ai-gamma}. The household Euler equation, capital accumulation, the
+developer's research first-order and costate conditions, and the resource constraint
+then give \eqref{eq:aggregate-bg-rates}--\eqref{eq:bg-consumption-share}. The
+derivation of \eqref{eq:bg-research-resource-share} is reported in
+Appendix~\ref{sec:appendix-proofs}. Positive consumption is necessary for an interior
+household allocation.
+\end{proof}
+
+The proposition is a necessary characterization of the AI-dominated limit. It does
+not establish that a global equilibrium path exists or converges to that limit; those
+claims additionally require the transition system and transversality conditions.
+
 Because $g_w=\gamma^\infty>0$ and $\xi$ is constant,
 Proposition~\ref{prop:gradual-automation} applies. More precisely,
 \begin{equation}
@@ -1413,46 +1449,51 @@ constant growth on the other side of the Cobb--Douglas threshold.
 Suppose $n>0$, $A_t\to\infty$, $\xi$ is constant, and the service-market solution
 remains interior.
 \begin{enumerate}[label=(\roman*)]
-    \item If $\sigma_{XL}<1$ and \eqref{eq:vanishing-normalized-ai-cost} holds, any
-    constant-growth path with constant $K/Y$, $H/N$, and $\xi M/Y$, and with
-    positive human and automated research inputs, satisfies
+    \item Suppose $\sigma_{XL}<1$, \eqref{eq:vanishing-normalized-ai-cost} holds,
+    and consider a nondegenerate constant-growth limit of the fully optimizing
+    equilibrium. In particular, $K/Y$ and $C/Y$ converge to positive constants,
+    $L/N$ converges to a positive constant, capability grows at a positive constant
+    rate, human and automated research remain positive at every finite date, and the
+    developer's first-order and costate conditions hold. Then
     \begin{equation}
-        g_X=g_L=g_Y=g_K=g_C=g_H=g_M=g_E=n,
+        g_X=g_L=g_Y=g_K=g_C=n,
         \qquad
-        g_A=\frac{\eta n}{1-\phi},
+        g_A=\frac{\eta n}{1-\phi+\eta},
+        \label{eq:low-sigma-optimizing-growth-rates}
+    \end{equation}
+    and
+    \begin{equation}
+        g_H=g_M=g_E
+        =\frac{(1-\phi)n}{1-\phi+\eta},
         \qquad
         g_U=n-g_A.
-        \label{eq:low-sigma-constant-growth-rates}
+        \label{eq:low-sigma-optimizing-research-rates}
     \end{equation}
     Output, capital, and consumption per capita are constant. The real wage, the
     return to capital, $X/L$, and the research mix are also constant. The AI-services
     contribution converges to \eqref{eq:low-sigma-ai-share}, while the resource cost
-    of inference, $\xi U/Y$, converges to zero.
+    of inference, $\xi U/Y$, converges to zero. Human and automated research grow
+    more slowly than population and output:
+    \begin{equation}
+        g_{H/N}=g_{\xi M/Y}=-g_A<0.
+        \label{eq:low-sigma-declining-research-shares}
+    \end{equation}
     \item If $\sigma_{XL}>1$ and consumption is positive, there is no interior
     steady state with unbounded capability on which all aggregate variables grow at
     finite constant rates.
 \end{enumerate}
 \end{proposition}
 
-\begin{proof}
-When $\sigma_{XL}<1$, Proposition~\ref{prop:production-ces-regimes} implies that
-$X/L$ is asymptotically constant, so $g_X=g_L=n$. Constant $K/Y$ and the
-constant-returns production function then require $g_Y=g_K=n$. The Euler equation
-and constant $C/Y$ give $g_C=n$. Since $X=AU$, $g_U=n-g_A$. Constant $H/N$ and
-$\xi M/Y$ imply $g_H=g_M=n$, hence $g_E=n$ for any constant-returns research CES.
-The ideas equation then gives $g_A=\eta n/(1-\phi)$. The second claim is
-Proposition~\ref{prop:gross-substitution-no-steady-state}.
-\end{proof}
-
-When $\sigma_{XL}<1$, the wage and $\xi$ are constant on the candidate path. The
-relative research-input condition therefore keeps $H/M$ and $s^M$ constant even
-when $\sigma_{HM}\neq1$. The research elasticity changes the level and composition
-of effective research, but not the asymptotic growth rates in
-\eqref{eq:low-sigma-constant-growth-rates}. This is a necessary characterization,
-not a general existence theorem for the optimizing monopoly. As the productive
-effect of additional capability vanishes, the private value of further research may
-also vanish; an interior path still requires the developer's first-order conditions,
-transversality, a feasible labor allocation, and $C/Y>0$.
+The proof is in Appendix~\ref{sec:appendix-proofs}. The first result differs from the
+fixed-research-share closure used in Section~\ref{sec:numerical}. Holding $H/N$ and
+$\xi M/Y$ constant would instead give $g_E=n$ and
+$g_A=\eta n/(1-\phi)$. That technological path does not satisfy the developer's
+intertemporal optimality conditions when $\sigma_{XL}<1$: as the productive value of
+additional capability vanishes, an optimizing developer lets research grow more
+slowly than output. Equations~\eqref{eq:low-sigma-optimizing-growth-rates}--
+\eqref{eq:low-sigma-declining-research-shares} are necessary conditions, not a
+general existence theorem. Existence still requires the level first-order
+conditions, transversality, a feasible labor allocation, and $C/Y>0$.
 
 When $\sigma_{XL}=1$, the positive wage growth in
 \eqref{eq:other-bg-rates} makes automated research asymptotically dominant if

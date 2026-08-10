@@ -257,6 +257,74 @@ Aggregate consumption cannot consequently grow at a finite constant rate. If $g_
 is a positive constant, then $A_t\to\infty$, so the final claim follows.
 \end{proof}
 
+\begin{proof}[Proof of Proposition~\ref{prop:nonunit-ces-steady-states}]
+Consider first $\sigma_{XL}<1$. Proposition~\ref{prop:production-ces-regimes}
+implies that $X_t/L_t$ converges to a positive constant. Because $L/N$ also
+converges to a positive constant, $g_L=g_X=n$.
+
+Because $K/Y$ is constant, $g_K=g_Y$. Because $X/L$ is constant, the service
+composite grows at rate $n$. The final-good production function therefore gives
+\[
+    g_Y=\alpha g_Y+(1-\alpha)n,
+\]
+so $g_Y=g_K=n$. Constant $C/Y$ gives $g_C=n$, and the household Euler equation
+implies $r-\delta=\rho$. Labor demand then implies $g_w=0$. Finally, $X=AU$ gives
+$g_U=n-g_A$.
+
+Let $m$ denote the common asymptotic growth rate of the two research inputs. This
+common rate follows from \eqref{eq:research-input-ratio}: the real wage and $\xi$ are
+constant, so $H_t/M_t$ is constant. Constant returns in the research CES then give
+$g_E=m$, while labor feasibility implies $m\leq n$.
+
+Write $a\equiv g_A>0$. Constant capability growth and $g_E=m$ imply
+\begin{equation}
+    (1-\phi)a=\eta m.
+    \label{eq:appendix-low-sigma-ideas-growth}
+\end{equation}
+The research first-order condition $q_tF_{M,t}=\xi$ supplies a second restriction.
+Because $g_{F_M}=a-m$, it implies
+\begin{equation}
+    g_q=m-a.
+    \label{eq:appendix-low-sigma-shadow-value-growth}
+\end{equation}
+At the optimal service quantity, the envelope theorem gives
+\begin{equation}
+    \pi^X_{A,t}=\frac{\xi X_t}{A_t^2},
+    \qquad
+    g_{\pi^X_A}=n-2a.
+    \label{eq:appendix-low-sigma-capability-profit}
+\end{equation}
+Divide the developer's costate equation \eqref{eq:private-costate} by $q_t$. Since
+$F_A=\phi a$, equations~\eqref{eq:appendix-low-sigma-ideas-growth} and
+\eqref{eq:appendix-low-sigma-shadow-value-growth} give
+\begin{equation}
+    \rho
+    =
+    \frac{\pi^X_{A,t}}{q_t}
+    +\phi a+m-a
+    =
+    \frac{\pi^X_{A,t}}{q_t}+(1-\eta)m.
+    \label{eq:appendix-low-sigma-costate-limit}
+\end{equation}
+Because $\rho>n$ and $m\leq n$, the ratio $\pi^X_A/q$ converges to the strictly
+positive constant $\rho-(1-\eta)m$. Its growth rate must therefore converge to zero.
+Equations~\eqref{eq:appendix-low-sigma-shadow-value-growth} and
+\eqref{eq:appendix-low-sigma-capability-profit} imply
+\[
+    g_{\pi^X_A/q}=n-2a-(m-a)=n-m-a,
+\]
+so $m+a=n$. Combining this condition with
+\eqref{eq:appendix-low-sigma-ideas-growth} yields
+\[
+    a=\frac{\eta n}{1-\phi+\eta},
+    \qquad
+    m=\frac{(1-\phi)n}{1-\phi+\eta}.
+\]
+It follows that $g_{H/N}=m-n=-a$ and, because $g_M=m$, $g_Y=n$, and $\xi$ is
+constant, $g_{\xi M/Y}=-a$. This proves part (i). Part (ii) is
+Proposition~\ref{prop:gross-substitution-no-steady-state}.
+\end{proof}
+
 \begin{proof}[Derivation of Equation~\eqref{eq:bg-research-resource-share}]
 
 In the Cobb--Douglas production benchmark, the envelope theorem and
