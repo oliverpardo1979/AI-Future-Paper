@@ -19,6 +19,49 @@ current AI revenues. We instead begin after productive AI services already exist
 while frontier research remains primarily dependent on human researchers. The object
 of the paper is the subsequent automation of AI research.
 
+\subsection{Why the transition matters}
+
+The central economic question is not only whether AI raises output. It is whether
+automating the production of better AI changes the constraints that have historically
+kept technological progress on a balanced-growth path. While research remains human
+intensive, the research workforce cannot grow persistently faster than population.
+Automated research relaxes that constraint because additional output can finance
+additional research services, which improve capability and expand output again. The
+model determines when diminishing returns absorb this feedback and when the economy
+instead enters an acceleration regime. It also shows why a long period of moderate
+growth need not establish convergence: when the production elasticity is close to
+one, the transition can remain near Cobb--Douglas for centuries before the asymptotic
+force becomes quantitatively important.
+
+The distributional question is different from the growth question. A decline in
+labor's share of output does not imply that the real wage falls, because productivity
+and capital deepening can raise output per worker. Humans may therefore receive a
+smaller share of a much larger economy while their wage rises. The ownership of
+capital and monopoly rents then becomes central to the distribution of the gains.
+The baseline assigns those rents to the representative household and consequently
+does not model wealth concentration; this assumption mutes, rather than resolves,
+the ownership question. The model also distinguishes the human intensity of AI
+research from the number of humans it employs. The ratio $H/M$ can fall while the
+employment share $H/N$ rises if the expansion of the research industry outweighs
+the reduction in humans required per unit of automated research.
+
+Market structure affects both the current and future uses of AI. A monopolist
+restricts current deployment, but its operating rents give frontier improvements a
+private value. Regulating the access price can therefore raise current production
+while reducing the return to research unless policy replaces the lost innovation
+incentive. The return to capital supplies another intertemporal margin. When
+$\sigma_{XL}>1$ and capability is unbounded, output eventually expands faster than
+capital and the marginal return rises without bound, so the usual stationary return
+that supports balanced growth disappears.
+
+These mechanisms are economically important but do not constitute a complete theory
+of whether advanced AI benefits humanity. The present model contains no agency
+failure, misalignment, existential damage, political power, or heterogeneous
+ownership of AI rents. It characterizes the growth, factor-income, employment, and
+market-structure conditions that a broader welfare analysis would need. It does not
+assign a probability to transformative AI or establish that an acceleration regime
+would be socially desirable.
+
 \subsection{Empirical motivation}
 
 The distinction between capability, inference compute, and research compute is not
@@ -195,28 +238,48 @@ correct the deployment distortion while also eroding the rents that finance
 innovation. Price regulation and research policy must consequently be studied
 together. The present version isolates this market-structure mechanism.
 
-The toy model delivers eight results. First, the automated share of research follows
-a closed-form law driven by the research-substitution elasticity and the wage relative
-to the resource cost of automated research. Second, research automation and human
-research employment need not move together: the ratio $H/M$ can fall while the
-employment share $H/N$ rises. Third, population growth sustains
-semi-endogenous capability growth while human research dominates. Fourth, a
-Cobb--Douglas research counterfactual shows that an essential human input weakens
-the feedback from output to innovation. Fifth, when automated research dominates, a
-constant-growth path exists only if diminishing returns offset the stronger feedback
-between output and research. Sixth, human essentiality in research does not restore
-balanced growth when gross substitution in production makes the output--capital
-ratio rise with capability. Seventh, the production CES separates a
-labor-bottlenecked constant-growth limit with zero per-capita growth, a
-constant-share Cobb--Douglas benchmark, and a regime in which the return to capital
-diverges with unbounded capability and no interior steady state exists. The break at
-unit elasticity is a singular perturbation, so the gross-substitution regime may
-remain quantitatively remote when $\sigma_{XL}$ is close to one. Eighth, the production structure
-yields distinct substitution thresholds for the real wage and the
-production-labor share, while the aggregate labor-income share also depends on
-worker reallocation between production and research. Under Cobb--Douglas research,
-the fixed-spending closure removes this additional margin by holding the
-human-research wage bill constant as a share of output.
+The toy model delivers four groups of results. First, research automation is a
+continuous equilibrium transition. Its speed depends on $\sigma_{HM}$ and on the
+growth of the human research wage relative to the cost of automated research;
+$\sigma_{HM}>1$ alone does not make the human contribution disappear. The same
+conditions distinguish research composition from research employment: $H/M$ can
+fall while $H/N$ rises.
+
+Second, the model characterizes the feedback from research automation to growth.
+Population growth sustains semi-endogenous capability growth while human research
+dominates. If human and automated research are Cobb--Douglas, the essential human
+input weakens the feedback from output to innovation. When automated research can
+instead become asymptotically dominant, the stability condition is strictly more
+demanding. The model identifies a parameter region in which human essentiality
+supports balanced growth but research automation eliminates that stability. Under
+the reduced proportional-allocation closure, a positive feedback denominator gives
+constant growth, a zero denominator gives acceleration without finite-time
+divergence, and a sufficiently persistent negative denominator gives a finite-time
+singularity. With an endogenous automation share, a temporary crossing of the local
+threshold is not sufficient; the accumulated feedback must reach the exact integral
+condition derived below.
+
+Third, the production elasticity creates a separate phase diagram. If
+$\sigma_{XL}<1$, labor remains a bottleneck and any interior constant-growth limit
+has zero per-capita output growth. At $\sigma_{XL}=1$, a positive constant-growth
+path can exist under the stability and resource-feasibility restrictions. If
+$\sigma_{XL}>1$ and capability is unbounded, the output--capital ratio and the return
+to capital diverge, so the household Euler equation rules out an interior steady
+state with finite constant growth rates. This remains true when human research is
+essential. The discontinuity at one is a singular perturbation: finite allocations
+are continuous in $\sigma_{XL}$, but the asymptotic limits do not commute and the
+scale required for AI dominance diverges as $\sigma_{XL}\downarrow1$.
+
+Fourth, the production structure separates factor-income outcomes. An expansion of
+AI services lowers production labor's share when $\sigma_{XL}>1$, whereas its direct
+effect raises the real wage when $\sigma_{XL}<1/\alpha$. Capital deepening and the
+reallocation of workers between production and research determine the corresponding
+general-equilibrium paths. The numerical counterexample shows that the real wage can
+fall when AI-services deepening dominates capital deepening. The aggregate labor
+share can also differ from the production-labor share because it includes human
+researchers. Finally, monopoly creates a static deployment distortion but also the
+rents that give frontier capability a private value; incomplete appropriability
+creates a distinct reason for private research to remain below the social level.
 
 Numerical transition experiments show that the asymptotic classification can be a
 poor description of medium-run dynamics. In the constant-share benchmark, research
