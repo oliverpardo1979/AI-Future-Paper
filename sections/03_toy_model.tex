@@ -1,4 +1,4 @@
-\section{A toy model}
+\section{Baseline model and analytical results}
 \label{sec:toy}
 
 The toy model isolates the interaction between population growth, market power in
@@ -673,7 +673,17 @@ There is no common physical-capacity constraint between $U_t$ and $M_t$. The two
 uses of compute compete through the final-good resource constraint, not through an
 additional exogenous cap.
 
-\subsection{Solution}
+\subsection{Analytical results}
+\label{sec:analytical-results}
+
+This subsection states the analytical results before introducing numerical
+evidence. Propositions report results established from the model's equations
+without assuming a path for an endogenous variable. Conditional results instead
+characterize necessary limits or the implications of an explicitly stated
+closure. The proofs of the propositions are collected in the appendix. The
+equilibrium simulations in Section~\ref{sec:numerical} subsequently show how the
+relevant mechanisms interact during the transition; they are not used to prove the
+analytical claims.
 
 \subsubsection{Wages and the labor share under an AI expansion}
 
@@ -711,19 +721,6 @@ a nonempty interval
 in which an expansion of AI raises the wage while reducing production labor's share
 of output.
 \end{proposition}
-
-\begin{proof}
-The CES expenditure share in \eqref{eq:ai-composite-share} implies
-\[
-    \frac{\partial\log(1-s^X_t)}{\partial\log X_t}
-    =
-    -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t.
-\]
-The output elasticity follows directly from
-\eqref{eq:final-production}--\eqref{eq:service-composite}. Combining these two
-expressions with \eqref{eq:labor-demand} yields
-\eqref{eq:labor-share-ai-elasticity} and \eqref{eq:wage-ai-elasticity}.
-\end{proof}
 
 Because researchers and production workers receive the same wage, define the
 aggregate labor-income share and the human-research employment share as
@@ -778,14 +775,6 @@ and falls if the inequality is reversed. The aggregate labor-income share rises 
 \end{equation}
 and falls if the inequality is reversed.
 \end{proposition}
-
-\begin{proof}
-Log-differentiating \eqref{eq:production-labor-share} and using the CES share
-equation gives \eqref{eq:dynamic-production-labor-share}. Since
-$L_t=(1-h_t)N_t$, $g_{L,t}=n-\dot h_t/(1-h_t)$.
-Log-differentiating \eqref{eq:aggregate-labor-share} then gives
-\eqref{eq:dynamic-aggregate-labor-share}.
-\end{proof}
 
 If AI services grow faster than production labor, the production-labor share rises
 when $\sigma_{XL}<1$, is constant when $\sigma_{XL}=1$, and falls when $\sigma_{XL}>1$. The
@@ -1088,12 +1077,6 @@ human-research share of population rises if and only if
 \end{equation}
 \end{proposition}
 
-\begin{proof}
-Take growth rates in equation~\eqref{eq:research-input-ratio} to obtain the first
-identity. Combine it with equation~\eqref{eq:human-research-scale-identity} and
-$g_N=n$ to obtain the second. The two sign conditions follow directly.
-\end{proof}
-
 Proposition~\ref{prop:research-employment-scale} shows that the development industry
 can become more automated while employing a larger fraction of the population. The
 first force reduces the number of human researchers required per unit of automated
@@ -1322,19 +1305,6 @@ and the consumption share in \eqref{eq:bg-consumption-share} to be positive. If
 $D_{\mathrm{AI}}\leq0$, no AI-dominated constant-growth limit with a positive finite
 $g_A$ exists.
 \end{conditionalresult}
-
-\begin{proof}
-Equations~\eqref{eq:ai-dominated-ga} and
-\eqref{eq:cd-ai-growth-relations} imply
-$D_{\mathrm{AI}}g_A=\eta n$. A positive finite $g_A$ therefore requires
-$D_{\mathrm{AI}}>0$ and gives \eqref{eq:cd-ai-ga}--
-\eqref{eq:cd-ai-gamma}. The household Euler equation, capital accumulation, the
-developer's research first-order and costate conditions, and the resource constraint
-then give \eqref{eq:aggregate-bg-rates}--\eqref{eq:bg-consumption-share}. The
-derivation of \eqref{eq:bg-research-resource-share} is reported in
-Appendix~\ref{sec:appendix-proofs}. Positive consumption is necessary for an interior
-household allocation.
-\end{proof}
 
 This is a necessary characterization of the stated candidate limit. It does
 not establish that a global equilibrium path exists or converges to that limit; those
@@ -1586,20 +1556,6 @@ $D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the fully Cobb--Douglas candidate has
 positive finite growth rates even though no positive constant-growth allocation
 exists within the stated AI-dominated candidate class.
 \end{conditionalresult}
-
-\begin{proof}
-Equations~\eqref{eq:fully-cd-output-capability-growth} and
-\eqref{eq:cd-research-growth} imply
-\eqref{eq:full-cd-ga}--\eqref{eq:full-cd-gamma}. Equations
-\eqref{eq:cd-ai-ga}--\eqref{eq:cd-ai-gamma} give the AI-dominated rates. Positive
-finite Cobb--Douglas rates follow from
-Assumption~\ref{ass:stable-human-essential-benchmark}; positive finite
-AI-dominated rates require $D_{\mathrm{AI}}>0$. Subtracting the two denominators gives
-\eqref{eq:feedback-denominator-gap}. The resource constraint
-gives \eqref{eq:fully-cd-consumption-feasibility} after substituting
-\eqref{eq:full-cd-ga}--\eqref{eq:fully-cd-inference-share} and
-\eqref{eq:full-cd-research-resource-share}.
-\end{proof}
 
 For Cobb--Douglas research, the automated-research contribution is fixed at $\omega_M$,
 so \eqref{eq:ces-transition-growth-dynamics} becomes
@@ -2022,39 +1978,6 @@ and constant $\xi$, any $\omega_M>0$ preserves a feedback from the scale of outp
 capability. The corresponding high-capability asymptotic system reaches a finite-time
 singularity.
 \end{conditionalresult}
-
-\begin{proof}
-The first claim follows directly from
-\eqref{eq:sigma-hm-one-high-sigma-xl-capital-growth}. For the second, set
-$x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\omega_M$, and
-$d=1-\phi-\vartheta b$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
-vanish in the high-capability limit, the reduced system can be written as
-\begin{align}
-    \dot x_t
-    &=C\exp\!\left\{\eta\omega_Hnt+bk_t-dx_t\right\},
-    \label{eq:sigma-hm-one-high-sigma-xl-x}\\
-    \dot k_t
-    &=S\exp(\vartheta x_t)-\delta,
-    \qquad C,S>0.
-    \label{eq:sigma-hm-one-high-sigma-xl-k}
-\end{align}
-Define $u_t\equiv\dot x_t\exp(-\vartheta x_t)$. In this asymptotic system,
-\begin{equation}
-    \frac{\dot u_t}{u_t}
-    =
-    \eta\omega_Hn-b\delta
-    +\left[bS-(d+\vartheta)u_t\right]\exp(\vartheta x_t).
-    \label{eq:sigma-hm-one-high-sigma-xl-u}
-\end{equation}
-By the maintained assumption $A_t\to\infty$, $x_t$ eventually becomes arbitrarily
-large. Because $b>0$, equation~\eqref{eq:sigma-hm-one-high-sigma-xl-u} then keeps $u_t$
-bounded away from zero, whether $d+\vartheta$ is positive, zero, or negative. It follows that
-\begin{equation}
-    \frac{\dd}{\dd t}\exp(-\vartheta x_t)=-\vartheta u_t
-\end{equation}
-is eventually bounded above by a negative constant. Hence $\exp(-\vartheta x_t)$ reaches
-zero in finite time, so $A_t$ diverges at a finite date.
-\end{proof}
 
 This fixed-share calculation separates two meanings of human essentiality. At $\sigma_{HM}=1$, the
 human contribution to each unit of effective research never disappears. But a

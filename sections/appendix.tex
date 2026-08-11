@@ -1,6 +1,27 @@
 \section{Proofs}
 \label{sec:appendix-proofs}
 
+\begin{proof}[Proof of Proposition~\ref{prop:wage-share-thresholds}]
+The CES expenditure share in \eqref{eq:ai-composite-share} implies
+\[
+    \frac{\partial\log(1-s^X_t)}{\partial\log X_t}
+    =
+    -\left(1-\frac{1}{\sigma_{XL}}\right)s^X_t.
+\]
+The output elasticity follows directly from
+\eqref{eq:final-production}--\eqref{eq:service-composite}. Combining these two
+expressions with \eqref{eq:labor-demand} yields
+\eqref{eq:labor-share-ai-elasticity} and \eqref{eq:wage-ai-elasticity}.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:dynamic-labor-share}]
+Log-differentiating \eqref{eq:production-labor-share} and using the CES share
+equation gives \eqref{eq:dynamic-production-labor-share}. Since
+$L_t=(1-h_t)N_t$, $g_{L,t}=n-\dot h_t/(1-h_t)$.
+Log-differentiating \eqref{eq:aggregate-labor-share} then gives
+\eqref{eq:dynamic-aggregate-labor-share}.
+\end{proof}
+
 \begin{proof}[Derivation for conditional result~\ref{cond:gradual-automation}]
 Equation~\eqref{eq:automation-odds} gives
 \[
@@ -20,6 +41,38 @@ The first expression in \eqref{eq:research-conditional-demands} then implies
 $H_t/E_t\to0$. If $w_t/\xi$ remains bounded, the odds in
 \eqref{eq:automation-odds} remain bounded, so $\sigma_{HM}>1$ does not by itself imply
 $s^M_t\to1$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:research-employment-scale}]
+Take growth rates in equation~\eqref{eq:research-input-ratio} to obtain the first
+identity. Combine it with equation~\eqref{eq:human-research-scale-identity} and
+$g_N=n$ to obtain the second. The two sign conditions follow directly.
+\end{proof}
+
+\begin{proof}[Derivation for conditional result~\ref{cond:ai-dominated-cd-limit}]
+Equations~\eqref{eq:ai-dominated-ga} and
+\eqref{eq:cd-ai-growth-relations} imply
+$D_{\mathrm{AI}}g_A=\eta n$. A positive finite $g_A$ therefore requires
+$D_{\mathrm{AI}}>0$ and gives \eqref{eq:cd-ai-ga}--
+\eqref{eq:cd-ai-gamma}. The household Euler equation, capital accumulation, the
+developer's research first-order and costate conditions, and the resource constraint
+then give \eqref{eq:aggregate-bg-rates}--\eqref{eq:bg-consumption-share}. The
+derivation of \eqref{eq:bg-research-resource-share} is reported below. Positive
+consumption is necessary for an interior household allocation.
+\end{proof}
+
+\begin{proof}[Derivation for conditional result~\ref{cond:human-essentiality-acceleration}]
+Equations~\eqref{eq:fully-cd-output-capability-growth} and
+\eqref{eq:cd-research-growth} imply
+\eqref{eq:full-cd-ga}--\eqref{eq:full-cd-gamma}. Equations
+\eqref{eq:cd-ai-ga}--\eqref{eq:cd-ai-gamma} give the AI-dominated rates. Positive
+finite Cobb--Douglas rates follow from
+Assumption~\ref{ass:stable-human-essential-benchmark}; positive finite
+AI-dominated rates require $D_{\mathrm{AI}}>0$. Subtracting the two denominators gives
+\eqref{eq:feedback-denominator-gap}. The resource constraint
+gives \eqref{eq:fully-cd-consumption-feasibility} after substituting
+\eqref{eq:full-cd-ga}--\eqref{eq:fully-cd-inference-share} and
+\eqref{eq:full-cd-research-resource-share}.
 \end{proof}
 
 \begin{proof}[Derivation for conditional result~\ref{cond:singularity-conditions}]
@@ -467,6 +520,39 @@ two expressions above gives
 \]
 Solving for $m_R^\infty$ yields
 \eqref{eq:bg-research-resource-share}.
+\end{proof}
+
+\begin{proof}[Derivation for conditional result~\ref{cond:sigma-hm-one-high-sigma-xl}]
+The first claim follows directly from
+\eqref{eq:sigma-hm-one-high-sigma-xl-capital-growth}. For the second, set
+$x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\omega_M$, and
+$d=1-\phi-\vartheta b$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
+vanish in the high-capability limit, the reduced system can be written as
+\begin{align}
+    \dot x_t
+    &=C\exp\!\left\{\eta\omega_Hnt+bk_t-dx_t\right\},
+    \label{eq:sigma-hm-one-high-sigma-xl-x}\\
+    \dot k_t
+    &=S\exp(\vartheta x_t)-\delta,
+    \qquad C,S>0.
+    \label{eq:sigma-hm-one-high-sigma-xl-k}
+\end{align}
+Define $u_t\equiv\dot x_t\exp(-\vartheta x_t)$. In this asymptotic system,
+\begin{equation}
+    \frac{\dot u_t}{u_t}
+    =
+    \eta\omega_Hn-b\delta
+    +\left[bS-(d+\vartheta)u_t\right]\exp(\vartheta x_t).
+    \label{eq:sigma-hm-one-high-sigma-xl-u}
+\end{equation}
+By the maintained assumption $A_t\to\infty$, $x_t$ eventually becomes arbitrarily
+large. Because $b>0$, equation~\eqref{eq:sigma-hm-one-high-sigma-xl-u} then keeps $u_t$
+bounded away from zero, whether $d+\vartheta$ is positive, zero, or negative. It follows that
+\begin{equation}
+    \frac{\dd}{\dd t}\exp(-\vartheta x_t)=-\vartheta u_t
+\end{equation}
+is eventually bounded above by a negative constant. Hence $\exp(-\vartheta x_t)$ reaches
+zero in finite time, so $A_t$ diverges at a finite date.
 \end{proof}
 
 \begin{proof}[Derivation for conditional result~\ref{cond:knowledge-wedge}]
