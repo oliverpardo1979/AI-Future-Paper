@@ -788,6 +788,15 @@ def evaluate_solution(
             + block["log_output"]
             - block["log_ai_services"]
         )
+        log_service_composite = (
+            block["log_output"] - parameters.alpha * log_capital
+        ) / (1.0 - parameters.alpha)
+        log_ai_marginal_cost = math.log(parameters.xi) - log_capability
+        ai_markup = math.exp(log_price - log_ai_marginal_cost)
+        ai_profit_share = (
+            (1.0 - parameters.alpha) * block["ai_share"]
+            - block["inference_share"]
+        )
         monopoly_foc_log_error = (
             log_price
             + math.log(1.0 - inverse_elasticity)
@@ -827,13 +836,10 @@ def evaluate_solution(
             "log_consumption": log_consumption,
             "log_shadow_value": log_shadow,
             "log_output": block["log_output"],
+            "log_service_composite": log_service_composite,
             "log_wage": block["log_wage"],
-            "log_ai_price": (
-                math.log1p(-parameters.alpha)
-                + math.log(block["ai_share"])
-                + block["log_output"]
-                - block["log_ai_services"]
-            ),
+            "log_ai_price": log_price,
+            "log_ai_marginal_cost": log_ai_marginal_cost,
             "log_ai_services": block["log_ai_services"],
             "log_inference_compute": block["log_inference_compute"],
             "log_human_research": block["log_human_research"],
@@ -851,6 +857,7 @@ def evaluate_solution(
             "gross_capital_return": block["gross_capital_return"],
             "net_capital_return": block["gross_capital_return"] - parameters.delta,
             "human_research_share": block["human_share"],
+            "production_labor_population_share": 1.0 - block["human_share"],
             "ai_share": block["ai_share"],
             "inverse_demand_elasticity": inverse_elasticity,
             "monopoly_soc_margin": monopoly_soc_margin,
@@ -865,6 +872,14 @@ def evaluate_solution(
             ),
             "aggregate_labor_share": math.exp(
                 block["log_wage"] + log_population - block["log_output"]
+            ),
+            "ai_markup": ai_markup,
+            "ai_profit_share": ai_profit_share,
+            "shadow_capability_to_output": math.exp(
+                log_shadow + log_capability - block["log_output"]
+            ),
+            "shadow_capability_to_capital": math.exp(
+                log_shadow + log_capability - log_capital
             ),
             "human_to_automated_research_ratio": math.exp(
                 block["log_human_research"]
@@ -945,13 +960,21 @@ def draw_equilibrium_figures(
         "equilibrium_sigma_0_75": "circle",
         "equilibrium_sigma_1_00": "square",
     }
-    log_change = lambda rows, values: (values - values[0]) / math.log(10.0)
+    log_change = lambda rows, values: values - values[0]
+    per_capita_log_change = lambda rows, values: (
+        values - np.asarray([float(row["log_population"]) for row in rows])
+        - (
+            values[0]
+            - float(rows[0]["log_population"])
+        )
+    )
+    log_level = lambda rows, values: np.log(values)
     percent = lambda rows, values: 100.0 * values
 
     mechanism.draw_multiplot(
         ROOT / "figures" / "equilibrium_levels.png",
         "Perfect-foresight equilibrium: quantities",
-        "Log10 change from each path's date-zero level; common initial K, A, and N",
+        "Natural-log change from each path's date-zero level; common initial K, A, and N",
         [
             {"title": "AI capability", "field": "log_capability", "transform": log_change},
             {"title": "Output per capita", "field": "log_output_per_capita", "transform": log_change},
@@ -974,6 +997,85 @@ def draw_equilibrium_figures(
             {"title": "Net return to capital", "field": "net_capital_return", "transform": percent, "format": lambda value: f"{value:.1f}%"},
         ],
         display_rows,
+        labels,
+        palette,
+        markers,
+    )
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_production_chain.png",
+        "Perfect-foresight equilibrium: the production chain",
+        "Natural-log change per capita, except for the AI-service price",
+        [
+            {"title": "Inference compute per capita", "field": "log_inference_compute", "transform": per_capita_log_change},
+            {"title": "AI services per capita", "field": "log_ai_services", "transform": per_capita_log_change},
+            {"title": "Service composite per capita", "field": "log_service_composite", "transform": per_capita_log_change},
+            {"title": "Real AI-service price", "field": "log_ai_price", "transform": log_change},
+        ],
+        display_rows,
+        labels,
+        palette,
+        markers,
+    )
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_research_chain.png",
+        "Perfect-foresight equilibrium: AI research",
+        "Natural-log change per capita; H/M is shown in natural logs",
+        [
+            {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
+            {"title": "Automated research per capita", "field": "log_automated_research", "transform": per_capita_log_change},
+            {"title": "Effective research per capita", "field": "log_effective_research", "transform": per_capita_log_change},
+            {"title": "ln human-machine research ratio", "field": "human_to_automated_research_ratio", "transform": log_level},
+        ],
+        display_rows,
+        labels,
+        palette,
+        markers,
+    )
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_resource_allocation.png",
+        "Perfect-foresight equilibrium: uses of output",
+        "Shares of final output in percent; the four uses sum to one",
+        [
+            {"title": "Consumption / output", "field": "consumption_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Investment / output", "field": "investment_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Inference resources / output", "field": "inference_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+            {"title": "Automated research / output", "field": "research_resource_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
+        ],
+        display_rows,
+        labels,
+        palette,
+        markers,
+    )
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_monopoly_block.png",
+        "Perfect-foresight equilibrium: the integrated AI developer",
+        "Natural-log price changes, markup ratio, and operating profits as a share of output",
+        [
+            {"title": "AI-service price", "field": "log_ai_price", "transform": log_change},
+            {"title": "AI-service marginal cost", "field": "log_ai_marginal_cost", "transform": log_change},
+            {"title": "Price / marginal cost", "field": "ai_markup"},
+            {"title": "Operating profits / output", "field": "ai_profit_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+        ],
+        display_rows,
+        labels,
+        palette,
+        markers,
+    )
+
+    cobb_douglas_rows = {
+        "equilibrium_sigma_1_00": scenario_rows["equilibrium_sigma_1_00"]
+    }
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_cobb_douglas_long_run.png",
+        "Cobb-Douglas equilibrium: long-run transition",
+        "Annual rates and shares in percent; the full 2,000-year solution is shown",
+        [
+            {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+            {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
+            {"title": "Automated share of research", "field": "automated_research_share", "transform": percent, "format": lambda value: f"{value:.0f}%", "ylim": (0.0, 100.0)},
+            {"title": "Human researchers / population", "field": "human_research_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
+        ],
+        cobb_douglas_rows,
         labels,
         palette,
         markers,

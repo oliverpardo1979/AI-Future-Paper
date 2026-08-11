@@ -72,14 +72,43 @@ const charts = [
     ],
   },
   {
+    canvas: document.querySelector("#labor-income-chart"),
+    legend: document.querySelector("#labor-income-legend"),
+    scale: 100,
+    floor: 0,
+    format: (value) => `${formatAxis(value)}%`,
+    series: [
+      ["production_labor_share", "Trabajo en producción / Y", COLORS.teal],
+      ["aggregate_labor_share", "Ingreso laboral total / Y", COLORS.blue],
+    ],
+  },
+  {
+    canvas: document.querySelector("#ai-services-chart"),
+    legend: document.querySelector("#ai-services-legend"),
+    format: formatAxis,
+    series: [
+      ["log_capability_change", "Capacidad A", COLORS.ink],
+      ["log_inference_compute_per_capita_change", "Cómputo operativo U/N", COLORS.teal],
+      ["log_ai_services_per_capita_change", "Servicios X/N", COLORS.blue],
+    ],
+  },
+  {
     canvas: document.querySelector("#production-levels-chart"),
     legend: document.querySelector("#production-levels-legend"),
     format: formatAxis,
     series: [
-      ["log_capital_per_capita_change", "Capital per cápita", COLORS.violet],
-      ["log_output_per_capita_change", "Producto per cápita", COLORS.blue],
-      ["log_consumption_per_capita_change", "Consumo per cápita", COLORS.teal],
-      ["log_wage_change", "Salario real", COLORS.orange],
+      ["log_capital_per_capita_change", "Capital K/N", COLORS.violet],
+      ["log_service_composite_per_capita_change", "Compuesto Z/N", COLORS.teal],
+      ["log_output_per_capita_change", "Producto Y/N", COLORS.blue],
+    ],
+  },
+  {
+    canvas: document.querySelector("#household-levels-chart"),
+    legend: document.querySelector("#household-levels-legend"),
+    format: formatAxis,
+    series: [
+      ["log_consumption_per_capita_change", "Consumo C/N", COLORS.teal],
+      ["log_wage_change", "Salario real w", COLORS.orange],
     ],
   },
   {
@@ -91,19 +120,27 @@ const charts = [
       ["capability_growth", "Crecimiento A", COLORS.ink],
       ["output_per_capita_growth", "Crecimiento y/N", COLORS.blue],
       ["consumption_per_capita_growth", "Crecimiento c/N", COLORS.teal],
-      ["net_interest", "Interés neto", COLORS.orange],
     ],
   },
   {
-    canvas: document.querySelector("#production-shares-chart"),
-    legend: document.querySelector("#production-shares-legend"),
+    canvas: document.querySelector("#factor-prices-chart"),
+    legend: document.querySelector("#factor-prices-legend"),
+    scale: 100,
+    format: (value) => `${formatAxis(value)}%`,
+    series: [
+      ["wage_growth", "Crecimiento del salario", COLORS.orange],
+      ["net_interest", "Interés neto", COLORS.violet],
+    ],
+  },
+  {
+    canvas: document.querySelector("#automation-shares-chart"),
+    legend: document.querySelector("#automation-shares-legend"),
     scale: 100,
     floor: 0,
     format: (value) => `${formatAxis(value)}%`,
     series: [
-      ["ai_share", "IA en el CES Z", COLORS.orange],
-      ["production_labor_share", "Trabajo de producción / Y", COLORS.teal],
-      ["aggregate_labor_share", "Ingreso laboral total / Y", COLORS.blue],
+      ["ai_share", "Servicios de IA en Z", COLORS.blue],
+      ["automated_research_share", "Máquinas en E", COLORS.orange],
     ],
   },
   {
@@ -120,13 +157,41 @@ const charts = [
     ],
   },
   {
-    canvas: document.querySelector("#ai-services-chart"),
-    legend: document.querySelector("#ai-services-legend"),
+    canvas: document.querySelector("#ai-price-chart"),
+    legend: document.querySelector("#ai-price-legend"),
     format: formatAxis,
     series: [
-      ["log_capability_change", "Capacidad A", COLORS.ink],
-      ["log_ai_services_per_capita_change", "Servicios X/N", COLORS.blue],
-      ["log_inference_compute_per_capita_change", "Inferencia U/N", COLORS.teal],
+      ["log_ai_price_change", "Precio del servicio pX", COLORS.blue],
+      ["log_ai_marginal_cost_change", "Costo marginal ξ/A", COLORS.orange],
+    ],
+  },
+  {
+    canvas: document.querySelector("#markup-chart"),
+    legend: document.querySelector("#markup-legend"),
+    floor: 1,
+    format: formatAxis,
+    series: [
+      ["ai_markup", "Markup pX/(ξ/A)", COLORS.ink],
+    ],
+  },
+  {
+    canvas: document.querySelector("#developer-value-chart"),
+    legend: document.querySelector("#developer-value-legend"),
+    scale: 100,
+    floor: 0,
+    format: (value) => `${formatAxis(value)}%`,
+    series: [
+      ["ai_profit_share", "Beneficios operativos / Y", COLORS.gold],
+    ],
+  },
+  {
+    canvas: document.querySelector("#frontier-value-chart"),
+    legend: document.querySelector("#frontier-value-legend"),
+    format: formatAxis,
+    transform: (value) => Math.log(value),
+    series: [
+      ["shadow_capability_to_output", "ln(qA/Y)", COLORS.violet],
+      ["shadow_capability_to_capital", "ln(qA/K)", COLORS.blue],
     ],
   },
   {
@@ -147,16 +212,15 @@ const charts = [
     format: (value) => `${formatAxis(value)}%`,
     series: [
       ["automated_research_share", "Participación de M en E", COLORS.orange],
-      ["human_research_aggregate_share", "Participación de H en E", COLORS.violet],
     ],
   },
   {
     canvas: document.querySelector("#research-ratio-chart"),
     legend: document.querySelector("#research-ratio-legend"),
-    floor: 0,
     format: formatAxis,
+    transform: (value) => Math.log(value),
     series: [
-      ["human_machine_ratio", "Relación H/M", COLORS.ink],
+      ["human_machine_ratio", "ln(H/M)", COLORS.ink],
     ],
   },
 ];
@@ -449,9 +513,12 @@ function formatAxis(value) {
   return value.toFixed(3);
 }
 
-function finitePoints(rows, field, scale) {
+function finitePoints(rows, field, scale, transform = (value) => value) {
   return rows
-    .map((row) => ({ x: Number(row.time), y: Number(row[field]) * scale }))
+    .map((row) => {
+      const raw = Number(row[field]);
+      return { x: Number(row.time), y: transform(raw) * scale };
+    })
     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
 }
 
@@ -481,7 +548,12 @@ function drawChart(config, rows) {
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
   const scale = config.scale || 1;
-  const plotted = config.series.map(([field, label, color]) => ({ field, label, color, points: finitePoints(rows, field, scale) }));
+  const plotted = config.series.map(([field, label, color]) => ({
+    field,
+    label,
+    color,
+    points: finitePoints(rows, field, scale, config.transform),
+  }));
   const all = plotted.flatMap((line) => line.points);
   if (!all.length) return;
   const xMin = Math.min(...all.map((point) => point.x));

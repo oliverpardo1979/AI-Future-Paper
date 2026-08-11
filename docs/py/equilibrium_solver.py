@@ -1069,12 +1069,25 @@ def evaluate(
         aggregate_labor_share = math.exp(
             block["log_wage"] + block["log_population"] - block["log_output"]
         )
+        log_service_composite = (
+            block["log_output"] - p.alpha * state[0]
+        ) / (1.0 - p.alpha)
+        log_ai_price = (
+            math.log1p(-p.alpha)
+            + math.log(block["ai_share"])
+            + block["log_output"]
+            - block["log_ai_services"]
+        )
+        log_ai_marginal_cost = math.log(p.xi) - state[1]
         row = {
             "time": float(time),
             "log_capability": float(state[1]),
             "log_output_per_capita": block["log_output"] - block["log_population"],
             "log_consumption_per_capita": state[2] - block["log_population"],
             "log_capital_per_capita": state[0] - block["log_population"],
+            "log_service_composite_per_capita": (
+                log_service_composite - block["log_population"]
+            ),
             "log_ai_services_per_capita": (
                 block["log_ai_services"] - block["log_population"]
             ),
@@ -1091,6 +1104,8 @@ def evaluate(
                 block["log_effective_research"] - block["log_population"]
             ),
             "log_wage": block["log_wage"],
+            "log_ai_price": log_ai_price,
+            "log_ai_marginal_cost": log_ai_marginal_cost,
             "capability_growth": block["capability_growth"],
             "consumption_per_capita_growth": block["consumption_growth"] - p.n,
             "net_interest": block["gross_capital_return"] - p.delta,
@@ -1103,6 +1118,17 @@ def evaluate(
             ),
             "production_labor_share": production_labor_share,
             "aggregate_labor_share": aggregate_labor_share,
+            "ai_markup": math.exp(log_ai_price - log_ai_marginal_cost),
+            "ai_profit_share": (
+                (1.0 - p.alpha) * block["ai_share"]
+                - block["inference_share"]
+            ),
+            "shadow_capability_to_output": math.exp(
+                state[3] + state[1] - block["log_output"]
+            ),
+            "shadow_capability_to_capital": math.exp(
+                state[3] + state[1] - state[0]
+            ),
             "consumption_share": consumption_share,
             "investment_share": investment_share,
             "inference_share": block["inference_share"],
@@ -1115,21 +1141,27 @@ def evaluate(
         rows.append(row)
 
     log_output_pc = np.asarray([row["log_output_per_capita"] for row in rows])
+    log_wage = np.asarray([row["log_wage"] for row in rows])
     output_growth_pc = np.gradient(log_output_pc, times, edge_order=2)
-    for row, growth in zip(rows, output_growth_pc):
+    wage_growth = np.gradient(log_wage, times, edge_order=2)
+    for row, growth, wage_rate in zip(rows, output_growth_pc, wage_growth):
         row["output_per_capita_growth"] = float(growth)
+        row["wage_growth"] = float(wage_rate)
 
     for field in (
         "log_capability",
         "log_output_per_capita",
         "log_consumption_per_capita",
         "log_capital_per_capita",
+        "log_service_composite_per_capita",
         "log_ai_services_per_capita",
         "log_inference_compute_per_capita",
         "log_human_research_per_capita",
         "log_automated_research_per_capita",
         "log_effective_research_per_capita",
         "log_wage",
+        "log_ai_price",
+        "log_ai_marginal_cost",
     ):
         initial = rows[0][field]
         for row in rows:

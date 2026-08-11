@@ -262,6 +262,111 @@ services to one unit in the research aggregator and assigns it the common resour
 cost $\xi$. A capability-dependent conversion from compute into automated-research
 services is left for an extension.
 
+\subsubsection{Economic interpretation of the AI variables}
+
+The model distinguishes the resources used to operate AI systems, the services those
+systems produce, and the knowledge created by AI research. These objects are easy to
+conflate because all of them may be described informally as ``AI.''
+Table~\ref{tab:ai-variable-interpretation} states their economic interpretation.
+
+\begin{table}[H]
+    \centering
+    \caption{Economic interpretation of the AI block}
+    \label{tab:ai-variable-interpretation}
+    \small
+    \begin{tabular}{p{0.08\textwidth}p{0.16\textwidth}p{0.66\textwidth}}
+        \toprule
+        Variable & Type & Economic meaning \\
+        \midrule
+        $A_t$
+        & \raggedright Intangible stock
+        & Frontier AI capability. It is privately controlled by the developer but
+        non-rival in use: applying it to one unit of inference compute does not reduce
+        its availability for another. It raises the quantity and quality of AI services
+        obtained from a unit of inference compute and, through $A_t^\phi$, affects the
+        productivity of subsequent research. It is not the stock of chips, the amount
+        of compute, or a count of trained models. In the baseline it compresses trained
+        model capital, algorithms, and other knowledge relevant for AI performance into
+        one state variable. \\
+        \addlinespace
+        $U_t$
+        & \raggedright Current input flow
+        & Inference compute used during period $t$ to operate existing AI systems. Its
+        empirical counterpart is a flow of FLOPs, GPU-hours, or equivalent processor
+        services. It is rival and has current resource cost $\xi U_t$. It does not
+        directly add to the capability stock. \\
+        \addlinespace
+        $X_t$
+        & \raggedright Service-output flow
+        & Quality-adjusted AI services delivered to final-good firms. Possible units
+        include benchmark-equivalent tokens, accuracy-adjusted predictions, or
+        equivalent task-hours. It is not raw compute, raw tokens, or the developer's
+        revenue; expenditure on these services is $p^X_tX_t$. \\
+        \addlinespace
+        $H_t$
+        & \raggedright Human-input flow
+        & Human labor assigned to improving frontier AI. It may be measured as
+        researcher-hours or efficiency units of research labor. It excludes workers
+        who operate data centers or market AI products but do not contribute directly
+        to frontier research. Its opportunity cost is explicit in $L_t+H_t=N_t$, and
+        its wage cost is $w_tH_t$. \\
+        \addlinespace
+        $M_t$
+        & \raggedright Automated-input flow
+        & Automated research services used to improve AI. They include training and
+        post-training compute, experiments, synthetic-data generation, and inference
+        performed by AI research agents. $M_t$ is not a stock of machines or trained
+        models. The baseline expresses it in standardized compute-resource units, so
+        its current resource cost is $\xi M_t$. \\
+        \addlinespace
+        $E_t$
+        & \raggedright Research-output flow
+        & Effective research services produced by combining $H_t$ and $M_t$. It is a
+        CES index of economically productive research effort, not researcher headcount,
+        physical compute, or an asset that can be stored. \\
+        \addlinespace
+        $\dot A_t$
+        & \raggedright Innovation-output flow
+        & The flow of newly produced capability per unit of time. It accumulates into
+        $A_t$ but is not research expenditure and is not the proportional growth rate
+        of capability; that growth rate is $\dot A_t/A_t$. Because the baseline has no
+        capability depreciation, $\dot A_t$ is also the net addition to the stock. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The production-accounting framework of \citet{korinekmckelvey2026} helps relate
+these model variables to observable AI activity. In their framework, chips and
+electricity produce compute, compute is allocated between inference and training,
+model capital and inference compute produce quality-adjusted inference output, and
+training compute and algorithms form new model capital. The approximate
+correspondence with the present model is
+\begin{equation}
+    \begin{aligned}
+        \text{inference compute} &\longleftrightarrow U_t,\\
+        \text{quality-adjusted inference output} &\longleftrightarrow X_t,\\
+        \text{training and R\&D compute} &\longleftrightarrow
+        \text{part of }M_t,\\
+        \text{model capital and algorithmic knowledge} &\longleftrightarrow
+        \text{components of }A_t.
+    \end{aligned}
+    \label{eq:korinek-mckelvey-mapping}
+\end{equation}
+These correspondences are not identities. In particular, $M_t$ is broader than raw
+training compute because it includes AI systems performing research tasks, while
+$A_t$ is broader than trained-model capital because it also absorbs algorithmic and
+other knowledge. Conversely, \citet{korinekmckelvey2026} model the upstream
+production of compute from chips and electricity explicitly. The baseline here
+collapses that sector into the common unit resource cost $\xi$.
+
+The three equations in the AI block therefore describe different economic margins.
+Equation~\eqref{eq:ai-services} converts a current input, $U_t$, into current services,
+$X_t$, using the existing capability stock. Equation~\eqref{eq:effective-research}
+aggregates human and automated inputs into effective research, $E_t$.
+Equation~\eqref{eq:ideas} converts effective research into new capability, $\dot A_t$.
+The first margin determines how intensively existing AI is used; the other two
+determine how quickly the technology available in subsequent periods improves.
+
 Figure~\ref{fig:research-flow} separates the production of effective research from
 the law of motion for capability. Human researchers and automated research services
 produce $E_t$. Effective research and existing capability determine $\dot A_t$, which
@@ -561,7 +666,8 @@ If a control reaches a boundary, its equality in
 replaced by the corresponding Kuhn--Tucker condition. For the conditional finite-singularity paths
 studied below, the numerical solution instead uses the limiting endpoint conditions
 $K_t/C_t\to0$ and $q_tA_t/C_t\to0$ as $t\uparrow T^*$, together with the remaining
-asymptotic restrictions in Proposition~\ref{prop:high-sigma-singular-scaling}.
+asymptotic restrictions in conditional
+result~\ref{cond:high-sigma-singular-scaling}.
 
 There is no common physical-capacity constraint between $U_t$ and $M_t$. The two
 uses of compute compete through the final-good resource constraint, not through an
@@ -922,14 +1028,16 @@ Starting close to zero can therefore produce a long human-dominated phase even w
 $s^M_t\to1$. A larger $\sigma_{HM}$ or a faster increase in the research wage relative
 to automated-research cost compresses that transition.
 
-\begin{proposition}[Gradual research automation]
-\label{prop:gradual-automation}
+\begin{conditionalresult}[Research mix when relative costs diverge]
+\label{cond:gradual-automation}
 Suppose $\sigma_{HM}>1$. If $w_t/\xi\to\infty$, then $s^M_t\to1$ and
 $H_t/E_t\to0$. If $w_t/\xi$ remains bounded, $\sigma_{HM}>1$ alone does not imply that
 the human contribution disappears.
-\end{proposition}
+\end{conditionalresult}
 
-Proposition~\ref{prop:gradual-automation} replaces a discrete automation threshold
+Conditional result~\ref{cond:gradual-automation} describes the research mix for a
+given limiting relative-cost path; it does not establish that the equilibrium wage
+diverges relative to $\xi$. It replaces a discrete automation threshold
 with a continuous equilibrium transition. The research elasticity determines
 whether human research can become asymptotically inessential. The production
 elasticity $\sigma_{XL}$ affects whether that limit is reached by determining the wage
@@ -957,11 +1065,21 @@ Equation~\eqref{eq:research-input-ratio} and population growth imply
     \label{eq:human-research-share-growth}
 \end{equation}
 
-\begin{proposition}[Research automation and human research employment]
+\begin{proposition}[Research automation and human research employment identities]
 \label{prop:research-employment-scale}
-Suppose the research-input choice is interior and $g_{w,t}>g_{\xi,t}$. The
-human-to-automated research ratio $H_t/M_t$ falls. The human-research share of
-population nevertheless rises if and only if
+At every interior research-input allocation,
+\begin{equation}
+    g_{H/M,t}
+    =
+    \sigma_{HM}(g_{\xi,t}-g_{w,t}),
+    \qquad
+    g_{H/N,t}
+    =
+    \sigma_{HM}(g_{\xi,t}-g_{w,t})+g_{M,t}-n.
+    \label{eq:research-composition-and-scale-identities}
+\end{equation}
+Consequently, $H_t/M_t$ falls if and only if $g_{w,t}>g_{\xi,t}$, while the
+human-research share of population rises if and only if
 \begin{equation}
     g_{M,t}-n
     >
@@ -971,12 +1089,13 @@ population nevertheless rises if and only if
 \end{proposition}
 
 \begin{proof}
-Take growth rates in equations~\eqref{eq:research-input-ratio} and
-\eqref{eq:human-research-scale-identity}.
+Take growth rates in equation~\eqref{eq:research-input-ratio} to obtain the first
+identity. Combine it with equation~\eqref{eq:human-research-scale-identity} and
+$g_N=n$ to obtain the second. The two sign conditions follow directly.
 \end{proof}
 
-Proposition~\ref{prop:research-employment-scale} allows the development industry
-to become more automated while employing a larger fraction of the population. The
+Proposition~\ref{prop:research-employment-scale} shows that the development industry
+can become more automated while employing a larger fraction of the population. The
 first force reduces the number of human researchers required per unit of automated
 research. The second expands the scale of the research sector. Either force can
 dominate during a transition, so $H_t/N_t$ need not be monotone even when $H_t/M_t$
@@ -1185,8 +1304,8 @@ Consequently,
 \end{align}
 An interior path requires a positive consumption share.
 
-\begin{proposition}[AI-dominated limit under Cobb--Douglas production]
-\label{prop:ai-dominated-cd-limit}
+\begin{conditionalresult}[Candidate AI-dominated limit under Cobb--Douglas production]
+\label{cond:ai-dominated-cd-limit}
 Suppose $\sigma_{XL}=1$, $n>0$, $\xi$ is constant, and consider a nondegenerate
 constant-growth limit in which $s^M_t\to1$, $g_A>0$, $\xi M/Y$ is constant, and the
 household and developer optimality conditions hold. Then the capability and
@@ -1202,7 +1321,7 @@ share, investment share, and consumption share are given by
 and the consumption share in \eqref{eq:bg-consumption-share} to be positive. If
 $D_{\mathrm{AI}}\leq0$, no AI-dominated constant-growth limit with a positive finite
 $g_A$ exists.
-\end{proposition}
+\end{conditionalresult}
 
 \begin{proof}
 Equations~\eqref{eq:ai-dominated-ga} and
@@ -1217,12 +1336,12 @@ Appendix~\ref{sec:appendix-proofs}. Positive consumption is necessary for an int
 household allocation.
 \end{proof}
 
-The proposition is a necessary characterization of the AI-dominated limit. It does
+This is a necessary characterization of the stated candidate limit. It does
 not establish that a global equilibrium path exists or converges to that limit; those
 claims additionally require the transition system and transversality conditions.
 
-Because $g_w=\gamma^\infty>0$ and $\xi$ is constant,
-Proposition~\ref{prop:gradual-automation} applies. More precisely,
+Because $g_w=\gamma^\infty>0$ and $\xi$ is constant, conditional
+result~\ref{cond:gradual-automation} applies to this candidate. More precisely,
 \begin{equation}
     g_{H/N}
     =
@@ -1448,14 +1567,14 @@ For comparison with the AI-dominated research limit, define
     \label{eq:growth-feedback-denominators}
 \end{equation}
 
-\begin{proposition}[Human essentiality and acceleration]
-\label{prop:human-essentiality-acceleration}
-Suppose production is Cobb--Douglas, $n>0$, and the relevant allocations are
-interior. Under Assumption~\ref{ass:stable-human-essential-benchmark}, the fully
-Cobb--Douglas model admits a positive constant-growth path only if
-\eqref{eq:fully-cd-consumption-feasibility} holds. The
-AI-dominated research limit admits a positive constant-growth path only if
-$D_{\mathrm{AI}}>0$. Moreover,
+\begin{conditionalresult}[Comparison of the two Cobb--Douglas candidate limits]
+\label{cond:human-essentiality-acceleration}
+Consider the two candidate constant-growth allocations derived above. The fully
+Cobb--Douglas candidate maintains constant population allocations and a constant
+automated-research expenditure share. The AI-dominated candidate satisfies the
+conditions in conditional result~\ref{cond:ai-dominated-cd-limit}. The first candidate
+requires \eqref{eq:fully-cd-consumption-feasibility}; the second requires
+$D_{\mathrm{AI}}>0$. Their feedback denominators satisfy
 \begin{equation}
     D_{\mathrm{CD}}-D_{\mathrm{AI}}
     =
@@ -1463,10 +1582,10 @@ $D_{\mathrm{AI}}>0$. Moreover,
     \label{eq:feedback-denominator-gap}
 \end{equation}
 There is consequently a nonempty parameter region with
-$D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the economy can have balanced growth while
-human research remains essential but no positive constant-growth path after
-automated research becomes asymptotically dominant.
-\end{proposition}
+$D_{\mathrm{CD}}>0\geq D_{\mathrm{AI}}$: the fully Cobb--Douglas candidate has
+positive finite growth rates even though no positive constant-growth allocation
+exists within the stated AI-dominated candidate class.
+\end{conditionalresult}
 
 \begin{proof}
 Equations~\eqref{eq:fully-cd-output-capability-growth} and
@@ -1505,8 +1624,8 @@ $t\uparrow T^*$. Accelerating growth that remains finite at every finite date is
 a singularity.
 \end{definition}
 
-\begin{proposition}[Balanced growth, acceleration, and singularity]
-\label{prop:singularity-conditions}
+\begin{conditionalresult}[Growth classification in the reduced allocation system]
+\label{cond:singularity-conditions}
 Suppose $g_{A,0}>0$, $n>0$, and the reduced proportional-allocation closure in
 \eqref{eq:ces-transition-growth-dynamics} holds.
 \begin{enumerate}[label=(\roman*)]
@@ -1538,9 +1657,9 @@ Suppose $g_{A,0}>0$, $n>0$, and the reduced proportional-allocation closure in
     \end{equation}
     reaches zero at a finite date.
 \end{enumerate}
-\end{proposition}
+\end{conditionalresult}
 
-The proposition separates three objects that are sometimes conflated. A positive
+The reduced-system calculation separates three objects that are sometimes conflated. A positive
 constant-growth path requires $D>0$. The knife-edge $D=0$ eliminates balanced
 growth but does not create a finite-time singularity. A negative and persistent
 $D$ does. In the CES transition, the instantaneous threshold is
@@ -1568,7 +1687,7 @@ boundary allocation instead. The denominator $D_{\mathrm{AI}}<0$ should be read 
 a candidate singularity region whose equilibrium relevance must be checked with the
 complete transition system.
 
-The comparison in Proposition~\ref{prop:human-essentiality-acceleration} does not
+The comparison in conditional result~\ref{cond:human-essentiality-acceleration} does not
 assume that the research elasticity changes over time. In the baseline CES model,
 the fixed elasticity $\sigma_{HM}>1$ permits a transition from the human-dominated growth
 rate in \eqref{eq:human-dominated-ga} to the AI-dominated dynamics in
@@ -1588,8 +1707,8 @@ constant. For $\sigma_{XL}\neq1$, the monopoly condition
 \eqref{eq:monopoly-ai-price} implies different asymptotic regimes as the marginal
 cost $\xi/A_t$ falls.
 
-\begin{proposition}[Production regimes under increasingly capable AI]
-\label{prop:production-ces-regimes}
+\begin{conditionalresult}[Asymptotic monopoly supply under increasingly capable AI]
+\label{cond:production-ces-regimes}
 Suppose $A_t\to\infty$, the service-market solution remains interior, and the
 effective marginal cost of AI services vanishes relative to capital intensity:
 \begin{equation}
@@ -1621,7 +1740,7 @@ effective marginal cost of AI services vanishes relative to capital intensity:
     The output--capital ratio and the return to capital therefore diverge with
     capability.
 \end{enumerate}
-\end{proposition}
+\end{conditionalresult}
 
 The condition in \eqref{eq:vanishing-normalized-ai-cost} is satisfied whenever
 $A_t\to\infty$ and $K_t/L_t$ does not collapse too quickly. For
@@ -1645,12 +1764,13 @@ $\omega_L+\omega_X=1$. At every interior allocation,
     \mathcal R_t^{\sigma_{XL}-1}.
     \label{eq:production-share-odds}
 \end{equation}
-Consequently:
+Let $s^X(\mathcal R,\sigma)$ denote the share defined by the right-hand side of
+\eqref{eq:production-share-odds}. Then:
 \begin{enumerate}[label=(\roman*)]
-    \item for every finite $\mathcal R_t>0$, $s^X_t$ is continuous in $\sigma_{XL}$ at one
-    and converges to $\omega_X$ as $\sigma_{XL}\to1$;
-    \item if $\mathcal R_t\to\infty$, then $s^X_t=\omega_X$ when $\sigma_{XL}=1$, whereas
-    $s^X_t\to1$ for every fixed $\sigma_{XL}>1$; hence
+    \item for every finite $\mathcal R>0$, $s^X(\mathcal R,\sigma)$ is continuous in $\sigma$ at one
+    and converges to $\omega_X$ as $\sigma\to1$;
+    \item $s^X(\mathcal R,1)=\omega_X$ for every $\mathcal R$, whereas
+    $\lim_{\mathcal R\to\infty}s^X(\mathcal R,\sigma)=1$ for every fixed $\sigma>1$; hence
     \begin{equation}
             \lim_{\sigma_{XL}\downarrow1}\lim_{\mathcal R\to\infty}s^X(\mathcal R,\sigma_{XL})=1,
         \qquad
@@ -1659,26 +1779,26 @@ Consequently:
         \label{eq:noncommuting-production-limits}
     \end{equation}
     \item for any target $\bar s\in(\omega_X,1)$ and
-    $\sigma_{XL}>1$, the relative price required to attain $s^X=\bar s$ is
+    $\sigma>1$, the relative price required to attain $s^X=\bar s$ is
     \begin{equation}
-        \mathcal R_{\bar s}(\sigma_{XL})
+        \mathcal R_{\bar s}(\sigma)
         =
         \left[
             \frac{\bar s}{1-\bar s}
-            \left(\frac{\omega_L}{\omega_X}\right)^{\sigma_{XL}}
-        \right]^{1/(\sigma_{XL}-1)},
+            \left(\frac{\omega_L}{\omega_X}\right)^{\sigma}
+        \right]^{1/(\sigma-1)},
         \label{eq:production-share-threshold}
     \end{equation}
-    and $\mathcal R_{\bar s}(\sigma_{XL})\to\infty$ as
-    $\sigma_{XL}\downarrow1$.
+    and $\mathcal R_{\bar s}(\sigma)\to\infty$ as $\sigma\downarrow1$.
 \end{enumerate}
 \end{proposition}
 
 Proposition~\ref{prop:production-unit-elasticity-knife-edge} explains why the
-Cobb--Douglas result and the gross-substitution result are not contradictory. At
+Cobb--Douglas and gross-substitution asymptotics are not contradictory. At
 $\sigma_{XL}=1$, the relative price affects the input ratio but not the CES
 contribution share. For every fixed elasticity above one, however small the gap,
-an unbounded increase in $w/p^X$ eventually makes AI services dominant. The limits
+the share function converges to one as $w/p^X$ becomes unbounded. Establishing that
+the equilibrium generates this relative-price limit is a separate dynamic question. The limits
 in \eqref{eq:noncommuting-production-limits} do not commute. This is a singular
 perturbation: equilibrium allocations are continuous in $\sigma_{XL}$ at every
 finite relative price and date, while their infinite-horizon classification is not
@@ -1701,18 +1821,17 @@ capability. The first condition concerns feedback through automated research; th
 second concerns the way the production CES converts an ever lower effective AI
 price into the return to capital.
 
-The previous result rules out more than a path with a constant capital--output ratio.
-It rules out an interior steady state under the paper's definition: a path on which
-all aggregate variables eventually grow at finite constant rates.
+The exact equilibrium identities permit a sharper nonexistence result than merely
+ruling out a constant capital--output ratio. We use the paper's definition of an
+interior steady state: a path on which all aggregate variables eventually grow at
+finite constant rates.
 
-\begin{proposition}[Gross production substitution and nonexistence of an interior steady state]
+\newpage
+\begin{proposition}[Gross production substitution rules out positive-growth steady state]
 \label{prop:gross-substitution-no-steady-state}
-Suppose $\sigma_{XL}>1$, $A_t\to\infty$, the service-market solution remains
-interior, and consumption is positive so that the household Euler equation holds.
-Then $g_{C,t}$ cannot converge to a finite constant. Consequently, there is no
-interior steady state on which all aggregate variables grow at finite constant
-rates. In particular, there is no such steady state with a positive constant
-$g_A$.
+Suppose $\sigma_{XL}>1$ and the service-market solution and household allocation
+remain interior. There is no steady state on which all aggregate variables grow at
+finite constant rates and capability grows at a positive constant rate.
 \end{proposition}
 
 The result does not require $s^X_t\to1$. The exact equilibrium identity derived in
@@ -1723,20 +1842,19 @@ growth. If \eqref{eq:vanishing-normalized-ai-cost} also holds, the stronger limi
 $s^X_t\to1$ delivers the asymptotic equality
 \eqref{eq:high-sigma-ak-limit}.
 
-The assumption $A_t\to\infty$ is essential. The inequality $\sigma_{XL}>1$ by
-itself does not exclude a boundary path on which research shuts down and capability
-remains bounded. Conditional on a finite constant capability stock, the production
+The proof assumes a positive-growth steady state only to obtain a contradiction:
+positive constant $g_A$ implies $A_t\to\infty$, which makes the return to capital and,
+through the Euler equation, consumption growth diverge. The inequality
+$\sigma_{XL}>1$ does not exclude a boundary path on which research shuts down and
+capability remains bounded. Conditional on a finite capability stock, the production
 side becomes a standard constant-returns economy and does not mechanically rule out
-a stationary per-capita allocation. This observation is a logical counterexample to
-the unconditional statement, not a claim that the no-research boundary is optimal in
-the baseline monopoly. Whether that boundary is an equilibrium depends on the
-developer's research first-order conditions and the private value of capability.
+a stationary per-capita allocation. Whether that boundary is an equilibrium depends
+on the developer's research optimality conditions and the private value of capability.
 
-The absence of a finite-growth steady state leaves open the form of an accelerating
-equilibrium. The following proposition characterizes its limiting ratios. It is a
-conditional result: it describes an interior path that reaches an AI-dominated
-finite-time singularity, but does not by itself prove that the path exists from
-arbitrary initial conditions.
+The absence of a positive-growth steady state leaves open the form of an accelerating
+equilibrium. The following calculation characterizes the limiting ratios of a
+postulated interior path that reaches an AI-dominated finite-time singularity. It
+does not prove that such a path exists from the model's initial conditions.
 
 Define
 \begin{equation}
@@ -1749,13 +1867,15 @@ The first term is the capability elasticity of $Y/K$ in the AI-dominated
 production limit. The second is the limiting share of output used for inference
 compute under monopoly.
 
-\begin{proposition}[Conditional singular-equilibrium scaling]
-\label{prop:high-sigma-singular-scaling}
+\begin{conditionalresult}[Singular scaling on a postulated AI-dominated branch]
+\label{cond:high-sigma-singular-scaling}
 Suppose $1<\sigma_{XL}<1/\alpha$, $\sigma_{HM}>1$, and consider an interior
 equilibrium that reaches a finite date $T^*$ with $A_t\to\infty$,
 $s^X_t\to1$, and $s^M_t\to1$. Suppose also that $C/Y$, investment and
 automated-research resource shares, $g_A/(Y/K)$, and $qA/K$ converge to positive
-finite limits. Then
+finite limits. In addition, suppose that these convergences are asymptotically
+regular: the growth rate of each convergent ratio, divided by $Y/K$, tends to zero.
+Then
 \begin{align}
     \frac{g_A}{Y/K}
     &\longrightarrow
@@ -1797,7 +1917,7 @@ Thus the output--capital ratio, the return to capital, and growth rates diverge 
 the finite date $T^*$ along this conditional limit. At the same time,
 $K/C\to0$ and $qA/C\to0$, so neither capital nor capability retains a positive
 terminal value relative to consumption at the singular boundary.
-\end{proposition}
+\end{conditionalresult}
 
 The proof is in Appendix~\ref{sec:appendix-proofs}. The limiting ratios depend on
 the capital, capability, and research elasticities, but not directly on the value
@@ -1808,8 +1928,8 @@ motivates the free-boundary equilibrium computations in Section~\ref{sec:numeric
 The nonexistence result can be paired with a conditional characterization of
 constant growth on the other side of the Cobb--Douglas threshold.
 
-\begin{proposition}[Constant-growth limits with a non-unit production elasticity]
-\label{prop:nonunit-ces-steady-states}
+\begin{conditionalresult}[Necessary rates of candidate non-unit-elasticity limits]
+\label{cond:nonunit-ces-steady-states}
 Suppose $n>0$, $A_t\to\infty$, $\xi$ is constant, and the service-market solution
 remains interior.
 \begin{enumerate}[label=(\roman*)]
@@ -1846,7 +1966,7 @@ remains interior.
     steady state with unbounded capability on which all aggregate variables grow at
     finite constant rates.
 \end{enumerate}
-\end{proposition}
+\end{conditionalresult}
 
 The proof is in Appendix~\ref{sec:appendix-proofs}. The first result differs from a
 fixed-research-share mechanism closure. Holding $H/N$ and
@@ -1868,7 +1988,8 @@ mechanism. Research automation reinforces that mechanism, but the wage path must
 solved jointly with capital accumulation before concluding that the human research
 share disappears.
 
-The stabilization result in Proposition~\ref{prop:human-essentiality-acceleration}
+The stabilization comparison in conditional
+result~\ref{cond:human-essentiality-acceleration}
 is therefore conditional on Cobb--Douglas production. Recall that
 $\vartheta=(1-\alpha)/\alpha>0$ from
 \eqref{eq:high-sigma-singular-definitions}.
@@ -1885,8 +2006,8 @@ share $s_I$, that
 \end{equation}
 Thus, if $A_t\to\infty$, capital growth cannot converge to a finite constant.
 
-\begin{proposition}[Human-essential research does not restore balanced growth]
-\label{prop:sigma-hm-one-high-sigma-xl}
+\begin{conditionalresult}[Fixed-share mechanism with human-essential research]
+\label{cond:sigma-hm-one-high-sigma-xl}
 Suppose $\sigma_{HM}=1$, $\sigma_{XL}>1$, $A_t\to\infty$, and the interior monopoly solution
 continues to apply. With a fixed positive investment share, there is no balanced-growth
 path on which all aggregate variables grow at finite constant rates. Under the
@@ -1900,13 +2021,13 @@ additional reduced-form closure
 and constant $\xi$, any $\omega_M>0$ preserves a feedback from the scale of output to
 capability. The corresponding high-capability asymptotic system reaches a finite-time
 singularity.
-\end{proposition}
+\end{conditionalresult}
 
 \begin{proof}
 The first claim follows directly from
 \eqref{eq:sigma-hm-one-high-sigma-xl-capital-growth}. For the second, set
 $x_t=\log A_t$, $k_t=\log K_t$, $b=\eta\omega_M$, and
-$d=1-\phi-qb$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
+$d=1-\phi-\vartheta b$. After using \eqref{eq:high-sigma-ak-limit} and dropping terms that
 vanish in the high-capability limit, the reduced system can be written as
 \begin{align}
     \dot x_t
@@ -1935,7 +2056,7 @@ is eventually bounded above by a negative constant. Hence $\exp(-\vartheta x_t)$
 zero in finite time, so $A_t$ diverges at a finite date.
 \end{proof}
 
-This proposition separates two meanings of human essentiality. At $\sigma_{HM}=1$, the
+This fixed-share calculation separates two meanings of human essentiality. At $\sigma_{HM}=1$, the
 human contribution to each unit of effective research never disappears. But a
 positive automated-input elasticity $\omega_M$ still lets the expanding scale of output
 raise $M_t$ and therefore research productivity. If $\omega_M=0$, production growth still
@@ -1947,26 +2068,32 @@ physical constraints may interrupt the feedback.
 
 \subsubsection{Private and social research}
 
-The planner's first-order condition for research compute is
+At the social allocation, the planner's first-order condition for research compute is
 \begin{equation}
     Q_tF_{M,t}=\xi.
     \label{eq:social-compute-foc}
 \end{equation}
-The private condition is $q_tF_{M,t}=\xi$. At the private allocation, the
-uninternalized marginal social benefit is therefore
+The private condition is $q_tF_{M,t}=\xi$. If $Q_t$ denotes the marginal social
+value of capability evaluated consistently at the private allocation, the marginal
+social net benefit of additional research compute there is
 \begin{equation}
     Q_tF_{M,t}-\xi=(Q_t-q_t)F_{M,t}.
     \label{eq:knowledge-wedge}
 \end{equation}
 
-\begin{proposition}[The knowledge and appropriability wedge]
-\label{prop:knowledge-wedge}
+\begin{conditionalresult}[Shadow-value comparison at the private allocation]
+\label{cond:knowledge-wedge}
 If $Q_t>q_t$, the integrated monopolist invests too little in research compute at the
 margin relative to the social allocation.
-\end{proposition}
+\end{conditionalresult}
 
-There are thus two distinct distortions. Static market power restricts current AI
-services, while incomplete appropriation of consumer surplus and knowledge benefits
-can depress frontier research. Price regulation alone may correct the first
-distortion while weakening the rents that finance research. This is the central
-policy trade-off developed below.
+The inequality $Q_t>q_t$ is not derived in the current model. Establishing it
+requires a planner costate equation evaluated consistently with the private
+allocation and an explicit source of consumer-surplus or knowledge spillovers.
+
+Static market power restricts current AI services. A second distortion arises if an
+explicit planner problem implies $Q_t>q_t$, in which case incomplete appropriation
+of consumer surplus or knowledge benefits depresses frontier research. Price
+regulation may then improve current deployment while weakening the rents that
+finance research. The current model establishes the first distortion but leaves the
+sign of the research wedge conditional.

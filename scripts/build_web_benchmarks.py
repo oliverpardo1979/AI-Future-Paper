@@ -41,6 +41,7 @@ def value(row: dict[str, str], field: str, fallback: float = 0.0) -> float:
 
 
 PER_CAPITA_LOG_FIELDS = {
+    "log_service_composite_per_capita": "log_service_composite",
     "log_ai_services_per_capita": "log_ai_services",
     "log_inference_compute_per_capita": "log_inference_compute",
     "log_human_research_per_capita": "log_human_research",
@@ -66,6 +67,8 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "log_consumption_per_capita",
             "log_capital_per_capita",
             "log_wage",
+            "log_ai_price",
+            "log_ai_marginal_cost",
             *PER_CAPITA_LOG_FIELDS,
         )
     }
@@ -95,6 +98,7 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "consumption_per_capita_growth": value(
                 row, "consumption_per_capita_growth"
             ),
+            "wage_growth": value(row, "wage_growth"),
             "net_interest": value(row, "net_capital_return"),
             "human_research_share": value(row, "human_research_share"),
             "production_labor_population_share": (
@@ -113,6 +117,14 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "research_resource_share": value(row, "research_resource_share"),
             "output_capital_ratio": output_capital,
             "human_machine_ratio": human_machine,
+            "ai_markup": value(row, "ai_markup"),
+            "ai_profit_share": value(row, "ai_profit_share"),
+            "shadow_capability_to_output": value(
+                row, "shadow_capability_to_output"
+            ),
+            "shadow_capability_to_capital": value(
+                row, "shadow_capability_to_capital"
+            ),
         }
         for field, initial_value in initial_levels.items():
             current[field + "_change"] = (

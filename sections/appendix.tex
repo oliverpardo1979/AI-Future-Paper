@@ -1,7 +1,7 @@
 \section{Proofs}
 \label{sec:appendix-proofs}
 
-\begin{proof}[Proof of Proposition~\ref{prop:gradual-automation}]
+\begin{proof}[Derivation for conditional result~\ref{cond:gradual-automation}]
 Equation~\eqref{eq:automation-odds} gives
 \[
     \frac{s^M_t}{1-s^M_t}
@@ -22,7 +22,7 @@ $H_t/E_t\to0$. If $w_t/\xi$ remains bounded, the odds in
 $s^M_t\to1$.
 \end{proof}
 
-\begin{proof}[Proof of Proposition~\ref{prop:singularity-conditions}]
+\begin{proof}[Derivation for conditional result~\ref{cond:singularity-conditions}]
 Let $z_t\equiv1/g_{A,t}$. Equation
 \eqref{eq:ces-transition-growth-dynamics} implies the linear equation
 \[
@@ -60,7 +60,7 @@ $D(s^M_t)$, the same divergence occurs exactly when the bracket in
 \eqref{eq:time-varying-singularity-condition} reaches zero.
 \end{proof}
 
-\begin{proof}[Proof of Proposition~\ref{prop:production-ces-regimes}]
+\begin{proof}[Derivation for conditional result~\ref{cond:production-ces-regimes}]
 Let $x_t\equiv X_t/L_t$, $k_t\equiv K_t/L_t$, and write
 $s_t\equiv s^X_t$. Final output per production worker is
 \[
@@ -143,25 +143,28 @@ $s^X_t$ gives
     \left(\frac{\omega_X}{\omega_L}\right)^{\sigma_{XL}}
     \left(\frac{w_t}{p^X_t}\right)^{\sigma_{XL}-1}.
 \]
-For finite $w_t/p^X_t>0$, the right-hand side converges to
-$\omega_X/\omega_L$ as $\sigma_{XL}\to1$, which implies $s^X_t\to\omega_X$.
-At $\sigma_{XL}=1$, the exponent on the relative price is zero and the share is
-identically $\omega_X$. For every fixed $\sigma_{XL}>1$, the odds diverge when
-$w_t/p^X_t\to\infty$, so $s^X_t\to1$. These observations establish the two
+For every finite relative price $\mathcal R>0$, the right-hand side converges to
+$\omega_X/\omega_L$ as $\sigma\to1$, which implies
+$s^X(\mathcal R,\sigma)\to\omega_X$. At $\sigma=1$, the exponent on the relative
+price is zero and the share is identically $\omega_X$. For every fixed $\sigma>1$,
+the odds diverge as $\mathcal R\to\infty$, so
+$s^X(\mathcal R,\sigma)\to1$. These observations establish the two
 iterated limits in \eqref{eq:noncommuting-production-limits}.
 
-Finally, set $s^X_t=\bar s$ in \eqref{eq:production-share-odds} and solve for
-$w_t/p^X_t$ to obtain \eqref{eq:production-share-threshold}. Because
+Finally, set $s^X=\bar s$ in \eqref{eq:production-share-odds} and solve for
+$\mathcal R$ to obtain \eqref{eq:production-share-threshold}. Because
 $\bar s>\omega_X$,
 \[
     \log\frac{\bar s}{1-\bar s}
     +\log\frac{\omega_L}{\omega_X}>0.
 \]
 The logarithm of \eqref{eq:production-share-threshold} therefore diverges at rate
-$1/(\sigma_{XL}-1)$ as $\sigma_{XL}\downarrow1$.
+$1/(\sigma-1)$ as $\sigma\downarrow1$.
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{prop:gross-substitution-no-steady-state}]
+Suppose, to obtain a contradiction, that such a steady state exists and that
+$g_{A,t}\to\bar g_A>0$. Then $A_t\to\infty$.
 The CES share definition gives the exact identity
 \begin{equation}
     \frac{Z_t}{X_t}
@@ -218,7 +221,7 @@ $s^X_t\to1$, then $\varepsilon^X_t\to\alpha$, and
     \right]^{(1-\alpha)/\alpha}>0.
     \label{eq:appendix-high-sigma-output-capital-limit}
 \end{equation}
-Proposition~\ref{prop:production-ces-regimes} establishes $s^X_t\to1$ under
+Conditional result~\ref{cond:production-ces-regimes} establishes $s^X_t\to1$ under
 \eqref{eq:vanishing-normalized-ai-cost}.
 
 The nonexistence result does not require that additional condition. When
@@ -254,10 +257,12 @@ Because $c_t=C_t/N_t$ and $g_N=n$, the Euler equation implies
     \label{eq:high-sigma-consumption-growth-divergence}
 \end{equation}
 Aggregate consumption cannot consequently grow at a finite constant rate. If $g_A$
-is a positive constant, then $A_t\to\infty$, so the final claim follows.
+converged to the positive constant $\bar g_A$, the alleged steady state would require
+both finite constant consumption growth and divergent consumption growth. This is the
+required contradiction.
 \end{proof}
 
-\begin{proof}[Proof of Proposition~\ref{prop:high-sigma-singular-scaling}]
+\begin{proof}[Derivation for conditional result~\ref{cond:high-sigma-singular-scaling}]
 Let $z_t\equiv Y_t/K_t$, $u_t\equiv q_tA_t/K_t$, and
 $a_t\equiv g_{A,t}/z_t$. AI dominance and
 \eqref{eq:appendix-high-sigma-output-capital-limit} imply
@@ -281,8 +286,8 @@ Moreover,
 
 Let $\bar i$, $\bar c$, $\bar m_R$, $\bar a$, and $\bar u$ denote the
 positive limits of $I/Y$, $C/Y$, $\xi M/Y$, $a_t$, and $u_t$. The household
-Euler equation gives $g_C/z\to\alpha$. A constant consumption share therefore
-requires $g_Y/z\to\alpha$. Because
+Euler equation gives $g_C/z\to\alpha$. Asymptotic regularity of $C/Y$ therefore
+gives $g_Y/z\to\alpha$. Because
 $g_z=\vartheta g_A$ and $g_K/z\to\bar i$, output growth also satisfies
 \[
     \frac{g_Y}{z}
@@ -311,7 +316,8 @@ The growth rate of $u_t=q_tA_t/K_t$ and the developer's costate equation give
     (1-\phi+\vartheta)\bar a-\frac{d_U}{\bar u}.
     \label{eq:appendix-singular-shadow-ratio}
 \end{align}
-Because $u_t$ converges to a positive constant,
+Asymptotic regularity of $u_t$ sets the left-hand side of
+\eqref{eq:appendix-singular-shadow-ratio} equal to zero, so
 \begin{equation}
     \bar u
     =
@@ -319,7 +325,8 @@ Because $u_t$ converges to a positive constant,
     \label{eq:appendix-singular-shadow-limit}
 \end{equation}
 
-Finally, automated research dominance and a constant research-resource share imply
+Finally, automated research dominance and asymptotic regularity of the
+research-resource share imply
 $g_M/z\to g_Y/z\to\alpha$. Log differentiation of the ideas-production function
 therefore gives
 \[
@@ -327,8 +334,9 @@ therefore gives
     \longrightarrow
     (\phi-1)\bar a+\eta\alpha.
 \]
-But $g_A=\bar a z$ asymptotically and $g_z=\vartheta g_A$, so the left-hand side
-also converges to $\vartheta\bar a$. Equating the two expressions yields
+Asymptotic regularity of $a_t=g_A/z$, together with
+$g_z=\vartheta g_A$, implies that the left-hand side also converges to
+$\vartheta\bar a$. Equating the two expressions yields
 \[
     \bar a
     =
@@ -362,8 +370,8 @@ $z_t\sim[\vartheta\bar a(T^*-t)]^{-1}$. Finally,
 These limits establish the terminal-value claims.
 \end{proof}
 
-\begin{proof}[Proof of Proposition~\ref{prop:nonunit-ces-steady-states}]
-Consider first $\sigma_{XL}<1$. Proposition~\ref{prop:production-ces-regimes}
+\begin{proof}[Derivation for conditional result~\ref{cond:nonunit-ces-steady-states}]
+Consider first $\sigma_{XL}<1$. Conditional result~\ref{cond:production-ces-regimes}
 implies that $X_t/L_t$ converges to a positive constant. Because $L/N$ also
 converges to a positive constant, $g_L=g_X=n$.
 
@@ -427,7 +435,9 @@ so $m+a=n$. Combining this condition with
 \]
 It follows that $g_{H/N}=m-n=-a$ and, because $g_M=m$, $g_Y=n$, and $\xi$ is
 constant, $g_{\xi M/Y}=-a$. This proves part (i). Part (ii) is
-Proposition~\ref{prop:gross-substitution-no-steady-state}.
+the exact lower-bound argument in the proof of
+Proposition~\ref{prop:gross-substitution-no-steady-state}, with unbounded capability
+imposed as part of the conditional candidate.
 \end{proof}
 
 \begin{proof}[Derivation of Equation~\eqref{eq:bg-research-resource-share}]
@@ -459,7 +469,7 @@ Solving for $m_R^\infty$ yields
 \eqref{eq:bg-research-resource-share}.
 \end{proof}
 
-\begin{proof}[Proof of Proposition~\ref{prop:knowledge-wedge}]
+\begin{proof}[Derivation for conditional result~\ref{cond:knowledge-wedge}]
 Evaluate the planner's marginal net benefit from research compute at the private
 allocation. Using \eqref{eq:private-compute-foc},
 \[

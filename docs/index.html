@@ -178,6 +178,15 @@
               <div class="legend" id="labor-allocation-legend"></div>
             </article>
 
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Labor income</p><h3>Participación del trabajo en el producto</h3></div>
+                <span>porcentaje del producto</span>
+              </div>
+              <canvas id="labor-income-chart" aria-label="Gráfico de la participación del ingreso laboral de producción y del ingreso laboral total"></canvas>
+              <div class="legend" id="labor-income-legend"></div>
+            </article>
+
             <header class="chart-stage">
               <p class="eyebrow">Production block</p>
               <div><h3>Producción corriente</h3><span>A + U → X; L + X → Z; K + Z → Y</span></div>
@@ -194,29 +203,88 @@
 
             <article class="chart-card chart-card-wide">
               <div class="chart-heading">
-                <div><p class="eyebrow">Outcomes</p><h3>Producto, capital, consumo y salario</h3></div>
+                <div><p class="eyebrow">K + Z → Y</p><h3>Capital, compuesto de servicios y producto</h3></div>
                 <span>ln(Vₜ/V₀)</span>
               </div>
-              <canvas id="production-levels-chart" aria-label="Gráfico logarítmico de producción, capital, consumo y salario"></canvas>
+              <canvas id="production-levels-chart" aria-label="Gráfico logarítmico de capital, compuesto de servicios y producto por persona"></canvas>
               <div class="legend" id="production-levels-legend"></div>
             </article>
 
             <article class="chart-card">
               <div class="chart-heading">
-                <div><p class="eyebrow">Growth & return</p><h3>Tasas de crecimiento e interés</h3></div>
+                <div><p class="eyebrow">Household outcomes</p><h3>Consumo y salario real</h3></div>
+                <span>ln(Vₜ/V₀)</span>
+              </div>
+              <canvas id="household-levels-chart" aria-label="Gráfico logarítmico del consumo por persona y del salario real"></canvas>
+              <div class="legend" id="household-levels-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Growth</p><h3>Crecimiento de la frontera y la economía</h3></div>
                 <span>porcentaje anual</span>
               </div>
-              <canvas id="growth-chart" aria-label="Gráfico de crecimiento e interés"></canvas>
+              <canvas id="growth-chart" aria-label="Gráfico de las tasas de crecimiento de la capacidad, el producto y el consumo"></canvas>
               <div class="legend" id="growth-legend"></div>
             </article>
 
             <article class="chart-card">
               <div class="chart-heading">
-                <div><p class="eyebrow">L–X margin</p><h3>Sustitución y distribución</h3></div>
-                <span>porcentaje de Z o de Y</span>
+                <div><p class="eyebrow">Factor prices</p><h3>Salario e interés</h3></div>
+                <span>porcentaje anual</span>
               </div>
-              <canvas id="production-shares-chart" aria-label="Gráfico de sustitución entre trabajo e inteligencia artificial y distribución"></canvas>
-              <div class="legend" id="production-shares-legend"></div>
+              <canvas id="factor-prices-chart" aria-label="Gráfico del crecimiento del salario y la tasa de interés neta"></canvas>
+              <div class="legend" id="factor-prices-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Automation margins</p><h3>IA en producción e investigación</h3></div>
+                <span>participaciones en Z y E</span>
+              </div>
+              <canvas id="automation-shares-chart" aria-label="Gráfico de las participaciones de los servicios de inteligencia artificial y de la investigación automatizada"></canvas>
+              <div class="legend" id="automation-shares-legend"></div>
+            </article>
+
+            <header class="chart-stage">
+              <p class="eyebrow">Integrated AI developer</p>
+              <div><h3>Precio, costo, markup y valor de la frontera</h3><span>A + U → X; beneficios → investigación</span></div>
+            </header>
+
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Price & marginal cost</p><h3>Servicio de IA</h3></div>
+                <span>ln(Vₜ/V₀)</span>
+              </div>
+              <canvas id="ai-price-chart" aria-label="Gráfico logarítmico del precio y del costo marginal de los servicios de inteligencia artificial"></canvas>
+              <div class="legend" id="ai-price-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Market power</p><h3>Markup del monopolista</h3></div>
+                <span>razón precio-costo marginal</span>
+              </div>
+              <canvas id="markup-chart" aria-label="Gráfico del markup del monopolista de inteligencia artificial"></canvas>
+              <div class="legend" id="markup-legend"></div>
+            </article>
+
+            <article class="chart-card">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Operating profits</p><h3>Rentas que financian investigación</h3></div>
+                <span>porcentaje del producto</span>
+              </div>
+              <canvas id="developer-value-chart" aria-label="Gráfico de los beneficios operativos del desarrollador como participación del producto"></canvas>
+              <div class="legend" id="developer-value-legend"></div>
+            </article>
+
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Frontier valuation</p><h3>Valor sombra de la capacidad de IA</h3></div>
+                <span>logaritmos de qA/Y y qA/K</span>
+              </div>
+              <canvas id="frontier-value-chart" aria-label="Gráfico del valor sombra de la capacidad de inteligencia artificial relativo al producto y al capital"></canvas>
+              <div class="legend" id="frontier-value-legend"></div>
             </article>
 
             <header class="chart-stage">
@@ -250,16 +318,16 @@
             <article class="chart-card">
               <div class="chart-heading">
                 <div><p class="eyebrow">Research mix</p><h3>Humanos y máquinas</h3></div>
-                <span>participaciones en E; suman 100%</span>
+                <span>contribución automatizada a E</span>
               </div>
-              <canvas id="research-composition-chart" aria-label="Gráfico de la composición humana y automatizada de la investigación"></canvas>
+              <canvas id="research-composition-chart" aria-label="Gráfico de la contribución automatizada a la investigación efectiva"></canvas>
               <div class="legend" id="research-composition-legend"></div>
             </article>
 
             <article class="chart-card">
               <div class="chart-heading">
                 <div><p class="eyebrow">Research ratio</p><h3>Intensidad humana relativa</h3></div>
-                <span>H/M</span>
+                <span>ln(H/M)</span>
               </div>
               <canvas id="research-ratio-chart" aria-label="Gráfico de la relación entre investigación humana y automatizada"></canvas>
               <div class="legend" id="research-ratio-legend"></div>

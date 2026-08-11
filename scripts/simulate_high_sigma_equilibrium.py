@@ -589,6 +589,15 @@ def evaluate_free_boundary_solution(
             + block["log_output"]
             - block["log_ai_services"]
         )
+        log_service_composite = (
+            block["log_output"] - parameters.alpha * log_capital
+        ) / (1.0 - parameters.alpha)
+        log_ai_marginal_cost = math.log(parameters.xi) - log_capability
+        ai_markup = math.exp(log_price - log_ai_marginal_cost)
+        ai_profit_share = (
+            (1.0 - parameters.alpha) * block["ai_share"]
+            - block["inference_share"]
+        )
         monopoly_foc_log_error = (
             log_price
             + math.log(1.0 - inverse_elasticity)
@@ -629,13 +638,10 @@ def evaluate_free_boundary_solution(
             "log_consumption": log_consumption,
             "log_shadow_value": log_shadow,
             "log_output": block["log_output"],
+            "log_service_composite": log_service_composite,
             "log_wage": block["log_wage"],
-            "log_ai_price": (
-                math.log1p(-parameters.alpha)
-                + math.log(block["ai_share"])
-                + block["log_output"]
-                - block["log_ai_services"]
-            ),
+            "log_ai_price": log_price,
+            "log_ai_marginal_cost": log_ai_marginal_cost,
             "log_ai_services": block["log_ai_services"],
             "log_inference_compute": block["log_inference_compute"],
             "log_human_research": block["log_human_research"],
@@ -661,6 +667,7 @@ def evaluate_free_boundary_solution(
             "net_capital_return": block["gross_capital_return"]
             - parameters.delta,
             "human_research_share": block["human_share"],
+            "production_labor_population_share": 1.0 - block["human_share"],
             "ai_share": block["ai_share"],
             "inverse_demand_elasticity": inverse_elasticity,
             "monopoly_soc_margin": monopoly_soc_margin,
@@ -681,7 +688,16 @@ def evaluate_free_boundary_solution(
             "aggregate_labor_share": math.exp(
                 block["log_wage"] + log_population - block["log_output"]
             ),
+            "ai_markup": ai_markup,
+            "ai_profit_share": ai_profit_share,
+            "shadow_capability_to_output": math.exp(
+                log_shadow + log_capability - block["log_output"]
+            ),
             "shadow_capability_to_capital": shadow_capability_to_capital,
+            "human_to_automated_research_ratio": math.exp(
+                block["log_human_research"]
+                - block["log_automated_research"]
+            ),
             "singularity_time_estimate": float(time)
             + 1.0
             / targets["singularity_rate"]
@@ -786,8 +802,15 @@ def draw_published_figures(
         "equilibrium_sigma_2_00": "triangle",
     }
     percent = lambda rows, values: 100.0 * values
-    log_change = lambda rows, values: (values - values[0]) / math.log(10.0)
-    log10_level = lambda rows, values: np.log10(values)
+    log_change = lambda rows, values: values - values[0]
+    per_capita_log_change = lambda rows, values: (
+        values - np.asarray([float(row["log_population"]) for row in rows])
+        - (
+            values[0]
+            - float(rows[0]["log_population"])
+        )
+    )
+    log_level = lambda rows, values: np.log(values)
 
     levels = {
         key: [
@@ -804,7 +827,7 @@ def draw_published_figures(
     equilibrium.mechanism.draw_multiplot(
         FIGURE_DIR / "high_sigma_equilibrium_levels.png",
         "Gross substitution: equilibrium quantities",
-        "Log10 change from date zero; paths end before the asymptotic boundary",
+        "Natural-log change from date zero; paths end before the asymptotic boundary",
         [
             {"title": "AI capability", "field": "log_capability", "transform": log_change},
             {"title": "Output per capita", "field": "log_output_per_capita", "transform": log_change},
@@ -827,6 +850,66 @@ def draw_published_figures(
             {"title": "Net return to capital", "field": "net_capital_return", "transform": percent, "format": lambda value: f"{value:.0f}%"},
         ],
         growth,
+        labels,
+        palette,
+        markers,
+    )
+    equilibrium.mechanism.draw_multiplot(
+        FIGURE_DIR / "high_sigma_equilibrium_production_chain.png",
+        "Gross substitution: the production chain",
+        "Natural-log change per capita, except for the AI-service price",
+        [
+            {"title": "Inference compute per capita", "field": "log_inference_compute", "transform": per_capita_log_change},
+            {"title": "AI services per capita", "field": "log_ai_services", "transform": per_capita_log_change},
+            {"title": "Service composite per capita", "field": "log_service_composite", "transform": per_capita_log_change},
+            {"title": "Real AI-service price", "field": "log_ai_price", "transform": log_change},
+        ],
+        levels,
+        labels,
+        palette,
+        markers,
+    )
+    equilibrium.mechanism.draw_multiplot(
+        FIGURE_DIR / "high_sigma_equilibrium_research_chain.png",
+        "Gross substitution: AI research",
+        "Natural-log change per capita; H/M is shown in natural logs",
+        [
+            {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
+            {"title": "Automated research per capita", "field": "log_automated_research", "transform": per_capita_log_change},
+            {"title": "Effective research per capita", "field": "log_effective_research", "transform": per_capita_log_change},
+            {"title": "ln human-machine research ratio", "field": "human_to_automated_research_ratio", "transform": log_level},
+        ],
+        levels,
+        labels,
+        palette,
+        markers,
+    )
+    equilibrium.mechanism.draw_multiplot(
+        FIGURE_DIR / "high_sigma_equilibrium_resource_allocation.png",
+        "Gross substitution: uses of output",
+        "Shares of final output in percent; the four uses sum to one",
+        [
+            {"title": "Consumption / output", "field": "consumption_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Investment / output", "field": "investment_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Inference resources / output", "field": "inference_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Automated research / output", "field": "research_resource_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+        ],
+        levels,
+        labels,
+        palette,
+        markers,
+    )
+    equilibrium.mechanism.draw_multiplot(
+        FIGURE_DIR / "high_sigma_equilibrium_monopoly_block.png",
+        "Gross substitution: the integrated AI developer",
+        "Natural-log price changes, markup ratio, and operating profits as a share of output",
+        [
+            {"title": "AI-service price", "field": "log_ai_price", "transform": log_change},
+            {"title": "AI-service marginal cost", "field": "log_ai_marginal_cost", "transform": log_change},
+            {"title": "Price / marginal cost", "field": "ai_markup"},
+            {"title": "Operating profits / output", "field": "ai_profit_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+        ],
+        levels,
         labels,
         palette,
         markers,
@@ -857,7 +940,7 @@ def draw_published_figures(
         "Free-boundary convergence toward the singular equilibrium",
         "The common theoretical limit is g_A/(Y/K)=0.0624; T* is scenario-specific",
         [
-            {"title": "Log10 output-capital ratio", "field": "output_capital_ratio", "transform": log10_level},
+            {"title": "ln output-capital ratio", "field": "output_capital_ratio", "transform": log_level},
             {"title": "Capability growth / (Y/K)", "field": "capability_growth_to_output_capital", "transform": percent, "format": lambda value: f"{value:.1f}%"},
             {"title": "Estimated singularity year", "field": "singularity_time_estimate"},
             {"title": "Consumption share", "field": "consumption_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},

@@ -12,11 +12,13 @@ Population growth matters while human research dominates. With $\phi<1$ and a
 constant research-employment share, capability growth is semi-endogenous and equals
 $\eta n/(1-\phi)$. When automated research dominates, capability growth is tied
 instead to the growth of automated-research services. In the Cobb--Douglas production
-benchmark, a constant-growth path exists if
-$1-\phi-\eta\beta/(1-\alpha-\beta)>0$. If this condition fails, the feedback between
-output and automated research is too strong for a positive constant-growth solution.
+benchmark, the AI-dominated constant-growth candidate has a positive finite
+capability-growth rate only if
+$1-\phi-\eta\beta/(1-\alpha-\beta)>0$. If this condition fails, the candidate cannot
+have a positive finite capability-growth rate. These statements are necessary-rate
+calculations, not an existence or stability theorem for the decentralized equilibrium.
 
-The absence of a constant-growth solution does not by itself establish a
+The absence of a positive finite constant-growth candidate does not by itself establish a
 finite-time singularity. Under the paper's reduced proportional-allocation closure,
 a positive feedback denominator produces a stable capability-growth rate. A zero
 denominator produces exponential growth in the capability growth rate, and therefore
@@ -27,14 +29,16 @@ $D(s^M_t)=1-\phi-\eta\upsilon s^M_t$, not only on its AI-dominated limit. These
 claims apply to the reduced closure; the fully optimizing equilibrium may reach a
 resource constraint or boundary allocation first.
 
-Human essentiality determines which feedback condition applies. If research is
-Cobb--Douglas in human and automated inputs, balanced growth instead requires
+Human essentiality determines which feedback condition appears in the candidate
+calculation. If research is Cobb--Douglas in human and automated inputs, a positive
+finite candidate instead requires
 $1-\phi-\eta\omega_M\omega_X/\omega_L>0$. We impose this restriction throughout
-the paper, so the human-essential Cobb--Douglas benchmark is stable by construction.
+the paper, so the human-essential Cobb--Douglas candidate has a positive finite rate
+by construction.
 This condition is weaker because only the automated-input elasticity $\omega_M$
-transmits the expansion of output back into research. There is therefore a parameter region in which growth remains balanced
-when human research is essential but accelerates when automated research can become
-asymptotically dominant.
+transmits the expansion of output back into research. There is therefore a parameter
+region in which the human-essential candidate has a positive finite rate while the
+AI-dominated candidate does not.
 The Cobb--Douglas comparison is a counterfactual technology, not a change in the
 research elasticity during the CES transition.
 
@@ -48,7 +52,7 @@ distribution of task-level costs, while the CES remains the parsimonious baselin
 The production elasticity $\sigma_{XL}$ also separates the wage response from the
 response of the production-labor share. An expansion of AI services reduces this share when
 $\sigma_{XL}>1$, but it raises the wage when $\sigma_{XL}<1/\alpha$. Hence both outcomes occur
-when $1<\sigma_{XL}<1/\alpha$. This conditional result is a benchmark, not the paper's
+when $1<\sigma_{XL}<1/\alpha$. This static result is a benchmark, not the paper's
 standalone contribution. In general equilibrium, capital deepening and the
 reallocation of workers between production and research also affect wages and the
 aggregate labor share. More precisely, aggregate labor-share growth equals
@@ -67,15 +71,15 @@ share approaches one. The asymptotic disappearance of human research as a relati
 input therefore does not imply that human research employment must fall throughout
 the transition.
 
-The production elasticity determines whether the economy reaches that asymptotic
-research regime. When $\sigma_{XL}<1$, labor remains essential and the productive return
-to further reductions in the unit cost of AI services vanishes. When $\sigma_{XL}=1$,
-positive wage growth makes automated research asymptotically dominant. When
-$\sigma_{XL}>1$ and the effective unit cost of AI services vanishes relative to
-capital intensity, the production-labor share converges to zero. More generally, if
-capability is unbounded, the return to capital diverges. The household Euler
-equation then makes consumption growth diverge, so no interior steady state with
-finite constant growth rates exists. The qualification is important:
+The conditional asymptotic calculations distinguish three roles for the production
+elasticity. When $\sigma_{XL}<1$, the low-elasticity candidate leaves labor essential
+and makes the productive return to further reductions in the unit cost of AI services
+vanish. At $\sigma_{XL}=1$, positive wage growth would make automated research
+asymptotically dominant. When $\sigma_{XL}>1$ and the effective unit cost of AI
+services vanishes relative to capital intensity, the production-labor share converges
+to zero. The unconditional nonexistence result is narrower and stronger where it
+applies: no interior steady state can combine finite constant growth rates with a
+positive constant capability-growth rate. The qualification is important:
 $\sigma_{XL}>1$ alone does not exclude a boundary path with bounded capability.
 
 The discontinuity at unit elasticity is an infinite-horizon classification, not a
@@ -142,19 +146,20 @@ from unequal ownership and understates the distributional importance of a declin
 labor share. It also excludes agency failures, misalignment, existential damage, and
 political power. The numerical paths reported in the paper solve the decentralized
 canonical equilibrium conditions. For $\sigma_{XL}>1$, they use the conditional singular
-ratios derived in Proposition~\ref{prop:high-sigma-singular-scaling} and pass a
+ratios derived in conditional result~\ref{cond:high-sigma-singular-scaling} and pass a
 free-boundary convergence test. This procedure provides numerical evidence for a
 locally regular singular branch from the stated initial conditions, but it is not a
 proof of the developer's global dynamic optimality, global existence, or uniqueness.
-The paper's acceleration and singularity results
-remain conditional on the assumptions stated in the relevant propositions and are
+The paper's acceleration and singularity calculations
+remain conditional on the assumptions stated in the relevant conditional results and are
 not quantitative forecasts. The paper does not assign probabilities to those
 regimes or determine their full welfare ranking.
 
 Market power creates a genuine policy trade-off. The monopolist restricts the current
 supply of AI services, but its operating rents raise the private return to frontier
-research. Because it does not appropriate all consumer surplus and knowledge
-benefits, private research remains insufficient whenever $Q_t>q_t$. Regulating the
+research. An explicit planner extension may value capability more than the monopolist
+does; if it establishes $Q_t>q_t$, private research is insufficient at the private
+allocation. The current model does not derive that inequality. Regulating the
 AI-service price without replacing the lost innovation return can therefore improve
 current deployment while slowing capability growth. The natural policy comparison is
 between laissez-faire monopoly, regulated access, explicit research support, and a

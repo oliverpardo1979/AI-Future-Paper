@@ -11,7 +11,7 @@ not used as evidence in the paper because they do not trace equilibrium paths.
 The paths with $\sigma_{XL}\leq1$ approximate an infinite-horizon equilibrium by
 moving the terminal date outward. The paths with $\sigma_{XL}>1$ are conditional
 maximal equilibria on $[0,T^*)$, selected with the singular boundary derived in
-Proposition~\ref{prop:high-sigma-singular-scaling}.
+conditional result~\ref{cond:high-sigma-singular-scaling}.
 
 \subsection{Equilibrium system and terminal conditions}
 
@@ -76,8 +76,10 @@ the initial log shadow value by at most $7.9\times10^{-6}$. The finite terminal
 date therefore has no economically relevant effect on the reported initial jumps.
 
 For $\sigma_{XL}>1$, Proposition~\ref{prop:gross-substitution-no-steady-state}
-rules out the finite-rate terminal condition used in the other two regimes. We
-instead use Proposition~\ref{prop:high-sigma-singular-scaling}. Let
+rules out the finite-rate, positive-capability-growth terminal condition used in the
+other two regimes. We
+instead use the postulated singular scaling in conditional
+result~\ref{cond:high-sigma-singular-scaling}. Let
 $z_t\equiv Y_t/K_t$ and choose a large terminal value $\bar z$. Calendar time to
 that boundary is an endogenous parameter. In addition to the two initial stocks,
 the boundary-value problem imposes
@@ -208,8 +210,8 @@ centuries.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/equilibrium_levels.png}
-    \caption{Equilibrium quantities. Each panel reports the base-10 logarithm of
-    the change relative to the path's date-zero value. Both paths satisfy the
+    \caption{Equilibrium quantities. Each panel reports the natural-log change
+    relative to the path's date-zero value. Both paths satisfy the
     household and developer optimality conditions.}
     \label{fig:equilibrium-levels}
 \end{figure}
@@ -219,9 +221,9 @@ When $\sigma_{XL}=0.75$, output-per-capita growth is not zero at every date. It 
 negative initially, becomes positive during the recovery, and then converges toward
 zero. By year 600 it is 0.0056 percent. Capability growth remains positive and is
 close to its analytical limit of 0.675 percent. The experiment therefore
-illustrates the production bottleneck characterized in Proposition
-\ref{prop:nonunit-ces-steady-states}; it does not prove convergence, which follows
-only if the required equilibrium limit exists.
+illustrates the production bottleneck characterized in conditional
+result~\ref{cond:nonunit-ces-steady-states}; it does not prove convergence or
+existence of the required equilibrium limit.
 
 The Cobb--Douglas path is different. Capability growth rises from 0.445 percent to
 1.716 percent during the first 600 years and reaches 2.271 percent by year 2,000.
@@ -236,6 +238,24 @@ Cobb--Douglas limit.
     \caption{Equilibrium growth rates and the net return to capital. Rates are
     annual. The dashed line marks zero per-capita growth.}
     \label{fig:equilibrium-growth-rates}
+\end{figure}
+
+Figure~\ref{fig:equilibrium-production-chain} follows the production tree rather
+than placing all growing quantities in one panel. Under complementarity,
+inference compute per capita falls even though capability rises. AI services per
+capita still increase because each unit of compute becomes more productive, but
+the service composite approaches a finite level. Under Cobb--Douglas production,
+inference compute, AI services, and the service composite eventually become
+log-linear. In both cases the real price of AI services falls, but much faster in
+the Cobb--Douglas path.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_production_chain.png}
+    \caption{The equilibrium production chain. Quantity panels report
+    natural-log changes per capita; the last panel reports the natural-log change
+    in the real price of AI services.}
+    \label{fig:equilibrium-production-chain}
 \end{figure}
 
 Figure~\ref{fig:equilibrium-factor-shares} reports the allocation of labor and
@@ -260,6 +280,69 @@ human input eventually becomes negligible relative to automated research.
     \caption{Labor-income shares and the equilibrium research allocation. The
     aggregate labor share includes both production workers and human researchers.}
     \label{fig:equilibrium-factor-shares}
+\end{figure}
+
+Figure~\ref{fig:equilibrium-research-chain} makes the distinction between scale
+and composition explicit. Under complementarity, human, automated, and effective
+research all contract per capita, even though the automated contribution to the
+research CES rises. Under Cobb--Douglas production, human research per capita is
+temporarily hump-shaped while automated and effective research expand. The
+human-to-machine ratio falls in both paths, but the aggregate scale consequences
+are opposite. A falling $H/M$ is therefore not, by itself, evidence that the AI
+development sector is expanding.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_research_chain.png}
+    \caption{The equilibrium research chain. The first three panels report
+    natural-log changes per capita; the final panel reports $\ln(H/M)$.}
+    \label{fig:equilibrium-research-chain}
+\end{figure}
+
+The 600-year comparison understates how slowly the Cobb--Douglas limit emerges.
+Figure~\ref{fig:equilibrium-cd-long-run} therefore reports the full 2,000-year
+path separately. Capability and output growth approach constants only after the
+automated contribution to research has moved close to one and human research has
+become negligible relative to population. This separate long-horizon panel avoids
+compressing the economically relevant first centuries of the complementarity
+experiment.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_cobb_douglas_long_run.png}
+    \caption{Long-run Cobb--Douglas transition. The figure shows the complete
+    2,000-year equilibrium solution rather than truncating it to the common
+    600-year comparison window.}
+    \label{fig:equilibrium-cd-long-run}
+\end{figure}
+
+Figures~\ref{fig:equilibrium-resource-allocation} and
+\ref{fig:equilibrium-monopoly-block} close the accounting and monopoly blocks.
+The four resource shares add to one at every date. Under complementarity,
+inference and automated-research spending become negligible relative to output;
+under Cobb--Douglas production, inference spending remains constant as a share of
+output while automated-research spending gradually rises. Market power also has
+different manifestations. With Cobb--Douglas demand the markup and operating
+profit share are constant. Under complementarity, the price falls much more slowly
+than marginal cost, so the markup rises sharply even as operating profits decline
+as a share of output. The markup alone is therefore not a sufficient measure of
+the developer's aggregate rents.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_resource_allocation.png}
+    \caption{Equilibrium allocation of final output. The panels show $C/Y$,
+    $I/Y$, $\xi U/Y$, and $\xi M/Y$ in percent.}
+    \label{fig:equilibrium-resource-allocation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_monopoly_block.png}
+    \caption{The integrated AI developer. Price and marginal cost are natural-log
+    changes; the markup is the price--marginal-cost ratio and operating profits
+    are reported as a share of output.}
+    \label{fig:equilibrium-monopoly-block}
 \end{figure}
 
 \subsection{Gross substitution and equilibrium acceleration}
@@ -313,9 +396,26 @@ the developer optimize along every path.
     \centering
     \includegraphics[width=\textwidth]{figures/high_sigma_equilibrium_levels.png}
     \caption{Equilibrium quantities with gross substitution. Each panel reports
-    the base-10 logarithm of the change from the path's date-zero value. For
+    the natural-log change from the path's date-zero value. For
     comparability, the displayed paths end no later than $Y/K=20$.}
     \label{fig:high-sigma-equilibrium-levels}
+\end{figure}
+
+The production-chain panels in
+Figure~\ref{fig:high-sigma-equilibrium-production-chain} show where the
+acceleration originates. Capability growth lowers the marginal resource cost of
+AI services, which induces a large expansion of inference compute and an even
+larger expansion of AI services. The service composite consequently ceases to be
+constrained by labor. The dates differ sharply across elasticities, but the ordering
+of the mechanism is the same in all three equilibria.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/high_sigma_equilibrium_production_chain.png}
+    \caption{Production chain with gross substitution. Quantity panels report
+    natural-log changes per capita and the price panel reports a natural-log
+    change. Paths are displayed only up to $Y/K=20$.}
+    \label{fig:high-sigma-equilibrium-production-chain}
 \end{figure}
 
 The growth rates and the return to capital in Figure
@@ -333,6 +433,25 @@ labor receives a vanishing share of output.
     The figure stops at $Y/K=5$ so that the pre-acceleration transition remains
     visible; output growth and the return to capital diverge subsequently.}
     \label{fig:high-sigma-equilibrium-growth}
+\end{figure}
+
+Figure~\ref{fig:high-sigma-equilibrium-monopoly-block} adds the objects that
+cannot be inferred from quantities alone. Both the AI-service price and marginal
+cost fall, and their decline accelerates. Unlike the complementarity case, the
+price moves toward marginal cost: the markup declines toward roughly 1.5 on the
+reported boundaries. Operating profits nevertheless rise from a small initial
+share to about 22 percent of output. A lower markup can therefore coexist with a
+larger aggregate profit share when the AI-service expenditure share expands.
+These are equilibrium outcomes for the reported parameterization, not general
+comparative-static propositions.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/high_sigma_equilibrium_monopoly_block.png}
+    \caption{The integrated AI developer under gross substitution. Price and
+    marginal cost are natural-log changes; the markup is a ratio and operating
+    profits are a percentage of output.}
+    \label{fig:high-sigma-equilibrium-monopoly-block}
 \end{figure}
 
 Figure~\ref{fig:high-sigma-equilibrium-shares} separates the production and
@@ -354,6 +473,37 @@ of an economy that is growing much faster than wages.
     \label{fig:high-sigma-equilibrium-shares}
 \end{figure}
 
+Figure~\ref{fig:high-sigma-equilibrium-research-chain} complements those shares
+with levels. Automated and effective research expand rapidly per capita, while
+$\ln(H/M)$ falls without reversal. Human research per capita can first rise and
+then fall, or keep rising over the computed interval, because its level reflects
+both a declining human intensity and an expanding research sector. This is the
+numerical counterpart of Proposition~\ref{prop:research-employment-scale}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/high_sigma_equilibrium_research_chain.png}
+    \caption{Research chain with gross substitution. The first three panels
+    report natural-log changes per capita; the final panel reports $\ln(H/M)$.}
+    \label{fig:high-sigma-equilibrium-research-chain}
+\end{figure}
+
+The resource allocation in
+Figure~\ref{fig:high-sigma-equilibrium-resource-allocation} shows that acceleration
+is accompanied by a large reallocation of output. Inference absorbs close to 45
+percent of output at the terminal boundaries and automated research about 8--9
+percent, while consumption falls toward the imposed limiting share. Investment
+does not vanish: it remains near 20 percent of output. These shares satisfy the
+resource constraint at every plotted date.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/high_sigma_equilibrium_resource_allocation.png}
+    \caption{Allocation of output along the gross-substitution equilibria. Each
+    panel is a percentage of final output; the four shares add to one.}
+    \label{fig:high-sigma-equilibrium-resource-allocation}
+\end{figure}
+
 The boundary tests show that the terminal condition is not driving the transition.
 Moving $z_T$ from 20 to 50 changes $\widehat T^*$ from 333.343 to 333.379 years
 when $\sigma_{XL}=1.35$ and from 280.436 to 280.450 years when it is 1.50. For
@@ -364,7 +514,7 @@ shadow value by less than $3.0\times10^{-5}$.
 
 The boundary directly imposes $C/Y=26.29$ percent and the limiting value of
 $qA/K$. Those two ratios are therefore not independent numerical tests of
-Proposition~\ref{prop:high-sigma-singular-scaling}. The non-imposed ratio
+conditional result~\ref{cond:high-sigma-singular-scaling}. The non-imposed ratio
 $g_A/(Y/K)$ approaches its theoretical value of 0.0624. At the largest boundaries,
 the investment shares lie between 20.43 and 20.49 percent, compared with the
 predicted 20.33 percent, while automated-research resource shares lie between 8.38
@@ -395,35 +545,39 @@ The audit changes the evidentiary status of several claims, even where it does n
 change their mathematical content.
 \begin{enumerate}[label=(\roman*)]
     \item Propositions~\ref{prop:wage-share-thresholds},
-    \ref{prop:dynamic-labor-share}, \ref{prop:gradual-automation}, and
-    \ref{prop:research-employment-scale} are algebraic or conditional identities.
-    The five paths satisfy those identities. They also illustrate that a rising wage
+    \ref{prop:dynamic-labor-share}, and
+    \ref{prop:research-employment-scale} are exact comparative-static or dynamic
+    identities. The five paths satisfy them. Conditional
+    result~\ref{cond:gradual-automation} describes what follows from a given
+    relative-cost path rather than determining that path. The simulations also
+    illustrate that a rising wage
     can coexist with a falling labor share and that declining human research
     intensity need not imply declining human research employment.
     \item The $\sigma_{XL}<1$ path is consistent with the necessary limiting rates
-    in Proposition~\ref{prop:nonunit-ces-steady-states}; the separate horizon test
+    in conditional result~\ref{cond:nonunit-ces-steady-states}; the separate horizon test
     shows that its initial jump variables are stable. This is numerical support for
     the characterized limit, not a proof that the limit exists for every initial
     condition.
-    \item The $\sigma_{XL}=1$ path approaches the rates in
-    Proposition~\ref{prop:ai-dominated-cd-limit} and is likewise stable when the
+    \item The $\sigma_{XL}=1$ path approaches the rates in conditional
+    result~\ref{cond:ai-dominated-cd-limit} and is likewise stable when the
     terminal horizon is extended. It supports the conditional Cobb--Douglas
     characterization but does not convert its necessary conditions into a general
     existence theorem.
-    \item For $\sigma_{XL}>1$, the paths satisfy the hypotheses of
-    Proposition~\ref{prop:gross-substitution-no-steady-state} over their computed
-    domains and display the predicted rise in $Y/K$, the return, and consumption
-    growth. In Proposition~\ref{prop:high-sigma-singular-scaling}, however, $C/Y$
+    \item For $\sigma_{XL}>1$, the paths remain interior over their computed domains
+    and are consistent with the lower-bound mechanism in the proof of
+    Proposition~\ref{prop:gross-substitution-no-steady-state}: $Y/K$, the return, and
+    consumption growth rise with capability. In conditional
+    result~\ref{cond:high-sigma-singular-scaling}, however, $C/Y$
     and $qA/K$ are terminal boundary conditions. Only the convergence of the
     non-imposed ratios and the stability of the initial jumps and estimated boundary
     date constitute independent numerical evidence for the conditional singular
     branch.
-    \item Proposition~\ref{prop:singularity-conditions} concerns a reduced
+    \item Conditional result~\ref{cond:singularity-conditions} concerns a reduced
     proportional-allocation closure, while
-    Propositions~\ref{prop:sigma-hm-one-high-sigma-xl} and
-    \ref{prop:knowledge-wedge} concern counterfactual research technology or the
-    planner. The five equilibrium computations do not test those propositions. They
-    must stand on their proofs and stated assumptions, not on these figures.
+    conditional results~\ref{cond:sigma-hm-one-high-sigma-xl} and
+    \ref{cond:knowledge-wedge} concern counterfactual research technology or a
+    postulated shadow-value comparison. The five equilibrium computations do not
+    test those results.
 \end{enumerate}
 
 Finally, the residual audit verifies the canonical necessary conditions, not the
