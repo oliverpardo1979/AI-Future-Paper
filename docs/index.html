@@ -180,8 +180,17 @@
 
             <header class="chart-stage">
               <p class="eyebrow">Production block</p>
-              <div><h3>Producción final</h3><span>L + X → Z; K + Z → Y</span></div>
+              <div><h3>Producción corriente</h3><span>A + U → X; L + X → Z; K + Z → Y</span></div>
             </header>
+
+            <article class="chart-card chart-card-wide">
+              <div class="chart-heading">
+                <div><p class="eyebrow">Capability & inference</p><h3>Capacidad, cómputo operativo y servicios</h3></div>
+                <span>ln(Vₜ/V₀)</span>
+              </div>
+              <canvas id="ai-services-chart" aria-label="Gráfico logarítmico de capacidad, inferencia y servicios de inteligencia artificial"></canvas>
+              <div class="legend" id="ai-services-legend"></div>
+            </article>
 
             <article class="chart-card chart-card-wide">
               <div class="chart-heading">
@@ -222,20 +231,6 @@
               </div>
               <canvas id="allocation-chart" aria-label="Gráfico de la asignación del producto entre consumo, inversión, inferencia e investigación automatizada"></canvas>
               <div class="legend" id="allocation-legend"></div>
-            </article>
-
-            <header class="chart-stage">
-              <p class="eyebrow">AI services</p>
-              <div><h3>Producción de servicios de IA</h3><span>A + U → X</span></div>
-            </header>
-
-            <article class="chart-card chart-card-wide">
-              <div class="chart-heading">
-                <div><p class="eyebrow">Capability & inference</p><h3>Capacidad, cómputo operativo y servicios</h3></div>
-                <span>ln(Vₜ/V₀)</span>
-              </div>
-              <canvas id="ai-services-chart" aria-label="Gráfico logarítmico de capacidad, inferencia y servicios de inteligencia artificial"></canvas>
-              <div class="legend" id="ai-services-legend"></div>
             </article>
 
             <header class="chart-stage">

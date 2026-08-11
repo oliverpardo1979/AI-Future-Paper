@@ -8,89 +8,25 @@ integrated frontier developer. The developer monopolistically supplies AI servic
 and invests in the next generation of AI. The initial economy already uses AI
 services in production; the model does not describe their first commercial adoption.
 
-Figure~\ref{fig:model-flow} summarizes the model's technologies, resource allocation,
-and state dynamics. The diagram is not a one-way production tree. Final output is
-allocated to consumption, investment, inference compute, and automated research;
-investment accumulates physical capital, while research improves capability and
-therefore feeds back into both AI services and subsequent research. The diagram also
-makes explicit the model's second within-period allocation margin: population is
-divided between labor in final production and human AI research. Hence, assigning an
-additional worker to research reduces the labor available for current production.
+The model contains four linked blocks: labor allocation, current production, frontier
+research, and goods allocation. The diagrams below present each block where its
+equations are introduced. Variables repeated across diagrams connect the blocks.
+Solid arrows denote within-period production or resource use; dashed arrows denote
+state accumulation. This separation is important because the model is a dynamic
+system with feedback, not a one-way production tree.
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\textwidth}{!}{%
-    \begin{tikzpicture}[
-        >=Latex,
-        font=\small,
-        input/.style={draw, rounded corners=2pt, minimum width=2.7cm,
-            minimum height=1.0cm, align=center, fill=gray!8},
-        state/.style={draw, rounded corners=2pt, minimum width=2.7cm,
-            minimum height=1.0cm, align=center, fill=blue!8},
-        technology/.style={draw, rounded corners=2pt, minimum width=3.5cm,
-            minimum height=1.0cm, align=center, fill=orange!9},
-        allocation/.style={draw, rounded corners=2pt, minimum width=3.0cm,
-            minimum height=1.0cm, align=center, fill=gray!8},
-        flow/.style={->, semithick},
-        dynamics/.style={->, semithick, dashed}
-    ]
-        \node[state]      (N)     at (-10.9, 5.0) {$N_t$\\population};
-        \node[allocation, minimum width=4.0cm] (labor) at (-7.0, 5.0)
-            {$N_t=L_t+H_t$\\labor allocation};
-        \node[input]      (L)     at (-3.0, 6.3) {$L_t$\\production labor};
-        \node[input]      (H)     at (-3.0, 2.0) {$H_t$\\human research};
-
-        \node[state]      (A)     at (-7.2,-0.6) {$A_t$\\capability};
-        \node[technology] (X)     at (-3.0, 4.0) {$X_t=A_tU_t$\\AI services};
-        \node[technology] (Z)     at ( 0.0, 5.2) {$Z_t=\operatorname{CES}(L_t,X_t)$};
-        \node[state]      (K)     at ( 0.0, 7.2) {$K_t$\\physical capital};
-        \node[technology] (Y)     at ( 2.4, 6.2) {$Y_t=K_t^\alpha Z_t^{1-\alpha}$};
-        \node[allocation, minimum width=3.8cm] (goods) at ( 6.2, 6.2)
-            {$Y_t=C_t+I_t$\\$+\xi(U_t+M_t)$\\goods allocation};
-
-        \node[allocation] (C)     at ( 9.9, 7.7) {$C_t$\\consumption};
-        \node[allocation] (I)     at ( 9.9, 6.2) {$I_t$\\investment};
-        \node[input]      (U)     at ( 5.0, 3.8) {$U_t$\\inference compute};
-        \node[allocation] (M)     at ( 9.9, 3.0) {$M_t$\\automated research};
-        \node[technology] (E)     at ( 1.0, 1.2) {$E_t=\operatorname{CES}(H_t,M_t)$};
-        \node[technology] (Adot)  at (-2.0,-0.6)
-            {$\dot A_t=\chi A_t^\phi E_t^\eta$};
-
-        \draw[flow] (N) -- (labor);
-        \draw[flow] (labor) -- (L);
-        \draw[flow] (labor.east) -- (-5.0,2.0) -- (H.west);
-
-        \draw[flow] (A.north) -- (-7.2,4.0) -- (X.west);
-        \draw[flow] (U) -- node[below] {inference input} (X);
-        \draw[flow] (X) -- (Z);
-        \draw[flow] (L) -- (Z);
-        \draw[flow] (Z) -- (Y);
-        \draw[flow] (K) -- (Y);
-
-        \draw[flow] (Y) -- (goods);
-        \draw[flow] (goods) -- (C);
-        \draw[flow] (goods) -- (I);
-        \draw[flow] (goods) -- node[right] {$\xi U_t$} (U);
-        \draw[flow] (goods) -- node[above right] {$\xi M_t$} (M);
-
-        \draw[flow] (M) -- (E);
-        \draw[flow] (H) -- (E);
-        \draw[flow] (E) -- (Adot);
-        \draw[flow] (A) -- (Adot);
-
-        \draw[dynamics] (I.east) -- (11.8,6.2) -- (11.8,9.1) --
-            node[above] {$\dot K_t=I_t-\delta K_t$} (0.0,9.1) -- (K.north);
-        \draw[dynamics] (Adot.south) -- ++(0,-1.15) -|
-            node[pos=0.42,below] {capability accumulation} (A.south);
-    \end{tikzpicture}
-    }
-    \caption{Technology, resource allocation, and state feedback in the toy model.
-    Solid arrows denote within-period production or resource use; dashed arrows
-    denote laws of motion. The two allocation nodes distinguish the division of
-    population between production and research from the division of output across
-    its four uses.}
-    \label{fig:model-flow}
-\end{figure}
+\tikzset{
+    model-input/.style={draw, rounded corners=2pt, minimum width=2.7cm,
+        minimum height=1.0cm, align=center, fill=gray!8},
+    model-state/.style={draw, rounded corners=2pt, minimum width=2.7cm,
+        minimum height=1.0cm, align=center, fill=blue!8},
+    model-technology/.style={draw, rounded corners=2pt, minimum width=3.5cm,
+        minimum height=1.0cm, align=center, fill=orange!9},
+    model-allocation/.style={draw, rounded corners=2pt, minimum width=3.5cm,
+        minimum height=1.0cm, align=center, fill=gray!8},
+    model-flow/.style={->, semithick},
+    model-dynamics/.style={->, semithick, dashed}
+}
 
 \subsection{Household}
 
@@ -115,6 +51,28 @@ human AI research, $H_t$:
     L_t+H_t=N_t.
     \label{eq:labor-clearing}
 \end{equation}
+Figure~\ref{fig:labor-allocation-flow} shows the associated opportunity cost. An
+additional worker assigned to AI research reduces the labor available for current
+production.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex,font=\small]
+        \node[model-state]      (N)     at (-3.8, 0.0) {$N_t$\\population};
+        \node[model-allocation] (labor) at ( 0.0, 0.0)
+            {$N_t=L_t+H_t$\\labor allocation};
+        \node[model-input]      (L)     at ( 3.8, 1.1) {$L_t$\\production labor};
+        \node[model-input]      (H)     at ( 3.8,-1.1) {$H_t$\\human research};
+
+        \draw[model-flow] (N) -- (labor);
+        \draw[model-flow] (labor) -- (L);
+        \draw[model-flow] (labor) -- (H);
+    \end{tikzpicture}
+    \caption{Allocation of population between current production and human AI
+    research.}
+    \label{fig:labor-allocation-flow}
+\end{figure}
+
 The dynasty owns the capital stock and the frontier developer. Capital evolves as
 \begin{equation}
     \dot K_t=I_t-\delta K_t.
@@ -222,6 +180,39 @@ technological identity. Conditional on $A_t$, it imposes constant returns to
 inference compute and compresses task coverage, quality, speed, and inference
 efficiency into one scalar.
 
+Figure~\ref{fig:current-production-flow} combines the AI-service technology with the
+two nests used by final-good firms. It therefore shows how capability and inference
+compute affect current output, holding research and goods allocation outside the
+diagram.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{0.88\textwidth}{!}{%
+    \begin{tikzpicture}[>=Latex,font=\small]
+        \node[model-state]      (A) at (-8.0, 0.7) {$A_t$\\capability};
+        \node[model-input]      (U) at (-8.0,-0.7) {$U_t$\\inference compute};
+        \node[model-technology] (X) at (-4.5, 0.0) {$X_t=A_tU_t$\\AI services};
+        \node[model-input]      (L) at (-4.5, 2.5) {$L_t$\\production labor};
+        \node[model-technology] (Z) at ( 0.0, 1.2)
+            {$Z_t=\operatorname{CES}(L_t,X_t)$};
+        \node[model-state]      (K) at ( 0.0, 3.7) {$K_t$\\physical capital};
+        \node[model-technology] (Y) at ( 4.0, 2.5)
+            {$Y_t=K_t^\alpha Z_t^{1-\alpha}$};
+
+        \draw[model-flow] (A) -- (X);
+        \draw[model-flow] (U) -- (X);
+        \draw[model-flow] (X) -- (Z);
+        \draw[model-flow] (L) -- (Z);
+        \draw[model-flow] (Z) -- (Y);
+        \draw[model-flow] (K) -- (Y);
+    \end{tikzpicture}
+    }
+    \caption{Current production. Capability and inference compute produce AI
+    services; AI services and production labor form the service composite; the
+    service composite and physical capital produce final output.}
+    \label{fig:current-production-flow}
+\end{figure}
+
 \begin{remark}[Capability and inference efficiency]
 The same state variable $A_t$ governs broad frontier capability and the productivity
 of inference compute. This restriction keeps the service-market and research
@@ -270,6 +261,33 @@ performed by AI agents engaged in R\&D. The baseline normalizes one unit of thes
 services to one unit in the research aggregator and assigns it the common resource
 cost $\xi$. A capability-dependent conversion from compute into automated-research
 services is left for an extension.
+
+Figure~\ref{fig:research-flow} separates the production of effective research from
+the law of motion for capability. Human researchers and automated research services
+produce $E_t$. Effective research and existing capability determine $\dot A_t$, which
+in turn accumulates into the capability stock.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex,font=\small]
+        \node[model-input]      (H)    at (-6.0, 1.0) {$H_t$\\human research};
+        \node[model-input]      (M)    at (-6.0,-1.0) {$M_t$\\automated research};
+        \node[model-technology] (E)    at (-2.5, 0.0)
+            {$E_t=\operatorname{CES}(H_t,M_t)$};
+        \node[model-state]      (A)    at (-2.5, 2.5) {$A_t$\\capability};
+        \node[model-technology] (Adot) at ( 1.5, 1.25)
+            {$\dot A_t=\chi A_t^\phi E_t^\eta$};
+
+        \draw[model-flow] (H) -- (E);
+        \draw[model-flow] (M) -- (E);
+        \draw[model-flow] (E) -- (Adot);
+        \draw[model-flow] (A) -- (Adot);
+        \draw[model-dynamics] (Adot.east) -- (4.0,1.25) -- (4.0,3.7) --
+            node[above] {capability accumulation} (-2.5,3.7) -- (A.north);
+    \end{tikzpicture}
+    \caption{Frontier research and capability accumulation.}
+    \label{fig:research-flow}
+\end{figure}
 
 The elasticity $\sigma_{HM}>1$ governs substitution between human and automated
 research. The pair $(\omega_H,\omega_M)$ contains positive CES distribution weights
@@ -377,7 +395,33 @@ such that:
     \end{equation}
 \end{enumerate}
 
-\clearpage
+Figure~\ref{fig:goods-allocation-flow} isolates the final resource constraint.
+Inference and automated research use the same standardized resource cost, $\xi$.
+Investment is the only current use of output that accumulates into physical capital.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Latex,font=\small]
+        \node[model-technology] (Y)     at (-5.8, 0.0) {$Y_t$\\final output};
+        \node[model-allocation, minimum width=4.1cm] (goods) at (-1.5,0.0)
+            {$Y_t=C_t+I_t+\xi(U_t+M_t)$\\goods allocation};
+        \node[model-input]      (C)     at ( 2.5, 2.4) {$C_t$\\consumption};
+        \node[model-input]      (I)     at ( 2.5, 0.8) {$I_t$\\investment};
+        \node[model-input]      (U)     at ( 2.5,-0.8) {$U_t$\\inference compute};
+        \node[model-input]      (M)     at ( 2.5,-2.4) {$M_t$\\automated research};
+        \node[model-state]      (K)     at ( 7.0, 0.8) {$K_t$\\physical capital};
+
+        \draw[model-flow] (Y) -- (goods);
+        \draw[model-flow] (goods) -- (C);
+        \draw[model-flow] (goods) -- (I);
+        \draw[model-flow] (goods) -- node[below left] {$\xi U_t$} (U);
+        \draw[model-flow] (goods) -- node[below] {$\xi M_t$} (M);
+        \draw[model-dynamics] (I) -- (K);
+    \end{tikzpicture}
+    \caption{Allocation of final output and physical-capital accumulation.}
+    \label{fig:goods-allocation-flow}
+\end{figure}
+
 The following system records the market-clearing identities and canonical conditions
 used to compute an interior equilibrium candidate. On any interval over which
 the allocation is interior, all quantities and the private capability shadow value are positive,
