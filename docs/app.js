@@ -143,9 +143,10 @@ const charts = [
   {
     canvas: document.querySelector("#research-ratio-chart"),
     legend: document.querySelector("#research-ratio-legend"),
+    floor: 0,
     format: formatAxis,
     series: [
-      ["log_human_machine_ratio", "Relación H/M", COLORS.ink],
+      ["human_machine_ratio", "Relación H/M", COLORS.ink],
     ],
   },
 ];

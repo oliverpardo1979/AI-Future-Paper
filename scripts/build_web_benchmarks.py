@@ -110,10 +110,6 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             "research_resource_share": value(row, "research_resource_share"),
             "output_capital_ratio": output_capital,
             "human_machine_ratio": human_machine,
-            "log_human_machine_ratio": (
-                value(row, "log_human_research")
-                - value(row, "log_automated_research")
-            ),
         }
         for field, initial_value in initial_levels.items():
             current[field + "_change"] = (

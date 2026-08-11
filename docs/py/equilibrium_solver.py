@@ -1110,9 +1110,6 @@ def evaluate(
             "human_machine_ratio": math.exp(
                 block["log_human_research"] - block["log_automated_research"]
             ),
-            "log_human_machine_ratio": (
-                block["log_human_research"] - block["log_automated_research"]
-            ),
         }
         rows.append(row)
 
