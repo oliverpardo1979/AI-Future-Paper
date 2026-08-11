@@ -1095,6 +1095,7 @@ def evaluate(
             "consumption_per_capita_growth": block["consumption_growth"] - p.n,
             "net_interest": block["gross_capital_return"] - p.delta,
             "human_research_share": human_share,
+            "production_labor_population_share": 1.0 - human_share,
             "ai_share": block["ai_share"],
             "automated_research_share": block["automated_research_share"],
             "human_research_aggregate_share": (

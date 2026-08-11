@@ -97,6 +97,9 @@ def convert(rows: list[dict[str, str]]) -> list[dict[str, float]]:
             ),
             "net_interest": value(row, "net_capital_return"),
             "human_research_share": value(row, "human_research_share"),
+            "production_labor_population_share": (
+                1.0 - value(row, "human_research_share")
+            ),
             "ai_share": value(row, "ai_share"),
             "automated_research_share": value(row, "automated_research_share"),
             "human_research_aggregate_share": (

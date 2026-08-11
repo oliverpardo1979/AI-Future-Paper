@@ -12,7 +12,10 @@ Figure~\ref{fig:model-flow} summarizes the model's technologies, resource alloca
 and state dynamics. The diagram is not a one-way production tree. Final output is
 allocated to consumption, investment, inference compute, and automated research;
 investment accumulates physical capital, while research improves capability and
-therefore feeds back into both AI services and subsequent research.
+therefore feeds back into both AI services and subsequent research. The diagram also
+makes explicit the model's second within-period allocation margin: population is
+divided between labor in final production and human AI research. Hence, assigning an
+additional worker to research reduces the labor available for current production.
 
 \begin{figure}[H]
     \centering
@@ -31,50 +34,61 @@ therefore feeds back into both AI services and subsequent research.
         flow/.style={->, semithick},
         dynamics/.style={->, semithick, dashed}
     ]
-        \node[state]      (A)    at (-6.5, 0.0) {$A_t$\\capability};
-        \node[technology] (X)    at (-4.0, 2.4) {$X_t=A_tU_t$\\AI services};
-        \node[input]      (L)    at (-4.0, 4.7) {$L_t$\\production labor};
-        \node[technology] (Z)    at (-1.0, 3.5) {$Z_t=\operatorname{CES}(L_t,X_t)$};
-        \node[state]      (K)    at (-1.0, 5.8) {$K_t$\\physical capital};
-        \node[technology] (Y)    at ( 2.0, 4.7) {$Y_t=K_t^\alpha Z_t^{1-\alpha}$};
+        \node[state]      (N)     at (-10.9, 5.0) {$N_t$\\population};
+        \node[allocation, minimum width=4.0cm] (labor) at (-7.0, 5.0)
+            {$N_t=L_t+H_t$\\labor allocation};
+        \node[input]      (L)     at (-3.0, 6.3) {$L_t$\\production labor};
+        \node[input]      (H)     at (-3.0, 2.0) {$H_t$\\human research};
 
-        \node[allocation] (C)    at ( 6.5, 6.5) {$C_t$\\consumption};
-        \node[allocation] (I)    at ( 6.5, 4.9) {$I_t$\\investment};
-        \node[input]      (U)    at ( 6.5, 3.3) {$U_t$\\inference compute};
-        \node[allocation] (M)    at ( 6.5, 1.7) {$M_t$\\automated research};
-        \node[input]      (H)    at ( 6.5,-0.3) {$H_t$\\human research};
-        \node[technology] (E)    at ( 1.5,-0.3) {$E_t=\operatorname{CES}(H_t,M_t)$};
-        \node[technology] (Adot) at (-2.5,-0.3)
+        \node[state]      (A)     at (-7.2,-0.6) {$A_t$\\capability};
+        \node[technology] (X)     at (-3.0, 4.0) {$X_t=A_tU_t$\\AI services};
+        \node[technology] (Z)     at ( 0.0, 5.2) {$Z_t=\operatorname{CES}(L_t,X_t)$};
+        \node[state]      (K)     at ( 0.0, 7.2) {$K_t$\\physical capital};
+        \node[technology] (Y)     at ( 2.4, 6.2) {$Y_t=K_t^\alpha Z_t^{1-\alpha}$};
+        \node[allocation, minimum width=3.8cm] (goods) at ( 6.2, 6.2)
+            {$Y_t=C_t+I_t$\\$+\xi(U_t+M_t)$\\goods allocation};
+
+        \node[allocation] (C)     at ( 9.9, 7.7) {$C_t$\\consumption};
+        \node[allocation] (I)     at ( 9.9, 6.2) {$I_t$\\investment};
+        \node[input]      (U)     at ( 5.0, 3.8) {$U_t$\\inference compute};
+        \node[allocation] (M)     at ( 9.9, 3.0) {$M_t$\\automated research};
+        \node[technology] (E)     at ( 1.0, 1.2) {$E_t=\operatorname{CES}(H_t,M_t)$};
+        \node[technology] (Adot)  at (-2.0,-0.6)
             {$\dot A_t=\chi A_t^\phi E_t^\eta$};
 
-        \draw[flow] (A) -- (X);
-        \draw[flow] (U.east) -- (8.4,3.3) -- (8.4,-2.5) --
-            node[below] {inference input} (-8.4,-2.5) -| (X.west);
+        \draw[flow] (N) -- (labor);
+        \draw[flow] (labor) -- (L);
+        \draw[flow] (labor.east) -- (-5.0,2.0) -- (H.west);
+
+        \draw[flow] (A.north) -- (-7.2,4.0) -- (X.west);
+        \draw[flow] (U) -- node[below] {inference input} (X);
         \draw[flow] (X) -- (Z);
         \draw[flow] (L) -- (Z);
         \draw[flow] (Z) -- (Y);
         \draw[flow] (K) -- (Y);
 
-        \draw[flow] (Y) -- (C);
-        \draw[flow] (Y) -- (I);
-        \draw[flow] (Y) -- node[above] {$\xi U_t$} (U);
-        \draw[flow] (Y) -- node[above right] {$\xi M_t$} (M);
+        \draw[flow] (Y) -- (goods);
+        \draw[flow] (goods) -- (C);
+        \draw[flow] (goods) -- (I);
+        \draw[flow] (goods) -- node[right] {$\xi U_t$} (U);
+        \draw[flow] (goods) -- node[above right] {$\xi M_t$} (M);
 
         \draw[flow] (M) -- (E);
         \draw[flow] (H) -- (E);
         \draw[flow] (E) -- (Adot);
         \draw[flow] (A) -- (Adot);
 
-        \draw[dynamics] (I.east) -- (8.4,4.9) -- (8.4,7.7) --
-            node[above] {$\dot K_t=I_t-\delta K_t$} (-1.0,7.7) -- (K.north);
+        \draw[dynamics] (I.east) -- (11.8,6.2) -- (11.8,9.1) --
+            node[above] {$\dot K_t=I_t-\delta K_t$} (0.0,9.1) -- (K.north);
         \draw[dynamics] (Adot.south) -- ++(0,-1.15) -|
             node[pos=0.42,below] {capability accumulation} (A.south);
     \end{tikzpicture}
     }
     \caption{Technology, resource allocation, and state feedback in the toy model.
     Solid arrows denote within-period production or resource use; dashed arrows
-    denote laws of motion. Final output satisfies
-    $Y_t=C_t+I_t+\xi(U_t+M_t)$, and labor satisfies $L_t+H_t=N_t$.}
+    denote laws of motion. The two allocation nodes distinguish the division of
+    population between production and research from the division of output across
+    its four uses.}
     \label{fig:model-flow}
 \end{figure}
 

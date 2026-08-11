@@ -61,6 +61,17 @@ const els = {
 
 const charts = [
   {
+    canvas: document.querySelector("#labor-allocation-chart"),
+    legend: document.querySelector("#labor-allocation-legend"),
+    scale: 100,
+    floor: 0,
+    format: (value) => `${formatAxis(value)}%`,
+    series: [
+      ["production_labor_population_share", "Producción L/N", COLORS.teal],
+      ["human_research_share", "Investigación H/N", COLORS.blue],
+    ],
+  },
+  {
     canvas: document.querySelector("#production-levels-chart"),
     legend: document.querySelector("#production-levels-legend"),
     format: formatAxis,
@@ -137,7 +148,6 @@ const charts = [
     series: [
       ["automated_research_share", "Participación de M en E", COLORS.orange],
       ["human_research_aggregate_share", "Participación de H en E", COLORS.violet],
-      ["human_research_share", "Investigadores H/N", COLORS.blue],
     ],
   },
   {
