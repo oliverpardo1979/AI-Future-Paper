@@ -35,23 +35,78 @@ technological feedback twice and makes the source of acceleration transparent. A
 direct knowledge-spillover term can be added later, but it is not needed for the
 mechanism studied here.
 
+\subsection{Empirical motivation}
+
+Available data do not measure the object at the center of the model: the share of
+AI research performed by AI systems rather than humans. They do, however, separate
+some of the model's inputs and outputs. The physical resources devoted to AI are
+expanding, and the quality-adjusted services obtained from those resources are
+expanding faster. These facts motivate the distinction between raw compute and
+the services produced by compute; they do not identify either substitution
+elasticity.
+
+\citet{korinekmckelvey2026} estimate that U.S. AI compute expenditure rose from
+\$36.9 billion in 2023 to \$219.2 billion in 2025, while raw compute capacity rose
+from 1.09 million to 10.7 million H100-equivalent processors. Over the same two
+years, their quality-adjusted inference and training indexes increased by factors
+of approximately 1,502 and 78. The quality-adjusted series are model-based
+estimates assembled from sparse data and allocation assumptions, not
+national-account aggregates. Their relevance here is conceptual: more compute and
+more services per unit of compute are distinct margins.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/empirical_ai_scale.png}
+\caption{AI-sector scale and physical inputs. Panel A reports U.S. estimates for
+2024 and 2025 relative to 2023; horizontal positions use natural logarithms because
+the quality-adjusted quantities span several orders of magnitude. Panel B reports
+observed global data-center electricity use in 2024 and 2025 and the IEA central
+projection for 2030. Sources: \citet{korinekmckelvey2026}, \citet{iea2025}, and
+\citet{iea2026}.}
+\label{fig:axm-empirical-scale}
+\end{figure}
+
+Compute nevertheless remains a real resource. Global data-center electricity use
+rose from 415 TWh in 2024 to 485 TWh in 2025, and the International Energy Agency
+projects approximately 950 TWh in 2030 \citep{iea2025,iea2026}. Normalizing the
+common unit cost of inference and research compute therefore changes units; it
+does not remove compute from the resource constraint.
+
+Evidence closest to AI research automation comes from controlled evaluations. In
+the original RE-Bench study, human experts with a 32-hour budget achieved almost
+twice the average score of the best AI agent on machine-learning
+research-engineering tasks \citep{metrrebench2024}. In a later evaluation on a
+five-task subset, Claude 3.7 with a 32-hour budget matched the median score of
+humans with eight hours \citep{metrclaude2025}. The model, scaffolding, tasks, and
+time budgets differ, so these results are not a comparable time series. They
+motivate the possibility of substitution in AI research without measuring
+\(H/(AM)\) or \(\sigma_{HM}\).
+
+The numerical exercises below are therefore scenarios rather than forecasts. The
+evidence motivates the state variables and the two uses of compute, but it does
+not calibrate the feedback strength or the probability of an accelerating path.
+
+\subsection{Results and contribution}
+
 The analysis separates three regimes according to the elasticity of substitution
 between labor and AI services in final production. When the elasticity is below
 one, the monopoly supplies a finite ratio of AI services to labor as capability
 becomes abundant. The economy then approaches a production technology in capital
-and labor alone, so output per capita cannot grow forever along a conventional
-balanced path. At unit elasticity, the paper derives the growth rates and resource
+and labor alone. If production labor remains a positive fraction of the
+population, output per capita is constant along the resulting balanced path. At
+unit elasticity, the paper derives the growth rates and resource
 shares of balanced-growth candidates. Automating research tightens the relevant
-stability condition because capability now raises both inference services and
-automated research services. When the elasticity exceeds one, unbounded capability
-raises output relative to capital and hence the return to capital without bound.
-A finite-rate steady state is impossible.
+feedback condition because capability now raises both inference services and
+automated research services. When the elasticity exceeds one and AI services
+asymptotically dominate final production, unbounded capability raises output
+relative to capital and hence the return to capital without bound. A finite-rate
+balanced-growth path is impossible.
 
 For the gross-substitutes regime, the paper goes beyond this nonexistence result.
 It characterizes an AI-dominated limiting equilibrium in which output, capital,
 consumption, and capability accelerate. The result is conditional on the path
-remaining interior and on the monopoly solution satisfying its second-order
-condition. Within the parameter region for which that limit is established,
+remaining interior, converging to the postulated ratios, and satisfying the
+monopoly second-order condition. Under those conditions,
 labor's share tends to zero, while the real wage rises below an explicit
 substitution threshold and falls above it. This distinction
 between labor's share and the wage is economically important: a factor may receive
@@ -67,8 +122,9 @@ small.
 The paper contributes in three ways. First, it provides a symmetric accounting of
 inference and research compute. Second, it shows exactly how this accounting
 changes the balanced-growth denominators: capability enters automated research
-through the product of capability and research compute. Third, it separates the
-long-run behavior of wages from the long-run behavior of labor's income share on
-an accelerating equilibrium path. These results connect the literature on
+through the product of capability and research compute. Third, it derives an
+explicit threshold separating rising from falling wages on the conditional
+AI-dominated limit, rather than inferring wage behavior from labor's share. These
+results connect the literature on
 research-based growth, automation, factor substitution, and economic singularities
 within one tractable model.

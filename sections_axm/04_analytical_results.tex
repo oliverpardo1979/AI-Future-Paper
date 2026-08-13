@@ -2,7 +2,9 @@
 
 The paper focuses on the six configurations in Table
 \ref{tab:axm-regime-map}. This keeps the role of each elasticity separate.
-Research complementarity, \(\sigma_{HM}<1\), is left for an extension.
+Proposition \ref{prop:axm-research-automation} records the
+research-complementarity limit for completeness, but the dynamic analysis
+focuses on \(\sigma_{HM}\geq1\).
 
 \begin{table}[H]
 \centering
@@ -15,13 +17,13 @@ Research complementarity, \(\sigma_{HM}<1\), is left for an extension.
 Research & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL}>1\)\\
 \midrule
 \(\sigma_{HM}=1\) &
-Labor bottleneck on a regular unbounded-\(A\) limit &
+Labor bottleneck on an interior unbounded-\(A\) limit &
 Candidate BGP governed by \(D(\omega_M)\) &
-No finite-rate path with unbounded \(A\); the singular form is not characterized\\
+No finite-rate path if AI services dominate; the singular form is not characterized\\
 \(\sigma_{HM}>1\) &
 Same production bottleneck; \(s_M\to1\) if \(Aw\to\infty\) &
 Automated candidate BGP governed by \(D(1)\) &
-No finite-rate path with unbounded \(A\); conditional singular ratios are characterized\\
+No finite-rate path if AI services dominate; conditional singular ratios are characterized\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -62,6 +64,9 @@ For \(\sigma_{HM}>1\), automated research services asymptotically dominate the
 research CES even though human research can remain positive at every finite date.
 \end{proposition}
 
+This proposition is a CES cost-minimization result rather than a claim that gross
+substitution by itself guarantees automation. The price condition
+\(Aw\to\infty\) is essential.
 The proposition concerns the service \(AM\), not raw compute \(M\). This
 distinction is important. A rising \(AM/H\) can reflect more research compute,
 better capability, or both.
@@ -69,7 +74,8 @@ better capability, or both.
 \subsection{Complementarity in final production}
 
 When \(\sigma_{XL}<1\), the integrated monopolist does not supply an unlimited
-ratio \(X/L\) as marginal cost tends to zero. On the regular interior branch, the
+ratio \(X/L\) as marginal cost tends to zero. On the interior marginal-revenue
+branch, the
 zero-marginal-cost limit of \eqref{eq:axm-monopoly-foc} sets marginal revenue to
 zero. Hence
 \begin{equation}
@@ -82,12 +88,12 @@ A constant CES share implies a finite constant \(X/L\).
 \begin{proposition}[Labor bottleneck]
 \label{prop:axm-complements}
 Suppose \(\sigma_{XL}<1\), \(A\to\infty\), the monopoly allocation remains on the
-regular interior branch,
+interior marginal-revenue branch, the normalized marginal cost satisfies
 \[
  \frac{1}{A(K/L)^\alpha}\to0,
 \]
-and the economy converges to a finite-rate balanced path. Then \(X/L\) converges
-to a finite constant and final production becomes
+and the economy converges to a finite-rate balanced path, with \(L/N\) converging to a
+positive constant. Then \(X/L\) converges to a finite constant and final production becomes
 asymptotically proportional to \(K^\alpha L^{1-\alpha}\). Consequently,
 \[
  g_Y=g_K=g_L=n,\qquad g_{Y/N}=0,\qquad g_w=0.
@@ -145,7 +151,8 @@ Define the feedback denominator
 \begin{proposition}[Balanced-growth candidates at unit elasticity]
 \label{prop:axm-cd-bgp}
 Suppose \(\sigma_{XL}=1\), research remains interior, its expenditure share has a
-positive limit, and \(L/N\) converges to a positive constant.
+positive limit, \(L/N\) converges to a positive constant, and \(g_A\) converges
+to a positive constant.
 
 \begin{enumerate}[label=(\roman*)]
 \item If \(\sigma_{HM}=1\), every balanced-growth equilibrium must have
@@ -161,7 +168,30 @@ Whenever the relevant denominator is positive, the candidate growth rates are
  g_w=\nu g_A.
  \label{eq:axm-cd-growth-rates}
 \end{equation}
-Let \(\gamma=\nu g_A\). Its candidate output shares are
+The remaining prices and quantities have the candidate rates
+\begin{align}
+ g_U&=g_M=g_Y,&
+ g_X&=g_Y+g_A,&
+ g_{p_X}&=-g_A,\\
+ g_q&=g_Y-g_A,&
+ g_E&=\frac{g_A}{\eta},&
+ g_L&=n.
+ \label{eq:axm-cd-remaining-rates}
+\end{align}
+Human research satisfies
+\begin{equation}
+ g_H=
+ \begin{cases}
+ n,&\sigma_{HM}=1,\\
+ n-(\sigma_{HM}-1)(1+\nu)g_A,
+ &\sigma_{HM}>1,\ s_M\to1.
+ \end{cases}
+ \label{eq:axm-human-research-growth}
+\end{equation}
+Thus \(H/N\) converges to a positive constant in the Cobb--Douglas research
+case, whereas it falls asymptotically at rate
+\((\sigma_{HM}-1)(1+\nu)g_A\) when research inputs are gross substitutes.
+Let \(\gamma=\nu g_A\). The candidate output shares are
 \begin{align}
  u&\equiv\frac{U}{Y}=\beta^2,\\
  i&\equiv\frac{\dot K+\delta K}{Y}
@@ -172,12 +202,11 @@ Let \(\gamma=\nu g_A\). Its candidate output shares are
  c&\equiv\frac{C}{Y}=1-u-i-m.
  \label{eq:axm-cd-shares}
 \end{align}
-A feasible interior candidate additionally requires
-\[
- \rho>n,\qquad
- \rho-n+(1-\eta\bar s)g_A>0,\qquad c>0,
-\]
-the monopoly second-order condition, a feasible labor allocation, and the
+The denominator in \(m\) is positive under \(\rho>n\), \(0<\eta<1\), and
+\(0<\bar s\leq1\).
+A feasible interior candidate additionally requires \(c>0\), the monopoly
+second-order condition, and a feasible labor allocation. Under the
+maintained restriction \(\rho>n\), the candidate also satisfies both
 transversality conditions.
 \end{proposition}
 
@@ -213,12 +242,13 @@ quantity rises. The monopoly condition then implies
 \end{equation}
 for a positive constant \(\mathcal D\).
 
-\begin{proposition}[No finite-rate steady state with gross substitution]
+\begin{proposition}[No finite-rate balanced growth with gross substitution]
 \label{prop:axm-no-bgp}
 Suppose \(\sigma_{XL}>1\), \(A\to\infty\), and the equilibrium remains on an
-interior monopoly branch on which \(s_X\to1\). Then there is no steady state with
-finite constant growth rates. In particular, \(Y/K\to\infty\), so the gross return
-to capital and household consumption growth become unbounded.
+interior monopoly branch on which \(s_X\to1\). Then there is no balanced-growth
+path with finite constant growth rates. In particular, \(Y/K\to\infty\), so the marginal
+product of capital, the net interest rate, and household consumption growth
+become unbounded.
 \end{proposition}
 
 The proposition is a nonexistence result. It does not, by itself, prove that every
@@ -229,8 +259,8 @@ the accelerating branch when it exists.
 \begin{conditionalresult}[AI-dominated singular limit]
 \label{prop:axm-singular-limit}
 Assume \(\sigma_{XL}>1\), \(\sigma_{HM}>1\), \(0<\eta<1\), and an
-interior equilibrium approaches a finite date at which \(A\to\infty\),
-\(s_X\to1\), and \(s_M\to1\). Suppose its consumption, investment, and
+interior equilibrium approaches an AI-dominated limit along its maximal time
+interval, with \(A\to\infty\), \(s_X\to1\), and \(s_M\to1\). Suppose its consumption, investment, and
 research-compute shares, \(g_A/(Y/K)\), and \(qA/K\) converge to positive finite
 limits, and \(L/N\) converges to a positive limit. Assume these convergences are
 asymptotically regular: the growth rate of each convergent ratio, divided by
@@ -257,10 +287,11 @@ Moreover,
  \label{eq:axm-z-law}
 \end{equation}
 Thus the limiting differential equation reaches \(z=\infty\) in finite time.
-Labor's production share tends to zero, while
+Both the production-labor share and aggregate labor income as a share of output
+tend to zero, while
 \begin{equation}
  \frac{g_w}{z}\to
- \frac{\alpha-(\sigma_{XL}-1)h}{\sigma_{XL}}>0
+ \frac{\alpha-(\sigma_{XL}-1)h}{\sigma_{XL}}
  \label{eq:axm-wage-limit}
 \end{equation}
 which is positive if and only if
@@ -274,3 +305,6 @@ that branch, the model delivers a sharp separation when
 rises. Above the threshold, the same conditional scaling implies an eventually
 falling wage. This final case should not be interpreted without separately
 checking monopoly optimality and convergence to the postulated branch.
+At \(\sigma_{XL}=1/(\alpha\eta)\), the leading term in
+\eqref{eq:axm-wage-limit} is zero, so this asymptotic calculation alone does not
+determine the eventual direction of the wage.

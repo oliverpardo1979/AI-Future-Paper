@@ -469,6 +469,64 @@ def equilibrium_rates(
     return derivatives, block
 
 
+def technology_log_errors(
+    block: dict[str, float],
+    log_capital: float,
+    log_capability: float,
+    parameters: Parameters,
+) -> dict[str, float]:
+    """Reconstruct the three static technologies independently in logs."""
+
+    log_labor = block["log_production_labor"]
+    log_ai_services = block["log_ai_services"]
+    if abs(parameters.sigma_xl - 1.0) <= 1e-10:
+        log_composite = (
+            (1.0 - parameters.omega_x) * log_labor
+            + parameters.omega_x * log_ai_services
+        )
+    else:
+        ces_power = (parameters.sigma_xl - 1.0) / parameters.sigma_xl
+        log_composite = logsumexp_pair(
+            math.log1p(-parameters.omega_x) + ces_power * log_labor,
+            math.log(parameters.omega_x)
+            + ces_power * log_ai_services,
+        ) / ces_power
+    reconstructed_output = (
+        parameters.alpha * log_capital
+        + (1.0 - parameters.alpha) * log_composite
+    )
+
+    log_human_research = block["log_human_research"]
+    log_automated_services = block["log_automated_research_services"]
+    if abs(parameters.sigma_hm - 1.0) <= 1e-10:
+        reconstructed_research = (
+            (1.0 - parameters.omega_m) * log_human_research
+            + parameters.omega_m * log_automated_services
+        )
+    else:
+        ces_power = (parameters.sigma_hm - 1.0) / parameters.sigma_hm
+        reconstructed_research = logsumexp_pair(
+            math.log1p(-parameters.omega_m)
+            + ces_power * log_human_research,
+            math.log(parameters.omega_m)
+            + ces_power * log_automated_services,
+        ) / ces_power
+
+    return {
+        "final_production_log_error": (
+            block["log_output"] - reconstructed_output
+        ),
+        "inference_identity_log_error": (
+            log_ai_services
+            - log_capability
+            - block["log_inference_compute"]
+        ),
+        "research_ces_log_error": (
+            block["log_effective_research"] - reconstructed_research
+        ),
+    }
+
+
 def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
     if abs(parameters.sigma_xl - 1.0) <= 1e-9:
         beta = (1.0 - parameters.alpha) * parameters.omega_x
@@ -869,6 +927,12 @@ def evaluate_solution(
             + math.log(1.0 - inverse_elasticity)
             + log_capability
         )
+        technology_errors = technology_log_errors(
+            block,
+            log_capital,
+            log_capability,
+            parameters,
+        )
         log_f_m = (
             math.log(parameters.chi)
             + math.log(parameters.eta)
@@ -961,6 +1025,7 @@ def evaluate_solution(
             "log_consumption_per_capita": log_consumption - log_population,
             "log_capital_per_capita": log_capital - log_population,
             "monopoly_foc_log_error": monopoly_foc_log_error,
+            **technology_errors,
             "research_compute_foc_log_error": (
                 log_shadow + log_f_m
             ),
@@ -1158,8 +1223,8 @@ def draw_equilibrium_figures(
         "Perfect-foresight equilibrium: labor and research allocation",
         "Shares in percent; production and aggregate labor shares use output as denominator",
         [
-            {"title": "Production labor share", "field": "production_labor_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
-            {"title": "Aggregate labor share", "field": "aggregate_labor_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Production labor share", "field": "production_labor_share", "transform": percent, "format": lambda value: f"{value:.1f}%", "ylim": (53.0, 54.0)},
+            {"title": "Aggregate labor share", "field": "aggregate_labor_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
             {"title": "Human researchers / population", "field": "human_research_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
             {"title": "Automated share of research", "field": "automated_research_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
         ],
@@ -1175,8 +1240,8 @@ def draw_equilibrium_figures(
         [
             {"title": "Real wage", "field": "log_wage", "transform": log_change},
             {"title": "Real-wage growth", "field": "wage_growth", "transform": percent, "format": lambda value: f"{value:.2f}%", "reference_y": 0.0},
-            {"title": "Production labor share", "field": "production_labor_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
-            {"title": "Aggregate labor income / output", "field": "aggregate_labor_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Production labor share", "field": "production_labor_share", "transform": percent, "format": lambda value: f"{value:.1f}%", "ylim": (53.0, 54.0)},
+            {"title": "Aggregate labor income / output", "field": "aggregate_labor_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
         ],
         display_rows,
         labels,
@@ -1229,6 +1294,7 @@ def main() -> None:
     summaries: list[dict[str, float | str]] = []
     all_rows: list[dict[str, float | str]] = []
     scenario_rows: dict[str, list[dict[str, float | str]]] = {}
+    primary_initial_jumps: dict[float, dict[str, float]] = {}
     for name, sigma_xl, sigma_hm, horizon in [
         ("axm_sigma_xl_1_hm_1", 1.00, 1.00, 1200.0),
         ("axm_sigma_xl_1_hm_2", 1.00, 2.00, 1600.0),
@@ -1256,6 +1322,12 @@ def main() -> None:
         all_rows.extend(rows)
         initial = rows[0]
         final = rows[-1]
+        primary_initial_jumps[sigma_hm] = {
+            "horizon": horizon,
+            "initial_log_consumption": float(initial["log_consumption"]),
+            "initial_log_shadow_value": float(initial["log_shadow_value"]),
+            "max_rms_residual": float(np.max(solution.rms_residuals)),
+        }
         summaries.append(
             {
                 "scenario": name,
@@ -1268,6 +1340,11 @@ def main() -> None:
                 "max_rms_residual": float(np.max(solution.rms_residuals)),
                 "target_aggregate_growth": targets["aggregate_growth"],
                 "target_capability_growth": targets["capability_growth"],
+                "initial_capital_stock": initial_state[0],
+                "initial_capability_stock": initial_state[1],
+                "initial_population": initial_state[2],
+                "initial_log_consumption": initial["log_consumption"],
+                "initial_log_shadow_value": initial["log_shadow_value"],
                 "initial_consumption_share": initial["consumption_share"],
                 "initial_capability_growth": initial["capability_growth"],
                 "terminal_capital_growth": final["capital_growth"],
@@ -1292,6 +1369,19 @@ def main() -> None:
                 "max_abs_resource_residual": max(
                     abs(float(row["resource_share_sum"]) - 1.0)
                     for row in rows
+                ),
+                "max_abs_monopoly_foc_log_error": max(
+                    abs(float(row["monopoly_foc_log_error"]))
+                    for row in rows
+                ),
+                "max_abs_technology_log_error": max(
+                    abs(float(row[field]))
+                    for row in rows
+                    for field in (
+                        "final_production_log_error",
+                        "inference_identity_log_error",
+                        "research_ces_log_error",
+                    )
                 ),
                 "max_abs_research_compute_foc_log_error": max(
                     abs(float(row["research_compute_foc_log_error"]))
@@ -1325,6 +1415,51 @@ def main() -> None:
 
     write_rows(RESULT_DIR / "equilibrium_transition_paths.csv", all_rows)
     write_rows(RESULT_DIR / "equilibrium_transition_summary.csv", summaries)
+
+    horizon_rows: list[dict[str, float | str]] = []
+    for sigma_hm, horizons in {
+        1.0: (1000.0, 1200.0, 1400.0),
+        2.0: (1400.0, 1600.0, 1800.0),
+    }.items():
+        parameters = replace(
+            baseline,
+            sigma_xl=1.0,
+            sigma_hm=sigma_hm,
+        )
+        primary = primary_initial_jumps[sigma_hm]
+        for horizon in horizons:
+            if math.isclose(horizon, primary["horizon"]):
+                values = primary
+            else:
+                robustness_solution, _ = solve_equilibrium(
+                    parameters,
+                    initial_state,
+                    horizon=horizon,
+                )
+                if not robustness_solution.success:
+                    raise RuntimeError(
+                        "Horizon robustness failed for "
+                        f"sigma_HM={sigma_hm:g}, T={horizon:g}."
+                    )
+                initial_values = robustness_solution.sol(0.0)
+                values = {
+                    "initial_log_consumption": float(initial_values[2]),
+                    "initial_log_shadow_value": float(initial_values[3]),
+                    "max_rms_residual": float(
+                        np.max(robustness_solution.rms_residuals)
+                    ),
+                }
+            horizon_rows.append(
+                {
+                    "sigma_hm": sigma_hm,
+                    "horizon": horizon,
+                    **values,
+                }
+            )
+    write_rows(
+        RESULT_DIR / "equilibrium_horizon_robustness.csv",
+        horizon_rows,
+    )
     draw_equilibrium_figures(scenario_rows)
 
 

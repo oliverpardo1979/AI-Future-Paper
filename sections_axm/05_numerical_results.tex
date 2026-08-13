@@ -2,10 +2,10 @@
 
 \subsection{Benchmark and method}
 
-The numerical experiments are not a calibration exercise. Parameters with
-standard macroeconomic counterparts are held fixed, while the two substitution
-elasticities define the cases of interest. Table \ref{tab:axm-parameters} reports
-the benchmark.
+The numerical experiments are not a calibration exercise. The conventional
+macroeconomic parameters are held fixed at illustrative annual values, while the
+two substitution elasticities define the cases of interest. Table
+\ref{tab:axm-parameters} reports the benchmark.
 
 As in the model, raw compute is measured in resource-expenditure units, so its
 common unit cost is one and is not a free parameter.
@@ -16,22 +16,25 @@ common unit cost is one and is not a free parameter.
 \label{tab:axm-parameters}
 \begin{tabular}{lcl}
 \toprule
-Parameter & Value & Interpretation\\
+Object & Value & Interpretation\\
 \midrule
 \(\alpha\) & 0.33 & Capital elasticity in final output\\
 \(n\) & 0.012 & Annual population growth\\
 \(\delta\) & 0.05 & Annual depreciation\\
 \(\rho\) & 0.04 & Household discount rate\\
-\(\omega_X\) & 0.20 & AI weight in the final CES\\
-\(\omega_M\) & 0.35 & Automated-service weight in research\\
+\((\omega_L,\omega_X)\) & (0.80, 0.20) & Final-production CES weights\\
+\((\omega_H,\omega_M)\) & (0.65, 0.35) & Research CES weights\\
 \(\eta\) & 0.45 & Returns to effective research\\
 \(\chi\) & 0.01 & Research-productivity normalization\\
+\((K_0,A_0,N_0)\) & (2.829, 1, 1) & Initial stocks\\
+\(\sigma_{XL}\) & 1 & Final-production elasticity in reported paths\\
+\(\sigma_{HM}\) & 1 or 2 & Research elasticity in reported paths\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Initial \(A\) and \(N\) are normalized to one. Initial capital is chosen near the
-limiting capital-output ratio of the unit-elasticity benchmark. The level of
+Initial capital is chosen near the limiting capital-output ratio of the
+unit-elasticity benchmark. The level of
 \(\chi\) and the normalizations affect calendar timing, so the very long horizontal
 axis should not be read as a forecast. The economically meaningful objects are
 the direction of the transition, the limiting rates and shares, and the
@@ -42,6 +45,12 @@ The solver treats \(K\) and \(A\) as predetermined and chooses initial \(C\) and
 collocation node it solves the monopoly supply condition, labor-market clearing,
 the dual research problem, both research first-order conditions, and the four
 equations in \eqref{eq:axm-canonical-system}.
+The two terminal horizons are 1,200 years for \(\sigma_{HM}=1\) and 1,600 years
+for \(\sigma_{HM}=2\). Re-solving at horizons of 1,000, 1,200, and 1,400 years in
+the first case and 1,400, 1,600, and 1,800 years in the second changes initial
+log consumption and the initial log shadow value by less than
+\(1.6\times10^{-7}\). The reported transition is therefore insensitive to the
+finite terminal date at the displayed precision.
 
 \subsection{Unit elasticity in final production}
 
@@ -60,6 +69,22 @@ converges to 1.23 percent, and output-per-capita growth approaches 0.31 percent.
 \caption{Research substitution and the unit-elasticity balanced-growth limit.
 Both lines are perfect-foresight equilibrium paths.}
 \label{fig:axm-research-comparison}
+\end{figure}
+
+Figure \ref{fig:axm-growth-returns} focuses on the first 600 years and adds the
+net real interest rate and consumption growth. The interest rate falls rapidly
+toward the household discount rate and then rises with output-per-capita growth.
+This comovement is required by the Euler equation: along a balanced-growth limit,
+\(r=\rho+g_{C/N}\). The two research technologies produce similar returns early
+in the transition and separate only as automated research becomes quantitatively
+important.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_growth_rates.png}
+\caption{Growth rates and the net return to capital. Rates are annual percentages;
+both lines are perfect-foresight equilibrium paths.}
+\label{fig:axm-growth-returns}
 \end{figure}
 
 The human-research transition contains a result that is hidden by the limiting
@@ -109,6 +134,7 @@ balanced-growth path.
 
 \begin{table}[H]
 \centering
+\small
 \caption{Equilibrium-path diagnostics}
 \label{tab:axm-residuals}
 \begin{tabular}{lcc}
@@ -117,8 +143,12 @@ Diagnostic & \(\sigma_{HM}=1\) & \(\sigma_{HM}=2\)\\
 \midrule
 Maximum goods-market residual & \(2.2\times10^{-16}\) & \(2.2\times10^{-16}\)\\
 Maximum labor-market residual & \(8.9\times10^{-16}\) & \(1.8\times10^{-15}\)\\
+Maximum technology log error & \(2.4\times10^{-13}\) & \(2.4\times10^{-11}\)\\
+Maximum monopoly-FOC log error & \(5.4\times10^{-15}\) & \(7.2\times10^{-15}\)\\
 Maximum research-FOC log error & \(3.6\times10^{-13}\) & \(1.3\times10^{-11}\)\\
 Maximum dynamic path residual & \(4.4\times10^{-6}\) & \(1.2\times10^{-5}\)\\
+Maximum horizon-induced initial-jump range & \(7.4\times10^{-8}\) & \(1.6\times10^{-7}\)\\
+Minimum monopoly second-order margin & 0.1160 & 0.1160\\
 Terminal automated research share & 0.3500 & 0.99999\\
 \bottomrule
 \end{tabular}

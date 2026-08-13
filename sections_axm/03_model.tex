@@ -8,6 +8,19 @@ final production or AI research:
 \end{equation}
 Here \(L\) always denotes production labor and \(H\) human research labor.
 
+\begin{assumption}[Parameters]
+Throughout, \(0<\alpha<1\), \(0<n<\rho\), \(\delta\geq0\),
+\(\chi>0\), \(0<\eta<1\), \(\sigma_{XL},\sigma_{HM}>0\), and all CES
+weights lie strictly between zero and one and sum to one within each CES
+aggregate.
+\end{assumption}
+
+The no-AI economy is a useful boundary case, although it lies outside the
+maintained interior-weight assumption. If \(\omega_X=\omega_M=0\), then
+\(Z=L\), capability has no productive use, and the developer has no incentive to
+conduct research. The model reduces to a Ramsey--Cass--Koopmans economy with
+population growth and no technological progress.
+
 \subsection{Household and final production}
 
 The representative household maximizes
@@ -39,10 +52,13 @@ contribution share of AI services as
 \end{equation}
 Factor prices then satisfy
 \begin{equation}
+ r=\alpha\frac{Y}{K}-\delta,\qquad
  w=(1-\alpha)(1-s_X)\frac{Y}{L},\qquad
  p_X=(1-\alpha)s_X\frac{Y}{X}.
  \label{eq:axm-factor-prices}
 \end{equation}
+Here \(r\) is the net real interest rate. The Euler equation above can therefore
+be written as \(\dot C/C=n+r-\rho\).
 
 \Needspace{11\baselineskip}
 \begin{remark}[Tasks, jobs, and labor services]
@@ -61,13 +77,10 @@ factor shares, and the allocation of labor between the two sectors.
 \subsection{Two uses of compute}
 
 \(A\) indexes current AI capability: what one unit of compute can accomplish.
-\(U\) is inference compute and \(M\) is research compute. Their service flows are
-\begin{equation}
- X=AU,\qquad R=AM.
- \label{eq:axm-two-compute-services}
-\end{equation}
-\(R\) is only shorthand for automated research services. The paid inputs are
-\(U\) and \(M\). Because both uses have the same constant unit cost, we choose
+\(U\) is inference compute, and \(M\) is research compute. Inference compute
+produces the service flow \(X=AU\). Analogously, research compute produces the
+automated research service flow \(AM\).
+The paid inputs are \(U\) and \(M\). Because both uses have the same constant unit cost, we choose
 units of raw compute so that one unit costs one unit of final output. This is a
 normalization, not an assumption that compute is economically free. To see this,
 start from a common cost \(\xi>0\), define
@@ -93,12 +106,18 @@ The baseline contains no additional \(A^\phi\) term. Better capability affects
 research only by raising the services produced by \(M\). This isolates research
 automation and avoids counting the capability feedback twice.
 
-The unit cost of effective research is
+For \(\sigma_{HM}\neq1\), the unit cost of effective research is
 \begin{equation}
  P_E=\left[\omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
  +\omega_M^{\sigma_{HM}}\left(\frac{1}{A}\right)^{1-\sigma_{HM}}
  \right]^{1/(1-\sigma_{HM})}.
  \label{eq:axm-research-price}
+\end{equation}
+At \(\sigma_{HM}=1\), its continuous limit is
+\begin{equation}
+ P_E=\left(\frac{w}{\omega_H}\right)^{\omega_H}
+ \left(\frac{1}{A\omega_M}\right)^{\omega_M}.
+ \label{eq:axm-research-price-cd}
 \end{equation}
 Conditional input demands are
 \begin{equation}
@@ -119,7 +138,22 @@ to \(AM\).
 \subsection{Integrated AI developer}
 
 The developer supplies \(X\), pays \(X/A\) for inference compute, hires
-\(H\), uses \(M\), and owns \(A\). The inverse elasticity of demand for \(X\) is
+\(H\), uses \(M\), and owns \(A\). At each date it faces the inverse demand
+schedule implied by final-good firms and takes the wage and aggregate state as
+given. Its intertemporal problem is
+\begin{equation}
+ \max_{\{X,H,M\}}
+ \int_0^\infty
+ \exp\left\{-\int_0^t r_s\dd s\right\}
+ \left[p_{X,t}X_t-\frac{X_t}{A_t}-w_tH_t-M_t\right]\dd t.
+ \label{eq:axm-developer-problem}
+\end{equation}
+The maximization is subject to the capability law
+\eqref{eq:axm-capability-law} and the initial capability stock.
+The discount rate is the return available to the household that owns the
+developer. Along the household Euler equation, this discounting is equivalent to
+using the household's stochastic discount factor. The inverse elasticity of
+demand for \(X\) is
 \begin{equation}
  \varepsilon_X^{-1}=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X.
  \label{eq:axm-inverse-elasticity}
@@ -129,6 +163,14 @@ On an interior monopoly branch,
  p_X(1-\varepsilon_X^{-1})=\frac{1}{A}.
  \label{eq:axm-monopoly-foc}
 \end{equation}
+Writing \(e_X=\varepsilon_X^{-1}\), the strict second-order condition for the
+static supply choice is
+\begin{equation}
+ e_X(1-e_X)
+ +(\alpha-\sigma_{XL}^{-1})(1-\sigma_{XL}^{-1})s_X(1-s_X)>0.
+ \label{eq:axm-monopoly-soc}
+\end{equation}
+The numerical solver checks this inequality at every reported date.
 Let \(q\) be the current-value shadow price of capability. Research optimality is
 \begin{equation}
  q\frac{\partial\dot A}{\partial H}=w,\qquad
@@ -161,7 +203,8 @@ The resource constraint is
 
 \begin{definition}[Equilibrium]
 Given \(K(0),A(0),N(0)>0\), an equilibrium consists of paths satisfying household
-optimality, competitive final-good demands, the monopoly and research first-order
+optimality, competitive final-good demands, the monopoly first- and second-order
+conditions, the research first-order
 conditions, the developer's costate and transversality conditions, both
 technologies, and the labor and goods market-clearing conditions.
 \end{definition}
@@ -178,8 +221,8 @@ static allocation. The dynamics are
  -\eta s_M\frac{\dot A}{A}.
  \label{eq:axm-canonical-system}
 \end{align}
-\(K\) and \(A\) are predetermined; \(C\) and \(q\) jump to the equilibrium saddle
-path. The block is closed by initial \(K,A,N\), the labor and goods market
+\(K\) and \(A\) are predetermined; \(C\) and \(q\) are jump variables selected
+by the terminal conditions. The block is closed by initial \(K,A,N\), the labor and goods market
 identities, and the no-Ponzi and transversality conditions. In current-value
 notation, the relevant terminal restrictions include
 \begin{equation}
@@ -189,12 +232,13 @@ notation, the relevant terminal restrictions include
  q_tA_t=0.
  \label{eq:axm-tvc}
 \end{equation}
-The numerical boundary conditions select the stable path approaching the
+The numerical boundary conditions select the admissible transition approaching the
 analytically characterized limit and are checked against these restrictions.
 
 \begin{definition}[Balanced growth and singularity]
-A balanced-growth path has finite constant growth rates and constant limiting
-allocation shares. An accelerating path has an output growth rate that does not
-converge to a finite constant. Following \citet{aghionjonesjones2019}, a
+A balanced-growth path is a path on which the growth rates of all nonstationary
+variables converge to finite constants and allocation shares converge to
+constants. An accelerating path has an output growth rate that does not converge
+to a finite constant. Following \citet{aghionjonesjones2019}, a
 finite-time singularity occurs when output becomes unbounded at a finite date.
 \end{definition}

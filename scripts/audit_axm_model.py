@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SUMMARY = ROOT / "numerical_axm" / "equilibrium_transition_summary.csv"
+HORIZON_AUDIT = ROOT / "numerical_axm" / "equilibrium_horizon_robustness.csv"
 REPORT = ROOT / "numerical_axm" / "audit_report.csv"
 
 
@@ -17,6 +18,8 @@ def analytical_checks() -> list[dict[str, str | float]]:
     omega_x = 0.20
     omega_m = 0.35
     eta = 0.45
+    population_growth = 0.012
+    discount_rate = 0.04
     nu = omega_x / (1.0 - omega_x)
     theta = (1.0 - alpha) / alpha
     d_cd = 1.0 - eta * omega_m * (1.0 + nu)
@@ -117,6 +120,9 @@ def analytical_checks() -> list[dict[str, str | float]]:
             rel_tol=0.0,
             abs_tol=1e-12,
         ),
+        "transversality_discount_positive": (
+            discount_rate - population_growth > 0.0
+        ),
     }
     if not all(assertions.values()):
         raise AssertionError(assertions)
@@ -170,6 +176,11 @@ def analytical_checks() -> list[dict[str, str | float]]:
             ),
             "status": "pass",
         },
+        {
+            "object": "balanced_growth_transversality_rate",
+            "value": discount_rate - population_growth,
+            "status": "pass",
+        },
     ]
 
 
@@ -183,6 +194,12 @@ def numerical_checks() -> list[dict[str, str | float]]:
         name = row["scenario"]
         tests = {
             "resource": float(row["max_abs_resource_residual"]) < 1e-10,
+            "technologies": float(row["max_abs_technology_log_error"])
+            < 1e-10,
+            "monopoly_foc": float(
+                row["max_abs_monopoly_foc_log_error"]
+            )
+            < 1e-9,
             "research_compute_foc": float(
                 row["max_abs_research_compute_foc_log_error"]
             )
@@ -231,8 +248,59 @@ def numerical_checks() -> list[dict[str, str | float]]:
     return report
 
 
+def horizon_checks() -> list[dict[str, str | float]]:
+    with HORIZON_AUDIT.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    grouped: dict[str, list[dict[str, str]]] = {}
+    for row in rows:
+        grouped.setdefault(row["sigma_hm"], []).append(row)
+    if set(grouped) != {"1.0", "2.0"}:
+        raise AssertionError(f"Unexpected horizon groups: {sorted(grouped)}")
+
+    report: list[dict[str, str | float]] = []
+    for sigma_hm, group in grouped.items():
+        if len(group) != 3:
+            raise AssertionError(
+                f"Expected three horizons for sigma_HM={sigma_hm}."
+            )
+        consumptions = [
+            float(row["initial_log_consumption"]) for row in group
+        ]
+        shadows = [
+            float(row["initial_log_shadow_value"]) for row in group
+        ]
+        residuals = [float(row["max_rms_residual"]) for row in group]
+        values = {
+            "initial_consumption_range": max(consumptions) - min(consumptions),
+            "initial_shadow_range": max(shadows) - min(shadows),
+            "maximum_solver_residual": max(residuals),
+        }
+        tests = {
+            "initial_consumption_range": values[
+                "initial_consumption_range"
+            ]
+            < 2e-6,
+            "initial_shadow_range": values["initial_shadow_range"] < 2e-6,
+            "maximum_solver_residual": values[
+                "maximum_solver_residual"
+            ]
+            < 2e-5,
+        }
+        if not all(tests.values()):
+            raise AssertionError({f"sigma_HM={sigma_hm}": values})
+        for test, passed in tests.items():
+            report.append(
+                {
+                    "object": f"sigma_HM={sigma_hm}:horizon_{test}",
+                    "value": values[test],
+                    "status": "pass" if passed else "fail",
+                }
+            )
+    return report
+
+
 def main() -> None:
-    rows = analytical_checks() + numerical_checks()
+    rows = analytical_checks() + numerical_checks() + horizon_checks()
     with REPORT.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle, fieldnames=["object", "value", "status"]

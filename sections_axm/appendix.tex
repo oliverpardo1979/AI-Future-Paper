@@ -19,13 +19,25 @@ Taking the stated limit proves all three cases. \(\square\)
 \subsection{Proof of Proposition \ref{prop:axm-complements}}
 
 Normalize the monopoly condition by \((K/L)^\alpha\) and write \(x=X/L\).
-The normalized marginal cost tends to zero by hypothesis. At an interior
-monopoly allocation,
+Let
 \[
- p_X\left[1-\frac{1-s_X}{\sigma_{XL}}-\alpha s_X\right]=\frac{1}{A}.
+ z(x)=\left[\omega_L+\omega_Xx^{(\sigma_{XL}-1)/\sigma_{XL}}
+ \right]^{\sigma_{XL}/(\sigma_{XL}-1)}.
 \]
-On the regular branch, the zero-marginal-cost limit sets the term in square
-brackets to zero. Solving gives
+Then \(Y=K^\alpha L^{1-\alpha}z(x)^{1-\alpha}\) and
+\[
+ p_X=(K/L)^\alpha\widetilde p(x),\qquad
+ \widetilde p(x)=(1-\alpha)s_X\frac{z(x)^{1-\alpha}}{x}.
+\]
+The normalized monopoly condition is therefore
+\[
+ \widetilde p(x)
+ \left[1-\frac{1-s_X}{\sigma_{XL}}-\alpha s_X\right]
+ =\frac{1}{A(K/L)^\alpha}.
+\]
+The right-hand side tends to zero by hypothesis. On the interior
+marginal-revenue branch, \(\widetilde p(x)\) does not supply that zero, so the
+term in square brackets converges to zero. Solving gives
 \[
  \bar s_X=\frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}.
 \]
@@ -75,6 +87,20 @@ Both cases are \(g_E=n+\bar s(1+\nu)g_A\). Since
 Solving gives \eqref{eq:axm-cd-growth-rates}; a positive solution requires
 \(D(\bar s)>0\).
 
+The inference share is constant, so \(g_U=g_Y\) and
+\(g_X=g_A+g_Y\). The monopoly condition gives \(g_{p_X}=-g_A\), while a
+constant \(qA/Y\) gives \(g_q=g_Y-g_A\). The capability law implies
+\(g_E=g_A/\eta\), and the positive limiting production-labor share gives
+\(g_L=n\). For \(\sigma_{HM}>1\), take growth rates in
+\eqref{eq:axm-input-ratio}. Since \(g_w=\nu g_A\),
+\[
+ g_{AM}-g_H=\sigma_{HM}(g_A+g_w)
+ =\sigma_{HM}(1+\nu)g_A.
+\]
+Using \(g_{AM}=g_A+g_M=n+(1+\nu)g_A\) yields
+\eqref{eq:axm-human-research-growth}. These observations prove
+\eqref{eq:axm-cd-remaining-rates} and the remaining labor result.
+
 The Euler equation gives \(K/Y=\alpha/(\rho+\delta+\gamma)\), which implies the
 investment share in \eqref{eq:axm-cd-shares}. Let \(m=M/Y\) and
 \(u=\beta^2\). The research-compute first-order condition can be written
@@ -98,8 +124,13 @@ Substitute these expressions into the costate equation and use
   -\frac{u\eta\bar s g_A}{m}.
 \]
 Solving for \(m\) gives \eqref{eq:axm-cd-shares}. The resource constraint gives
-\(c=1-u-i-m\). Positivity, interiority, second-order, and transversality
-conditions are separate requirements, as stated. \(\square\)
+\(c=1-u-i-m\). Positivity, interiority, and the second-order condition are
+separate requirements, as stated. On the candidate path, the
+household transversality expression in \eqref{eq:axm-tvc} declines at rate
+\(\rho-n\). The developer's expression declines at the same rate because
+\(g_{qA}=g_Y=n+\gamma\) and \(r=\rho+\gamma\). Hence \(\rho>n\) is sufficient
+for both transversality conditions once the stated constant ratios hold.
+\(\square\)
 
 \subsection{Proof of Proposition \ref{prop:axm-no-bgp}}
 
@@ -111,13 +142,21 @@ to \(\alpha\), and the monopoly first-order condition implies
 \[
  \frac{X}{A}=(1-\alpha)^2Y[1+o(1)].
 \]
-Substituting \(X\) back into final production gives
+Moreover, the final CES satisfies
 \[
- \frac{Y}{K}=\mathcal D A^{(1-\alpha)/\alpha}[1+o(1)]
+ Z=\omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}X[1+o(1)].
 \]
-for \(\mathcal D>0\). Since \(A\to\infty\), \(Y/K\to\infty\). The gross return
-to capital \(\alpha Y/K\) therefore diverges. Equation \eqref{eq:axm-euler}
-then makes consumption growth unbounded, contradicting finite constant growth.
+Substituting \(X=(1-\alpha)^2AY[1+o(1)]\) back into final production gives
+\[
+ \frac{Y}{K}=\mathcal D A^{(1-\alpha)/\alpha}[1+o(1)],\qquad
+ \mathcal D=
+ \left[\omega_X^{\sigma_{XL}/(\sigma_{XL}-1)}
+ (1-\alpha)^2\right]^{(1-\alpha)/\alpha},
+\]
+which makes the claimed proportionality explicit. Since \(A\to\infty\),
+\(Y/K\to\infty\). Both \(\alpha Y/K\) and the net interest rate
+\(r=\alpha Y/K-\delta\) therefore diverge. Equation \eqref{eq:axm-euler} then
+makes consumption growth unbounded, contradicting finite constant growth.
 \(\square\)
 
 \subsection{Derivation of the AI-dominated singular limit}
@@ -188,16 +227,20 @@ population growth term relative to \(z\), we obtain
 \]
 This expression is positive when
 \(\sigma_{XL}<1/(\alpha\eta)\). Because \(\eta<1\),
-the wage limit has the sign stated in the conditional result. \(\square\)
+the wage limit has the sign stated in the conditional result. Finally,
+\(wL/Y=(1-\alpha)(1-s_X)\to0\). Since \(L/N\) has a positive limit by
+hypothesis, \(wN/Y=(wL/Y)(N/L)\to0\) as well. \(\square\)
 
 \section{Numerical equilibrium audit}
 
 For every reported path, the code recomputes the static allocation at each date
-and records the following residuals: the goods-market identity, the labor-market
-identity, the monopoly first-order condition, both research first-order
-conditions, the household Euler equation, and the four differential equations.
+and records the following residuals: the three technology identities, the
+goods-market identity, the labor-market identity, the monopoly first-order
+condition, both research first-order conditions, the household Euler equation,
+and the four differential equations. It also verifies the monopoly second-order
+condition and re-solves each path at three terminal horizons.
 The collocation derivative, rather than a plotted finite difference, is used to
 audit the dynamic equations. The simulation files and their residual summaries
-are stored in \texttt{numerical\_axm}; the independent solver is
-\texttt{scripts/simulate\_axm\_equilibrium.py}, with a separate free-boundary
-solver for the gross-substitutes regime.
+are stored in \path{numerical_axm}; the independent solver is
+\path{scripts/simulate_axm_equilibrium.py}, with a separate free-boundary solver
+for the gross-substitutes regime.

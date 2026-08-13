@@ -604,6 +604,12 @@ def evaluate_free_boundary_solution(
             + math.log(1.0 - inverse_elasticity)
             + log_capability
         )
+        technology_errors = equilibrium.technology_log_errors(
+            block,
+            log_capital,
+            log_capability,
+            parameters,
+        )
         log_f_m = (
             math.log(parameters.chi)
             + math.log(parameters.eta)
@@ -709,6 +715,7 @@ def evaluate_free_boundary_solution(
             / targets["singularity_rate"]
             / output_capital_ratio,
             "monopoly_foc_log_error": monopoly_foc_log_error,
+            **technology_errors,
             "research_compute_foc_log_error": (
                 log_shadow + log_f_m
             ),
