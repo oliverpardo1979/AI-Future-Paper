@@ -1,6 +1,57 @@
 \section{Proofs}
 \label{sec:appendix-proofs}
 
+\begin{proof}[Derivation for conditional result~\ref{cond:capital-deepening-benchmark}]
+Let $\widetilde k_t\equiv\widetilde K_t/L_t$. Equations
+\eqref{eq:capital-benchmark-production}--
+\eqref{eq:capital-benchmark-allocation} give
+\begin{equation}
+    \frac{\widetilde Y_t}{\widetilde K_t}
+    =
+    \zeta^\alpha
+    \left[
+        \omega_L\widetilde k_t^{-\varrho_K}
+        +\omega_K(1-\zeta)^{\varrho_K}
+    \right]^{(1-\alpha)/\varrho_K}.
+    \label{eq:proof-capital-benchmark-output-capital}
+\end{equation}
+When $\varrho_K>0$, this expression is strictly decreasing in
+$\widetilde k_t$, diverges as $\widetilde k_t\downarrow0$, and converges to
+$B_K(\zeta)$ as $\widetilde k_t\to\infty$. Capital accumulation implies
+\begin{equation}
+    \frac{\dot{\widetilde k}_t}{\widetilde k_t}
+    =
+    s_K\frac{\widetilde Y_t}{\widetilde K_t}
+    -(\delta+n).
+    \label{eq:proof-capital-benchmark-law}
+\end{equation}
+If $s_KB_K(\zeta)<\delta+n$, monotonicity and the two boundary limits imply
+a unique finite stationary value of $\widetilde k_t$. If
+$s_KB_K(\zeta)>\delta+n$, equation
+\eqref{eq:proof-capital-benchmark-law} converges to the positive constant
+$s_KB_K(\zeta)-\delta-n$. Hence
+$g_{\widetilde K}=n+g_{\widetilde k}=s_KB_K(\zeta)-\delta$; asymptotic
+linearity gives the same rate for output. At equality, the right-hand side is
+positive at every finite $\widetilde k_t$ and converges to zero, so
+$\widetilde k_t$ diverges while its growth rate vanishes.
+
+The inner labor contribution satisfies
+$1-s^{K_2}_t\sim c\widetilde k_t^{-\varrho_K}$ for a positive constant $c$.
+Since $\widetilde Y_t/L_t\sim B_K(\zeta)\widetilde k_t$, the competitive
+wage obeys
+\[
+    w_t
+    =(1-\alpha)(1-s^{K_2}_t)\frac{\widetilde Y_t}{L_t}
+    \sim \widetilde c\,
+    \widetilde k_t^{1-\varrho_K}
+    =\widetilde c\,
+    \widetilde k_t^{1/\sigma_{KL}}
+\]
+for a positive constant $\widetilde c$. The labor share converges to zero and,
+on the positive-growth branch,
+$g_w=g_{\widetilde k}/\sigma_{KL}=g_{\widetilde Y/L}/\sigma_{KL}$.
+\end{proof}
+
 \begin{proof}[Proof of Proposition~\ref{prop:wage-share-thresholds}]
 The CES expenditure share in \eqref{eq:ai-composite-share} implies
 \[

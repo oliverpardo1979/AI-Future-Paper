@@ -248,6 +248,63 @@
       "metadata_source": "JSTOR",
       "verification_status": "manual_url",
       "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis."
+    },
+    "solow1956": {
+      "abstract": "The paper develops a neoclassical growth model in which flexible factor substitution replaces the fixed-coefficient technology of Harrod and Domar. Its examples show how saving, population growth, and the shape of the production function determine whether capital intensity converges or continues to rise.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://academic.oup.com/qje/article-abstract/70/1/65/1903777",
+      "document_url": "https://academic.oup.com/qje/article-abstract/70/1/65/1903777",
+      "landing_page_url": "https://academic.oup.com/qje/article-abstract/70/1/65/1903777",
+      "metadata_source": "Oxford Academic",
+      "verification_status": "official_landing_page",
+      "notes": "The publisher page provides an article outline rather than a conventional abstract; this is an editorial synopsis."
+    },
+    "pitchford1960": {
+      "abstract": "The paper replaces Cobb-Douglas production in the Swan growth model with a constant-elasticity technology and characterizes how factor substitution changes capital accumulation, income growth, and the relation between growth and the saving rate.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://doi.org/10.1111/j.1475-4932.1960.tb00537.x",
+      "document_url": "https://doi.org/10.1111/j.1475-4932.1960.tb00537.x",
+      "landing_page_url": "https://doi.org/10.1111/j.1475-4932.1960.tb00537.x",
+      "metadata_source": "Wiley",
+      "verification_status": "official_landing_page",
+      "notes": "No conventional abstract was available on the publisher page; this is an editorial synopsis."
+    },
+    "jonesmanuelli1990": {
+      "abstract": "The paper develops a convex equilibrium-growth model with fixed factors in which the marginal product of capital need not converge to zero. It provides existence and characterization results and shows how tastes, technology, taxation, and trade can affect long-run growth.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://www.journals.uchicago.edu/doi/abs/10.1086/261717",
+      "document_url": "https://www.nber.org/system/files/working_papers/w3241/w3241.pdf",
+      "landing_page_url": "https://www.journals.uchicago.edu/doi/abs/10.1086/261717",
+      "metadata_source": "Journal of Political Economy",
+      "verification_status": "official_landing_page"
+    },
+    "rebelo1991": {
+      "abstract": "The paper describes endogenous-growth models in which policy differences can generate persistent cross-country differences in growth rates. Growth is possible without increasing returns because a core of accumulable capital goods can be produced without direct or indirect use of nonaccumulable factors.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://ideas.repec.org/a/ucp/jpolec/v99y1991i3p500-521.html",
+      "document_url": "https://doi.org/10.1086/261764",
+      "landing_page_url": "https://doi.org/10.1086/261764",
+      "metadata_source": "Journal of Political Economy/RePEc",
+      "verification_status": "official_landing_page"
+    },
+    "duffypapageorgiou2000": {
+      "abstract": "Using a panel of 82 countries over 28 years, the paper estimates an aggregate CES production function and rejects Cobb-Douglas for the full sample. It finds greater capital-labor substitutability among richer countries and lower substitutability among poorer countries, while emphasizing that substitution above one does not by itself guarantee endogenous growth.",
+      "abstract_type": "source_abstract",
+      "abstract_source_url": "https://ideas.repec.org/a/kap/jecgro/v5y2000i1p87-120.html",
+      "document_url": "https://www.chrispapageorgiou.com/papers/jeg6.pdf",
+      "landing_page_url": "https://ideas.repec.org/a/kap/jecgro/v5y2000i1p87-120.html",
+      "metadata_source": "Journal of Economic Growth/RePEc",
+      "verification_status": "official_landing_page"
+    },
+    "kruselletral2000": {
+      "abstract": "The paper estimates a macroeconomic production structure with capital-skill complementarity. Structures capital enters an outer production layer, while equipment capital is combined with skilled and unskilled labor in nested CES composites; changes in observed inputs account for much of the movement in the U.S. skill premium.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://doi.org/10.1111/1468-0262.00150",
+      "document_url": "https://doi.org/10.1111/1468-0262.00150",
+      "landing_page_url": "https://doi.org/10.1111/1468-0262.00150",
+      "metadata_source": "Econometrica/Wiley",
+      "verification_status": "official_landing_page",
+      "notes": "This editorial synopsis emphasizes the production structure relevant for the capital-deepening benchmark."
     }
   }
 }

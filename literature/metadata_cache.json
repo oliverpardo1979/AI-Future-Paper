@@ -317,5 +317,29 @@
   "10.2307/3003320": {
     "openalex_error": "URLError",
     "crossref_error": "URLError"
+  },
+  "10.2307/1884513": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
+  },
+  "10.1111/j.1475-4932.1960.tb00537.x": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
+  },
+  "10.1086/261717": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
+  },
+  "10.1086/261764": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
+  },
+  "10.1023/a:1009830421147": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
+  },
+  "10.1111/1468-0262.00150": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
   }
 }

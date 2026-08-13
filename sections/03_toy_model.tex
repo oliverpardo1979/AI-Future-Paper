@@ -680,10 +680,121 @@ This subsection states the analytical results before introducing numerical
 evidence. Propositions report results established from the model's equations
 without assuming a path for an endogenous variable. Conditional results instead
 characterize necessary limits or the implications of an explicitly stated
-closure. The proofs of the propositions are collected in the appendix. The
+closure. The proofs of the propositions and the derivations of the conditional
+results are collected in the appendix. The
 equilibrium simulations in Section~\ref{sec:numerical} subsequently show how the
 relevant mechanisms interact during the transition; they are not used to prove the
 analytical claims.
+
+\subsubsection{A capital-deepening benchmark}
+\label{sec:capital-deepening-benchmark}
+
+Before analyzing AI services, consider a counterfactual in which the substitute for
+labor is an ordinary reproducible capital service. Let total capital be divided
+between an outer production input and a second input inside the CES composite:
+\begin{align}
+    \widetilde Y_t
+    &=
+    \widetilde K_{1t}^{\alpha}\widetilde Z_t^{1-\alpha},
+    \label{eq:capital-benchmark-production}\\
+    \widetilde Z_t
+    &=
+    \left[
+        \omega_L L_t^{\varrho_K}
+        +\omega_K\widetilde K_{2t}^{\varrho_K}
+    \right]^{1/\varrho_K},
+    \qquad
+    \varrho_K\equiv
+    \frac{\sigma_{KL}-1}{\sigma_{KL}},
+    \qquad \omega_L+\omega_K=1,
+    \qquad \omega_L,\omega_K\in(0,1),
+    \label{eq:capital-benchmark-ces}\\
+    \widetilde K_{1t}
+    &=\zeta\widetilde K_t,
+    \qquad
+    \widetilde K_{2t}=(1-\zeta)\widetilde K_t,
+    \qquad \zeta\in(0,1),
+    \label{eq:capital-benchmark-allocation}\\
+    \dot{\widetilde K}_t
+    &=s_K\widetilde Y_t-\delta\widetilde K_t,
+    \qquad s_K\in(0,1),
+    \qquad
+    \widetilde C_t=(1-s_K)\widetilde Y_t,
+    \qquad g_{L,t}=n.
+    \label{eq:capital-benchmark-accumulation}
+\end{align}
+The fixed allocation in \eqref{eq:capital-benchmark-allocation} is an explicit
+closure used to isolate capital deepening. It is not imposed on the baseline AI
+economy. Equivalently,
+$\widetilde K_{1t}/\widetilde K_{2t}=\zeta/(1-\zeta)$ is an arbitrary positive
+constant.
+
+\begin{conditionalresult}[Capital deepening does not generate accelerating growth;
+\citealp{pitchford1960}; \citealp{duffypapageorgiou2000}]
+\label{cond:capital-deepening-benchmark}
+Suppose $\sigma_{KL}>1$ and define
+\begin{equation}
+    B_K(\zeta)
+    \equiv
+    \zeta^\alpha(1-\zeta)^{1-\alpha}
+    \omega_K^{(1-\alpha)/\varrho_K}.
+    \label{eq:capital-benchmark-ak-coefficient}
+\end{equation}
+Then $\widetilde Y_t/\widetilde K_t\to B_K(\zeta)$ as
+$\widetilde K_t/L_t\to\infty$. If
+$s_KB_K(\zeta)<\delta+n$, the capital--labor ratio converges to a unique finite
+steady state. If $s_KB_K(\zeta)>\delta+n$, the economy converges instead to an
+asymptotic balanced-growth path with
+\begin{align}
+    g_{\widetilde K}
+    =g_{\widetilde Y}
+    &=s_KB_K(\zeta)-\delta,
+    \label{eq:capital-benchmark-aggregate-growth}\\
+    g_{\widetilde Y/L}
+    &=s_KB_K(\zeta)-\delta-n>0.
+    \label{eq:capital-benchmark-per-capita-growth}
+\end{align}
+On this path, labor's share converges to zero while the wage grows at
+$g_{\widetilde Y/L}/\sigma_{KL}$. At the equality
+$s_KB_K(\zeta)=\delta+n$, the capital--labor ratio diverges but its growth rate
+converges to zero. In none of the three cases does the output growth rate diverge.
+\end{conditionalresult}
+
+The fixed capital composition is generally not the allocation chosen by a firm that
+can move capital freely between the two uses. Let
+\begin{equation}
+    s^{K_2}_t
+    \equiv
+    \frac{\omega_K\widetilde K_{2t}^{\varrho_K}}
+    {\omega_LL_t^{\varrho_K}
+    +\omega_K\widetilde K_{2t}^{\varrho_K}}
+    \label{eq:capital-benchmark-inner-share}
+\end{equation}
+denote the contribution of the second capital service inside the CES composite.
+Equalizing the marginal returns to the two uses requires
+\begin{equation}
+    \frac{\widetilde K_{1t}}{\widetilde K_{2t}}
+    =
+    \frac{\alpha}{(1-\alpha)s^{K_2}_t}.
+    \label{eq:capital-benchmark-optimal-allocation}
+\end{equation}
+Because $s^{K_2}_t$ generally changes with the capital--labor ratio, the optimal
+capital composition generally changes over time. Under gross substitution,
+$s^{K_2}_t\to1$ and the ratio converges to $\alpha/(1-\alpha)$. Allowing this
+reallocation changes the asymptotic coefficient but not the benchmark's central
+result: ordinary accumulable capital produces an asymptotically linear technology,
+not an increasing growth rate.
+
+This comparison separates factor substitution from recursive innovation. Replacing
+labor with reproducible capital can eliminate labor as an asymptotic constraint, but
+it leaves $\widetilde Y/\widetilde K$ finite. In the baseline model, $X_t=A_tU_t$
+and capability is itself produced with human and automated research. Capability can
+therefore raise current output and the productivity of the activity that produces
+further capability. Any acceleration beyond the $AK$ benchmark must come from that
+additional feedback rather than from gross substitution alone. The benchmark also
+shows that a declining labor share together with a rising wage is not specific to
+AI; the distinctive object in this paper is the interaction of that distributional
+outcome with recursive research and market power.
 
 \subsubsection{Wages and the labor share under an AI expansion}
 
