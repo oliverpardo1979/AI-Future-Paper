@@ -67,6 +67,13 @@ def bounded_exp(value: float, upper: float = 60.0) -> float:
 
 def research_unit_cost(log_wage: float, parameters: Parameters) -> float:
     sigma = parameters.sigma_hm
+    if abs(sigma - 1.0) <= 1e-10:
+        omega_m = parameters.omega_m
+        omega_h = 1.0 - omega_m
+        return (
+            omega_h * (log_wage - math.log(omega_h))
+            + omega_m * (math.log(parameters.xi) - math.log(omega_m))
+        )
     log_human_term = (
         sigma * math.log1p(-parameters.omega_m)
         + (1.0 - sigma) * log_wage
@@ -456,7 +463,15 @@ def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
     if abs(parameters.sigma_xl - 1.0) <= 1e-9:
         beta = (1.0 - parameters.alpha) * parameters.omega_x
         upsilon = beta / (1.0 - parameters.alpha - beta)
-        denominator = 1.0 - parameters.phi - parameters.eta * upsilon
+        human_essential = abs(parameters.sigma_hm - 1.0) <= 1e-9
+        research_feedback_weight = (
+            parameters.omega_m if human_essential else 1.0
+        )
+        denominator = (
+            1.0
+            - parameters.phi
+            - parameters.eta * research_feedback_weight * upsilon
+        )
         if denominator <= 0.0:
             raise ValueError("The Cobb--Douglas asymptotic denominator is not positive.")
         capability_growth = parameters.eta * parameters.n / denominator
@@ -464,6 +479,7 @@ def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
         research_share = (
             beta**2
             * parameters.eta
+            * research_feedback_weight
             * capability_growth
             / (
                 parameters.discount
@@ -495,7 +511,11 @@ def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
             ),
             "terminal_shadow_object": "shadow_capability_output_ratio",
             "terminal_shadow_target": research_share
-            / (parameters.eta * capability_growth),
+            / (
+                parameters.eta
+                * research_feedback_weight
+                * capability_growth
+            ),
         }
     raise ValueError(
         "No finite-rate terminal steady state exists for sigma_xl > 1 with "
@@ -947,18 +967,22 @@ def draw_equilibrium_figures(
     display_rows = {
         key: [row for row in rows if float(row["time"]) <= 600.0]
         for key, rows in scenario_rows.items()
+        if key in {"equilibrium_sigma_0_75", "equilibrium_sigma_1_00"}
     }
     labels = {
         "equilibrium_sigma_0_75": "sigma_XL = 0.75",
         "equilibrium_sigma_1_00": "sigma_XL = 1.00",
+        "equilibrium_sigma_1_00_hm_1_00": "sigma_HM = 1",
     }
     palette = {
         "equilibrium_sigma_0_75": mechanism.COLORS["blue"],
         "equilibrium_sigma_1_00": mechanism.COLORS["orange"],
+        "equilibrium_sigma_1_00_hm_1_00": mechanism.COLORS["olive"],
     }
     markers = {
         "equilibrium_sigma_0_75": "circle",
         "equilibrium_sigma_1_00": "square",
+        "equilibrium_sigma_1_00_hm_1_00": "triangle",
     }
     log_change = lambda rows, values: values - values[0]
     per_capita_log_change = lambda rows, values: (
@@ -1096,6 +1120,32 @@ def draw_equilibrium_figures(
         markers,
     )
 
+    research_technology_rows = {
+        "equilibrium_sigma_1_00_hm_1_00": scenario_rows[
+            "equilibrium_sigma_1_00_hm_1_00"
+        ],
+        "equilibrium_sigma_1_00": scenario_rows["equilibrium_sigma_1_00"],
+    }
+    research_labels = {
+        "equilibrium_sigma_1_00_hm_1_00": "Human-essential, sigma_HM = 1",
+        "equilibrium_sigma_1_00": "Gross substitutes, sigma_HM = 2",
+    }
+    mechanism.draw_multiplot(
+        ROOT / "figures" / "equilibrium_research_technology_comparison.png",
+        "Research technology at Cobb-Douglas production",
+        "Annual rates and shares in percent; both paths solve the canonical equilibrium system",
+        [
+            {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+            {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
+            {"title": "Automated share of research", "field": "automated_research_share", "transform": percent, "format": lambda value: f"{value:.0f}%", "ylim": (0.0, 100.0)},
+            {"title": "Human researchers / population", "field": "human_research_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
+        ],
+        research_technology_rows,
+        research_labels,
+        palette,
+        markers,
+    )
+
 
 def main() -> None:
     RESULT_DIR.mkdir(exist_ok=True)
@@ -1111,11 +1161,16 @@ def main() -> None:
     summaries: list[dict[str, float | str]] = []
     all_rows: list[dict[str, float | str]] = []
     scenario_rows: dict[str, list[dict[str, float | str]]] = {}
-    for name, sigma_xl, horizon in [
-        ("equilibrium_sigma_0_75", 0.75, 600.0),
-        ("equilibrium_sigma_1_00", 1.00, 2000.0),
+    for name, sigma_xl, sigma_hm, horizon in [
+        ("equilibrium_sigma_0_75", 0.75, 2.00, 600.0),
+        ("equilibrium_sigma_1_00", 1.00, 2.00, 2000.0),
+        ("equilibrium_sigma_1_00_hm_1_00", 1.00, 1.00, 2000.0),
     ]:
-        parameters = replace(baseline, sigma_xl=sigma_xl)
+        parameters = replace(
+            baseline,
+            sigma_xl=sigma_xl,
+            sigma_hm=sigma_hm,
+        )
         solution, targets = solve_equilibrium(
             parameters,
             initial_state,
@@ -1138,6 +1193,7 @@ def main() -> None:
             {
                 "scenario": name,
                 "sigma_xl": sigma_xl,
+                "sigma_hm": sigma_hm,
                 "horizon": horizon,
                 "solver_status": solution.status,
                 "solver_message": solution.message,

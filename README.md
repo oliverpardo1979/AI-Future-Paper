@@ -23,7 +23,8 @@ Draft paper on endogenous automation of AI research, market structure, and regul
 - `scripts/build_literature_database.py`: reproducible literature updater and
   coverage validator.
 - `scripts/simulate_equilibrium.py`: perfect-foresight equilibrium solver for the
-  finite-terminal regimes $\sigma_{XL}<1$ and $\sigma_{XL}=1$.
+  finite-terminal regimes $\sigma_{XL}<1$ and $\sigma_{XL}=1$, including the
+  human-essential $\sigma_{HM}=1$ research benchmark.
 - `scripts/simulate_high_sigma_equilibrium.py`: free-boundary equilibrium solver
   for $1<\sigma_{XL}<1/\alpha$.
 - `scripts/audit_equilibrium_outputs.py`: equation-by-equation audit of every
@@ -39,7 +40,7 @@ Draft paper on endogenous automation of AI research, market structure, and regul
 - `numerical/high_sigma_equilibrium_summary.csv`: singularity estimates and
   equilibrium residuals for the gross-substitution paths.
 - `numerical/equilibrium_system_audit_summary.csv`: algebraic, dynamic, static,
-  optimality-margin, and endpoint diagnostics for all five published paths.
+  optimality-margin, and endpoint diagnostics for all six published paths.
 - `docs/`: static GitHub Pages equilibrium laboratory. Readers can load audited
   benchmarks, change parameters and initial conditions, solve a new canonical
   branch locally in the browser, inspect diagnostics, and download its path.

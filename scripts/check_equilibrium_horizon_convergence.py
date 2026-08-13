@@ -27,11 +27,31 @@ def main() -> None:
         baseline, initial_state, analytical["capability_growth"]
     )
     rows = []
-    for sigma_xl, horizons in (
-        (0.75, (400.0, 600.0, 900.0)),
-        (1.00, (1000.0, 1500.0, 2000.0)),
+    for scenario, sigma_xl, sigma_hm, horizons in (
+        (
+            "equilibrium_sigma_0_75",
+            0.75,
+            2.00,
+            (400.0, 600.0, 900.0),
+        ),
+        (
+            "equilibrium_sigma_1_00",
+            1.00,
+            2.00,
+            (1000.0, 1500.0, 2000.0),
+        ),
+        (
+            "equilibrium_sigma_1_00_hm_1_00",
+            1.00,
+            1.00,
+            (1000.0, 1500.0, 2000.0),
+        ),
     ):
-        parameters = replace(baseline, sigma_xl=sigma_xl)
+        parameters = replace(
+            baseline,
+            sigma_xl=sigma_xl,
+            sigma_hm=sigma_hm,
+        )
         for horizon in horizons:
             solution, targets = equilibrium.solve_equilibrium(
                 parameters,
@@ -49,7 +69,9 @@ def main() -> None:
             )
             rows.append(
                 {
+                    "scenario": scenario,
                     "sigma_xl": sigma_xl,
+                    "sigma_hm": sigma_hm,
                     "horizon": horizon,
                     "initial_log_consumption": float(initial[2]),
                     "initial_log_shadow_value": float(initial[3]),

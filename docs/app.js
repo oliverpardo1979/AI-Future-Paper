@@ -269,16 +269,16 @@ function renderConditions() {
   const validInputs = Object.entries(p).every(([, value]) => typeof value === "string" || Number.isFinite(value));
   let className = "";
   let title = "Restricciones mantenidas satisfechas";
-  let detail = "DCD > 0 y σHM > 1. La simulación todavía debe pasar la auditoría numérica.";
+  let detail = "DCD > 0 y σHM >= 1. La simulación todavía debe pasar la auditoría numérica.";
 
   if (!validInputs || p.omega_x <= 0 || p.omega_x >= 1 || p.alpha <= 0 || p.alpha >= 1) {
     className = "condition-fail";
     title = "Revise los parámetros";
     detail = "Hay valores vacíos o fuera del dominio económico.";
-  } else if (!maintained || p.sigma_hm <= 1 || p.discount <= p.n) {
+  } else if (!maintained || p.sigma_hm < 1 || p.discount <= p.n) {
     className = "condition-fail";
     title = "Fuera del dominio mantenido";
-    detail = "El paper mantiene DCD > 0, σHM > 1 y ρ > n. El solver rechazará esta corrida.";
+    detail = "El paper estudia σHM = 1 y σHM > 1, y mantiene DCD > 0 y ρ > n. El solver rechazará esta corrida.";
   } else if (p.sigma_xl > 1 && p.sigma_xl >= highCap) {
     className = "condition-fail";
     title = "Elasticidad demasiado alta para esta rama";
@@ -331,6 +331,7 @@ function loadSelectedBenchmark() {
     parameters: {
       ...DEFAULTS,
       sigma_xl: scenario.sigma_xl,
+      sigma_hm: scenario.sigma_hm ?? DEFAULTS.sigma_hm,
       horizon: scenario.diagnostics.duration || DEFAULTS.horizon,
       terminal_z: scenario.series.at(-1)?.output_capital_ratio || DEFAULTS.terminal_z,
     },
@@ -348,7 +349,7 @@ function validateClientParameters(p) {
   if (!(p.alpha > 0 && p.alpha < 1)) messages.push("α debe estar entre cero y uno.");
   if (!(p.omega_x > 0 && p.omega_x < 1)) messages.push("ωX debe estar entre cero y uno.");
   if (!(p.omega_m > 0 && p.omega_m < 1)) messages.push("ωM debe estar entre cero y uno.");
-  if (p.sigma_hm <= 1) messages.push("Este paper mantiene σHM > 1.");
+  if (p.sigma_hm < 1) messages.push("Se requiere σHM >= 1.");
   if (p.discount <= p.n) messages.push("Se requiere ρ > n.");
   const dCd = 1 - p.phi - p.eta * p.omega_m * p.omega_x / (1 - p.omega_x);
   if (dCd <= 0) messages.push("Se requiere DCD > 0.");

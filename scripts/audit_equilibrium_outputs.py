@@ -21,7 +21,6 @@ NUMERICAL = ROOT / "numerical"
 ALPHA = 0.33
 OMEGA_X = 0.20
 OMEGA_M = 0.35
-SIGMA_HM = 2.00
 POPULATION_GROWTH = 0.012
 DEPRECIATION = 0.05
 DISCOUNT = 0.04
@@ -31,9 +30,14 @@ ETA = 0.45
 SIGMA_BY_SCENARIO = {
     "equilibrium_sigma_0_75": 0.75,
     "equilibrium_sigma_1_00": 1.00,
+    "equilibrium_sigma_1_00_hm_1_00": 1.00,
     "equilibrium_sigma_1_35": 1.35,
     "equilibrium_sigma_1_50": 1.50,
     "equilibrium_sigma_2_00": 2.00,
+}
+
+SIGMA_HM_BY_SCENARIO = {
+    "equilibrium_sigma_1_00_hm_1_00": 1.00,
 }
 
 HIGH_SIGMA_TERMINAL_Z = {1.35: 50.0, 1.50: 50.0, 2.00: 100.0}
@@ -124,6 +128,7 @@ def audit_scenario(
     rows: list[dict[str, str]],
 ) -> tuple[dict[str, float | str], list[dict[str, float | str]]]:
     sigma_xl = SIGMA_BY_SCENARIO[scenario]
+    sigma_hm = SIGMA_HM_BY_SCENARIO.get(scenario, 2.00)
     production_errors = []
     research_errors = []
     service_errors = []
@@ -179,7 +184,7 @@ def audit_scenario(
             log_human_research,
             log_automated_research,
             1.0 - OMEGA_M,
-            SIGMA_HM,
+            sigma_hm,
         )
         research_errors.append(
             log_effective_research - log_research_composite
@@ -359,12 +364,18 @@ def audit_scenario(
     elif abs(sigma_xl - 1.0) <= 1e-12:
         beta = (1.0 - ALPHA) * OMEGA_X
         output_feedback = beta / (1.0 - ALPHA - beta)
+        research_feedback_weight = OMEGA_M if sigma_hm == 1.0 else 1.0
         capability_growth = ETA * POPULATION_GROWTH / (
-            1.0 - PHI - ETA * output_feedback
+            1.0
+            - PHI
+            - ETA * research_feedback_weight * output_feedback
         )
         per_capita_growth = output_feedback * capability_growth
         research_resource_share = (
-            beta**2 * ETA * capability_growth
+            beta**2
+            * ETA
+            * research_feedback_weight
+            * capability_growth
             / (
                 DISCOUNT
                 - POPULATION_GROWTH
@@ -378,7 +389,7 @@ def audit_scenario(
             1.0 - investment_share - beta**2 - research_resource_share
         )
         target_shadow_capability_to_output = research_resource_share / (
-            ETA * capability_growth
+            ETA * research_feedback_weight * capability_growth
         )
         terminal_conditions = {
             "terminal_consumption_share": abs(
@@ -442,6 +453,7 @@ def audit_scenario(
     summary: dict[str, float | str] = {
         "scenario": scenario,
         "sigma_xl": sigma_xl,
+        "sigma_hm": sigma_hm,
         "observations": len(rows),
         "max_algebraic_identity_residual": max(algebraic.values()),
         "max_dynamic_path_residual": max(dynamic.values()),

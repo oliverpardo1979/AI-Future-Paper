@@ -82,8 +82,8 @@ def validate(parameters: Parameters) -> list[str]:
             errors.append(f"{name} must lie strictly between zero and one.")
     if parameters.sigma_xl <= 0.0:
         errors.append("sigma_xl must be positive.")
-    if parameters.sigma_hm <= 1.0:
-        errors.append("This version requires sigma_hm > 1.")
+    if parameters.sigma_hm < 1.0:
+        errors.append("This version requires sigma_hm >= 1.")
     if parameters.phi >= 1.0:
         errors.append("This version requires phi < 1.")
     if parameters.discount <= parameters.n:
@@ -126,6 +126,13 @@ def validate(parameters: Parameters) -> list[str]:
 
 def research_unit_cost(log_wage: float, p: Parameters) -> float:
     sigma = p.sigma_hm
+    if abs(sigma - 1.0) <= 1e-10:
+        omega_m = p.omega_m
+        omega_h = 1.0 - omega_m
+        return (
+            omega_h * (log_wage - math.log(omega_h))
+            + omega_m * (math.log(p.xi) - math.log(omega_m))
+        )
     log_human_term = (
         sigma * math.log1p(-p.omega_m) + (1.0 - sigma) * log_wage
     )
@@ -403,7 +410,11 @@ def finite_targets(p: Parameters) -> dict[str, float | str]:
         }
     beta = (1.0 - p.alpha) * p.omega_x
     upsilon = beta / (1.0 - p.alpha - beta)
-    denominator = 1.0 - p.phi - p.eta * upsilon
+    human_essential = abs(p.sigma_hm - 1.0) <= 1e-9
+    research_feedback_weight = p.omega_m if human_essential else 1.0
+    denominator = (
+        1.0 - p.phi - p.eta * research_feedback_weight * upsilon
+    )
     if denominator <= 0.0:
         raise ValueError("The Cobb-Douglas asymptotic denominator is not positive.")
     capability_growth = p.eta * p.n / denominator
@@ -411,6 +422,7 @@ def finite_targets(p: Parameters) -> dict[str, float | str]:
     research_share = (
         beta**2
         * p.eta
+        * research_feedback_weight
         * capability_growth
         / (p.discount - p.n + (1.0 - p.phi) * capability_growth)
     )
@@ -426,7 +438,8 @@ def finite_targets(p: Parameters) -> dict[str, float | str]:
         "shadow_growth": p.n + per_capita_growth - capability_growth,
         "consumption_share": consumption_share,
         "terminal_shadow_object": "shadow_capability_output_ratio",
-        "terminal_shadow_target": research_share / (p.eta * capability_growth),
+        "terminal_shadow_target": research_share
+        / (p.eta * research_feedback_weight * capability_growth),
     }
 
 
@@ -448,6 +461,11 @@ def initial_shadow_guess(p: Parameters, human_share: float = 0.01) -> float:
 def research_aggregate(
     log_human: float, log_machine: float, p: Parameters
 ) -> tuple[float, float]:
+    if abs(p.sigma_hm - 1.0) <= 1e-10:
+        return (
+            (1.0 - p.omega_m) * log_human + p.omega_m * log_machine,
+            p.omega_m,
+        )
     rho = (p.sigma_hm - 1.0) / p.sigma_hm
     log_human_term = math.log1p(-p.omega_m) + rho * log_human
     log_machine_term = math.log(p.omega_m) + rho * log_machine

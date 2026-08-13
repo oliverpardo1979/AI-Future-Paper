@@ -15,6 +15,7 @@ OUTPUT = ROOT / "docs" / "data" / "benchmarks.json"
 LABELS = {
     "equilibrium_sigma_0_75": "Complementarity · σXL = 0.75",
     "equilibrium_sigma_1_00": "Cobb–Douglas · σXL = 1.00",
+    "equilibrium_sigma_1_00_hm_1_00": "Human-essential research · σXL = σHM = 1.00",
     "equilibrium_sigma_1_35": "Gross substitutes · σXL = 1.35",
     "equilibrium_sigma_1_50": "Gross substitutes · σXL = 1.50",
     "equilibrium_sigma_2_00": "Gross substitutes · σXL = 2.00",
@@ -164,6 +165,7 @@ def main() -> None:
         scenarios[scenario] = {
             "label": label,
             "sigma_xl": float(row_audit["sigma_xl"]),
+            "sigma_hm": float(row_audit["sigma_hm"]),
             "diagnostics": {
                 "passed": True,
                 "solver_success": True,
