@@ -67,9 +67,16 @@ factor shares, and the allocation of labor between the two sectors.
  \label{eq:axm-two-compute-services}
 \end{equation}
 \(R\) is only shorthand for automated research services. The paid inputs are
-\(U\) and \(M\), each costing \(\xi\) units of final output. Thus one unit of
-either service costs \(\xi/A\). This separates the capability stock \(A\), two
-raw compute inputs \(U,M\), and the two service flows \(X,AM\).
+\(U\) and \(M\). Because both uses have the same constant unit cost, we choose
+units of raw compute so that one unit costs one unit of final output. This is a
+normalization, not an assumption that compute is economically free. To see this,
+start from a common cost \(\xi>0\), define
+\(\widetilde U=\xi U\), \(\widetilde M=\xi M\),
+\(\widetilde A=A/\xi\), \(\widetilde\chi=\chi/\xi\), and, for the shadow
+value used below, \(\widetilde q=\xi q\), and then drop tildes.
+Both service flows and all resource costs are unchanged. A unit of either AI
+service therefore has marginal cost \(1/A\). This separates the capability stock
+\(A\), two raw compute inputs \(U,M\), and the two service flows \(X,AM\).
 
 \subsection{AI research}
 
@@ -89,7 +96,7 @@ automation and avoids counting the capability feedback twice.
 The unit cost of effective research is
 \begin{equation}
  P_E=\left[\omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
- +\omega_M^{\sigma_{HM}}\left(\frac{\xi}{A}\right)^{1-\sigma_{HM}}
+ +\omega_M^{\sigma_{HM}}\left(\frac{1}{A}\right)^{1-\sigma_{HM}}
  \right]^{1/(1-\sigma_{HM})}.
  \label{eq:axm-research-price}
 \end{equation}
@@ -98,12 +105,12 @@ Conditional input demands are
  H=\omega_H^{\sigma_{HM}}\left(\frac{P_E}{w}\right)^{\sigma_{HM}}E,
  \quad
  AM=\omega_M^{\sigma_{HM}}
- \left(\frac{P_E}{\xi/A}\right)^{\sigma_{HM}}E.
+ \left(AP_E\right)^{\sigma_{HM}}E.
  \label{eq:axm-research-demands}
 \end{equation}
 The automated contribution share is
 \begin{equation}
- s_M=\frac{\xi M}{wH+\xi M}.
+ s_M=\frac{M}{wH+M}.
  \label{eq:axm-sm}
 \end{equation}
 By constant returns in \(E\), it is also the elasticity of \(E\) with respect
@@ -111,7 +118,7 @@ to \(AM\).
 
 \subsection{Integrated AI developer}
 
-The developer supplies \(X\), pays \(\xi X/A\) for inference compute, hires
+The developer supplies \(X\), pays \(X/A\) for inference compute, hires
 \(H\), uses \(M\), and owns \(A\). The inverse elasticity of demand for \(X\) is
 \begin{equation}
  \varepsilon_X^{-1}=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X.
@@ -119,13 +126,13 @@ The developer supplies \(X\), pays \(\xi X/A\) for inference compute, hires
 \end{equation}
 On an interior monopoly branch,
 \begin{equation}
- p_X(1-\varepsilon_X^{-1})=\frac{\xi}{A}.
+ p_X(1-\varepsilon_X^{-1})=\frac{1}{A}.
  \label{eq:axm-monopoly-foc}
 \end{equation}
 Let \(q\) be the current-value shadow price of capability. Research optimality is
 \begin{equation}
  q\frac{\partial\dot A}{\partial H}=w,\qquad
- q\frac{\partial\dot A}{\partial M}=\xi,
+ q\frac{\partial\dot A}{\partial M}=1,
  \label{eq:axm-research-focs}
 \end{equation}
 or, after minimizing the cost of \(E\),
@@ -133,11 +140,11 @@ or, after minimizing the cost of \(E\),
  q\chi\eta E^{\eta-1}=P_E.
  \label{eq:axm-research-scale-foc}
 \end{equation}
-The envelope derivative of operating profit is \(\pi_A=\xi X/A^2\). Moreover,
+The envelope derivative of operating profit is \(\pi_A=X/A^2\). Moreover,
 \(\partial\dot A/\partial A=\eta s_M\dot A/A\) because a fixed \(M\) supplies
 more research services when \(A\) rises. The costate equation is
 \begin{equation}
- \frac{\dot q}{q}=\alpha\frac{Y}{K}-\delta-\frac{\xi X}{qA^2}
+ \frac{\dot q}{q}=\alpha\frac{Y}{K}-\delta-\frac{X}{qA^2}
  -\eta s_M\frac{\dot A}{A}.
  \label{eq:axm-costate}
 \end{equation}
@@ -148,7 +155,7 @@ directly with \(M\).
 
 The resource constraint is
 \begin{equation}
- C+\dot K+\delta K+\xi(U+M)=Y.
+ C+\dot K+\delta K+U+M=Y.
  \label{eq:axm-resource}
 \end{equation}
 
@@ -164,10 +171,10 @@ The system used for computation is explicit. Given \(K,A,N,q\), equations
 \eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} determine the
 static allocation. The dynamics are
 \begin{align}
- \frac{\dot K}{K}&=\frac{Y-C-\xi(U+M)}{K}-\delta,\\
+ \frac{\dot K}{K}&=\frac{Y-C-U-M}{K}-\delta,\\
  \frac{\dot A}{A}&=\frac{\chi E^\eta}{A},\\
  \frac{\dot C}{C}&=n+\alpha\frac{Y}{K}-\delta-\rho,\\
- \frac{\dot q}{q}&=\alpha\frac{Y}{K}-\delta-\frac{\xi X}{qA^2}
+ \frac{\dot q}{q}&=\alpha\frac{Y}{K}-\delta-\frac{X}{qA^2}
  -\eta s_M\frac{\dot A}{A}.
  \label{eq:axm-canonical-system}
 \end{align}

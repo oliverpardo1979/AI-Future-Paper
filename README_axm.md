@@ -9,6 +9,10 @@ $$
 
 with no separate $A^\phi$ term.
 
+Inference and research compute share a constant unit cost. The manuscript
+measures both inputs in resource-expenditure units and normalizes that cost to
+one; capability and research productivity are correspondingly rescaled.
+
 ## Reproduce the verified figures and audit
 
 Run `python scripts/simulate_axm_equilibrium.py` and then

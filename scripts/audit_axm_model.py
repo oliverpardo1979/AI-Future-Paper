@@ -35,6 +35,30 @@ def analytical_checks() -> list[dict[str, str | float]]:
     capability = 2.0
     human_research = 0.8
     research_compute = 0.3
+    original_compute_cost = 1.7
+    original_inference_compute = 0.4
+    original_research_productivity = 0.02
+    normalized_capability = capability / original_compute_cost
+    normalized_inference_compute = (
+        original_compute_cost * original_inference_compute
+    )
+    normalized_research_productivity = (
+        original_research_productivity / original_compute_cost
+    )
+    service_before_normalization = capability * original_inference_compute
+    service_after_normalization = (
+        normalized_capability * normalized_inference_compute
+    )
+    original_effective_research = 0.6
+    normalized_capability_flow = (
+        normalized_research_productivity
+        * original_effective_research**eta
+    )
+    rescaled_original_capability_flow = (
+        original_research_productivity
+        * original_effective_research**eta
+        / original_compute_cost
+    )
 
     def log_capability_flow(log_capability: float) -> float:
         current_capability = math.exp(log_capability)
@@ -81,6 +105,18 @@ def analytical_checks() -> list[dict[str, str | float]]:
             rel_tol=1e-8,
             abs_tol=1e-8,
         ),
+        "compute_cost_normalization": math.isclose(
+            service_before_normalization,
+            service_after_normalization,
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        ),
+        "compute_cost_normalization_capability_law": math.isclose(
+            normalized_capability_flow,
+            rescaled_original_capability_flow,
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        ),
     }
     if not all(assertions.values()):
         raise AssertionError(assertions)
@@ -116,6 +152,22 @@ def analytical_checks() -> list[dict[str, str | float]]:
         {
             "object": "capability_envelope_derivative_error",
             "value": abs(numerical_elasticity - envelope_elasticity),
+            "status": "pass",
+        },
+        {
+            "object": "compute_cost_normalization_service_error",
+            "value": abs(
+                service_before_normalization
+                - service_after_normalization
+            ),
+            "status": "pass",
+        },
+        {
+            "object": "compute_cost_normalization_capability_law_error",
+            "value": abs(
+                normalized_capability_flow
+                - rescaled_original_capability_flow
+            ),
             "status": "pass",
         },
     ]

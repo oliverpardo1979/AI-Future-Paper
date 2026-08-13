@@ -96,7 +96,6 @@ def asymptotic_output_capital_coefficient(
     exponent = (1.0 - alpha) / alpha
     log_coefficient = exponent * (
         2.0 * math.log1p(-alpha)
-        - math.log(parameters.xi)
         + parameters.sigma_xl
         / (parameters.sigma_xl - 1.0)
         * math.log(parameters.omega_x)
@@ -594,7 +593,7 @@ def evaluate_free_boundary_solution(
         log_service_composite = (
             block["log_output"] - parameters.alpha * log_capital
         ) / (1.0 - parameters.alpha)
-        log_ai_marginal_cost = math.log(parameters.xi) - log_capability
+        log_ai_marginal_cost = -log_capability
         ai_markup = math.exp(log_price - log_ai_marginal_cost)
         ai_profit_share = (
             (1.0 - parameters.alpha) * block["ai_share"]
@@ -603,7 +602,6 @@ def evaluate_free_boundary_solution(
         monopoly_foc_log_error = (
             log_price
             + math.log(1.0 - inverse_elasticity)
-            - math.log(parameters.xi)
             + log_capability
         )
         log_f_m = (
@@ -712,7 +710,7 @@ def evaluate_free_boundary_solution(
             / output_capital_ratio,
             "monopoly_foc_log_error": monopoly_foc_log_error,
             "research_compute_foc_log_error": (
-                log_shadow + log_f_m - math.log(parameters.xi)
+                log_shadow + log_f_m
             ),
             "research_human_foc_log_error": (
                 log_shadow + log_f_h - block["log_wage"]

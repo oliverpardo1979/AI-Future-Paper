@@ -19,7 +19,7 @@ Labor bottleneck on a regular unbounded-\(A\) limit &
 Candidate BGP governed by \(D(\omega_M)\) &
 No finite-rate path with unbounded \(A\); the singular form is not characterized\\
 \(\sigma_{HM}>1\) &
-Same production bottleneck; \(s_M\to1\) if \(Aw/\xi\to\infty\) &
+Same production bottleneck; \(s_M\to1\) if \(Aw\to\infty\) &
 Automated candidate BGP governed by \(D(1)\) &
 No finite-rate path with unbounded \(A\); conditional singular ratios are characterized\\
 \bottomrule
@@ -33,22 +33,22 @@ two conditional demands in \eqref{eq:axm-research-demands} gives
 \begin{equation}
  \frac{AM}{H}
  =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
-  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}},
+  (Aw)^{\sigma_{HM}},
  \label{eq:axm-input-ratio}
 \end{equation}
 and therefore
 \begin{equation}
  \frac{s_M}{1-s_M}
  =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
-  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}-1}.
+  (Aw)^{\sigma_{HM}-1}.
  \label{eq:axm-automation-odds}
 \end{equation}
-The relevant relative price is \(Aw/\xi\): the wage relative to the cost of one
-unit of automated research services.
+The relevant relative price is \(Aw\): the wage relative to the normalized cost
+of one unit of automated research services.
 
 \begin{proposition}[Research automation]
 \label{prop:axm-research-automation}
-Along any interior path on which \(Aw/\xi\to\infty\), the automated contribution
+Along any interior path on which \(Aw\to\infty\), the automated contribution
 to research satisfies
 \[
  s_M\to
@@ -84,7 +84,7 @@ A constant CES share implies a finite constant \(X/L\).
 Suppose \(\sigma_{XL}<1\), \(A\to\infty\), the monopoly allocation remains on the
 regular interior branch,
 \[
- \frac{\xi}{A(K/L)^\alpha}\to0,
+ \frac{1}{A(K/L)^\alpha}\to0,
 \]
 and the economy converges to a finite-rate balanced path. Then \(X/L\) converges
 to a finite constant and final production becomes
@@ -111,13 +111,13 @@ Set \(\sigma_{XL}=1\), and define
 \end{equation}
 The monopoly condition implies
 \begin{equation}
- \frac{\xi U}{Y}=\beta^2,
+ \frac{U}{Y}=\beta^2,
  \label{eq:axm-inference-share-cd}
 \end{equation}
 and the reduced production equation is
 \begin{equation}
  Y^{1-\beta}
- =K^\alpha L^\lambda\left(\frac{\beta^2A}{\xi}\right)^\beta.
+ =K^\alpha L^\lambda(\beta^2A)^\beta.
  \label{eq:axm-reduced-cd}
 \end{equation}
 If \(L\) and \(K,Y\) grow at their balanced rates, this equation gives
@@ -132,7 +132,7 @@ separately. Let
  \bar s=
  \begin{cases}
   \omega_M,&\sigma_{HM}=1,\\
-  1,&\sigma_{HM}>1\text{ and }Aw/\xi\to\infty.
+  1,&\sigma_{HM}>1\text{ and }Aw\to\infty.
  \end{cases}
  \label{eq:axm-sbar}
 \end{equation}
@@ -150,7 +150,7 @@ positive limit, and \(L/N\) converges to a positive constant.
 \begin{enumerate}[label=(\roman*)]
 \item If \(\sigma_{HM}=1\), every balanced-growth equilibrium must have
  \(D(\omega_M)>0\).
-\item If \(\sigma_{HM}>1\), \(Aw/\xi\to\infty\), and the path converges to an
+\item If \(\sigma_{HM}>1\), \(Aw\to\infty\), and the path converges to an
  asymptotically automated balanced-growth limit, that limit must have \(D(1)>0\).
 \end{enumerate}
 
@@ -163,10 +163,10 @@ Whenever the relevant denominator is positive, the candidate growth rates are
 \end{equation}
 Let \(\gamma=\nu g_A\). Its candidate output shares are
 \begin{align}
- u&\equiv\frac{\xi U}{Y}=\beta^2,\\
+ u&\equiv\frac{U}{Y}=\beta^2,\\
  i&\equiv\frac{\dot K+\delta K}{Y}
  =\frac{\alpha(n+\gamma+\delta)}{\rho+\delta+\gamma},\\
- m&\equiv\frac{\xi M}{Y}
+ m&\equiv\frac{M}{Y}
  =\frac{\beta^2\eta\bar s\,g_A}
  {\rho-n+(1-\eta\bar s)g_A},\\
  c&\equiv\frac{C}{Y}=1-u-i-m.
@@ -207,7 +207,7 @@ Let
 When \(\sigma_{XL}>1\), AI services dominate the final CES as their relative
 quantity rises. The monopoly condition then implies
 \begin{equation}
- \frac{\xi U}{Y}\to(1-\alpha)^2,\qquad
+ \frac{U}{Y}\to(1-\alpha)^2,\qquad
  \frac{Y}{K}\sim \mathcal D A^\theta
  \label{eq:axm-high-sigma-scaling}
 \end{equation}
@@ -242,9 +242,9 @@ asymptotically regular: the growth rate of each convergent ratio, divided by
 Then
 \begin{align}
  \frac{g_A}{z}&\to h,&
- \frac{\xi U}{Y}&\to(1-\alpha)^2,\\
+ \frac{U}{Y}&\to(1-\alpha)^2,\\
  \frac{\dot K+\delta K}{Y}&\to\alpha-\theta h,&
- \frac{\xi M}{Y}&\to\frac{\eta(1-\alpha)^2}{\Delta},\\
+ \frac{M}{Y}&\to\frac{\eta(1-\alpha)^2}{\Delta},\\
  \frac{qA}{K}&\to\frac{(1-\alpha)^2}{\eta\alpha},&
  \frac{C}{Y}&\to
  1-(1-\alpha)^2-\alpha+\theta h

@@ -52,7 +52,6 @@ class Parameters:
     n: float = 0.012
     delta: float = 0.05
     discount: float = 0.04
-    xi: float = 1.00
     omega_m: float = 0.35
     sigma_hm: float = 2.00
     eta: float = 0.45
@@ -89,10 +88,10 @@ def research_unit_cost(
     log_capability: float,
     parameters: Parameters,
 ) -> float:
-    """Log unit cost of E when the price of A*M is xi/A."""
+    """Log unit cost of E when the normalized price of A*M is 1/A."""
 
     sigma = parameters.sigma_hm
-    log_machine_service_price = math.log(parameters.xi) - log_capability
+    log_machine_service_price = -log_capability
     if abs(sigma - 1.0) <= 1e-10:
         omega_m = parameters.omega_m
         omega_h = 1.0 - omega_m
@@ -124,7 +123,6 @@ def monopoly_service_block(
         log_ai_services = (
             2.0 * math.log(beta)
             + log_capability
-            - math.log(parameters.xi)
             + parameters.alpha * log_capital
             + (1.0 - parameters.alpha)
             * (1.0 - parameters.omega_x)
@@ -177,7 +175,6 @@ def monopoly_service_block(
         return (
             log_price
             + math.log(markup_term)
-            - math.log(parameters.xi)
             + log_capability
         )
 
@@ -341,13 +338,12 @@ def equilibrium_static_block(
 
     sigma = parameters.sigma_hm
     # Conditional demand is for automated-research services R=A*M.  The
-    # resource constraint instead prices the raw compute M=R/A at xi.
+    # resource constraint prices normalized raw compute M=R/A at one.
     log_automated_research_services = (
         sigma * math.log(parameters.omega_m)
         + sigma
         * (
             block["log_research_price"]
-            - math.log(parameters.xi)
             + log_capability
         )
         + block["log_effective_research"]
@@ -366,22 +362,19 @@ def equilibrium_static_block(
         block["log_output"] - log_capital
     )
     automated_share = logistic(
-        math.log(parameters.xi)
-        + log_automated_research
+        log_automated_research
         - block["log_wage"]
         - block["log_human_research"]
     )
     inference_share = bounded_exp(
-        math.log(parameters.xi)
-        + log_inference_compute
+        log_inference_compute
         - block["log_output"]
     )
     research_resource_share = bounded_exp(
-        math.log(parameters.xi)
-        + log_automated_research
+        log_automated_research
         - block["log_output"]
     )
-    capability_profit_derivative = parameters.xi * bounded_exp(
+    capability_profit_derivative = bounded_exp(
         log_ai_services - 2.0 * log_capability
     )
 
@@ -424,13 +417,11 @@ def equilibrium_rates(
     output_capital_ratio = bounded_exp(block["log_output"] - log_capital)
     consumption_capital_ratio = bounded_exp(log_consumption - log_capital)
     inference_capital_ratio = bounded_exp(
-        math.log(parameters.xi)
-        + block["log_inference_compute"]
+        block["log_inference_compute"]
         - log_capital
     )
     research_capital_ratio = bounded_exp(
-        math.log(parameters.xi)
-        + block["log_automated_research"]
+        block["log_automated_research"]
         - log_capital
     )
     capital_growth = (
@@ -867,7 +858,7 @@ def evaluate_solution(
         log_service_composite = (
             block["log_output"] - parameters.alpha * log_capital
         ) / (1.0 - parameters.alpha)
-        log_ai_marginal_cost = math.log(parameters.xi) - log_capability
+        log_ai_marginal_cost = -log_capability
         ai_markup = math.exp(log_price - log_ai_marginal_cost)
         ai_profit_share = (
             (1.0 - parameters.alpha) * block["ai_share"]
@@ -876,7 +867,6 @@ def evaluate_solution(
         monopoly_foc_log_error = (
             log_price
             + math.log(1.0 - inverse_elasticity)
-            - math.log(parameters.xi)
             + log_capability
         )
         log_f_m = (
@@ -972,7 +962,7 @@ def evaluate_solution(
             "log_capital_per_capita": log_capital - log_population,
             "monopoly_foc_log_error": monopoly_foc_log_error,
             "research_compute_foc_log_error": (
-                log_shadow + log_f_m - math.log(parameters.xi)
+                log_shadow + log_f_m
             ),
             "research_human_foc_log_error": (
                 log_shadow + log_f_h - block["log_wage"]

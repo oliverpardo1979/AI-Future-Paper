@@ -6,13 +6,13 @@ The ratio of the conditional demands in \eqref{eq:axm-research-demands} is
 \[
  \frac{AM}{H}
  =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
-  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}}.
+  (Aw)^{\sigma_{HM}}.
 \]
-Because \(s_M/(1-s_M)=(\xi M)/(wH)=(\xi/Aw)(AM/H)\), substitution yields
+Because \(s_M/(1-s_M)=M/(wH)=(AM/H)/(Aw)\), substitution yields
 \[
  \frac{s_M}{1-s_M}
  =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
-  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}-1}.
+  (Aw)^{\sigma_{HM}-1}.
 \]
 Taking the stated limit proves all three cases. \(\square\)
 
@@ -22,7 +22,7 @@ Normalize the monopoly condition by \((K/L)^\alpha\) and write \(x=X/L\).
 The normalized marginal cost tends to zero by hypothesis. At an interior
 monopoly allocation,
 \[
- p_X\left[1-\frac{1-s_X}{\sigma_{XL}}-\alpha s_X\right]=\frac{\xi}{A}.
+ p_X\left[1-\frac{1-s_X}{\sigma_{XL}}-\alpha s_X\right]=\frac{1}{A}.
 \]
 On the regular branch, the zero-marginal-cost limit sets the term in square
 brackets to zero. Solving gives
@@ -47,9 +47,9 @@ With \(\sigma_{XL}=1\), the final technology is
  Y=K^\alpha L^\lambda X^\beta.
 \]
 The inverse demand elasticity is \(1-\beta\), so the monopoly first-order
-condition becomes \(\beta p_X=\xi/A\). Since \(p_XX=\beta Y\),
-\(\xi X/A=\beta^2Y\), proving \eqref{eq:axm-inference-share-cd}. Replacing
-\(X\) by \(\beta^2AY/\xi\) gives \eqref{eq:axm-reduced-cd}. Taking growth rates
+condition becomes \(\beta p_X=1/A\). Since \(p_XX=\beta Y\),
+\(X/A=\beta^2Y\), proving \eqref{eq:axm-inference-share-cd}. Replacing
+\(X\) by \(\beta^2AY\) gives \eqref{eq:axm-reduced-cd}. Taking growth rates
 and using \(g_K=g_Y\) and \(g_L=n\) yields
 \[
  g_Y=n+\nu g_A.
@@ -76,10 +76,10 @@ Solving gives \eqref{eq:axm-cd-growth-rates}; a positive solution requires
 \(D(\bar s)>0\).
 
 The Euler equation gives \(K/Y=\alpha/(\rho+\delta+\gamma)\), which implies the
-investment share in \eqref{eq:axm-cd-shares}. Let \(m=\xi M/Y\) and
+investment share in \eqref{eq:axm-cd-shares}. Let \(m=M/Y\) and
 \(u=\beta^2\). The research-compute first-order condition can be written
 \[
- q\,\eta\bar s\,\frac{\dot A}{M}=\xi,
+ q\,\eta\bar s\,\frac{\dot A}{M}=1,
  \qquad\text{so}\qquad
  \frac{qA}{Y}=\frac{m}{\eta\bar s g_A}.
 \]
@@ -109,7 +109,7 @@ CES as their relative quantity becomes large. The limiting final technology is
 proportional to \(K^\alpha X^{1-\alpha}\). The inverse demand elasticity tends
 to \(\alpha\), and the monopoly first-order condition implies
 \[
- \frac{\xi X}{A}=(1-\alpha)^2Y[1+o(1)].
+ \frac{X}{A}=(1-\alpha)^2Y[1+o(1)].
 \]
 Substituting \(X\) back into final production gives
 \[
@@ -122,7 +122,7 @@ then makes consumption growth unbounded, contradicting finite constant growth.
 
 \subsection{Derivation of the AI-dominated singular limit}
 
-Let \(z=Y/K\), \(u=\xi U/Y\), \(m=\xi M/Y\), \(i=(\dot K+\delta K)/Y\), and
+Let \(z=Y/K\), \(u=U/Y\), \(m=M/Y\), \(i=(\dot K+\delta K)/Y\), and
 suppose the limiting shares are positive and constant. Final-production and
 monopoly optimality give
 \[
