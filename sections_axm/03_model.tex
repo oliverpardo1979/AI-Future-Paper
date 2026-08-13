@@ -1,0 +1,179 @@
+\section{Model}
+
+Time is continuous. Population grows at rate \(n\), and people work either in
+final production or AI research:
+\begin{equation}
+ \dot N=nN,\qquad N=L+H.
+ \label{eq:axm-labor-market}
+\end{equation}
+Here \(L\) always denotes production labor and \(H\) human research labor.
+
+\subsection{Household and final production}
+
+The representative household maximizes
+\[
+ \int_0^\infty e^{-\rho t}N_t\log(C_t/N_t)\,\dd t
+\]
+and owns physical capital and the AI developer. Its interior Euler equation in
+aggregate variables is
+\begin{equation}
+ \frac{\dot C}{C}=n+\alpha\frac{Y}{K}-\delta-\rho.
+ \label{eq:axm-euler}
+\end{equation}
+Competitive final-good firms produce
+\begin{align}
+ Y&=K^\alpha Z^{1-\alpha},\\
+ Z&=\left[\omega_L L^{\frac{\sigma_{XL}-1}{\sigma_{XL}}}
+ +\omega_X X^{\frac{\sigma_{XL}-1}{\sigma_{XL}}}\right]^{
+ \frac{\sigma_{XL}}{\sigma_{XL}-1}},
+ \qquad \omega_L+\omega_X=1.
+ \label{eq:axm-final-production}
+\end{align}
+The Cobb--Douglas limit is \(Z=L^{\omega_L}X^{\omega_X}\). Define the CES
+contribution share of AI services as
+\begin{equation}
+ s_X=\frac{\omega_X X^{(\sigma_{XL}-1)/\sigma_{XL}}}
+ {\omega_L L^{(\sigma_{XL}-1)/\sigma_{XL}}
+ +\omega_X X^{(\sigma_{XL}-1)/\sigma_{XL}}}.
+ \label{eq:axm-sx}
+\end{equation}
+Factor prices then satisfy
+\begin{equation}
+ w=(1-\alpha)(1-s_X)\frac{Y}{L},\qquad
+ p_X=(1-\alpha)s_X\frac{Y}{X}.
+ \label{eq:axm-factor-prices}
+\end{equation}
+
+\subsection{Two uses of compute}
+
+\(A\) indexes current AI capability: what one unit of compute can accomplish.
+\(U\) is inference compute and \(M\) is research compute. Their service flows are
+\begin{equation}
+ X=AU,\qquad R=AM.
+ \label{eq:axm-two-compute-services}
+\end{equation}
+\(R\) is only shorthand for automated research services. The paid inputs are
+\(U\) and \(M\), each costing \(\xi\) units of final output. Thus one unit of
+either service costs \(\xi/A\). This separates the capability stock \(A\), two
+raw compute inputs \(U,M\), and the two service flows \(X,AM\).
+
+\subsection{AI research}
+
+Human researchers and automated research services produce effective research:
+\begin{align}
+ E&=\left[\omega_H H^{\frac{\sigma_{HM}-1}{\sigma_{HM}}}
+ +\omega_M(AM)^{\frac{\sigma_{HM}-1}{\sigma_{HM}}}\right]^{
+ \frac{\sigma_{HM}}{\sigma_{HM}-1}},
+ \qquad \omega_H+\omega_M=1,\\
+ \dot A&=\chi E^\eta,\qquad 0<\eta<1.
+ \label{eq:axm-capability-law}
+\end{align}
+The baseline contains no additional \(A^\phi\) term. Better capability affects
+research only by raising the services produced by \(M\). This isolates research
+automation and avoids counting the capability feedback twice.
+
+The unit cost of effective research is
+\begin{equation}
+ P_E=\left[\omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
+ +\omega_M^{\sigma_{HM}}\left(\frac{\xi}{A}\right)^{1-\sigma_{HM}}
+ \right]^{1/(1-\sigma_{HM})}.
+ \label{eq:axm-research-price}
+\end{equation}
+Conditional input demands are
+\begin{equation}
+ H=\omega_H^{\sigma_{HM}}\left(\frac{P_E}{w}\right)^{\sigma_{HM}}E,
+ \quad
+ AM=\omega_M^{\sigma_{HM}}
+ \left(\frac{P_E}{\xi/A}\right)^{\sigma_{HM}}E.
+ \label{eq:axm-research-demands}
+\end{equation}
+The automated contribution share is
+\begin{equation}
+ s_M=\frac{\xi M}{wH+\xi M}.
+ \label{eq:axm-sm}
+\end{equation}
+By constant returns in \(E\), it is also the elasticity of \(E\) with respect
+to \(AM\).
+
+\subsection{Integrated AI developer}
+
+The developer supplies \(X\), pays \(\xi X/A\) for inference compute, hires
+\(H\), uses \(M\), and owns \(A\). The inverse elasticity of demand for \(X\) is
+\begin{equation}
+ \varepsilon_X^{-1}=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X.
+ \label{eq:axm-inverse-elasticity}
+\end{equation}
+On an interior monopoly branch,
+\begin{equation}
+ p_X(1-\varepsilon_X^{-1})=\frac{\xi}{A}.
+ \label{eq:axm-monopoly-foc}
+\end{equation}
+Let \(q\) be the current-value shadow price of capability. Research optimality is
+\begin{equation}
+ q\frac{\partial\dot A}{\partial H}=w,\qquad
+ q\frac{\partial\dot A}{\partial M}=\xi,
+ \label{eq:axm-research-focs}
+\end{equation}
+or, after minimizing the cost of \(E\),
+\begin{equation}
+ q\chi\eta E^{\eta-1}=P_E.
+ \label{eq:axm-research-scale-foc}
+\end{equation}
+The envelope derivative of operating profit is \(\pi_A=\xi X/A^2\). Moreover,
+\(\partial\dot A/\partial A=\eta s_M\dot A/A\) because a fixed \(M\) supplies
+more research services when \(A\) rises. The costate equation is
+\begin{equation}
+ \frac{\dot q}{q}=\alpha\frac{Y}{K}-\delta-\frac{\xi X}{qA^2}
+ -\eta s_M\frac{\dot A}{A}.
+ \label{eq:axm-costate}
+\end{equation}
+The last term is the main dynamic difference from research that combines \(H\)
+directly with \(M\).
+
+\subsection{Resources and equilibrium}
+
+The resource constraint is
+\begin{equation}
+ C+\dot K+\delta K+\xi(U+M)=Y.
+ \label{eq:axm-resource}
+\end{equation}
+
+\begin{definition}[Equilibrium]
+Given \(K(0),A(0),N(0)>0\), an equilibrium consists of paths satisfying household
+optimality, competitive final-good demands, the monopoly and research first-order
+conditions, the developer's costate and transversality conditions, both
+technologies, and the labor and goods market-clearing conditions.
+\end{definition}
+
+The system used for computation is explicit. Given \(K,A,N,q\), equations
+\eqref{eq:axm-labor-market} and
+\eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} determine the
+static allocation. The dynamics are
+\begin{align}
+ \frac{\dot K}{K}&=\frac{Y-C-\xi(U+M)}{K}-\delta,\\
+ \frac{\dot A}{A}&=\frac{\chi E^\eta}{A},\\
+ \frac{\dot C}{C}&=n+\alpha\frac{Y}{K}-\delta-\rho,\\
+ \frac{\dot q}{q}&=\alpha\frac{Y}{K}-\delta-\frac{\xi X}{qA^2}
+ -\eta s_M\frac{\dot A}{A}.
+ \label{eq:axm-canonical-system}
+\end{align}
+\(K\) and \(A\) are predetermined; \(C\) and \(q\) jump to the equilibrium saddle
+path. The block is closed by initial \(K,A,N\), the labor and goods market
+identities, and the no-Ponzi and transversality conditions. In current-value
+notation, the relevant terminal restrictions include
+\begin{equation}
+ \lim_{t\to\infty}e^{-\rho t}\frac{N_tK_t}{C_t}=0,\qquad
+ \lim_{t\to\infty}
+ \exp\left\{-\int_0^t\left(\alpha\frac{Y_s}{K_s}-\delta\right)\dd s\right\}
+ q_tA_t=0.
+ \label{eq:axm-tvc}
+\end{equation}
+The numerical boundary conditions select the stable path approaching the
+analytically characterized limit and are checked against these restrictions.
+
+\begin{definition}[Balanced growth and singularity]
+A balanced-growth path has finite constant growth rates and constant limiting
+allocation shares. An accelerating path has an output growth rate that does not
+converge to a finite constant. Following \citet{aghionjonesjones2019}, a
+finite-time singularity occurs when output becomes unbounded at a finite date.
+\end{definition}

@@ -1,0 +1,30 @@
+# Parallel A-M paper
+
+This part of the project leaves `main.tex` and the original model unchanged.
+The parallel manuscript is `main_axm.tex`. Its baseline research technology is
+
+$$
+\dot A=\chi E(H,A M)^\eta,
+$$
+
+with no separate $A^\phi$ term.
+
+## Reproduce the verified figures and audit
+
+Run `python scripts/simulate_axm_equilibrium.py` and then
+`python scripts/audit_axm_model.py`.
+
+The first command solves the two reported perfect-foresight paths and writes
+their data to `numerical_axm/` and figures to `figures_axm/`. The second checks
+the analytical benchmark calculations and rejects numerical paths whose market,
+first-order, feasibility, second-order, terminal-target, or dynamic residuals
+exceed the documented tolerances.
+
+`scripts/simulate_axm_high_sigma_equilibrium.py` contains the separate
+free-boundary solver for $\sigma_{XL}>1$. The paper does not yet report its
+curves because continuation across increasingly distant terminal boundaries has
+not passed the convergence test. This is an intentional safeguard, not a missing
+figure.
+
+Compile the manuscript from the repository root with
+`tectonic --keep-logs --outdir build_axm main_axm.tex`.

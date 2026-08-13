@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{conditionalresult}{Conditional result}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\gA}{g_A}
+\newcommand{\gY}{g_Y}
+\newcommand{\gw}{g_w}
+\newcommand{\sX}{s_X}
+\newcommand{\sM}{s_M}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{The Future of Growth and Human Labor under Automated AI Research:\\
+AI Capability as Research-Augmenting Technology}
+\author{Oliver Pardo}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper develops an endogenous-growth model in which current AI capability
+turns compute into both production services and automated research services. A
+monopolist supplies AI services and invests in better AI using human researchers
+and research compute. Final output combines capital with a CES aggregate of labor
+and AI services. When labor and AI services are complements, labor remains a
+long-run bottleneck. At unit elasticity between labor and AI services, balanced
+growth requires diminishing returns to research to dominate the feedback from
+better AI to production and to AI research itself. When these inputs are
+substitutes, an interior path with unbounded AI improvement cannot have finite
+constant growth rates. Along a regular AI-dominated limit, growth accelerates
+while labor's income share
+vanishes, but real wages eventually rise when substitution is below an explicit
+threshold. Perfect-foresight simulations illustrate the transition toward the
+unit-elasticity balanced-growth limits.
+\end{abstract}
+
+\onehalfspacing
+
+\input{sections_axm/01_introduction}
+\input{sections_axm/02_literature}
+\input{sections_axm/03_model}
+\input{sections_axm/04_analytical_results}
+\input{sections_axm/05_numerical_results}
+\input{sections_axm/06_conclusion}
+
+\appendix
+\input{sections_axm/appendix}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}

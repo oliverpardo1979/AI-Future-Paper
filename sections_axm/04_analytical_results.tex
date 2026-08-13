@@ -1,0 +1,276 @@
+\section{Analytical results}
+
+The paper focuses on the six configurations in Table
+\ref{tab:axm-regime-map}. This keeps the role of each elasticity separate.
+Research complementarity, \(\sigma_{HM}<1\), is left for an extension.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Analytical map}
+\label{tab:axm-regime-map}
+\begin{tabular}{P{0.14\textwidth}P{0.235\textwidth}P{0.235\textwidth}P{0.235\textwidth}}
+\toprule
+Research & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL}>1\)\\
+\midrule
+\(\sigma_{HM}=1\) &
+Labor bottleneck on a regular unbounded-\(A\) limit &
+Candidate BGP governed by \(D(\omega_M)\) &
+No finite-rate path with unbounded \(A\); the singular form is not characterized\\
+\(\sigma_{HM}>1\) &
+Same production bottleneck; \(s_M\to1\) if \(Aw/\xi\to\infty\) &
+Automated candidate BGP governed by \(D(1)\) &
+No finite-rate path with unbounded \(A\); conditional singular ratios are characterized\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The price of research automation}
+
+The research block can be understood before solving the dynamics. Dividing the
+two conditional demands in \eqref{eq:axm-research-demands} gives
+\begin{equation}
+ \frac{AM}{H}
+ =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
+  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}},
+ \label{eq:axm-input-ratio}
+\end{equation}
+and therefore
+\begin{equation}
+ \frac{s_M}{1-s_M}
+ =\left(\frac{\omega_M}{\omega_H}\right)^{\sigma_{HM}}
+  \left(\frac{Aw}{\xi}\right)^{\sigma_{HM}-1}.
+ \label{eq:axm-automation-odds}
+\end{equation}
+The relevant relative price is \(Aw/\xi\): the wage relative to the cost of one
+unit of automated research services.
+
+\begin{proposition}[Research automation]
+\label{prop:axm-research-automation}
+Along any interior path on which \(Aw/\xi\to\infty\), the automated contribution
+to research satisfies
+\[
+ s_M\to
+ \begin{cases}
+  0,&\sigma_{HM}<1,\\
+  \omega_M,&\sigma_{HM}=1,\\
+  1,&\sigma_{HM}>1.
+ \end{cases}
+\]
+For \(\sigma_{HM}>1\), automated research services asymptotically dominate the
+research CES even though human research can remain positive at every finite date.
+\end{proposition}
+
+The proposition concerns the service \(AM\), not raw compute \(M\). This
+distinction is important. A rising \(AM/H\) can reflect more research compute,
+better capability, or both.
+
+\subsection{Complementarity in final production}
+
+When \(\sigma_{XL}<1\), the integrated monopolist does not supply an unlimited
+ratio \(X/L\) as marginal cost tends to zero. On the regular interior branch, the
+zero-marginal-cost limit of \eqref{eq:axm-monopoly-foc} sets marginal revenue to
+zero. Hence
+\begin{equation}
+ s_X\longrightarrow
+ \bar s_X=\frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}\in(0,1).
+ \label{eq:axm-complement-share}
+\end{equation}
+A constant CES share implies a finite constant \(X/L\).
+
+\begin{proposition}[Labor bottleneck]
+\label{prop:axm-complements}
+Suppose \(\sigma_{XL}<1\), \(A\to\infty\), the monopoly allocation remains on the
+regular interior branch,
+\[
+ \frac{\xi}{A(K/L)^\alpha}\to0,
+\]
+and the economy converges to a finite-rate balanced path. Then \(X/L\) converges
+to a finite constant and final production becomes
+asymptotically proportional to \(K^\alpha L^{1-\alpha}\). Consequently,
+\[
+ g_Y=g_K=g_L=n,\qquad g_{Y/N}=0,\qquad g_w=0.
+\]
+\end{proposition}
+
+This is a conditional long-run result, not an existence theorem. In particular,
+the declining marginal value of capability may lead the developer to a research
+corner before \(A\) becomes unbounded. What the proposition establishes is that
+unbounded AI capability does not by itself sustain per-capita growth when labor
+and AI services are complements.
+
+\subsection{The Cobb--Douglas final-production benchmark}
+
+Set \(\sigma_{XL}=1\), and define
+\begin{equation}
+ \beta=(1-\alpha)\omega_X,\qquad
+ \lambda=(1-\alpha)\omega_L,\qquad
+ \nu=\frac{\beta}{\lambda}=\frac{\omega_X}{\omega_L}.
+ \label{eq:axm-cd-definitions}
+\end{equation}
+The monopoly condition implies
+\begin{equation}
+ \frac{\xi U}{Y}=\beta^2,
+ \label{eq:axm-inference-share-cd}
+\end{equation}
+and the reduced production equation is
+\begin{equation}
+ Y^{1-\beta}
+ =K^\alpha L^\lambda\left(\frac{\beta^2A}{\xi}\right)^\beta.
+ \label{eq:axm-reduced-cd}
+\end{equation}
+If \(L\) and \(K,Y\) grow at their balanced rates, this equation gives
+\begin{equation}
+ g_Y=n+\nu g_A.
+ \label{eq:axm-output-growth-cd}
+\end{equation}
+
+It is useful to treat Cobb--Douglas research and asymptotically automated research
+separately. Let
+\begin{equation}
+ \bar s=
+ \begin{cases}
+  \omega_M,&\sigma_{HM}=1,\\
+  1,&\sigma_{HM}>1\text{ and }Aw/\xi\to\infty.
+ \end{cases}
+ \label{eq:axm-sbar}
+\end{equation}
+Define the feedback denominator
+\begin{equation}
+ D(\bar s)=1-\eta\bar s(1+\nu).
+ \label{eq:axm-feedback-denominator}
+\end{equation}
+
+\begin{proposition}[Balanced-growth candidates at unit elasticity]
+\label{prop:axm-cd-bgp}
+Suppose \(\sigma_{XL}=1\), research remains interior, its expenditure share has a
+positive limit, and \(L/N\) converges to a positive constant.
+
+\begin{enumerate}[label=(\roman*)]
+\item If \(\sigma_{HM}=1\), every balanced-growth equilibrium must have
+ \(D(\omega_M)>0\).
+\item If \(\sigma_{HM}>1\), \(Aw/\xi\to\infty\), and the path converges to an
+ asymptotically automated balanced-growth limit, that limit must have \(D(1)>0\).
+\end{enumerate}
+
+Whenever the relevant denominator is positive, the candidate growth rates are
+\begin{equation}
+ g_A=\frac{\eta n}{D(\bar s)},\qquad
+ g_Y=g_K=g_C=n+\nu g_A,\qquad
+ g_w=\nu g_A.
+ \label{eq:axm-cd-growth-rates}
+\end{equation}
+Let \(\gamma=\nu g_A\). Its candidate output shares are
+\begin{align}
+ u&\equiv\frac{\xi U}{Y}=\beta^2,\\
+ i&\equiv\frac{\dot K+\delta K}{Y}
+ =\frac{\alpha(n+\gamma+\delta)}{\rho+\delta+\gamma},\\
+ m&\equiv\frac{\xi M}{Y}
+ =\frac{\beta^2\eta\bar s\,g_A}
+ {\rho-n+(1-\eta\bar s)g_A},\\
+ c&\equiv\frac{C}{Y}=1-u-i-m.
+ \label{eq:axm-cd-shares}
+\end{align}
+A feasible interior candidate additionally requires
+\[
+ \rho>n,\qquad
+ \rho-n+(1-\eta\bar s)g_A>0,\qquad c>0,
+\]
+the monopoly second-order condition, a feasible labor allocation, and the
+transversality conditions.
+\end{proposition}
+
+The proposition states necessary growth restrictions and lists the remaining
+conditions needed for existence; it does not infer existence from \(D>0\) alone.
+The intuition for \(D\) is direct. A one-percent increase in \(A\) raises
+production and hence research compute through \(\nu\). It also raises the services
+produced by every unit of research compute directly. The term \(1+\nu\) combines
+these two channels. Only the automated contribution \(\bar s\) transmits them
+through the research CES, and \(\eta\) scales their effect on capability
+improvement.
+
+Because \(D(1)<D(\omega_M)\), gross substitution in research tightens the
+balanced-growth restriction. With the benchmark values used below,
+\(D(\omega_M)=0.8031\) and \(D(1)=0.4375\); both are positive. Removing an
+additional \(A^\phi\) term is decisive for this conclusion: the baseline does not
+add a separate knowledge-spillover channel to the feedback already carried by
+\(AM\).
+
+\subsection{Gross substitution in final production}
+
+Let
+\begin{equation}
+ \theta=\frac{1-\alpha}{\alpha}.
+ \label{eq:axm-theta}
+\end{equation}
+When \(\sigma_{XL}>1\), AI services dominate the final CES as their relative
+quantity rises. The monopoly condition then implies
+\begin{equation}
+ \frac{\xi U}{Y}\to(1-\alpha)^2,\qquad
+ \frac{Y}{K}\sim \mathcal D A^\theta
+ \label{eq:axm-high-sigma-scaling}
+\end{equation}
+for a positive constant \(\mathcal D\).
+
+\begin{proposition}[No finite-rate steady state with gross substitution]
+\label{prop:axm-no-bgp}
+Suppose \(\sigma_{XL}>1\), \(A\to\infty\), and the equilibrium remains on an
+interior monopoly branch on which \(s_X\to1\). Then there is no steady state with
+finite constant growth rates. In particular, \(Y/K\to\infty\), so the gross return
+to capital and household consumption growth become unbounded.
+\end{proposition}
+
+The proposition is a nonexistence result. It does not, by itself, prove that every
+initial condition reaches a singularity: research can shut down, a constraint can
+bind, or a different monopoly branch can intervene. The next result characterizes
+the accelerating branch when it exists.
+
+\begin{conditionalresult}[AI-dominated singular limit]
+\label{prop:axm-singular-limit}
+Assume \(\sigma_{XL}>1\), \(\sigma_{HM}>1\), \(0<\eta<1\), and an
+interior equilibrium approaches a finite date at which \(A\to\infty\),
+\(s_X\to1\), and \(s_M\to1\). Suppose its consumption, investment, and
+research-compute shares, \(g_A/(Y/K)\), and \(qA/K\) converge to positive finite
+limits, and \(L/N\) converges to a positive limit. Assume these convergences are
+asymptotically regular: the growth rate of each convergent ratio, divided by
+\(Y/K\), tends to zero. Write \(z=Y/K\) and
+\[
+ \Delta=1+\theta-\eta,\qquad
+ h=\frac{\eta\alpha}{\Delta}.
+\]
+Then
+\begin{align}
+ \frac{g_A}{z}&\to h,&
+ \frac{\xi U}{Y}&\to(1-\alpha)^2,\\
+ \frac{\dot K+\delta K}{Y}&\to\alpha-\theta h,&
+ \frac{\xi M}{Y}&\to\frac{\eta(1-\alpha)^2}{\Delta},\\
+ \frac{qA}{K}&\to\frac{(1-\alpha)^2}{\eta\alpha},&
+ \frac{C}{Y}&\to
+ 1-(1-\alpha)^2-\alpha+\theta h
+ -\frac{\eta(1-\alpha)^2}{\Delta}.
+ \label{eq:axm-singular-ratios}
+\end{align}
+Moreover,
+\begin{equation}
+ \dot z\sim\theta h z^2.
+ \label{eq:axm-z-law}
+\end{equation}
+Thus the limiting differential equation reaches \(z=\infty\) in finite time.
+Labor's production share tends to zero, while
+\begin{equation}
+ \frac{g_w}{z}\to
+ \frac{\alpha-(\sigma_{XL}-1)h}{\sigma_{XL}}>0
+ \label{eq:axm-wage-limit}
+\end{equation}
+which is positive if and only if
+\(\sigma_{XL}<1/(\alpha\eta)\).
+\end{conditionalresult}
+
+The result characterizes a postulated asymptotic equilibrium branch; it does not
+establish that the branch is reached from arbitrary initial conditions. Within
+that branch, the model delivers a sharp separation when
+\(1<\sigma_{XL}<1/(\alpha\eta)\): labor's share vanishes, but the wage eventually
+rises. Above the threshold, the same conditional scaling implies an eventually
+falling wage. This final case should not be interpreted without separately
+checking monopoly optimality and convergence to the postulated branch.
