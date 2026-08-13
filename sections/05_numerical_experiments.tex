@@ -699,6 +699,93 @@ hold to machine precision. These checks establish that the reported curves solve
 the numerical equilibrium system on their finite domains. They do not prove global
 existence or uniqueness of the limiting singular path.
 
+\subsubsection{Conditional wage-decline search above the static threshold}
+
+The three preceding paths lie below $1/\alpha$, the threshold at which an expansion
+of AI services lowers the wage when capital and production labor are held fixed. To
+investigate whether the general-equilibrium wage can fall, we extend the numerical
+search to $\sigma_{XL}>1/\alpha$ and allow population growth to rise above the
+baseline value. Every reported path solves the household Euler equation, the
+developer's first-order and costate conditions, the labor market, and the resource
+constraint. However, conditional
+result~\ref{cond:high-sigma-singular-scaling} establishes the AI-dominated terminal
+ratios only for $1<\sigma_{XL}<1/\alpha$. Using those ratios above $1/\alpha$ is an
+extrapolative boundary condition. The resulting objects are therefore conditional
+equilibrium-branch searches on finite domains, not proofs of global existence or
+selection of the terminal branch.
+
+Table~\ref{tab:wage-decline-equilibrium-search} separates three wage outcomes. A
+negative minimum value of $g_w$ establishes that the wage falls during part of the
+transition. The peak-to-trough decline measures the cumulative fall from the wage's
+previous maximum. The final column compares the trough with the wage at date zero.
+These measures distinguish a temporary decline from a collapse of the wage level.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Conditional equilibrium-branch search for wage declines}
+    \label{tab:wage-decline-equilibrium-search}
+    \begin{tabular}{cccccc}
+        \toprule
+        $\sigma_{XL}$ & $n$ & $z_T$ & $\min_t g_w$
+        & peak--trough decline & trough relative to $w_0$ \\
+        \midrule
+        4.00 & 1.2\% & 3  &  0.026\% & 0.00\% & 0.00\% \\
+        5.00 & 3.0\% & 3  & $-0.216\%$ & 2.22\% & 28.04\% \\
+        6.20 & 3.0\% & 10 & $-0.626\%$ & 7.68\% & 21.24\% \\
+        6.28 & 3.9\% & 50 & $-0.800\%$ & 9.39\% & 16.72\% \\
+        \bottomrule
+    \end{tabular}
+    \begin{minipage}{0.96\textwidth}
+    \footnotesize\emph{Notes:} Except for $\sigma_{XL}$ and $n$, the paths use the
+    common parameters and initial stocks in
+    Table~\ref{tab:equilibrium-numerical-parameters}. The peak--trough decline is
+    reported as a positive percentage. A positive value in the last column means
+    that the trough remains above the date-zero wage. Population growth remains
+    below the household discount rate, $\rho=4$ percent.
+    \end{minipage}
+\end{table}
+
+The selected branches produce temporary wage declines but no wage collapse. The wage never falls
+when $\sigma_{XL}=4$ and $n=1.2$ percent. When $\sigma_{XL}=5$ and $n=3$ percent,
+wage growth becomes negative and the wage falls 2.22 percent from its previous peak.
+The decline reaches 7.68 percent when $\sigma_{XL}=6.2$ and 9.39 percent when
+$\sigma_{XL}=6.28$ and $n=3.9$ percent. Even in the last configuration, the trough
+remains 16.72 percent above the initial wage. All three paths with negative wage
+growth subsequently recover.
+
+Figure~\ref{fig:equilibrium-wage-decline-search} shows why the wage and labor's
+share need not move together. During the declining phase, rapid AI-service growth
+and a production elasticity above $1/\alpha$ make the second term in
+equation~\eqref{eq:dynamic-wage-decomposition} negative. Later, capital deepening
+raises the first term. At the same time, the expansion of AI research moves workers
+out of final production. Production labor becomes scarce even though automated
+systems account for a growing contribution to effective research. The wage then
+recovers while the aggregate labor share continues to fall.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/equilibrium_wage_decline_search.png}
+    \caption{Conditional equilibrium-branch search for wage declines. The wage
+    index equals 100 at date zero. Growth rates and shares are percentages. The
+    displayed transition ends when $Y/K$ reaches one so that the temporary wage
+    decline remains visible. The aggregate labor share includes human researchers.}
+    \label{fig:equilibrium-wage-decline-search}
+\end{figure}
+
+The recovery is not an analytical theorem. In the most elastic paths, the human
+research share of population approaches one over the computed transition, so
+production labor approaches an allocation boundary. This near-corner reallocation
+is the immediate source of labor scarcity and is also a reason not to extrapolate
+the recovery to every equilibrium. Moving the terminal value of $Y/K$ from 3 to 10
+when $\sigma_{XL}=6.2$ changes the largest pre-year-60 difference in log wages by
+0.0015. Moving it from 10 to 50 when $\sigma_{XL}=6.28$ changes the largest
+pre-year-55 difference by 0.0010. The peak-to-trough decline in the last case moves
+from 9.43 to 9.39 percent. The maximum equation residual across the four paths is
+below $1.5\times10^{-5}$, and the resource constraint holds to machine precision.
+These checks make the temporary decline robust within the selected conditional
+branch. They do not establish that every admissible branch eventually recovers or
+rule out another equilibrium with a persistent wage decline.
+
 \subsection{Cross-case synthesis and limits of the evidence}
 
 The audit changes the evidentiary status of several claims, even where it does not
@@ -712,7 +799,9 @@ change their mathematical content.
     relative-cost path rather than determining that path. The simulations also
     illustrate that a rising wage
     can coexist with a falling labor share and that declining human research
-    intensity need not imply declining human research employment.
+    intensity need not imply declining human research employment. The conditional
+    searches above $1/\alpha$ add a distinct possibility: the wage can fall for a
+    sustained interval and later recover while the labor share continues to decline.
     \item The Case I path with $\sigma_{XL}<1$ is consistent with the necessary limiting rates
     in conditional result~\ref{cond:nonunit-ces-steady-states}; the separate horizon test
     shows that its initial jump variables are stable. This is numerical support for
@@ -761,6 +850,6 @@ for isolating mechanisms, but they cannot establish equilibrium claims. The new
 paths change several quantitative conclusions. Most importantly, the optimizing
 developer does not maintain a fixed research-spending share under complementarity,
 and the household adjusts saving so that the return to capital and consumption
-growth satisfy the Euler equation at every date. Any future numerical extension,
-including a wage-decline case with $\sigma_{XL}>1/\alpha$, must meet the same
-standard before it is included in the paper.
+growth satisfy the Euler equation at every date. The wage-decline searches meet
+those finite-domain equilibrium conditions, but their extrapolative terminal
+condition leaves global branch selection unresolved.
