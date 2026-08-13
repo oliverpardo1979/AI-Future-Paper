@@ -404,9 +404,11 @@ disappears. That outcome depends on the equilibrium path of the wage relative to
 $\xi$. The exponent $\phi$ captures how the existing stock of knowledge affects the
 productivity of both research inputs.
 
-\begin{assumption}[Stable human-essential research benchmark]
+\begin{assumption}[Stable baseline human-essential research benchmark]
 \label{ass:stable-human-essential-benchmark}
-Throughout the paper, the parameters satisfy
+Throughout the baseline analysis and the numerical experiments, except where
+conditional result~\ref{cond:singularity-conditions} explicitly studies the boundary
+and violation of the restriction, the parameters satisfy
 \begin{equation}
     1-\phi
     -\eta\omega_M\frac{\omega_X}{\omega_L}
@@ -685,6 +687,52 @@ results are collected in the appendix. The
 equilibrium simulations in Section~\ref{sec:numerical} subsequently show how the
 relevant mechanisms interact during the transition; they are not used to prove the
 analytical claims.
+
+The analytical map has two technological dimensions. Research is either
+human-essential ($\sigma_{HM}=1$) or permits human and automated inputs to become
+gross substitutes ($\sigma_{HM}>1$). Final production makes labor and AI services
+gross complements, Cobb--Douglas inputs, or gross substitutes according as
+$\sigma_{XL}<1$, $\sigma_{XL}=1$, or $\sigma_{XL}>1$.
+Table~\ref{tab:analytical-regime-map} organizes the resulting six cases. These are
+technology classes, not six unique equilibrium outcomes. The sign of the recursive
+feedback denominator is a separate dimension: it determines whether diminishing
+returns stabilize capability growth within a given technology class.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Analytical regime map}
+\label{tab:analytical-regime-map}
+\begin{tabular}{@{}P{0.13\textwidth}P{0.25\textwidth}P{0.25\textwidth}P{0.25\textwidth}@{}}
+\toprule
+Research nest
+& $\sigma_{XL}<1$
+& $\sigma_{XL}=1$
+& $\sigma_{XL}>1$ \\
+\midrule
+$\sigma_{HM}=1$
+& Labor bottleneck with human-essential research.
+& Fully Cobb--Douglas benchmark; $D_{\mathrm{CD}}$ governs reduced recursive feedback.
+& Unbounded-capability production mechanism with human-essential research. \\
+\addlinespace
+$\sigma_{HM}>1$
+& Labor bottleneck with an endogenous transition toward automated research.
+& Constant production shares with a changing research-feedback denominator.
+& Unbounded-capability production mechanism combined with potentially AI-dominated research. \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.4em}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+\textit{Notes:} The entries identify the mechanism to be studied in each technology
+class; they do not assume that an endogenous input ratio reaches its asymptotic
+limit. When both nests are Cobb--Douglas, $D_{\mathrm{CD}}$ is constant. With CES
+research, the feedback denominator changes with the automated-research contribution.
+When $\sigma_{XL}\neq1$, the production share also changes, so $D_{\mathrm{CD}}$ is
+a benchmark rather than a global classifier.
+\end{minipage}
+\end{table}
 
 \subsubsection{A capital-deepening benchmark}
 \label{sec:capital-deepening-benchmark}
@@ -1577,7 +1625,8 @@ increase in capability raises per-capita output by $\omega_X/\omega_L$ percent;
 the resulting expansion of automated research affects effective research with
 weight $\omega_M$ and affects capability growth with elasticity $\eta$. The maintained
 restriction selects the parameter region in which diminishing returns dominate this
-loop. A zero or negative fully Cobb--Douglas denominator is excluded throughout.
+loop in the baseline. Conditional result~\ref{cond:singularity-conditions}
+deliberately relaxes the restriction to show what occurs at and beyond its boundary.
 
 The condition in \eqref{eq:fully-cd-stability-condition} is not sufficient for an
 interior allocation. The Euler equation, capital accumulation, and the developer's
@@ -1679,10 +1728,11 @@ so \eqref{eq:ces-transition-growth-dynamics} becomes
 \end{equation}
 Assumption~\ref{ass:stable-human-essential-benchmark} implies that
 \eqref{eq:full-cd-growth-dynamics} has the stable positive fixed point
-$\eta n/D_{\mathrm{CD}}$. A zero or negative $D_{\mathrm{CD}}$ is therefore excluded.
-The acceleration and singularity cases below concern the endogenous denominator
-$D(s^M_t)$ as research becomes automated; that denominator can become nonpositive
-even though $D_{\mathrm{CD}}>0$.
+$\eta n/D_{\mathrm{CD}}$ in the baseline. The following result temporarily relaxes
+the assumption. It first shows that the fully Cobb--Douglas economy can accelerate
+when $D_{\mathrm{CD}}\leq0$, even though $\sigma_{XL}=1$. It then returns to the
+baseline CES research technology, whose denominator can become nonpositive as
+research is automated even when $D_{\mathrm{CD}}>0$.
 
 \begin{definition}[Finite-time singularity]
 Following \citet{aghionjonesjones2019}, we reserve the term singularity for an
@@ -1692,27 +1742,32 @@ $t\uparrow T^*$. Accelerating growth that remains finite at every finite date is
 a singularity.
 \end{definition}
 
-\begin{conditionalresult}[Growth classification in the reduced allocation system]
+\begin{conditionalresult}[Recursive-feedback regimes at unit production elasticity]
 \label{cond:singularity-conditions}
-Suppose $g_{A,0}>0$, $n>0$, and the reduced proportional-allocation closure in
-\eqref{eq:ces-transition-growth-dynamics} holds.
+Suppose $g_{A,0}>0$, $n>0$, $\sigma_{XL}=1$, and the reduced
+proportional-allocation closure in \eqref{eq:ces-transition-growth-dynamics} holds.
+When $\sigma_{HM}=1$, the automated-research contribution is the constant
+$\omega_M$ and $D(s^M_t)=D_{\mathrm{CD}}$. Then:
 \begin{enumerate}[label=(\roman*)]
-    \item If $D(s^M_t)\geq0$ for every $t$, no finite-time singularity occurs. For
-    a constant $D>0$, $g_A$ converges to the stable rate $\eta n/D$.
-    \item If $D=0$ is constant, $g_A$ grows exponentially and $A$ grows double
+    \item If $D_{\mathrm{CD}}>0$, $g_A$ converges to the stable rate
+    $\eta n/D_{\mathrm{CD}}$.
+    \item If $D_{\mathrm{CD}}=0$, $g_A$ grows exponentially and $A$ grows double
     exponentially, but both remain finite at every finite date.
-    \item If $D<0$ is constant, the economy reaches a finite-time singularity at
+    \item If $D_{\mathrm{CD}}<0$, the reduced economy reaches a finite-time
+    singularity at
     \begin{equation}
         T^*
         =
         \frac{1}{\eta n}
         \log\left[
-            1+\frac{\eta n}{(-D)g_{A,0}}
+            1+\frac{\eta n}{(-D_{\mathrm{CD}})g_{A,0}}
         \right].
         \label{eq:constant-feedback-singularity-time}
     \end{equation}
-    \item With the endogenous CES share, a singularity occurs if and only if the
-    bracket in
+    \pagebreak
+    \item If instead $\sigma_{HM}>1$, the contribution $s^M_t$ is endogenous. No
+    finite-time singularity occurs if $D(s^M_t)\geq0$ for every $t$. A singularity
+    occurs if and only if the bracket in
     \begin{equation}
         \frac{1}{g_{A,t}}
         =
@@ -1726,6 +1781,13 @@ Suppose $g_{A,0}>0$, $n>0$, and the reduced proportional-allocation closure in
     reaches zero at a finite date.
 \end{enumerate}
 \end{conditionalresult}
+
+Parts (ii) and (iii) establish that explosive growth does not require
+$\sigma_{XL}>1$. At unit substitution elasticities, sufficiently strong recursive
+feedback is enough. Part (ii) produces an unbounded growth rate only as
+$t\to\infty$; part (iii) produces a finite-time singularity. The relevant threshold
+is zero, not one: every $D_{\mathrm{CD}}>0$ stabilizes the reduced system, although
+a small positive value implies a high limiting growth rate.
 
 The reduced-system calculation separates three objects that are sometimes conflated. A positive
 constant-growth path requires $D>0$. The knife-edge $D=0$ eliminates balanced

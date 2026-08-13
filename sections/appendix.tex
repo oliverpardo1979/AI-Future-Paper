@@ -133,11 +133,12 @@ Let $z_t\equiv1/g_{A,t}$. Equation
     \dot z_t=-\eta n z_t+D(s^M_t).
 \]
 Multiplying by $e^{\eta nt}$ and integrating gives
-\eqref{eq:time-varying-singularity-condition}. If $D(s^M_t)\geq0$, the bracket
-in that equation remains positive. If $D>0$ is constant, the logistic equation for
-$g_A$ has the stable positive fixed point $\eta n/D$.
+\eqref{eq:time-varying-singularity-condition}. When
+$\sigma_{HM}=1$, $s^M_t=\omega_M$ and the constant denominator is
+$D_{\mathrm{CD}}$. If $D_{\mathrm{CD}}>0$, the logistic equation for $g_A$ has
+the stable positive fixed point $\eta n/D_{\mathrm{CD}}$.
 
-If $D=0$, direct integration gives
+If $D_{\mathrm{CD}}=0$, direct integration gives
 \[
     g_{A,t}=g_{A,0}e^{\eta nt},
     \qquad
@@ -148,20 +149,21 @@ If $D=0$, direct integration gives
         \left(e^{\eta nt}-1\right)
     \right].
 \]
-Both expressions are finite for every finite $t$. If $D<0$ is constant, the
+Both expressions are finite for every finite $t$. If $D_{\mathrm{CD}}<0$, the
 solution for the growth rate is
 \[
     g_{A,t}
     =
     \frac{g_{A,0}e^{\eta nt}}
-    {1-\frac{(-D)g_{A,0}}{\eta n}
+    {1-\frac{(-D_{\mathrm{CD}})g_{A,0}}{\eta n}
         \left(e^{\eta nt}-1\right)}.
 \]
 The denominator reaches zero at the date in
 \eqref{eq:constant-feedback-singularity-time}. Near that date, $g_A$ is
-proportional to $(T^*-t)^{-1}$, so both $g_A$ and $A$ diverge. For a time-varying
-$D(s^M_t)$, the same divergence occurs exactly when the bracket in
-\eqref{eq:time-varying-singularity-condition} reaches zero.
+proportional to $(T^*-t)^{-1}$, so both $g_A$ and $A$ diverge. When
+$\sigma_{HM}>1$, $D(s^M_t)$ is time varying. If it remains nonnegative, the bracket
+in \eqref{eq:time-varying-singularity-condition} remains positive. Otherwise the
+same divergence occurs exactly when that bracket reaches zero.
 \end{proof}
 
 \begin{proof}[Derivation for conditional result~\ref{cond:production-ces-regimes}]

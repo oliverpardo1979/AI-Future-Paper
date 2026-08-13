@@ -2,7 +2,7 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{booktabs}
+\usepackage{booktabs,array}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
@@ -24,6 +24,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\dd}{\,\mathrm{d}}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 \title{Automating Innovation:\\
 Artificial Intelligence, Market Structure, and the Dynamics of Research}
@@ -52,6 +53,10 @@ consumption--output ratio is positive. Above one, no interior steady state can c
 finite constant growth rates with positive constant AI-capability growth. When the
 elasticity is only slightly above one, however, the relative-price
 threshold at which this force becomes quantitatively important can be extremely large.
+Even when both elasticities equal one, a proportional-spending counterfactual
+accelerates if the feedback from output to automated research offsets diminishing
+returns; a strict excess produces a finite-time singularity. Thus gross substitution
+in final production is not necessary for explosive growth.
 An expansion of AI services can lower labor's share while raising the real wage; along an
 equilibrium transition, the wage response depends jointly on substitution and capital
 deepening. Monopoly restricts current AI deployment but makes frontier improvements
