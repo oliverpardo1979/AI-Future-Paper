@@ -54,6 +54,15 @@ $\sigma_{XL}>1$ and capability is unbounded, output eventually expands faster th
 capital and the marginal return rises without bound, so the usual stationary return
 that supports balanced growth disappears.
 
+This production-side mechanism is not the only route to acceleration. Even when
+both substitution elasticities equal one, the feedback from capability to output,
+from output to automated research, and from research back to capability can offset
+diminishing returns. Under the proportional-allocation counterfactual studied below,
+an exact balance makes the capability growth rate increase without bound, and
+stronger feedback produces a finite-time singularity. The production elasticity and
+the strength of recursive research feedback must therefore be treated as separate
+dimensions.
+
 A capital-deepening benchmark isolates what this conclusion does and does not require.
 Replace AI services with a second reproducible capital service, allocate a constant
 fraction of the capital stock to each of its two production uses, and save a constant
@@ -242,13 +251,19 @@ in which research is Cobb--Douglas in human and automated inputs. Human research
 remains essential, and only the automated-input elasticity $\omega_M$ transmits the
 feedback from output to research. Under Cobb--Douglas production, the human-essential
 constant-growth candidate has a positive finite capability-growth rate only if
-$1-\phi-\eta\omega_M\omega_X/\omega_L>0$. We maintain this restriction throughout
-the paper. Equivalently,
+$1-\phi-\eta\omega_M\omega_X/\omega_L>0$. We maintain this restriction in the
+baseline model and numerical experiments, but relax it in an analytical
+counterfactual. Equivalently,
 $\upsilon\equiv\beta/(1-\alpha-\beta)=\omega_X/\omega_L$. When automated research can instead become
 asymptotically dominant, the condition becomes
 $1-\phi-\eta\omega_X/\omega_L>0$. The second condition is stricter because $\omega_M<1$. There is
 therefore a nonempty parameter region in which the human-essential candidate has
 positive finite growth while the corresponding AI-dominated candidate does not.
+Within the reduced proportional-allocation system, the sign of the human-essential
+denominator also has an independent interpretation. A positive value produces a
+stable positive growth rate, a zero value produces double-exponential capability,
+and a negative value produces a finite-time singularity. The relevant threshold is
+zero, not one.
 This comparison is between two research technologies; it does not assume that the
 research elasticity changes during the transition in the CES model. It is also
 conditional on Cobb--Douglas production. If $\sigma_{XL}>1$ and capability is
@@ -273,8 +288,8 @@ $D>0$ gives stable balanced growth, $D=0$ gives accelerating growth that remains
 finite at every finite date, and a persistent $D<0$ produces a finite-time
 singularity. During the CES transition, the relevant denominator is
 $D(s^M_t)=1-\phi-\eta\upsilon s^M_t$. The automation share must cross the critical
-value $(1-\phi)/(\eta\upsilon)$ and remain high enough for the negative feedback
-term to accumulate. This distinction prevents the absence of a constant-growth path
+value $(1-\phi)/(\eta\upsilon)$ and remain high long enough for the integral
+condition derived below to be met. This distinction prevents the absence of a constant-growth path
 from being interpreted mechanically as an immediate explosion.
 
 Recent discussions often move too quickly from this mechanism to one of two
@@ -331,7 +346,8 @@ correct the deployment distortion while also eroding the rents that finance
 innovation. Price regulation and research policy must consequently be studied
 together. The present version isolates this market-structure mechanism.
 
-The toy model delivers four groups of results. First, research automation is a
+The six technology classes defined by $\sigma_{HM}\in\{1,>1\}$ and
+$\sigma_{XL}\in\{<1,1,>1\}$ organize four groups of results. First, research automation is a
 continuous equilibrium transition. Its speed depends on $\sigma_{HM}$ and on the
 growth of the human research wage relative to the cost of automated research;
 $\sigma_{HM}>1$ alone does not make the human contribution disappear. The same
@@ -346,7 +362,7 @@ instead become asymptotically dominant, the stability condition is strictly more
 demanding. The two candidate allocations identify a parameter region in which the
 human-essential candidate has positive finite growth but the AI-dominated candidate
 does not. Under
-the reduced proportional-allocation closure, a positive feedback denominator gives
+the reduced proportional-allocation closure, a positive value of the feedback denominator gives
 constant growth, a zero denominator gives acceleration without finite-time
 divergence, and a sufficiently persistent negative denominator gives a finite-time
 singularity. With an endogenous automation share, a temporary crossing of the local
@@ -401,6 +417,10 @@ For $\sigma_{XL}>1$, the numerical section uses the model's singular asymptotic
 ratios rather than imposing a nonexistent finite-growth terminal state. Calendar
 time to a large output--capital ratio is endogenous, and the boundary is moved
 outward until the initial jump variables and the implied singularity date converge.
+The common parameters keep both the human-essential and AI-dominated research
+feedback denominators positive. The high-$\sigma_{XL}$ experiments therefore isolate
+the production-side acceleration mechanism rather than the $D_{\mathrm{CD}}\leq0$
+counterfactual.
 For $\sigma_{XL}=1.35$, 1.50, and 2.00, the selected equilibrium branch remains close to moderate
 growth for a long interval and then accelerates toward a finite-time singularity.
 Higher substitution brings the acceleration forward. The wage rises throughout

@@ -10,41 +10,33 @@ relative to its unit resource cost.
 
 Population growth matters while human research dominates. With $\phi<1$ and a
 constant research-employment share, capability growth is semi-endogenous and equals
-$\eta n/(1-\phi)$. When automated research dominates, capability growth is tied
-instead to the growth of automated-research services. In the Cobb--Douglas production
-benchmark, the AI-dominated constant-growth candidate has a positive finite
-capability-growth rate only if
-$1-\phi-\eta\beta/(1-\alpha-\beta)>0$. If this condition fails, the candidate cannot
-have a positive finite capability-growth rate. These statements are necessary-rate
-calculations, not an existence or stability theorem for the decentralized equilibrium.
+$\eta n/(1-\phi)$. Research automation creates a separate feedback from capability
+to output, from output to automated research, and from research back to capability.
+The fully Cobb--Douglas counterfactual isolates this channel. Its reduced dynamics
+are stable when
+$D_{\mathrm{CD}}=1-\phi-\eta\omega_M\omega_X/\omega_L>0$.
+At $D_{\mathrm{CD}}=0$, capability is double exponential but remains finite at every
+finite date. At $D_{\mathrm{CD}}<0$, the reduced system reaches a finite-time
+singularity. Hence explosive growth does not require $\sigma_{XL}>1$.
 
-The absence of a positive finite constant-growth candidate does not by itself establish a
-finite-time singularity. Under the paper's reduced proportional-allocation closure,
-a positive feedback denominator produces a stable capability-growth rate. A zero
-denominator produces exponential growth in the capability growth rate, and therefore
-double-exponential capability, but no divergence at a finite date. A persistent
-negative denominator produces a finite-time singularity. During the CES transition,
-the exact condition depends on the path of
-$D(s^M_t)=1-\phi-\eta\upsilon s^M_t$, not only on its AI-dominated limit. These
-claims apply to the reduced closure; the fully optimizing equilibrium may reach a
-resource constraint or boundary allocation first.
+When $\sigma_{HM}>1$, the automated contribution to research changes endogenously.
+The relevant denominator becomes
+$D(s^M_t)=1-\phi-\eta\upsilon s^M_t$ and declines as automated research gains weight.
+Its AI-dominated limit,
+$D_{\mathrm{AI}}=1-\phi-\eta\upsilon$, must be positive for the stated finite
+constant-growth candidate. This condition is stricter than the human-essential one because the
+entire growth of automated research, rather than only the Cobb--Douglas weight
+$\omega_M$, feeds back into capability. A temporary negative value is not sufficient
+for a singularity; the negative-denominator episode must be sufficiently persistent
+to satisfy the integral condition derived in the paper.
 
-Human essentiality determines which feedback condition appears in the candidate
-calculation. If research is Cobb--Douglas in human and automated inputs, a positive
-finite candidate instead requires
-$1-\phi-\eta\omega_M\omega_X/\omega_L>0$. We impose this restriction in the
-baseline analysis, so the human-essential Cobb--Douglas candidate has a positive
-finite rate by construction. The analytical counterfactual relaxes this restriction.
-At equality, capability growth accelerates without a finite-time divergence. When
-the feedback term exceeds diminishing returns, the reduced system reaches a
-finite-time singularity even though $\sigma_{XL}=1$. Gross substitution between
-labor and AI services is therefore not necessary for explosive growth.
-This condition is weaker because only the automated-input elasticity $\omega_M$
-transmits the expansion of output back into research. There is therefore a parameter
-region in which the human-essential candidate has a positive finite rate while the
-AI-dominated candidate does not.
-The Cobb--Douglas comparison is a counterfactual technology, not a change in the
-research elasticity during the CES transition.
+These feedback results have a deliberately limited status. The baseline parameters
+keep $D_{\mathrm{CD}}$ and its AI-dominated counterpart positive. The zero- and
+negative-denominator cases are analytical counterfactuals under proportional
+allocation. They do not establish that the fully optimizing monopoly follows the
+same path: consumption, research, or another allocation can reach a boundary first.
+Likewise, a failed constant-growth condition is not by itself proof of a finite-time
+singularity.
 
 The task-based extension identifies a separate extensive margin. Even when AI has a
 lower marginal cost for a research task, a fixed integration and verification cost
@@ -71,8 +63,11 @@ constant saving produces at most an asymptotically linear $AK$ technology with a
 constant growth rate. In the baseline model, capability also lowers the unit resource
 cost of AI services and is produced with AI research. This additional loop can make
 the output--capital ratio and the return to capital increase without bound. The
-paper's acceleration result therefore comes from recursive improvement, not from
-gross substitution or capital deepening alone.
+common ingredient in the paper's acceleration mechanisms is therefore recursive
+improvement, not gross substitution or capital deepening alone. A nonpositive
+research-feedback denominator can generate acceleration at unit elasticities;
+$\sigma_{XL}>1$ provides a distinct production-side amplifier when capability is
+unbounded.
 
 Research automation also has two distinct margins within the AI-development
 industry. The ratio $H/M$ measures human intensity, while $H/N$ measures the scale
@@ -85,8 +80,8 @@ share approaches one. The asymptotic disappearance of human research as a relati
 input therefore does not imply that human research employment must fall throughout
 the transition.
 
-The conditional asymptotic calculations distinguish three roles for the production
-elasticity. When $\sigma_{XL}<1$, the low-elasticity candidate leaves labor essential
+The production elasticity supplies the second dimension of the growth classification.
+When $\sigma_{XL}<1$, the low-elasticity candidate leaves labor essential
 and makes the productive return to further reductions in the unit cost of AI services
 vanish. At $\sigma_{XL}=1$, positive wage growth would make automated research
 asymptotically dominant. When $\sigma_{XL}>1$ and the effective unit cost of AI
