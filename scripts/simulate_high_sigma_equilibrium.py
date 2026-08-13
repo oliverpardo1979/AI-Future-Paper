@@ -7,10 +7,12 @@ output--capital ratio and treats calendar time to that boundary as an endogenous
 free parameter.  Raising the terminal ratio supplies a convergence test toward
 the finite-time singularity of the limiting equilibrium.
 
-The asymptotic boundary is valid for ``1 < sigma_xl < 1 / alpha`` and
-``sigma_hm > 1``.  In that region the wage and the automated-research share rise,
-so the AI-service and automated-research limits used below are internally
-consistent.
+The paper proves that the asymptotic boundary is internally consistent for
+``1 < sigma_xl < 1 / alpha`` and ``sigma_hm > 1``.  The same limiting ratios can
+be imposed above ``1 / alpha`` to search for a conditional AI-dominated branch,
+but that exercise is an extrapolation rather than a proved terminal condition.
+Such paths must therefore be checked ex post for AI dominance, automation,
+boundary convergence, interiority, and all equilibrium residuals.
 """
 
 from __future__ import annotations
@@ -43,11 +45,8 @@ def high_sigma_targets(parameters: equilibrium.Parameters) -> dict[str, float]:
     converge to constants.
     """
 
-    if not 1.0 < parameters.sigma_xl < 1.0 / parameters.alpha:
-        raise ValueError(
-            "The current high-sigma boundary requires "
-            "1 < sigma_xl < 1 / alpha."
-        )
+    if parameters.sigma_xl <= 1.0:
+        raise ValueError("The high-sigma boundary requires sigma_xl > 1.")
     if parameters.sigma_hm <= 1.0:
         raise ValueError(
             "The current high-sigma boundary requires sigma_hm > 1."
@@ -67,7 +66,6 @@ def high_sigma_targets(parameters: equilibrium.Parameters) -> dict[str, float]:
         parameters.eta * alpha
     )
     singularity_rate = kappa * capability_growth_to_z
-
     if min(investment_share, research_share, consumption_share) <= 0.0:
         raise ValueError(
             "The singular-path resource shares are not all positive."
@@ -1080,6 +1078,24 @@ def assemble_published_results(
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sigma", type=float, default=2.0)
+    parser.add_argument(
+        "--population-growth",
+        type=float,
+        default=None,
+        help=(
+            "Population growth used in the equilibrium path. The initial "
+            "capital stock and research productivity remain at their benchmark "
+            "calibration so this option isolates the change in n."
+        ),
+    )
+    parser.add_argument(
+        "--allow-extrapolative-boundary",
+        action="store_true",
+        help=(
+            "Allow sigma_xl >= 1 / alpha. The resulting free-boundary path "
+            "is a conditional branch outside the paper's proved boundary region."
+        ),
+    )
     parser.add_argument("--terminal-z", type=float, default=10.0)
     parser.add_argument("--duration-guess", type=float, default=300.0)
     parser.add_argument("--initial-log-consumption", type=float, default=-0.60)
@@ -1135,7 +1151,24 @@ def main() -> None:
         raise SystemExit(
             "Specify --assemble-published or an explicit --method."
         )
-    parameters = replace(baseline, sigma_xl=arguments.sigma)
+    parameters = replace(
+        baseline,
+        sigma_xl=arguments.sigma,
+        n=(
+            baseline.n
+            if arguments.population_growth is None
+            else arguments.population_growth
+        ),
+    )
+    if (
+        parameters.sigma_xl >= 1.0 / parameters.alpha
+        and not arguments.allow_extrapolative_boundary
+    ):
+        raise SystemExit(
+            "sigma_xl >= 1 / alpha uses an extrapolative asymptotic boundary; "
+            "rerun with --allow-extrapolative-boundary and audit the resulting "
+            "conditional branch."
+        )
     if arguments.method == "shooting":
         solution, targets = solve_high_sigma_shooting(
             parameters,
@@ -1278,6 +1311,10 @@ def main() -> None:
     )
     summary = {
         "sigma_xl": arguments.sigma,
+        "population_growth": parameters.n,
+        "boundary_is_analytically_sufficient": (
+            parameters.sigma_xl < 1.0 / parameters.alpha
+        ),
         "terminal_output_capital_ratio": arguments.terminal_z,
         "duration": solution.duration,
         "mesh_nodes": (
