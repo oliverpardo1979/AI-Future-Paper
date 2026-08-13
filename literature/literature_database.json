@@ -1,12 +1,37 @@
 {
-  "generated_on": "2026-08-08",
-  "record_count": 33,
+  "generated_on": "2026-08-12",
+  "record_count": 41,
   "records": [
+    {
+      "citation_key": "anthropiceconomicindex2026",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:141; sections/01_introduction.tex:156",
+      "entry_type": "techreport",
+      "authors": "Anthropic",
+      "title": "Anthropic Economic Index: Economic Primitives",
+      "year": "2026",
+      "venue": "Anthropic",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "landing_page_url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "abstract": "The report introduces economic primitives for measuring AI use, including task complexity, human input, success, and interaction style. It compares multiple samples of Claude.ai conversations while warning that platform activity is not a representative sample of the economy.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "metadata_source": "Anthropic",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
+    },
     {
       "citation_key": "autorkausik2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:46; sections/03_toy_model.tex:401",
+      "citation_locations": "sections/02_literature.tex:46; sections/02_literature.tex:105; sections/03_toy_model.tex:700; sections/03_toy_model.tex:803",
       "entry_type": "misc",
       "authors": "Autor, David H. and Kausik, B. N.",
       "title": "Resolving the Automation Paradox: Falling Labor Share, Rising Wages",
@@ -25,7 +50,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "buenodemesquitaetal2026",
@@ -50,13 +75,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "iea2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:51",
+      "citation_locations": "sections/01_introduction.tex:105; sections/01_introduction.tex:124",
       "entry_type": "techreport",
       "authors": "International Energy Agency",
       "title": "Key Questions on Energy and AI",
@@ -75,13 +100,13 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "korinekmckelvey2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:68; sections/03_toy_model.tex:124",
+      "citation_locations": "sections/01_introduction.tex:74; sections/01_introduction.tex:105; sections/02_literature.tex:68; sections/03_toy_model.tex:168; sections/03_toy_model.tex:338; sections/03_toy_model.tex:358",
       "entry_type": "techreport",
       "authors": "Korinek, Anton and McKelvey, Patrick",
       "title": "Measuring the AI Economy",
@@ -100,13 +125,38 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "metrtimehorizon2026",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:137; sections/01_introduction.tex:155",
+      "entry_type": "misc",
+      "authors": "Model Evaluation and Threat Research",
+      "title": "Task-Completion Time Horizons of Frontier AI Models",
+      "year": "2026",
+      "venue": "METR",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://metr.org/time-horizons/",
+      "landing_page_url": "https://metr.org/time-horizons/",
+      "abstract": "METR estimates the length of software, machine-learning, and cybersecurity tasks that frontier AI agents can complete with 50 percent success, where task length is measured by human-expert completion time. The public release includes model-level confidence intervals and cautions that estimates above 16 hours are unreliable with the current task suite.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/time-horizons/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "Updated May 8, 2026",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "nvidia2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:58",
+      "citation_locations": "sections/01_introduction.tex:180",
       "entry_type": "techreport",
       "authors": "NVIDIA Corporation",
       "title": "Annual Report on Form 10-K for the Fiscal Year Ended January 25, 2026",
@@ -125,13 +175,13 @@
       "verification_status": "official_filing",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "stanfordaiindex2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:31; sections/01_introduction.tex:63",
+      "citation_locations": "sections/01_introduction.tex:93; sections/01_introduction.tex:185",
       "entry_type": "techreport",
       "authors": "Stanford Institute for Human-Centered Artificial Intelligence",
       "title": "The 2026 AI Index Report",
@@ -150,13 +200,13 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "yango2026",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:48; sections/03_toy_model.tex:399",
+      "citation_locations": "sections/02_literature.tex:48; sections/02_literature.tex:105; sections/03_toy_model.tex:700; sections/03_toy_model.tex:805",
       "entry_type": "misc",
       "authors": "Yango, James Wabenga",
       "title": "Automation and Aging in General Equilibrium: AI Capital, Fertility, and the Return to Capital",
@@ -175,13 +225,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "acemoglu2025",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:19; sections/02_literature.tex:75; sections/04_task_extension.tex:11",
+      "citation_locations": "sections/02_literature.tex:19; sections/02_literature.tex:75; sections/04_task_extension.tex:14",
       "entry_type": "article",
       "authors": "Acemoglu, Daron",
       "title": "The Simple Macroeconomics of AI",
@@ -200,13 +250,63 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "anthropiceconomicindex2025",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:141; sections/01_introduction.tex:155",
+      "entry_type": "techreport",
+      "authors": "Anthropic",
+      "title": "Anthropic Economic Index: Uneven Geographic and Enterprise AI Adoption",
+      "year": "2025",
+      "venue": "Anthropic",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "landing_page_url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "abstract": "The report analyzes sampled Claude.ai conversations and enterprise API usage to document differences in AI adoption across tasks, regions, and organizations. Its automation taxonomy distinguishes directive interactions from feedback loops and augmentation.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "metadata_source": "Anthropic",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "cloudflareradar2025",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:174",
+      "entry_type": "misc",
+      "authors": "Cloudflare",
+      "title": "The 2025 Cloudflare Radar Year in Review",
+      "year": "2025",
+      "venue": "Cloudflare Radar",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://blog.cloudflare.com/radar-2025-year-in-review/",
+      "landing_page_url": "https://blog.cloudflare.com/radar-2025-year-in-review/",
+      "abstract": "Cloudflare's annual review summarizes changes in internet traffic, security, outages, and automated crawling during 2025. Its traffic measures count network requests and therefore should not be interpreted as measures of employment, task displacement, or economic value added.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://blog.cloudflare.com/radar-2025-year-in-review/",
+      "metadata_source": "Cloudflare Radar",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "demireretal2025",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:70; sections/02_literature.tex:84; sections/03_toy_model.tex:126",
+      "citation_locations": "sections/02_literature.tex:70; sections/02_literature.tex:84; sections/03_toy_model.tex:170",
       "entry_type": "techreport",
       "authors": "Demirer, Mert and Fradkin, Andrey and Tadelis, Nadav and Peng, Sida",
       "title": "The Emerging Market for Intelligence: Pricing, Supply, and Demand for LLMs",
@@ -225,13 +325,38 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "iea2025",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:105; sections/01_introduction.tex:124",
+      "entry_type": "techreport",
+      "authors": "International Energy Agency",
+      "title": "Energy and AI",
+      "year": "2025",
+      "venue": "International Energy Agency",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://www.iea.org/reports/energy-and-ai",
+      "landing_page_url": "https://www.iea.org/reports/energy-and-ai",
+      "abstract": "The report studies the electricity required by data centers and artificial intelligence, the geographic concentration of demand, the scope for efficiency improvements, and the ways in which AI could also transform energy production and consumption.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.iea.org/reports/energy-and-ai",
+      "metadata_source": "International Energy Agency",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "jones2025rd",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:25; sections/04_task_extension.tex:11; sections/05_numerical_experiments.tex:297",
+      "citation_locations": "sections/02_literature.tex:25; sections/02_literature.tex:110; sections/04_task_extension.tex:14",
       "entry_type": "techreport",
       "authors": "Jones, Benjamin F.",
       "title": "Artificial Intelligence in Research and Development",
@@ -250,13 +375,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "kokotajlo2025",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:135",
+      "citation_locations": "sections/01_introduction.tex:273; sections/06_conclusion.tex:190",
       "entry_type": "misc",
       "authors": "Kokotajlo, Daniel and Alexander, Scott and Larsen, Thomas and Lifland, Eli and Dean, Romeo",
       "title": "AI 2027",
@@ -275,13 +400,38 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "Scenario forecast published April 3, 2025",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "metrclaude2025",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:165",
+      "entry_type": "misc",
+      "authors": "Model Evaluation and Threat Research",
+      "title": "Details about METR's Preliminary Evaluation of Claude 3.7",
+      "year": "2025",
+      "venue": "METR",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://metr.org/evaluations/claude-3-7-report/",
+      "landing_page_url": "https://metr.org/evaluations/claude-3-7-report/",
+      "abstract": "METR's preliminary evaluation tests Claude 3.7 on a five-task subset of RE-Bench. With a 32-hour budget per task, the agent matched the median score of human experts given eight hours, while METR emphasizes that the comparison is preliminary and not directly comparable with every earlier evaluation.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/evaluations/claude-3-7-report/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "stanfordaiindex2025",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:41",
+      "citation_locations": "sections/01_introduction.tex:114",
       "entry_type": "techreport",
       "authors": "Stanford Institute for Human-Centered Artificial Intelligence",
       "title": "The 2025 AI Index Report",
@@ -300,13 +450,13 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "aumshin2024",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:41; sections/05_numerical_experiments.tex:100",
+      "citation_locations": "sections/02_literature.tex:41",
       "entry_type": "techreport",
       "authors": "Aum, Sangmin and Shin, Yongseok",
       "title": "Is Software Eating the World?",
@@ -325,13 +475,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "gans2024",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:142; sections/02_literature.tex:82",
+      "citation_locations": "sections/01_introduction.tex:280; sections/02_literature.tex:82; sections/02_literature.tex:150",
       "entry_type": "techreport",
       "authors": "Gans, Joshua S.",
       "title": "Market Power in Artificial Intelligence",
@@ -350,7 +500,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "jones2024",
@@ -375,13 +525,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "korinekvipra2025",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:142; sections/02_literature.tex:81",
+      "citation_locations": "sections/01_introduction.tex:280; sections/02_literature.tex:81; sections/02_literature.tex:150",
       "entry_type": "techreport",
       "authors": "Korinek, Anton and Vipra, Jai",
       "title": "Concentrating Intelligence: Scaling and Market Structure in Artificial Intelligence",
@@ -400,13 +550,38 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "Published in Economic Policy, 2025",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "metrrebench2024",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/01_introduction.tex:163",
+      "entry_type": "misc",
+      "authors": "Model Evaluation and Threat Research",
+      "title": "Evaluating Frontier AI R&D Capabilities of Language Model Agents against Human Experts",
+      "year": "2024",
+      "venue": "METR",
+      "volume": "",
+      "number": "",
+      "pages": "",
+      "doi": "",
+      "document_url": "https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/",
+      "landing_page_url": "https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/",
+      "abstract": "RE-Bench compares language-model agents with human experts on machine-learning research-engineering tasks under different time budgets. In the original evaluation, humans retained a large advantage at the longest budget even though AI agents were competitive at shorter horizons.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page",
+      "topics": "",
+      "notes": "",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "sevillaroldan2024",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:28",
+      "citation_locations": "sections/01_introduction.tex:91",
       "entry_type": "misc",
       "authors": "Sevilla, Jaime and Roldán, Edu",
       "title": "Training Compute of Frontier AI Models Grows by 4--5x per Year",
@@ -425,7 +600,7 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "guerreiroetal2023",
@@ -450,13 +625,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "Revised May 2026",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "trammellkorinek2023",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:23; sections/02_literature.tex:52; sections/05_numerical_experiments.tex:297",
+      "citation_locations": "sections/02_literature.tex:23; sections/02_literature.tex:52; sections/02_literature.tex:103; sections/02_literature.tex:141",
       "entry_type": "techreport",
       "authors": "Trammell, Philip and Korinek, Anton",
       "title": "Economic Growth under Transformative AI",
@@ -475,7 +650,7 @@
       "verification_status": "official_landing_page",
       "topics": "",
       "notes": "Revised April 2026",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "jones2022semiendogenous",
@@ -500,13 +675,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "semi-endogenous growth; research automation; singularity",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "nordhaus2021",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:22",
+      "citation_locations": "sections/02_literature.tex:22; sections/02_literature.tex:102; sections/02_literature.tex:141",
       "entry_type": "article",
       "authors": "Nordhaus, William D.",
       "title": "Are We Approaching an Economic Singularity? Information Technology and the Future of Economic Growth",
@@ -525,13 +700,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "acemoglurestrepo2019",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:34; sections/03_toy_model.tex:397",
+      "citation_locations": "sections/02_literature.tex:34; sections/03_toy_model.tex:800",
       "entry_type": "article",
       "authors": "Acemoglu, Daron and Restrepo, Pascual",
       "title": "Automation and New Tasks: How Technology Displaces and Reinstates Labor",
@@ -550,13 +725,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "aghionjonesjones2019",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/02_literature.tex:17; sections/02_literature.tex:75; sections/03_toy_model.tex:1039; sections/04_task_extension.tex:11",
+      "citation_locations": "sections/02_literature.tex:17; sections/02_literature.tex:75; sections/02_literature.tex:102; sections/03_toy_model.tex:1577; sections/04_task_extension.tex:14",
       "entry_type": "incollection",
       "authors": "Aghion, Philippe and Jones, Benjamin F. and Jones, Charles I.",
       "title": "Artificial Intelligence and Economic Growth",
@@ -575,7 +750,7 @@
       "verification_status": "manual_url",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "karabarbounisneiman2014",
@@ -600,13 +775,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "jones1995",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:92; sections/02_literature.tex:10",
+      "citation_locations": "sections/01_introduction.tex:213; sections/02_literature.tex:10",
       "entry_type": "article",
       "authors": "Jones, Charles I.",
       "title": "R&D-Based Models of Economic Growth",
@@ -625,7 +800,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "kremer1993",
@@ -650,7 +825,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "population growth; technological change; long-run growth; hyperbolic dynamics",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "vinge1993",
@@ -675,13 +850,13 @@
       "verification_status": "manual_url",
       "topics": "technological singularity; superhuman intelligence; AI forecasting",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "aghionhowitt1992",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:92; sections/02_literature.tex:9",
+      "citation_locations": "sections/01_introduction.tex:213; sections/02_literature.tex:9",
       "entry_type": "article",
       "authors": "Aghion, Philippe and Howitt, Peter",
       "title": "A Model of Growth through Creative Destruction",
@@ -700,13 +875,13 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "romer1990",
       "source_group": "manuscript_bibliography",
       "cited_in_manuscript": "yes",
-      "citation_locations": "sections/01_introduction.tex:92; sections/02_literature.tex:8",
+      "citation_locations": "sections/01_introduction.tex:213; sections/02_literature.tex:8",
       "entry_type": "article",
       "authors": "Romer, Paul M.",
       "title": "Endogenous Technological Change",
@@ -725,7 +900,32 @@
       "verification_status": "doi_metadata_matched",
       "topics": "",
       "notes": "",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
+    },
+    {
+      "citation_key": "holmstrom1979",
+      "source_group": "manuscript_bibliography",
+      "cited_in_manuscript": "yes",
+      "citation_locations": "sections/06_conclusion.tex:177",
+      "entry_type": "article",
+      "authors": "Holmstr\\\"om, Bengt",
+      "title": "Moral Hazard and Observability",
+      "year": "1979",
+      "venue": "The Bell Journal of Economics",
+      "volume": "10",
+      "number": "1",
+      "pages": "74--91",
+      "doi": "10.2307/3003320",
+      "document_url": "https://www.jstor.org/stable/3003320",
+      "landing_page_url": "https://www.jstor.org/stable/3003320",
+      "abstract": "The paper develops a principal-agent model in which effort is not directly observable and shows how informative performance signals shape optimal incentive contracts. It establishes the informativeness principle and clarifies why imperfect monitoring creates a tradeoff between insurance and incentives.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.jstor.org/stable/3003320",
+      "metadata_source": "JSTOR",
+      "verification_status": "manual_url",
+      "topics": "",
+      "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis.",
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "revankar1971",
@@ -750,7 +950,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "variable elasticity of substitution; production functions; VES",
       "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis.",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "satohofmann1968",
@@ -775,7 +975,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "variable elasticity of substitution; production functions; empirical testing",
       "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis.",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "good1965",
@@ -800,7 +1000,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "intelligence explosion; recursive self-improvement; superintelligence",
       "notes": "No conventional abstract was available in the metadata consulted. This is an editorial synopsis. Some databases date the volume 1966; the chapter is conventionally cited as 1965.",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     },
     {
       "citation_key": "vonfoerster1960",
@@ -825,7 +1025,7 @@
       "verification_status": "doi_metadata_matched",
       "topics": "population; finite-time singularity; hyperbolic growth",
       "notes": "PubMed explicitly reports that no abstract is available; this is an editorial synopsis.",
-      "last_verified": "2026-08-08"
+      "last_verified": "2026-08-12"
     }
   ]
 }

@@ -64,58 +64,135 @@ would be socially desirable.
 
 \subsection{Empirical motivation}
 
-The distinction between capability, inference compute, and research compute is not
-only a modeling convenience. The physical scale of the AI industry has increased
-rapidly. The compute used to train notable models grew by a factor of approximately
-4.1 per year between 2010 and May 2024; for recent frontier models, the estimated
-factor was approximately 4.2 per year \citep{sevillaroldan2024}. A separate estimate
-reported by the Stanford AI Index indicates that global AI compute capacity grew by
-a factor of 3.3 per year between 2022 and 2025 and reached 17.1 million
-H100-equivalent units in 2025 \citep{stanfordaiindex2026}. Training compute is
-closer to the model's research input $M_t$, whereas installed compute capacity
-supplies both research and inference. Neither measure reveals what fraction of
-research tasks has been automated.
+The data do not yet measure the object at the center of the model: the share of AI
+research performed by AI systems rather than humans. They do, however, reveal three
+parts of the mechanism. The physical resources devoted to AI are expanding, the
+quality-adjusted output obtained from those resources is growing even faster, and AI
+systems can complete increasingly long tasks with less human intervention. These are
+descriptive facts, not estimates of either substitution elasticity in the model.
 
-The cost of obtaining quality-adjusted AI services has also changed. The lowest
-observed price for querying a model that reached the GPT-3.5 performance level on
-MMLU fell from \$20 per million tokens in November 2022 to \$0.07 in October 2024.
-Over a similar period, the AI Index reports annual declines of 30 percent in hardware
-costs and annual improvements of 40 percent in energy efficiency
-\citep{stanfordaiindex2025}. These changes motivate the separation between raw
-inference compute $U_t$ and quality-adjusted services $X_t=A_tU_t$. They do not,
-however, identify $A_t$ separately. A lower quality-adjusted price can reflect better
-algorithms, better hardware, greater utilization, or a lower markup.
+\citet{korinekmckelvey2026} construct annual estimates of U.S. AI production using
+compute expenditure, the stock of H100-equivalent processors, hardware performance,
+and benchmark quality. Between 2023 and 2025, nominal compute expenditure rises from
+\$36.9 billion to \$219.2 billion and raw compute capacity from 1.09 million to 10.7
+million H100 equivalents. Their quality-adjusted inference index increases by a
+factor of about 1,502 and their quality-adjusted training index by a factor of about
+78. These last two quantities are model-based estimates assembled from sparse data
+and explicit allocation assumptions; they should not be read as national-account
+aggregates. Their economic value is the distinction they draw between installing
+more compute and obtaining more services from each unit of compute. In the language
+of our model, raw capacity is an input that can be allocated to inference or
+research, quality-adjusted inference is closest to current AI services, and
+quality-adjusted training is an imperfect proxy for the production of model capital.
+
+The longer-run evidence points in the same direction. The compute used to train
+notable models grew by a factor of approximately 4.1 per year between 2010 and May
+2024; for recent frontier models, the estimated factor was approximately 4.2 per
+year \citep{sevillaroldan2024}. The Stanford AI Index estimates that global AI
+compute capacity grew by a factor of 3.3 per year between 2022 and 2025 and reached
+17.1 million H100-equivalent units in 2025 \citep{stanfordaiindex2026}. None of these
+series reveals how compute is divided between deployment and research or how much
+human research it replaces.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/empirical_ai_scale.png}
+    \caption{AI-sector scale and physical inputs. Panel A reports discrete U.S.
+    estimates for 2024 and 2025 relative to 2023; horizontal positions use the
+    natural logarithm because the quality-adjusted quantities span several orders
+    of magnitude. Panel B reports observed global data-center electricity use in
+    2024 and 2025 and the IEA central projection for 2030. Sources:
+    \citet{korinekmckelvey2026}, \citet{iea2025}, and \citet{iea2026}.}
+    \label{fig:empirical-ai-scale}
+\end{figure}
+
+The cost of obtaining quality-adjusted AI services has fallen at the same time. The
+lowest observed price for querying a model that reached the GPT-3.5 performance
+level on MMLU fell from \$20 per million tokens in November 2022 to \$0.07 in October
+2024. Over a similar period, the AI Index reports annual declines of 30 percent in
+hardware costs and annual improvements of 40 percent in energy efficiency
+\citep{stanfordaiindex2025}. This motivates our separation of raw inference compute
+from quality-adjusted AI services. It does not identify AI capability separately: a
+lower quality-adjusted price can reflect better algorithms, hardware, utilization,
+or a lower markup.
 
 Compute remains a real resource rather than a freely reproducible unit of
-intelligence. Global electricity consumption by data centers reached 485 TWh in
-2025, 17 percent more than in 2024, while electricity consumption by AI-focused data
-centers increased by 50 percent. The International Energy Agency projects total data
-center consumption of approximately 950 TWh in 2030 and a tripling of consumption by
-AI-focused facilities between 2025 and 2030 \citep{iea2026}. These observations
-motivate the common resource cost $\xi$ and the compute and electricity constraints
-reserved for the extended model. The baseline normalization of $\xi$ is therefore an
-abstraction, not a claim that the marginal cost of compute will remain constant.
+intelligence. Global electricity consumption by data centers rose from 415 TWh in
+2024 to 485 TWh in 2025, while consumption at AI-focused facilities increased by 50
+percent. The International Energy Agency projects total data-center consumption of
+approximately 950 TWh in 2030 and a tripling of consumption at AI-focused facilities
+between 2025 and 2030 \citep{iea2025,iea2026}. Figure
+\ref{fig:empirical-ai-scale} therefore combines a rapid expansion in output with a
+rapid, but much smaller, expansion in a physical input. This pattern motivates the
+model's common resource cost and the compute and electricity constraints reserved
+for the extended model. The baseline cost normalization is an abstraction, not a
+claim that the marginal cost of compute will remain constant.
 
-Commercial scale has increased at the same time. NVIDIA's data-center revenue rose
-from \$47.5 billion in fiscal year 2024 to \$115.2 billion in fiscal year 2025 and
-\$193.7 billion in fiscal year 2026 \citep{nvidia2026}. This is audited revenue from
-compute hardware and networking, not total revenue from AI services. For frontier
-model developers, the Stanford AI Index reports directional annualized-revenue
-estimates of \$25 billion for OpenAI and \$19 billion for Anthropic around the
-beginning of 2026, while emphasizing differences in source quality and accounting
-definitions \citep{stanfordaiindex2026}. The same report finds that industry produced
-more than 90 percent of notable models in 2025. These facts motivate a model in which
-private demand, compute expenditure, and operating rents finance frontier research.
-They do not establish that the industry is a monopoly or identify the markup earned
-by an integrated developer.
+A different set of measurements speaks to capability and use. METR defines a
+model's 50-percent task horizon as the length of task---measured by the time a human
+expert would require---at which an AI agent succeeds half of the time. Its public
+suite covers software engineering, machine learning, and cybersecurity tasks. The
+estimated horizon rises sharply across model releases, but it is not the amount of
+time an AI system works autonomously, and METR cautions that estimates above 16
+hours are unreliable with the current task suite \citep{metrtimehorizon2026}.
+Platform use provides another imperfect signal. In Anthropic's samples of Claude.ai
+conversations, the share classified as directive---a subset of automation---was 27
+percent in January 2025, 39 percent in August, and 32 percent in November
+\citep{anthropiceconomicindex2025,anthropiceconomicindex2026}. The non-monotonic path
+is itself useful: capability growth does not translate mechanically into realized
+delegation. These proprietary samples cover one platform and conversations rather
+than production quantities.
 
-Taken together, the evidence shows rapid growth in the resources devoted to AI, in
-the services obtained from those resources, and in the revenues generated along the
-AI value chain. It does not yet provide a time series for the automated share of AI
-research or a direct estimate of the substitution elasticity between human and
-automated research. We therefore use these facts to motivate the state variables and
-market structure. We do not use them at this stage to calibrate the transition or the
-probability of a singularity.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/empirical_automation_proxies.png}
+    \caption{Capability and realized delegation. Panel A reports METR's estimated
+    50-percent task horizon and 95-percent intervals for 26 evaluated models; the
+    vertical scale is the natural logarithm of human-expert task minutes. The shaded
+    region marks estimates above 16 hours, which METR regards as unreliable with the
+    current task suite. Panel B reports directive use as a share of sampled Claude.ai
+    conversations. Directive use is a subset of Anthropic's automation category.
+    Sources: \citet{metrtimehorizon2026}, \citet{anthropiceconomicindex2025}, and
+    \citet{anthropiceconomicindex2026}.}
+    \label{fig:empirical-automation-proxies}
+\end{figure}
+
+Evidence closest to the automation of AI research comes from controlled evaluations,
+not aggregate time series. In the original RE-Bench study, human experts given a
+32-hour budget achieved almost twice the average score of the best AI agent on a set
+of machine-learning research-engineering tasks \citep{metrrebench2024}. In a later
+evaluation on a five-task subset, Claude 3.7 with a 32-hour budget matched the median
+score of humans who had eight hours \citep{metrclaude2025}. This is evidence of a
+changing frontier, but not a comparable two-date series: the model, scaffolding,
+task subset, and time budgets differ. It therefore motivates the possibility that
+automated research can substitute for human research without measuring the model's
+human-to-machine research ratio.
+
+Some striking internet statistics are less informative for our question. Cloudflare
+reports that user-action crawler traffic rose by a factor of 21 during 2025 and that
+AI bots accounted for an average of 4.2 percent of HTML page requests
+\citep{cloudflareradar2025}. These are network requests, not tasks, workers, or value
+added. We therefore do not treat bot traffic as evidence that AI has displaced human
+labor.
+
+Commercial scale has also increased. NVIDIA's data-center revenue rose from \$47.5
+billion in fiscal year 2024 to \$115.2 billion in fiscal year 2025 and \$193.7
+billion in fiscal year 2026 \citep{nvidia2026}. This is audited revenue from compute
+hardware and networking, not total revenue from AI services. For frontier model
+developers, the Stanford AI Index reports directional annualized-revenue estimates
+of \$25 billion for OpenAI and \$19 billion for Anthropic around the beginning of
+2026, while emphasizing differences in source quality and accounting definitions
+\citep{stanfordaiindex2026}. The same report finds that industry produced more than
+90 percent of notable models in 2025. These facts motivate a model in which private
+demand, compute expenditure, and operating rents finance frontier research. They do
+not establish monopoly or identify the markup earned by an integrated developer.
+
+Taken together, the evidence motivates the model's state variables and the feedback
+from AI services to AI research. It does not identify the substitution elasticity
+between labor and AI services, the substitution elasticity between human and
+automated research, or the probability of a singularity. We therefore do not use
+these series to calibrate the transition. The numerical exercises discipline the
+model's equilibrium logic; they are scenarios rather than forecasts.
 
 \subsection{Economic mechanism and contribution}
 

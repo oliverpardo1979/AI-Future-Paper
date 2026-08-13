@@ -14,8 +14,12 @@ Draft paper on endogenous automation of AI research, market structure, and regul
 - `sections/06_conclusion.tex`: conclusions.
 - `sections/appendix.tex`: proofs.
 - `references.bib`: bibliography.
+- `empirical/`: source-specific CSV snapshots and documentation for the empirical
+  motivation figures.
 - `literature/literature_browser.html`: searchable literature database with
   abstracts or explicitly labeled editorial summaries and document links.
+- `scripts/build_empirical_figures.py`: reproducibly builds the two empirical
+  motivation figures without modifying the underlying data snapshots.
 - `scripts/build_literature_database.py`: reproducible literature updater and
   coverage validator.
 - `scripts/simulate_equilibrium.py`: perfect-foresight equilibrium solver for the

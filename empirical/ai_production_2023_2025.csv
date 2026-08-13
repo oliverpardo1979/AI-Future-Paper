@@ -1,0 +1,4 @@
+year,compute_spending_usd_billion,raw_compute_h100e_million,qa_inference_growth_percent,qa_training_growth_percent,qa_inference_index_2023,qa_training_index_2023,source
+2023,36.92,1.09,,,1.0,1.0,Korinek and McKelvey (2026) Table 1
+2024,90.46,3.41,3798,782,38.98,8.82,Korinek and McKelvey (2026) Tables 1-2
+2025,219.17,10.70,3754,788,1502.2892,78.3216,Korinek and McKelvey (2026) Tables 1-2

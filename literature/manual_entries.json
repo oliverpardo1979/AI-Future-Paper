@@ -189,6 +189,65 @@
       "abstract_source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
       "metadata_source": "U.S. SEC",
       "verification_status": "official_filing"
+    },
+    "iea2025": {
+      "abstract": "The report studies the electricity required by data centers and artificial intelligence, the geographic concentration of demand, the scope for efficiency improvements, and the ways in which AI could also transform energy production and consumption.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.iea.org/reports/energy-and-ai",
+      "metadata_source": "International Energy Agency",
+      "verification_status": "official_landing_page"
+    },
+    "metrtimehorizon2026": {
+      "abstract": "METR estimates the length of software, machine-learning, and cybersecurity tasks that frontier AI agents can complete with 50 percent success, where task length is measured by human-expert completion time. The public release includes model-level confidence intervals and cautions that estimates above 16 hours are unreliable with the current task suite.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/time-horizons/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page"
+    },
+    "metrrebench2024": {
+      "abstract": "RE-Bench compares language-model agents with human experts on machine-learning research-engineering tasks under different time budgets. In the original evaluation, humans retained a large advantage at the longest budget even though AI agents were competitive at shorter horizons.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page"
+    },
+    "metrclaude2025": {
+      "abstract": "METR's preliminary evaluation tests Claude 3.7 on a five-task subset of RE-Bench. With a 32-hour budget per task, the agent matched the median score of human experts given eight hours, while METR emphasizes that the comparison is preliminary and not directly comparable with every earlier evaluation.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://metr.org/evaluations/claude-3-7-report/",
+      "metadata_source": "METR",
+      "verification_status": "official_landing_page"
+    },
+    "anthropiceconomicindex2025": {
+      "abstract": "The report analyzes sampled Claude.ai conversations and enterprise API usage to document differences in AI adoption across tasks, regions, and organizations. Its automation taxonomy distinguishes directive interactions from feedback loops and augmentation.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.anthropic.com/research/anthropic-economic-index-september-2025-report",
+      "metadata_source": "Anthropic",
+      "verification_status": "official_landing_page"
+    },
+    "anthropiceconomicindex2026": {
+      "abstract": "The report introduces economic primitives for measuring AI use, including task complexity, human input, success, and interaction style. It compares multiple samples of Claude.ai conversations while warning that platform activity is not a representative sample of the economy.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "metadata_source": "Anthropic",
+      "verification_status": "official_landing_page"
+    },
+    "cloudflareradar2025": {
+      "abstract": "Cloudflare's annual review summarizes changes in internet traffic, security, outages, and automated crawling during 2025. Its traffic measures count network requests and therefore should not be interpreted as measures of employment, task displacement, or economic value added.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://blog.cloudflare.com/radar-2025-year-in-review/",
+      "metadata_source": "Cloudflare Radar",
+      "verification_status": "official_landing_page"
+    },
+    "holmstrom1979": {
+      "abstract": "The paper develops a principal-agent model in which effort is not directly observable and shows how informative performance signals shape optimal incentive contracts. It establishes the informativeness principle and clarifies why imperfect monitoring creates a tradeoff between insurance and incentives.",
+      "abstract_type": "editorial_summary",
+      "abstract_source_url": "https://www.jstor.org/stable/3003320",
+      "document_url": "https://www.jstor.org/stable/3003320",
+      "landing_page_url": "https://www.jstor.org/stable/3003320",
+      "metadata_source": "JSTOR",
+      "verification_status": "manual_url",
+      "notes": "No conventional abstract was available in the metadata consulted; this is an editorial synopsis."
     }
   }
 }

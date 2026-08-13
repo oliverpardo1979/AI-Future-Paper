@@ -313,5 +313,9 @@
     "document_url": "",
     "landing_page_url": "https://doi.org/10.2307/1926813",
     "metadata_source": "OpenAlex"
+  },
+  "10.2307/3003320": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
   }
 }
