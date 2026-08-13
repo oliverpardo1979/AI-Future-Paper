@@ -1249,6 +1249,48 @@ human-research share of population rises if and only if
 \end{equation}
 \end{proposition}
 
+\begin{proposition}[Automated research scale, singularity, and the real wage]
+\label{prop:automated-research-wage}
+Suppose the research-input allocation is interior and the unit resource cost
+$\xi$ is constant. At every date,
+\begin{equation}
+    w_t
+    =
+    \xi\frac{\omega_H}{\omega_M}
+    \left(\frac{M_t}{H_t}\right)^{1/\sigma_{HM}}
+    \geq
+    \xi\frac{\omega_H}{\omega_M}
+    \left(\frac{M_t}{N_t}\right)^{1/\sigma_{HM}}.
+    \label{eq:wage-automated-research-lower-bound}
+\end{equation}
+Consequently, if automated research per capita diverges as $t\uparrow T$, where
+$T$ may be finite or infinite, then $w_t\to\infty$. Any earlier finite decline in
+the wage is therefore eventually reversed in levels. Wage growth also satisfies
+\begin{equation}
+    g_{w,t}=\frac{g_{M,t}-g_{H,t}}{\sigma_{HM}}.
+    \label{eq:wage-research-scale-growth}
+\end{equation}
+Thus the wage is eventually increasing if automated research eventually grows
+faster than human research. In addition, if $\phi<1$ and capability diverges at a
+finite date $T^*$, then
+\begin{equation}
+    \limsup_{t\uparrow T^*}w_t=\infty.
+    \label{eq:finite-singularity-wage-unbounded}
+\end{equation}
+Thus a finite-time capability singularity cannot occur while the wage remains
+bounded.
+\end{proposition}
+
+The proposition does not infer wage recovery merely from rapid capital growth.
+Equation~\eqref{eq:dynamic-wage-decomposition} shows that sufficiently rapid growth
+of AI services can offset capital deepening during part of the transition. Instead,
+Proposition~\ref{prop:automated-research-wage} identifies the scale of automated
+research relative to the population as a sufficient statistic for divergence of
+the wage. For a finite-time singularity, it also rules out a permanently bounded
+wage without imposing an asymptotic resource share. These results establish
+recovery in levels, not eventual monotonicity, unless $g_M>g_H$ also holds after
+some date.
+
 Proposition~\ref{prop:research-employment-scale} shows that the development industry
 can become more automated while employing a larger fraction of the population. The
 first force reduces the number of human researchers required per unit of automated
@@ -2060,7 +2102,19 @@ If $\bar c>0$ and $\bar i>0$, the output--capital ratio satisfies
 Thus the output--capital ratio, the return to capital, and growth rates diverge at
 the finite date $T^*$ along this conditional limit. At the same time,
 $K/C\to0$ and $qA/C\to0$, so neither capital nor capability retains a positive
-terminal value relative to consumption at the singular boundary.
+terminal value relative to consumption at the singular boundary. Output and
+automated research per capita diverge, and Proposition~\ref{prop:automated-research-wage}
+therefore implies
+\begin{equation}
+    \frac{Y_t}{N_t}\longrightarrow\infty,
+    \qquad
+    \frac{M_t}{N_t}\longrightarrow\infty,
+    \qquad
+    w_t\longrightarrow\infty.
+    \label{eq:singular-wage-divergence}
+\end{equation}
+Hence any finite wage decline along this conditional branch is eventually reversed
+in levels before $T^*$.
 \end{conditionalresult}
 
 The proof is in Appendix~\ref{sec:appendix-proofs}. The limiting ratios depend on
@@ -2111,6 +2165,17 @@ remains interior.
     finite constant rates.
 \end{enumerate}
 \end{conditionalresult}
+
+Combining this result with the two unit-elasticity cases gives a concise wage
+classification for the constant-growth limits characterized in the paper. Under
+$\sigma_{XL}<1$, the real wage is constant. Under $\sigma_{XL}=1$, it grows at the
+positive rate of output per capita whenever capability improves along either the
+human-essential Cobb--Douglas candidate or the AI-dominated candidate. Under
+$\sigma_{XL}>1$, Proposition~\ref{prop:gross-substitution-no-steady-state} rules out
+an interior steady state with improving capability and finite constant growth
+rates. Thus none of the constant-growth limits characterized here has a declining
+real wage; the statement is weak rather than strict because the complementarity
+case has zero wage growth.
 
 The proof is in Appendix~\ref{sec:appendix-proofs}. The first result differs from a
 fixed-research-share mechanism closure. Holding $H/N$ and

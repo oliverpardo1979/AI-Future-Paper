@@ -100,6 +100,31 @@ identity. Combine it with equation~\eqref{eq:human-research-scale-identity} and
 $g_N=n$ to obtain the second. The two sign conditions follow directly.
 \end{proof}
 
+\begin{proof}[Proof of Proposition~\ref{prop:automated-research-wage}]
+Taking the $1/\sigma_{HM}$ power of
+\eqref{eq:research-input-ratio} and solving for the wage gives the equality in
+\eqref{eq:wage-automated-research-lower-bound}. Labor feasibility implies
+$0<H_t\leq N_t$, so $M_t/H_t\geq M_t/N_t$ and gives the inequality. Because
+$\xi$, the CES weights, and $\sigma_{HM}$ are positive and constant,
+$M_t/N_t\to\infty$ implies $w_t\to\infty$. Log differentiation of the equality
+gives \eqref{eq:wage-research-scale-growth}.
+
+For the finite-time claim, suppose instead that $w_t$ were bounded on a terminal
+interval $[t_0,T^*)$. Equation~\eqref{eq:research-input-ratio} would then bound
+$M_t/H_t$. Because $H_t\leq N_t=N_0e^{nt}$ and $T^*<\infty$, both $H_t$ and $M_t$
+would be bounded on that interval. The research CES would therefore bound $E_t$.
+But the ideas-production equation implies
+\[
+    A_t^{1-\phi}
+    =
+    A_{t_0}^{1-\phi}
+    +(1-\phi)\chi\int_{t_0}^{t}E_\tau^\eta\dd\tau.
+\]
+The right-hand side remains finite as $t\uparrow T^*$, contradicting
+$A_t\to\infty$. Hence the wage cannot be bounded on any terminal interval, which
+establishes \eqref{eq:finite-singularity-wage-unbounded}.
+\end{proof}
+
 \begin{proof}[Derivation for conditional result~\ref{cond:ai-dominated-cd-limit}]
 Equations~\eqref{eq:ai-dominated-ga} and
 \eqref{eq:cd-ai-growth-relations} imply
@@ -474,6 +499,19 @@ $z_t\sim[\vartheta\bar a(T^*-t)]^{-1}$. Finally,
     \longrightarrow0.
 \]
 These limits establish the terminal-value claims.
+
+For the wage claim, combine $g_Y/z\to\alpha$ with the asymptotic expression for
+$z_t$. An application of l'H\^opital's rule gives
+\[
+    \frac{\log Y_t}{\log[1/(T^*-t)]}
+    \longrightarrow
+    \frac{\alpha}{\vartheta\bar a}>0.
+\]
+Thus $Y_t\to\infty$. Population remains finite because
+$N_t=N_0e^{nt}$ and $T^*<\infty$. Equation~\eqref{eq:appendix-singular-research-share}
+and constant $\xi$ imply $M_t/Y_t\to\bar m_R/\xi>0$. Hence
+$Y_t/N_t\to\infty$ and $M_t/N_t\to\infty$. Proposition
+\ref{prop:automated-research-wage} then implies $w_t\to\infty$.
 \end{proof}
 
 \begin{proof}[Derivation for conditional result~\ref{cond:nonunit-ces-steady-states}]
