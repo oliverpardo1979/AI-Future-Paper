@@ -1,4 +1,4 @@
-\section{Numerical equilibrium paths}
+\section{Numerical candidate equilibrium paths}
 
 \subsection{Benchmark and method}
 
@@ -41,7 +41,9 @@ the direction of the transition, the limiting rates and shares, and the
 comparison across research technologies.
 
 The solver treats \(K\) and \(A\) as predetermined and chooses initial \(C\) and
-\(q\) so that the path approaches the relevant terminal equilibrium. At every
+\(q\) so that the path approaches the corresponding unit-elasticity
+balanced-growth limit. At the terminal date, it imposes that \(C/Y\) and \(qA/Y\)
+equal their analytical candidate values. At every
 collocation node it solves the monopoly supply condition, labor-market clearing,
 the dual research problem, both research first-order conditions, and the four
 equations in \eqref{eq:axm-canonical-system}.
@@ -49,8 +51,9 @@ The two terminal horizons are 1,200 years for \(\sigma_{HM}=1\) and 1,600 years
 for \(\sigma_{HM}=2\). Re-solving at horizons of 1,000, 1,200, and 1,400 years in
 the first case and 1,400, 1,600, and 1,800 years in the second changes initial
 log consumption and the initial log shadow value by less than
-\(1.6\times10^{-7}\). The reported transition is therefore insensitive to the
-finite terminal date at the displayed precision.
+\(1.6\times10^{-7}\). The two initial jump variables are therefore insensitive to
+the finite terminal date at the displayed precision. This check does not by
+itself establish uniform convergence of the entire transition path.
 
 \subsection{Unit elasticity in final production}
 
@@ -58,24 +61,26 @@ Figure \ref{fig:axm-research-comparison} compares Cobb--Douglas research
 \((\sigma_{HM}=1)\) with gross substitution in research
 \((\sigma_{HM}=2)\), holding \(\sigma_{XL}=1\). The analytical limits from
 Proposition \ref{prop:axm-cd-bgp} are visible. Under Cobb--Douglas research, the
-automated contribution is fixed at \(\omega_M=0.35\), capability growth converges
+automated research-expenditure share is fixed at \(\omega_M=0.35\), capability growth converges
 to 0.67 percent, and output-per-capita growth converges to 0.17 percent. With
-gross substitution, the automated contribution approaches one, capability growth
+gross substitution, the automated research-expenditure share approaches one, capability growth
 converges to 1.23 percent, and output-per-capita growth approaches 0.31 percent.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures_axm/axm_research_technology_comparison.png}
 \caption{Research substitution and the unit-elasticity balanced-growth limit.
-Both lines are perfect-foresight equilibrium paths.}
+Both lines are perfect-foresight candidate paths satisfying the stated necessary
+equilibrium conditions.}
 \label{fig:axm-research-comparison}
 \end{figure}
 
 Figure \ref{fig:axm-growth-returns} focuses on the first 600 years and adds the
 net real interest rate and consumption growth. The interest rate falls rapidly
-toward the household discount rate and then rises with output-per-capita growth.
-This comovement is required by the Euler equation: along a balanced-growth limit,
-\(r=\rho+g_{C/N}\). The two research technologies produce similar returns early
+toward the household discount rate and then rises as consumption-per-capita
+growth rises. This comovement is required by the Euler equation,
+\(r=\rho+g_{C/N}\). At the balanced-growth limit, consumption and output per
+person have the same growth rate. The two research technologies produce similar returns early
 in the transition and separate only as automated research becomes quantitatively
 important.
 
@@ -83,12 +88,13 @@ important.
 \centering
 \includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_growth_rates.png}
 \caption{Growth rates and the net return to capital. Rates are annual percentages;
-both lines are perfect-foresight equilibrium paths.}
+both lines are perfect-foresight candidate paths satisfying the stated necessary
+equilibrium conditions.}
 \label{fig:axm-growth-returns}
 \end{figure}
 
-The human-research transition contains a result that is hidden by the limiting
-research share. With \(\sigma_{HM}=2\), the fraction of the population working in
+The transition of human research reveals a result that its limiting expenditure
+share conceals. With \(\sigma_{HM}=2\), the fraction of the population working in
 AI research first rises and later falls toward zero. AI research can therefore
 employ more people during the transition even while it becomes progressively more
 automated. Under Cobb--Douglas research, the human-research population share
@@ -97,15 +103,16 @@ instead converges to a positive constant.
 Figure \ref{fig:axm-wages} shows that the distinction between factor prices and
 factor shares already matters on these balanced-growth transitions. The real wage
 eventually grows at the same rate as output per person, as Proposition
-\ref{prop:axm-cd-bgp} requires. The production labor share is fixed by the
-Cobb--Douglas final-production technology, while total labor income also includes
-human researchers and therefore moves during the research-automation transition.
+\ref{prop:axm-cd-bgp} requires. Production labor income as a share of output,
+\(wL/Y\), is fixed by the Cobb--Douglas final-production technology. Aggregate
+labor income as a share of output, \(wN/Y\), also includes human researchers and
+therefore moves during the research-automation transition.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures_axm/axm_wages_and_factor_shares.png}
-\caption{Real wages and labor income. Both paths satisfy the canonical
-equilibrium system.}
+\caption{Real wages and labor income. Both candidate paths satisfy the canonical
+necessary equilibrium conditions.}
 \label{fig:axm-wages}
 \end{figure}
 
@@ -123,19 +130,19 @@ each path's date-zero per-capita level.}
 \label{fig:axm-research-chain}
 \end{figure}
 
-\subsection{Equilibrium audit}
+\subsection{Candidate-equilibrium audit}
 
-Table \ref{tab:axm-residuals} reports the numerical audit. The static identities
-and first-order conditions are satisfied to approximately machine precision.
+Table \ref{tab:axm-residuals} reports the numerical audit of the candidate paths.
+The static identities and first-order conditions are satisfied to approximately machine precision.
 The larger numbers are collocation errors in the differential equations and
-remain close to \(10^{-5}\). The terminal rates are also close to the analytical
-targets despite solving the transition rather than imposing the entire
+remain close to \(10^{-5}\). The terminal growth-rate errors reported below are
+also small despite solving the transition rather than imposing the entire
 balanced-growth path.
 
 \begin{table}[H]
 \centering
 \small
-\caption{Equilibrium-path diagnostics}
+\caption{Candidate-equilibrium-path diagnostics}
 \label{tab:axm-residuals}
 \begin{tabular}{lcc}
 \toprule
@@ -147,29 +154,36 @@ Maximum technology log error & \(2.4\times10^{-13}\) & \(2.4\times10^{-11}\)\\
 Maximum monopoly-FOC log error & \(5.4\times10^{-15}\) & \(7.2\times10^{-15}\)\\
 Maximum research-FOC log error & \(3.6\times10^{-13}\) & \(1.3\times10^{-11}\)\\
 Maximum dynamic path residual & \(4.4\times10^{-6}\) & \(1.2\times10^{-5}\)\\
-Maximum horizon-induced initial-jump range & \(7.4\times10^{-8}\) & \(1.6\times10^{-7}\)\\
+ Maximum horizon-induced initial-jump range & \(7.4\times10^{-8}\) & \(1.6\times10^{-7}\)\\
 Minimum monopoly second-order margin & 0.1160 & 0.1160\\
-Terminal automated research share & 0.3500 & 0.99999\\
+ Absolute terminal capability-growth error & \(1.3\times10^{-5}\) & \(3.1\times10^{-5}\)\\
+ Absolute terminal per-capita-output-growth error & \(2.9\times10^{-6}\) & \(6.6\times10^{-6}\)\\
+Terminal automated research-expenditure share & 0.3500 & 0.99999\\
 \bottomrule
 \end{tabular}
 \end{table}
 
+The horizon-induced range is the larger of the ranges of \(\log C(0)\) and
+\(\log q(0)\), measured in log points. The two terminal growth errors are
+absolute differences between annual rates expressed as decimals.
+
 \subsection{Gross substitution in final production}
 
-For \(\sigma_{XL}>1\), a conventional terminal balanced-growth condition would
-contradict Proposition \ref{prop:axm-no-bgp}. We therefore use a separate
+For the case with \(\sigma_{XL}>1\), unbounded \(A\), and \(s_X\to1\), a
+conventional terminal balanced-growth condition would contradict Proposition
+\ref{prop:axm-no-bgp}. We therefore use a separate
 free-boundary algorithm that terminates at a large value of \(Y/K\) and imposes
 the limiting ratios in Conditional Result \ref{prop:axm-singular-limit}. A path is
 reported only after convergence across progressively larger terminal boundaries
 and after the same equilibrium-residual audit used above. This prevents a
 finite-horizon initial-value path from being mislabeled as an infinite-horizon
-equilibrium.
+candidate equilibrium.
 
-The robust qualitative prediction is analytical: the economy can remain close to
-ordinary growth while \(Y/K\) is moderate, but growth and the return to capital
-rise together once the AI-dominated scaling becomes quantitatively important. We
-do not report a high-substitution curve in the present numerical set. Fixed-horizon
-solutions satisfy the local equilibrium equations, but the free-boundary
+The analytical results leave the duration and behavior of the pre-asymptotic
+phase unrestricted. Conditional on reaching the AI-dominated scaling, growth and
+the return to capital rise together. We do not report a high-substitution curve
+in the present numerical set. Fixed-horizon
+solutions satisfy the local market and first-order equations, but the free-boundary
 continuation has not yet passed the convergence test across increasingly distant
 terminal boundaries. Presenting such a curve as an equilibrium transition would
 therefore overstate what has been verified. The analytical nonexistence and

@@ -18,11 +18,13 @@ one; capability and research productivity are correspondingly rescaled.
 Run `python scripts/simulate_axm_equilibrium.py` and then
 `python scripts/audit_axm_model.py`.
 
-The first command solves the two reported perfect-foresight paths and writes
+The first command solves the two reported perfect-foresight candidate paths and writes
 their data to `numerical_axm/` and figures to `figures_axm/`. The second checks
 the analytical benchmark calculations and rejects numerical paths whose market,
 first-order, feasibility, second-order, terminal-target, or dynamic residuals
-exceed the documented tolerances.
+exceed the documented tolerances. These checks verify the stated system of
+necessary equilibrium conditions used in the manuscript; they do not establish
+global concavity of the developer's intertemporal problem.
 
 `scripts/simulate_axm_high_sigma_equilibrium.py` contains the separate
 free-boundary solver for $\sigma_{XL}>1$. The paper does not yet report its

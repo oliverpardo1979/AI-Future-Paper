@@ -18,15 +18,19 @@ Research & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL}>1\)\\
 \midrule
 \(\sigma_{HM}=1\) &
 Labor bottleneck on an interior unbounded-\(A\) limit &
-Candidate BGP governed by \(D(\omega_M)\) &
-No finite-rate path if AI services dominate; the singular form is not characterized\\
+Balanced-growth candidate governed by \(D(\omega_M)\) &
+ No finite-rate balanced growth if AI services dominate the labor--AI composite; the singular form is not characterized\\
 \(\sigma_{HM}>1\) &
-Same production bottleneck; \(s_M\to1\) if \(Aw\to\infty\) &
-Automated candidate BGP governed by \(D(1)\) &
-No finite-rate path if AI services dominate; conditional singular ratios are characterized\\
+ Labor bottleneck under the conditions stated below; \(s_M\to1\) if \(Aw\to\infty\) &
+ Automated balanced-growth candidate governed by \(D(1)\) &
+ No finite-rate balanced growth if AI services dominate the labor--AI composite; conditional singular ratios are characterized\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+Each cell summarizes a conditional result under the hypotheses stated in the
+corresponding proposition or conditional result. The table does not assert that
+an equilibrium with every listed limit exists for arbitrary initial conditions.
 
 \subsection{The price of research automation}
 
@@ -45,13 +49,14 @@ and therefore
   (Aw)^{\sigma_{HM}-1}.
  \label{eq:axm-automation-odds}
 \end{equation}
-The relevant relative price is \(Aw\): the wage relative to the normalized cost
-of one unit of automated research services.
+The unit resource cost of automated research services is \(1/A\). The relevant
+relative price is therefore \(Aw=w/(1/A)\): the price of human research relative
+to the price of automated research services.
 
 \begin{proposition}[Research automation]
 \label{prop:axm-research-automation}
-Along any interior path on which \(Aw\to\infty\), the automated contribution
-to research satisfies
+Along any interior path on which \(Aw\to\infty\), the research-expenditure share
+allocated to automated services satisfies
 \[
  s_M\to
  \begin{cases}
@@ -73,11 +78,10 @@ better capability, or both.
 
 \subsection{Complementarity in final production}
 
-When \(\sigma_{XL}<1\), the integrated monopolist does not supply an unlimited
-ratio \(X/L\) as marginal cost tends to zero. On the interior marginal-revenue
-branch, the
-zero-marginal-cost limit of \eqref{eq:axm-monopoly-foc} sets marginal revenue to
-zero. Hence
+Consider \(\sigma_{XL}<1\) and an interior sequence along which the normalized
+inverse demand \(p_X/(K/L)^\alpha\) remains bounded away from zero while the
+normalized marginal cost \(1/[A(K/L)^\alpha]\) tends to zero. The monopoly
+condition then requires normalized marginal revenue to tend to zero. Hence
 \begin{equation}
  s_X\longrightarrow
  \bar s_X=\frac{1-\sigma_{XL}}{1-\alpha\sigma_{XL}}\in(0,1).
@@ -87,14 +91,16 @@ A constant CES share implies a finite constant \(X/L\).
 
 \begin{proposition}[Labor bottleneck]
 \label{prop:axm-complements}
-Suppose \(\sigma_{XL}<1\), \(A\to\infty\), the monopoly allocation remains on the
-interior marginal-revenue branch, the normalized marginal cost satisfies
+Suppose \(\sigma_{XL}<1\), \(A\to\infty\), the monopoly allocation remains
+interior, \(p_X/(K/L)^\alpha\) remains bounded away from zero, and the normalized
+marginal cost satisfies
 \[
  \frac{1}{A(K/L)^\alpha}\to0,
 \]
-and the economy converges to a finite-rate balanced path, with \(L/N\) converging to a
-positive constant. Then \(X/L\) converges to a finite constant and final production becomes
-asymptotically proportional to \(K^\alpha L^{1-\alpha}\). Consequently,
+and the economy converges to a finite-rate balanced-growth path, with \(L/N\) converging
+to a positive constant. Then \(X/L\) converges to a finite positive constant and
+final production becomes asymptotically proportional to
+\(K^\alpha L^{1-\alpha}\). Consequently,
 \[
  g_Y=g_K=g_L=n,\qquad g_{Y/N}=0,\qquad g_w=0.
 \]
@@ -126,7 +132,8 @@ and the reduced production equation is
  =K^\alpha L^\lambda(\beta^2A)^\beta.
  \label{eq:axm-reduced-cd}
 \end{equation}
-If \(L\) and \(K,Y\) grow at their balanced rates, this equation gives
+On a balanced path with constant \(K/Y\) and a positive constant \(L/N\), this
+equation gives
 \begin{equation}
  g_Y=n+\nu g_A.
  \label{eq:axm-output-growth-cd}
@@ -150,18 +157,20 @@ Define the feedback denominator
 
 \begin{proposition}[Balanced-growth candidates at unit elasticity]
 \label{prop:axm-cd-bgp}
-Suppose \(\sigma_{XL}=1\), research remains interior, its expenditure share has a
-positive limit, \(L/N\) converges to a positive constant, and \(g_A\) converges
-to a positive constant.
+Suppose \(\sigma_{XL}=1\), research remains interior, total research expenditure
+\((wH+M)/Y\) converges to a positive output share, and \(K/Y\), \(C/Y\), and
+\(L/N\) converge to positive constants. Suppose also that \(g_A\) converges to a
+positive constant regularly, in the sense that \(\dot g_A/g_A\to0\).
 
 \begin{enumerate}[label=(\roman*)]
-\item If \(\sigma_{HM}=1\), every balanced-growth equilibrium must have
+\item If \(\sigma_{HM}=1\), every such balanced-growth equilibrium must have
  \(D(\omega_M)>0\).
-\item If \(\sigma_{HM}>1\), \(Aw\to\infty\), and the path converges to an
- asymptotically automated balanced-growth limit, that limit must have \(D(1)>0\).
+\item If \(\sigma_{HM}>1\), the balanced-growth restrictions imply
+ \(Aw\to\infty\) and \(s_M\to1\); every such equilibrium must have \(D(1)>0\).
 \end{enumerate}
 
-Whenever the relevant denominator is positive, the candidate growth rates are
+If the relevant denominator is positive, the only growth rates consistent with
+these necessary restrictions are
 \begin{equation}
  g_A=\frac{\eta n}{D(\bar s)},\qquad
  g_Y=g_K=g_C=n+\nu g_A,\qquad
@@ -204,27 +213,29 @@ Let \(\gamma=\nu g_A\). The candidate output shares are
 \end{align}
 The denominator in \(m\) is positive under \(\rho>n\), \(0<\eta<1\), and
 \(0<\bar s\leq1\).
-A feasible interior candidate additionally requires \(c>0\), the monopoly
-second-order condition, and a feasible labor allocation. Under the
+The computed share \(c\) must coincide with the positive limit hypothesized above.
+An interior equilibrium also requires the monopoly second-order condition and
+nonnegative limiting values of \(L/N\) and \(H/N\) that sum to one. Under the
 maintained restriction \(\rho>n\), the candidate also satisfies both
 transversality conditions.
 \end{proposition}
 
 The proposition states necessary growth restrictions and lists the remaining
 conditions needed for existence; it does not infer existence from \(D>0\) alone.
-The intuition for \(D\) is direct. A one-percent increase in \(A\) raises
-production and hence research compute through \(\nu\). It also raises the services
-produced by every unit of research compute directly. The term \(1+\nu\) combines
-these two channels. Only the automated contribution \(\bar s\) transmits them
-through the research CES, and \(\eta\) scales their effect on capability
-improvement.
+The intuition for \(D\) is direct. Along a candidate balanced-growth path, one
+additional percentage point of capability growth raises output growth and
+research-compute growth by \(\nu\) percentage points. Capability growth also
+raises the services produced by each unit of research compute one for one. The
+term \(1+\nu\) combines these two growth channels. The limiting automated
+research-expenditure share \(\bar s\) transmits them through the research CES, and \(\eta\)
+scales their effect on capability improvement.
 
 Because \(D(1)<D(\omega_M)\), gross substitution in research tightens the
 balanced-growth restriction. With the benchmark values used below,
-\(D(\omega_M)=0.8031\) and \(D(1)=0.4375\); both are positive. Removing an
-additional \(A^\phi\) term is decisive for this conclusion: the baseline does not
-add a separate knowledge-spillover channel to the feedback already carried by
-\(AM\).
+\(D(\omega_M)=0.8031\) and \(D(1)=0.4375\); both are positive. The form of these
+denominators also reflects the absence of an additional \(A^\phi\) term: the
+baseline does not add a separate knowledge-spillover channel to the feedback
+already carried by \(AM\).
 
 \subsection{Gross substitution in final production}
 
@@ -233,8 +244,9 @@ Let
  \theta=\frac{1-\alpha}{\alpha}.
  \label{eq:axm-theta}
 \end{equation}
-When \(\sigma_{XL}>1\), AI services dominate the final CES as their relative
-quantity rises. The monopoly condition then implies
+When \(\sigma_{XL}>1\), AI services dominate the labor--AI CES aggregate as their
+relative quantity rises. Capital remains a separate input with elasticity
+\(\alpha\). The monopoly condition then implies
 \begin{equation}
  \frac{U}{Y}\to(1-\alpha)^2,\qquad
  \frac{Y}{K}\sim \mathcal D A^\theta
@@ -244,7 +256,7 @@ for a positive constant \(\mathcal D\).
 
 \begin{proposition}[No finite-rate balanced growth with gross substitution]
 \label{prop:axm-no-bgp}
-Suppose \(\sigma_{XL}>1\), \(A\to\infty\), and the equilibrium remains on an
+Suppose \(\sigma_{XL}>1\), \(A\to\infty\), and a candidate equilibrium remains on an
 interior monopoly branch on which \(s_X\to1\). Then there is no balanced-growth
 path with finite constant growth rates. In particular, \(Y/K\to\infty\), so the marginal
 product of capital, the net interest rate, and household consumption growth
@@ -259,12 +271,14 @@ the accelerating branch when it exists.
 \begin{conditionalresult}[AI-dominated singular limit]
 \label{prop:axm-singular-limit}
 Assume \(\sigma_{XL}>1\), \(\sigma_{HM}>1\), \(0<\eta<1\), and an
-interior equilibrium approaches an AI-dominated limit along its maximal time
+interior candidate equilibrium approaches an AI-dominated limit along its maximal time
 interval, with \(A\to\infty\), \(s_X\to1\), and \(s_M\to1\). Suppose its consumption, investment, and
-research-compute shares, \(g_A/(Y/K)\), and \(qA/K\) converge to positive finite
-limits, and \(L/N\) converges to a positive limit. Assume these convergences are
-asymptotically regular: the growth rate of each convergent ratio, divided by
-\(Y/K\), tends to zero. Write \(z=Y/K\) and
+research-compute shares---respectively \(C/Y\),
+\((\dot K+\delta K)/Y\), and \(M/Y\)---as well as \(g_A/(Y/K)\) and \(qA/K\),
+converge to positive finite limits, and \(L/N\) converges to a positive limit.
+ Assume that the convergences of \(s_X\), all the listed ratios, and the scaling ratio
+\((Y/K)/(\mathcal D A^\theta)\to1\) are asymptotically regular: the growth rate
+of each convergent ratio, divided by \(Y/K\), tends to zero. Write \(z=Y/K\) and
 \[
  \Delta=1+\theta-\eta,\qquad
  h=\frac{\eta\alpha}{\Delta}.
@@ -286,9 +300,9 @@ Moreover,
  \dot z\sim\theta h z^2.
  \label{eq:axm-z-law}
 \end{equation}
-Thus the limiting differential equation reaches \(z=\infty\) in finite time.
-Both the production-labor share and aggregate labor income as a share of output
-tend to zero, while
+Thus \(z\), and consequently output, become unbounded in finite time.
+Both production labor income, \(wL/Y\), and aggregate labor income, \(wN/Y\),
+vanish as shares of output, while
 \begin{equation}
  \frac{g_w}{z}\to
  \frac{\alpha-(\sigma_{XL}-1)h}{\sigma_{XL}}
@@ -301,9 +315,10 @@ which is positive if and only if
 The result characterizes a postulated asymptotic equilibrium branch; it does not
 establish that the branch is reached from arbitrary initial conditions. Within
 that branch, the model delivers a sharp separation when
-\(1<\sigma_{XL}<1/(\alpha\eta)\): labor's share vanishes, but the wage eventually
-rises. Above the threshold, the same conditional scaling implies an eventually
-falling wage. This final case should not be interpreted without separately
+\(1<\sigma_{XL}<1/(\alpha\eta)\): aggregate labor income as a share of output
+vanishes, but the wage eventually rises. Above the threshold, the same conditional
+scaling implies an eventually falling wage. The case above the threshold should
+not be interpreted without separately
 checking monopoly optimality and convergence to the postulated branch.
 At \(\sigma_{XL}=1/(\alpha\eta)\), the leading term in
 \eqref{eq:axm-wage-limit} is zero, so this asymptotic calculation alone does not
