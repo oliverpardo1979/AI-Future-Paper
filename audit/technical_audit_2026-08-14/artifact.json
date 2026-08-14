@@ -1,0 +1,919 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Auditoría técnica, conceptual y editorial del modelo A×M",
+    "generatedAt": "2026-08-14T00:00:00-05:00",
+    "cards": [],
+    "charts": [
+      {
+        "id": "validation_status_chart",
+        "title": "Evidentiary status of 12 central results",
+        "description": "Counts from the audit's result-validation matrix; mutually exclusive classifications.",
+        "type": "bar",
+        "dataset": "validation_status",
+        "sourceId": "validation_status_sql",
+        "encodings": {
+          "x": {
+            "field": "status",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "count",
+            "type": "quantitative"
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "problematic_phrases",
+        "title": "G. Frases problemáticas",
+        "description": "Solo se incluyen frases con un problema material de alcance, precisión, terminología o pedagogía.",
+        "dataset": "problematic_phrases",
+        "sourceId": "phrases_sql",
+        "columns": [
+          {
+            "field": "order",
+            "label": "N.º"
+          },
+          {
+            "field": "fragment",
+            "label": "Fragmento original"
+          },
+          {
+            "field": "problem_type",
+            "label": "Tipo de problema"
+          },
+          {
+            "field": "explanation",
+            "label": "Explicación"
+          },
+          {
+            "field": "rewrite",
+            "label": "Reformulación sugerida"
+          }
+        ],
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        }
+      },
+      {
+        "id": "terminology_audit",
+        "title": "H. Terminología sospechosa o que requiere precisión",
+        "description": "La clasificación distingue términos no estándar de términos estándar utilizados con un alcance poco claro.",
+        "dataset": "terminology_audit",
+        "sourceId": "terminology_sql",
+        "columns": [
+          {
+            "field": "order",
+            "label": "N.º"
+          },
+          {
+            "field": "term",
+            "label": "Término"
+          },
+          {
+            "field": "standard",
+            "label": "¿Es estándar?"
+          },
+          {
+            "field": "problem",
+            "label": "Problema"
+          },
+          {
+            "field": "recommended",
+            "label": "Término recomendado"
+          }
+        ],
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        }
+      },
+      {
+        "id": "result_validation",
+        "title": "I. Matriz de validación de resultados",
+        "description": "El veredicto separa demostración analítica, evidencia numérica y estatus de equilibrio.",
+        "dataset": "result_validation",
+        "sourceId": "results_sql",
+        "columns": [
+          {
+            "field": "order",
+            "label": "N.º"
+          },
+          {
+            "field": "result",
+            "label": "Resultado afirmado"
+          },
+          {
+            "field": "theory",
+            "label": "Base teórica"
+          },
+          {
+            "field": "numerics",
+            "label": "Evidencia numérica"
+          },
+          {
+            "field": "equilibrium",
+            "label": "¿Trayectoria de equilibrio?"
+          },
+          {
+            "field": "verdict",
+            "label": "Veredicto"
+          }
+        ],
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "id": "report_title",
+        "type": "markdown",
+        "body": "# Auditoría técnica, conceptual y editorial del modelo A×M"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "body": "## Resumen técnico\n\n**El problema principal no es una inconsistencia algebraica del modelo.** La tecnología, las condiciones de primer orden, la ecuación de Euler, la ecuación de costo sombra y las identidades agregadas son coherentes con la especificación en la que la capacidad `A` multiplica tanto el compute de inferencia `U` como el compute de investigación `M`. Tampoco encontré discrepancias cuantitativas entre el texto, las tablas y los CSV.\n\n**El paper todavía no demuestra que las trayectorias numéricas reportadas sean, en general, equilibrios de horizonte infinito.** Falta un resultado de existencia y selección de una continuación admisible desde los estados iniciales, y falta un análisis de determinación local o saddle-path stability. El estatus varía por régimen: las trayectorias con `σ_XL=1` serían equilibrios globales bajo la proposición de suficiencia solo si existe una continuación infinita exacta que cumpla ambas condiciones de transversalidad; las trayectorias con `σ_XL<1` satisfacen condiciones necesarias, pero no cuentan con una prueba de suficiencia intertemporal; y las aproximaciones con `σ_XL>1` son, correctamente, soluciones pre-singulares de condiciones necesarias, no equilibrios infinitos.\n\n**La contribución debe reposicionarse frente a la literatura más cercana.** Davidson, Halperin, Houlden y Korinek (2026) ya estudian el feedback entre capacidad de software y compute en producción e investigación, y caracterizan crecimiento balanceado frente a crecimiento explosivo. La novedad defendible de este paper está en la descentralización Ramsey, el monopolista integrado, la asignación endógena entre `U/M` y `L/H`, los precios factoriales, las dos CES y el umbral salarial; no en haber introducido por primera vez el feedback `capability × compute`.\n\n**Veredicto de envío:** no está técnicamente listo. Está cerca de ser un paper teórico serio, pero necesita cerrar el estatus del equilibrio, reducir afirmaciones de convergencia, completar la validación numérica y reescribir su posicionamiento en la literatura."
+      },
+      {
+        "id": "validation_status_note",
+        "type": "markdown",
+        "sourceId": "validation_status_sql",
+        "body": "### La mayoría de los resultados son correctos dentro de su alcance\n\nOcho de los doce resultados centrales superan la auditoría dentro de sus hipótesis; dos tienen respaldo parcial o dependen de una rama postulada; uno no está respaldado en su formulación fuerte; y una afirmación de novedad es contradicha por la literatura más cercana. La debilidad dominante es de alcance y estatus de equilibrio, no de aritmética o implementación."
+      },
+      {
+        "id": "validation_status_chart_block",
+        "type": "chart",
+        "chartId": "validation_status_chart"
+      },
+      {
+        "id": "scope_method",
+        "type": "markdown",
+        "sourceId": "audit_evidence",
+        "body": "## Alcance, método y estándar de evidencia\n\nLa auditoría corresponde al commit `158a0ed86256de59a77ae8320c8c0d1a03b7ad86`. Revisé el manuscrito fuente, las pruebas, el PDF de 50 páginas, los tres solvers A×M, los tres auditores, los CSV canónicos, los manifiestos y las figuras. Las 50 páginas renderizadas fueron inspeccionadas visualmente; no encontré problemas materiales de diagramación, clipping, referencias rotas o legibilidad.\n\nEl informe usa cuatro categorías: **demostrado** para una proposición con hipótesis y prueba verificadas; **derivado condicionalmente** para un resultado correcto en una rama postulada cuya existencia o selección no se prueba; **respaldado numéricamente** para una regularidad que aparece en los experimentos auditados; y **no verificado como equilibrio** cuando el cálculo resuelve condiciones fechadas pero no establece continuación infinita, transversalidad o optimalidad global.\n\nLa única gráfica resume el conteo de veredictos sobre doce resultados centrales. Las relaciones sustantivas —supuesto, ecuación, mecanismo, predicción y estatus de equilibrio— permanecen en tablas porque requieren precisión textual, no una codificación visual."
+      },
+      {
+        "id": "central_logic",
+        "type": "markdown",
+        "sourceId": "manuscript_source",
+        "body": "## Reconstrucción de la lógica central\n\n**Pregunta económica.** ¿Cómo cambia el crecimiento de largo plazo cuando la IA no solo sustituye trabajo en producción, sino que también puede sustituir investigadores humanos en la producción de mejores sistemas de IA?\n\n**Mecanismo.** Una capacidad mayor `A` aumenta los servicios de producción obtenidos de `U` mediante `X=AU` y los servicios automatizados de investigación obtenidos de `M` mediante `AM`. Por tanto, `A` reduce a `1/A` el costo de recursos de una unidad de cualquiera de esos servicios. El desarrollador monopolista decide la oferta corriente de `X` y la inversión en capacidad mediante `H` y `M`. Una capacidad mayor eleva producción y rentas operativas, cambia el gasto en investigación y retroalimenta `Ȧ`.\n\n**Equilibrio estudiado.** El hogar Ramsey elige consumo y acumula capital; las firmas finales competitivas demandan capital, trabajo y servicios de IA; el desarrollador integrado monopoliza `X`, contrata `H`, compra `M` y posee `A`; los mercados de trabajo, capital, servicios y bienes despejan. Los estados predeterminados son `K` y `A`; `N` es exógeno; `C` y el valor sombra `q` son variables de salto.\n\n**Resultados.** Con `σ_XL<1`, trabajo e IA son complementos brutos y el trabajo de producción puede seguir siendo el cuello de botella aunque la investigación se automatice. Con `σ_XL=1`, aparecen candidatos de crecimiento balanceado si el denominador de feedback es positivo y se cumplen factibilidad y optimalidad. Con `σ_XL>1`, en la rama donde los servicios de IA dominan el agregado laboral, `Y/K` y el retorno al capital se vuelven no acotados; una rama adicional, fuertemente condicionada, tiene una singularidad en tiempo finito.\n\n**Interpretación final.** Automatizar la investigación de IA no equivale a eliminar la restricción laboral agregada. Además, el nivel salarial y la participación del trabajo son objetos distintos: el salario puede subir mientras la participación laboral cae. Esta lógica es coherente en todo el paper; los problemas aparecen cuando el texto convierte resultados condicionales o numéricos en afirmaciones de convergencia o equilibrio más generales."
+      },
+      {
+        "id": "diagnosis_general",
+        "type": "markdown",
+        "body": "## A. Diagnóstico general\n\n1. **CRÍTICO — Falta existencia y selección del equilibrio infinito.** No se demuestra que, desde `K₀,A₀`, exista una trayectoria admisible e interior que continúe indefinidamente, satisfaga las TVC y alcance los límites usados para cerrar los BVP.\n2. **CRÍTICO — Falta determinación dinámica.** Hay dos estados predeterminados (`K,A`) y dos saltos (`C,q`), pero no se presenta una transformación estacionaria, un Jacobiano, eigenvalues, rango de shooting ni una prueba de saddle-path stability o unicidad local.\n3. **CRÍTICO — Las simulaciones tienen estatus de equilibrio diferente.** El paper usa un lenguaje común para objetos que van desde candidatos necesarios hasta una rama pre-singular que, por definición, no es un equilibrio infinito.\n4. **CRÍTICO — Falta el paper más cercano.** Davidson, Halperin, Houlden y Korinek (2026), NBER w35155, estudian el mismo feedback básico entre capacidad y compute en producción e investigación. La omisión afecta directamente la afirmación de novedad.\n5. **IMPORTANTE — El lenguaje de “convergencia” y “validación” excede la evidencia.** Cuatro horizontes o fronteras que producen números cercanos demuestran estabilidad numérica en esos experimentos, no convergencia matemática, estabilidad económica ni existencia.\n6. **IMPORTANTE — La definición de balanced growth no es convencional.** El paper llama BGP a una trayectoria cuyas tasas y participaciones convergen; esto es un límite asintóticamente balanceado, no necesariamente una senda exactamente balanceada. “Regular finite-rate BGP” tampoco está definido.\n7. **IMPORTANTE — Falta cerrar la raíz estática fuera del caso unitario.** El solver encuentra una raíz interior y verifica una SOC local, pero el texto no demuestra existencia, unicidad y máximo global de la decisión monopólica para todos los parámetros no unitarios.\n8. **IMPORTANTE — La estructura estratégica necesita mayor explicación.** El único desarrollador es monopolista en `X`, pero toma el salario, `K` y `L` como dados y no internaliza el despeje laboral; además, no existe restricción financiera frente a dividendos negativos. Son supuestos válidos, pero fuertes.\n9. **IMPORTANTE — La validación numérica aún no es de extremo a extremo.** El caso unitario no diferencia independientemente las ecuaciones dinámicas, los ejercicios de horizonte no sustituyen refinamientos de tolerancia/malla, y la auditoría high-σ excluye la cola final de su diferenciación independiente.\n10. **IMPORTANTE — El cuerpo mezcla economía con ingeniería de cómputo.** Los detalles de cold starts, clipping, fallbacks, gates y hashes interrumpen la lectura teórica; el apéndice, en cambio, omite el auditor de complementos y usa una etiqueta incorrecta para el solver unitario."
+      },
+      {
+        "id": "conceptual_equilibrium",
+        "type": "markdown",
+        "sourceId": "model_source",
+        "body": "## B. Problemas conceptuales y matemáticos\n\n### Concepto formal de equilibrio reconstruido\n\n- **Estados predeterminados:** capital físico `K` y capacidad de IA `A`. La población `N` sigue `Ṅ=nN` y es exógena.\n- **Variables de salto:** consumo agregado `C` y valor sombra corriente de la capacidad `q`.\n- **Asignaciones intratemporales:** `L,H,U,M,X,E,Y,Z`, precios `r,w,p_X,P_E` y participaciones `s_X,s_M`.\n- **Hogar:** presupuesto, restricción `K≥0`, Euler y TVC de capital.\n- **Firmas finales:** maximización competitiva y cero beneficios.\n- **Desarrollador:** demanda inversa y FOC/SOC para `X`; demandas condicionadas de investigación, FOC de escala, ley de `A`, ecuación de costo sombra y TVC.\n- **Consistencia agregada:** `N=L+H`, `X=AU`, identidad de recursos, propiedad del mismo `K`, beneficios distribuidos y despeje de mercados.\n- **Sistema dinámico reducido:** cuatro ODE para `K,A,C,q` más la ley exógena de `N`, unido a un bloque algebraico por fecha.\n\nLa definición de equilibrio de la sección 3 incluye estos componentes a nivel conceptual, y el bloque de ecuaciones contiene deliberadamente identidades redundantes que son útiles para auditoría. Esa parte está bien hecha. El problema no es falta de una ecuación fechada, sino el salto entre ese sistema necesario y una solución de equilibrio infinito."
+      },
+      {
+        "id": "conceptual_gaps",
+        "type": "markdown",
+        "body": "### Vacíos que deben cerrarse\n\n**1. Existencia, continuación y selección.** La proposición de suficiencia dice que una trayectoria infinita admisible que satisface el sistema completo y las TVC es equilibrio en dos parametrizaciones unitarias. No prueba que tal trayectoria exista ni que el BVP finito converja a ella. Para `σ_XL<1` ni siquiera existe una proposición equivalente de suficiencia intertemporal.\n\n**2. Determinación y estabilidad.** La estabilidad de los saltos al variar `T` no identifica el número de raíces estables del sistema. Hace falta analizar el sistema transformado alrededor del candidato BGP: dimensión, eigenvalues, rango de las condiciones de frontera y, si corresponde, una variedad estable de dimensión dos. Sin eso no se puede afirmar saddle-path stability, unicidad local o convergencia.\n\n**3. Optimalidad estática no unificada.** La SOC positiva de la oferta monopólica prueba una propiedad local. En `σ_XL=1` el paper sí obtiene concavidad suficiente del problema reducido bajo restricciones paramétricas. Para `σ_XL≠1`, debería demostrar que la raíz seleccionada maximiza globalmente el beneficio estático o formular las condiciones KKT y comparar esquinas.\n\n**4. TVC.** El paper actúa correctamente al no declarar universalmente necesarias las dos TVC. Sin embargo, los cálculos terminales son proxies finitos construidos para acercarse a candidatos analíticos; no verifican límites cuando `t→∞`. En la rama singular, una TVC infinita ni siquiera pertenece al objeto numérico porque su intervalo máximo termina en tiempo finito.\n\n**5. Singularidad y equilibrio.** La definición de pre-singular candidate branch es útil y honesta. Debe conservarse la distinción: es una solución del sistema necesario en `[0,T*)`; no es un steady state, un BGP, una senda estable ni un equilibrio definido después de `T*`.\n\n**6. Definición de BGP.** La convención “las tasas convergen” debe cambiarse por “asymptotically balanced-growth path/limit”, o debe reservarse “BGP” para tasas y ratios constantes en toda la senda. El paper puede mantener su definición, pero entonces debe advertir que no es la convención estándar.\n\n**7. Estructura de mercado.** El desarrollador es integrado y monopolista únicamente en `X`, pero price taker en trabajo y compute. Esto es formalmente posible, aunque necesita una frase de timing y conducta: qué toma como dado, qué desviaciones considera y por qué no internaliza el efecto de `H` sobre `w` o `L`.\n\n**8. Financiamiento.** La identidad presupuestal permite beneficios distribuidos negativos. Si se pretende que el hogar financie pérdidas de investigación sin fricción, debe decirse explícitamente; de lo contrario, falta una restricción de liquidez o financiamiento."
+      },
+      {
+        "id": "what_is_correct",
+        "type": "markdown",
+        "body": "### Elementos que superan la auditoría\n\n- La Euler agregada `g_C=n+r−ρ` es correcta para utilidad logarítmica per cápita y población creciente.\n- La distinción entre retorno neto `r` y alquiler bruto `r+δ` es consistente.\n- La ley consolidada `Ȧ=χ CES(H,AM)^η` y su límite Cobb–Douglas son coherentes con el código activo; no reaparece `A^φ`.\n- La derivada `∂Ȧ/∂A=η s_M Ȧ/A` y el término correspondiente en la ecuación de `q` son correctos.\n- El presupuesto del hogar, los beneficios del desarrollador, el cero beneficio final y la restricción de recursos son contablemente equivalentes.\n- Las proposiciones de automatización de investigación, cuello de botella bajo complementariedad, candidato unitario y no-BGP bajo sustitución son correctas dentro de sus hipótesis.\n- La derivación condicional de la rama singular, incluido el umbral salarial basado en `min{σ_XL,σ_HM}`, es algebraicamente consistente.\n- La proposición de suficiencia global para las dos parametrizaciones unitarias es válida como teorema condicional para una trayectoria infinita admisible con TVC; no es una proposición de existencia."
+      },
+      {
+        "id": "simulation_audit",
+        "type": "markdown",
+        "sourceId": "audit_evidence",
+        "body": "## C. Problemas en simulaciones\n\n### `σ_XL=0.75`: candidato complementario\n\nLas condiciones iniciales de `K,A,N` son admisibles; `C(0)` y `q(0)` se eligen endógenamente mediante un BVP; las variables guardadas son positivas; mercados, tecnologías, FOC y ODE se satisfacen con errores pequeños. El auditor independiente obtiene error estático máximo `2.92×10⁻¹¹`, error dinámico por diferenciación independiente `5.68×10⁻⁷` y RMS máximo `9.43×10⁻⁷`.\n\nSin embargo, `C/Y` y `X/(qA²)` se fijan en el terminal usando la rama analítica. La coincidencia de las demás tasas y shares es un chequeo sobreidentificador valioso, pero no independiente de todo el cierre. No hay teorema de suficiencia intertemporal ni prueba de TVC infinita. **Veredicto:** solución numérica precisa del BVP candidato; NO VERIFICABLE como equilibrio infinito.\n\n### `σ_XL=1`: candidatos unitarios\n\nLas seis trayectorias de horizonte satisfacen estáticas reconstruidas, positividad, SOC y ODE de colocación. El máximo error estático reconstruido es `1.44×10⁻⁹`, el máximo residual dinámico guardado es `1.67×10⁻⁵` y el mayor cambio de los saltos iniciales es `1.54×10⁻⁷`. Las cifras publicadas coinciden con los CSV.\n\nLa auditoría dinámica no es independiente: reutiliza las derivadas de colocación guardadas por el solver. Además, la proposición de suficiencia solo opera si existe una trayectoria infinita admisible que satisfaga las TVC. **Veredicto:** sería equilibrio global bajo esa continuación y esas TVC; el cálculo finito no lo demuestra.\n\n### `σ_XL=1.5`: aproximaciones de frontera libre\n\nLas fronteras `Y/K=16,32,64,128` producen saltos iniciales prácticamente idénticos y fechas extrapoladas `T*` entre 882.158 y 882.175. El auditor reconstruye 11,747 observaciones, con FOC máxima `1.56×10⁻¹⁰`, residual dinámico guardado `2.26×10⁻⁵` y residual dinámico independiente `3.33×10⁻⁵` en una ventana compacta.\n\nLa diferenciación independiente excluye los últimos 50 años, precisamente donde la aceleración es mayor. Solo `C/Y`, `qA/K` y la frontera `Y/K` se imponen, pero algunos gates mezclan razones impuestas y no impuestas. El objeto termina en tiempo finito y la proposición de suficiencia no aplica. **Veredicto:** NO es una trayectoria de equilibrio infinito; es evidencia numérica para una rama pre-singular condicional."
+      },
+      {
+        "id": "simulation_robustness",
+        "type": "markdown",
+        "body": "### Robustez y reproducibilidad\n\n**Horizonte versus discretización.** Variar el horizonte y observar saltos estables no demuestra convergencia de toda la trayectoria ni independencia respecto de tolerancia y malla. Re-soluciones más estrictas mantuvieron los resultados cualitativos, pero produjeron diferencias máximas de estado de hasta `3.97×10⁻⁵` en el caso unitario con `σ_HM=2`; por tanto, la precisión de los saltos no debe presentarse como precisión uniforme del path.\n\n**Interiority.** La positividad se verifica en fechas guardadas, separadas por dos años en varios archivos. Como `H/N` llega a `5.49×10⁻⁸` y `7.04×10⁻⁹`, conviene verificar mínimos entre nodos de colocación o usar una parametrización que garantice interioridad del interpolante.\n\n**Provenance.** Los hashes de los inputs declarados en los manifiestos de complementos y high-σ coinciden. No obstante, los manifiestos no enlazan generador, núcleo compartido, auditor, dependencias, CSV, plotter y PNG en una sola cadena; el caso unitario carece de manifiesto y `requirements-numerical.txt` no fija versiones.\n\n**Parámetros.** Las simulaciones efectivamente usan `σ_XL=0.75,1,1.5` y `σ_HM=1,2`, con los demás parámetros comunes de la tabla. No encontré un experimento que diga variar un parámetro distinto del que realmente cambia. Tampoco encontré discrepancias entre magnitudes narradas, tablas, figuras y CSV."
+      },
+      {
+        "id": "text_result_inconsistencies",
+        "type": "markdown",
+        "body": "## D. Inconsistencias entre texto y resultados\n\n1. El abstract afirma que las trayectorias “show … while these limits emerge”. Los límites terminales están parcialmente impuestos y la continuación infinita no está demostrada; debe decir “move toward the conditional limits over the reported horizons”.\n2. La sección 4 afirma que, bajo unidad, los problemas restantes son discretización y truncación. También quedan existencia y continuación infinita, aunque la frase siguiente reconoce parte del problema.\n3. La introducción dice que las trayectorias y las fechas de singularidad “converge”. El código prueba estabilización en cuatro fronteras; no un teorema de convergencia.\n4. La conclusión dice que el cálculo “validates convergence”. Debe decir que “provides numerical evidence of stabilization on the reported common intervals and boundaries”.\n5. La literatura dice que el ancla poblacional “disappears” cuando `H` es sustituible. En el régimen complementario la población todavía limita indirectamente output, recursos de investigación y `g_A`; desaparece el cuello de botella humano directo en investigación, no toda influencia poblacional.\n6. La motivación llama “observed” a 415 y 485 TWh. Son estimaciones de IEA para todos los centros de datos, no mediciones de electricidad exclusivamente atribuible a IA.\n7. La correspondencia con Korinek–McKelvey se presenta como si fuera exacta. En ese trabajo, model capital, algoritmos, training e inference son objetos separados; aquí un solo `A` colapsa calidad de modelo y eficiencia algorítmica y multiplica ambos usos de compute.\n8. La contribución de “symmetric accounting” y el feedback capacidad–compute está sobrevendida frente a Davidson et al. (2026). La contribución novedosa defendible es de equilibrio general, precios, asignación y distribución.\n9. El apéndice omite el auditor independiente de complementos y llama “independent solver” al solver unitario principal.\n10. “Output per person is constant” confunde nivel constante en toda la trayectoria con convergencia a un nivel finito. El resultado analítico es crecimiento per cápita asintótico cero bajo hipótesis explícitas.\n11. La frase que convierte `σ_XL=1` en el único régimen con crecimiento per cápita positivo es correcta solo dentro de las ramas regulares caracterizadas; no es una clasificación global de todas las soluciones posibles.\n12. “The real wage nevertheless rises throughout this calculation” sí está respaldada en el escenario high-σ reportado: su tasa mínima guardada es positiva. No debe generalizarse a todos los parámetros, y el texto afortunadamente la condiciona al umbral."
+      },
+      {
+        "id": "organization",
+        "type": "markdown",
+        "body": "## E. Problemas de organización\n\nLa secuencia general —motivación, literatura, modelo por bloques, definición de equilibrio, resultados por régimen, simulaciones y conclusión— es lógica y no requiere una reestructuración radical. Además, emparejar análisis y simulación dentro de cada caso ayuda al lector.\n\nLa mejora sustancial sería **reducir la sección 4 sin romper esa arquitectura**:\n\n1. Mantener al comienzo el mapa de regímenes y una tabla explícita de estatus: proposición, resultado condicional o evidencia numérica.\n2. Dejar en el cuerpo solo parámetros comunes, método en cinco o seis frases y resultados numéricos económicamente relevantes.\n3. Mover cold starts, mallas, tolerancias, clipping, fallbacks, acceptance gates, hashes y tablas extensas de residuales a un apéndice numérico reproducible.\n4. Conservar en cada caso: caracterización analítica → cierre terminal específico → figuras → interpretación → caveat de equilibrio.\n5. Dividir “Growth regimes” en dos secciones si la extensión permanece cercana a mil líneas: “Analytical growth regimes” y “Numerical transitions”, con subsecciones paralelas por caso. Si se mantiene el formato integrado actual, basta con un apéndice numérico mucho más fuerte.\n6. Llevar las contribuciones distintivas al final de la primera página de la introducción y reducir la defensa técnica de las simulaciones allí.\n7. Reescribir la conclusión como síntesis económica; hoy repite demasiados detalles de auditoría y horizontes.\n\nNo conviene separar los tres valores de `σ_XL` en papers distintos: la comparación simétrica entre complementariedad, unidad y sustitución es el argumento económico del artículo."
+      },
+      {
+        "id": "section_abstract",
+        "type": "markdown",
+        "sourceId": "manuscript_source",
+        "body": "## F. Revisión detallada por sección\n\n### Abstract\n\n**Qué intenta hacer.** Presenta la tecnología, organiza los tres regímenes y resume salarios y shares.\n\n**¿Lo logra?** Parcialmente. Es informativo y prudente en la rama singular, pero demasiado denso y usa términos no definidos.\n\n**Problemas técnicos.** “Every regular finite-rate BGP characterized here” comprime hipótesis importantes; “paths show” sugiere más independencia de las condiciones terminales de la que existe.\n\n**Problemas conceptuales.** No distingue con suficiente nitidez BGP exacto de límite asintótico.\n\n**Claridad.** Hay demasiados resultados y caveats en 20 líneas; el lector todavía no conoce `regular`, el feedback denominator ni el carácter candidato de varias sendas.\n\n**Cambio recomendado.** Mantener la tecnología y los tres regímenes, pero usar “conditional asymptotic path/limit”, retirar “audited” como argumento sustantivo y cerrar con una sola frase numérica: las simulaciones ilustran transiciones compatibles con las condiciones fechadas, sin probar existencia infinita."
+      },
+      {
+        "id": "section_intro",
+        "type": "markdown",
+        "sourceId": "introduction_source",
+        "body": "### Introducción\n\n**Qué intenta hacer.** Motiva el feedback, explica `U/M`, presenta evidencia y anticipa resultados.\n\n**¿Lo logra?** Sí en el mecanismo; parcialmente en posicionamiento y evidencia. La distinción raw compute versus service flow es pedagógicamente valiosa.\n\n**Problemas técnicos.** “Branch that is reached” es circular antes de explicar selección; la convergencia de la rama high-σ se sobreafirma.\n\n**Problemas conceptuales.** Llamar “knowledge spillover” a un posible `A^φ` confunde una dependencia tecnológica del stock con una externalidad. La correspondencia con la contabilidad de Korinek–McKelvey es una simplificación fuerte, no equivalencia.\n\n**Claridad.** La subsección de resultados dedica demasiado espacio a residuales y gates; las contribuciones novedosas llegan tarde.\n\n**Cambio recomendado.** Primera página: pregunta, mecanismo, tres regímenes y contribución frente a Davidson et al. Después evidencia y relación con compute. Mover la defensa numérica detallada a metodología/apéndice. Cambiar “observed” por “IEA estimates” y aclarar que la electricidad es de todos los centros de datos."
+      },
+      {
+        "id": "section_literature",
+        "type": "markdown",
+        "sourceId": "literature_source",
+        "body": "### Literatura\n\n**Qué intenta hacer.** Conecta crecimiento endógeno, singularidad, contabilidad de IA, CES, tareas y estructura de mercado.\n\n**¿Lo logra?** La taxonomía es buena, pero omite la referencia más próxima y por ello exagera la novedad.\n\n**Problemas técnicos.** La frase sobre la desaparición del ancla poblacional no es válida en todos los regímenes. `η` se relaciona con rendimientos al esfuerzo de investigación, pero el modelo omite el margen separado de ideas-getting-harder o standing-on-shoulders.\n\n**Problemas conceptuales.** Davidson et al. (2026) ya contienen el feedback capability×compute y la bifurcación BGP/explosión. Demirer et al. documentan entrada y diferenciación; no validan empíricamente un monopolio único.\n\n**Claridad.** La sección debe distinguir “inspiración contable” de “misma especificación”.\n\n**Cambio recomendado.** Añadir un párrafo frontal sobre Davidson et al.; luego explicar que este paper reemplaza shares/ahorro fijos por equilibrio Ramsey descentralizado con monopolio, asignaciones endógenas y precios factoriales. Añadir Jones–Tonetti, GATE/Erdil et al., Restrepo y la literatura reciente de poder de mercado."
+      },
+      {
+        "id": "section_model",
+        "type": "markdown",
+        "sourceId": "model_source",
+        "body": "### Modelo y equilibrio\n\n**Qué intenta hacer.** Define hogares, firmas finales, desarrollador integrado, investigación, mercados y sistema candidato.\n\n**¿Lo logra?** Sí. Es la sección más sólida del paper: los objetos se introducen antes de usarse y la nueva especificación A×M es consistente.\n\n**Problemas técnicos.** Falta definir “regular”; falta demostrar que el subsistema algebraico tiene una raíz interior única/global para todos los casos; la proposición de suficiencia no es de existencia.\n\n**Problemas conceptuales.** El desarrollador es simultáneamente monopolista en `X` y price taker en trabajo; eso debe justificarse como conducta y timing. El tratamiento de dividendos negativos debe explicitar financiamiento sin fricción.\n\n**Claridad.** El bloque completo es útil, pero puede distinguir visualmente ecuaciones independientes de identidades redundantes.\n\n**Cambio recomendado.** Añadir una definición de regularidad, una proposición de existencia/unicidad estática o condiciones KKT, una breve subsección de timing/propiedad y una frase explícita: dos estados, dos saltos, qué condiciones terminales seleccionan el path."
+      },
+      {
+        "id": "section_results",
+        "type": "markdown",
+        "sourceId": "growth_source",
+        "body": "### Resultados analíticos y simulaciones\n\n**Qué intenta hacer.** Organiza el modelo por `σ_XL<1`, `=1` y `>1`, y dentro de esos casos separa investigación Cobb–Douglas y sustituible.\n\n**¿Lo logra?** Sí en la taxonomía y las derivaciones; parcialmente en el estatus numérico. Tratar los tres valores de `σ_XL` como igualmente importantes es correcto.\n\n**Problemas técnicos.** La definición de BGP no es estándar; la exclusividad del caso unitario se formula con demasiado alcance; no hay análisis de estabilidad; los cierres terminales contienen información de los límites que luego se usan como verificación.\n\n**Problemas conceptuales.** Una rama pre-singular no es un equilibrium transition. La estabilidad frente a fronteras no es estabilidad económica.\n\n**Claridad.** La sección es demasiado extensa y mezcla resultados económicos con detalles operativos.\n\n**Cambio recomendado.** Mantener la estructura por casos, pero etiquetar cada resultado como “proposition”, “conditional asymptotic result” o “numerical candidate path”; separar condiciones impuestas de momentos no impuestos; mover auditoría de implementación al apéndice."
+      },
+      {
+        "id": "section_conclusion",
+        "type": "markdown",
+        "sourceId": "conclusion_source",
+        "body": "### Conclusión\n\n**Qué intenta hacer.** Resume tres resultados, interpreta salarios versus shares y enumera extensiones.\n\n**¿Lo logra?** La intuición económica es clara y la agenda de agencia/supervisión está bien cautelada.\n\n**Problemas técnicos.** “Validates convergence” y “converges” exceden lo demostrado. “For centuries” suena a predicción temporal aunque la misma sección dice que el tiempo es normalizado.\n\n**Problemas conceptuales.** La conclusión debería distinguir con una frase explícita: resultado demostrado, resultado condicional y regularidad numérica.\n\n**Claridad.** Repite demasiados horizontes y cifras que ya aparecieron.\n\n**Cambio recomendado.** Cerrar en tres párrafos: mecanismo; comparación de regímenes y distribución; límites y agenda. Dejar los diagnósticos de frontera en el apéndice. Citar la literatura de speed–safety si se conserva la extensión de supervisión."
+      },
+      {
+        "id": "section_appendix",
+        "type": "markdown",
+        "sourceId": "appendix_source",
+        "body": "### Apéndice\n\n**Qué intenta hacer.** Probar proposiciones y documentar la auditoría numérica.\n\n**¿Lo logra?** Las pruebas centrales son correctas. La documentación numérica está incompleta.\n\n**Problemas técnicos.** El apartado numérico no menciona `audit_axm_complements.py`; llama “independent solver” al solver unitario; no explica que la dinámica unitaria usa residuales del propio collocation; no documenta toda la cadena de provenance.\n\n**Problemas conceptuales.** Debe recordar que las TVC terminales son proxies y que la rama singular no tiene TVC infinita dentro de su intervalo.\n\n**Claridad.** Es el lugar apropiado para el detalle que hoy congestiona la sección 4.\n\n**Cambio recomendado.** Añadir subsecciones separadas por régimen con algoritmo, condiciones de frontera, tolerancias, malla, tests independientes, refinamiento, hashes y limitaciones; actualizar la terminología solver/auditor."
+      },
+      {
+        "id": "phrases_intro",
+        "type": "markdown",
+        "body": "## G. Frases problemáticas\n\nLa tabla siguiente incluye únicamente formulaciones que cambian el alcance económico, matemático o empírico de una afirmación. Las referencias de línea corresponden al commit auditado."
+      },
+      {
+        "id": "phrases_table_block",
+        "type": "table",
+        "tableId": "problematic_phrases"
+      },
+      {
+        "id": "terminology_intro",
+        "type": "markdown",
+        "body": "## H. Terminología sospechosa\n\nNo encontré una “alucinación” matemática central. Sí hay términos paper-specific o de ingeniería numérica que se presentan como si fueran categorías económicas estándar."
+      },
+      {
+        "id": "terminology_table_block",
+        "type": "table",
+        "tableId": "terminology_audit"
+      },
+      {
+        "id": "validation_intro",
+        "type": "markdown",
+        "body": "## I. Matriz de validación de resultados\n\nLa columna de equilibrio no juzga si la curva es suave o plausible; pregunta si se ha establecido optimalidad, clearing, continuación y, cuando corresponde, transversalidad para el objeto completo."
+      },
+      {
+        "id": "validation_table_block",
+        "type": "table",
+        "tableId": "result_validation"
+      },
+      {
+        "id": "additional_tests",
+        "type": "markdown",
+        "body": "## J. Pruebas adicionales indispensables\n\n1. **Existencia y continuación infinita para `σ_XL≤1`.** Probar existencia de una senda admisible desde los estados iniciales que permanezca interior, alcance el límite candidato y cumpla TVC; o reducir explícitamente las afirmaciones a condiciones necesarias.\n2. **Determinación local.** Transformar el sistema alrededor de cada candidato estacionario, calcular el Jacobiano y demostrar que el número de raíces estables coincide con los dos estados predeterminados. Verificar rango y unicidad local del BVP.\n3. **Optimalidad estática global para `σ_XL≠1`.** Demostrar existencia y unicidad del máximo monopólico o formular KKT y comparar raíces/esquinas. Hacer lo mismo para eventuales esquinas de investigación.\n4. **Convergencia numérica de trayectoria.** Para unidad y complementos, reportar refinamiento de tolerancia/malla y norma suprema de diferencias en ventanas comunes, no solo variación de `C(0),q(0)`. Añadir diferenciación dinámica independiente al caso unitario.\n5. **Cola high-σ.** Auditar dinámicamente la región final con tiempo de evento o malla adaptada, o declarar expresamente que la verificación independiente termina 50 años antes de la frontera. Separar ratios terminales impuestos de ratios de sobreidentificación.\n6. **Reproducibilidad integral.** Fijar versiones de Python, NumPy, SciPy y Pillow; manifestar hashes de solver, core, auditor, CSV, plotter y PNG; añadir un entry point único que reproduzca tablas y figuras.\n\nNo considero indispensable una calibración completa ni una batería indiscriminada de sensibilidad de `α,n,δ,ρ` antes de enviar. Sí es indispensable cerrar los seis puntos anteriores porque sostienen el estatus de equilibrio y la evidencia central."
+      },
+      {
+        "id": "final_answers",
+        "type": "markdown",
+        "body": "## Respuestas finales\n\n**1. ¿El modelo, tal como está escrito, está internamente bien definido? — Sí, con reservas.** Las preferencias, tecnologías, mercados, recursos y leyes de movimiento forman un sistema coherente. Las reservas son la conducta híbrida del monopolista, el financiamiento de pérdidas y la falta de una definición de regularidad y de una prueba general de raíz estática.\n\n**2. ¿La definición y caracterización del equilibrio son correctas y completas? — Sí, con reservas.** La definición económica y el sistema fechado incluyen los objetos necesarios. No están completas como teoría de existencia, determinación y selección: el paper caracteriza condiciones necesarias y ofrece suficiencia condicional solo en dos casos unitarios.\n\n**3. ¿Las simulaciones mostradas pueden interpretarse legítimamente como trayectorias de equilibrio? — No.** No todas. Las de complementariedad son candidatos necesarios; las unitarias solo serían equilibrios si existe una continuación infinita admisible con TVC; las high-σ son explícitamente aproximaciones pre-singulares y no un equilibrio infinito. Deben llamarse candidate paths o finite-boundary solutions con el calificativo correspondiente.\n\n**4. ¿Las principales afirmaciones están respaldadas por la teoría y las simulaciones? — Sí, con reservas.** Las direcciones económicas centrales y todas las cifras publicadas están respaldadas. No están respaldadas las formulaciones generales de existencia, convergencia, estabilidad o novedad que exceden las hipótesis y los experimentos.\n\n**5. ¿Está técnicamente listo para enviarse a un referee experto? — No.** Un referee de teoría probablemente concentrará su informe en existencia/determinación, estatus de las simulaciones y omisión de la literatura más cercana. Es mejor resolver esos puntos antes de someterlo; son corregibles sin abandonar el modelo."
+      }
+    ],
+    "sources": [
+      {
+        "id": "manuscript_source",
+        "label": "A×M manuscript",
+        "path": "main_axm.tex"
+      },
+      {
+        "id": "introduction_source",
+        "label": "Introduction",
+        "path": "sections_axm/01_introduction.tex"
+      },
+      {
+        "id": "literature_source",
+        "label": "Related literature",
+        "path": "sections_axm/02_literature.tex"
+      },
+      {
+        "id": "model_source",
+        "label": "Baseline model and equilibrium",
+        "path": "sections_axm/03_model.tex"
+      },
+      {
+        "id": "growth_source",
+        "label": "Growth regimes and numerical transitions",
+        "path": "sections_axm/04_growth_regimes.tex"
+      },
+      {
+        "id": "conclusion_source",
+        "label": "Conclusion",
+        "path": "sections_axm/06_conclusion.tex"
+      },
+      {
+        "id": "appendix_source",
+        "label": "Proofs and numerical audit appendix",
+        "path": "sections_axm/appendix.tex"
+      },
+      {
+        "id": "numerical_bundle",
+        "label": "Canonical numerical outputs",
+        "path": "numerical_axm"
+      },
+      {
+        "id": "audit_evidence",
+        "label": "Audit evidence index",
+        "path": "audit/technical_audit_2026-08-14/evidence_index.md"
+      },
+      {
+        "id": "phrases_sql",
+        "label": "Problematic-phrase audit table",
+        "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+        "query": {
+          "engine": "sqlite",
+          "id": "audit-problematic-phrases-2026-08-14",
+          "language": "sql",
+          "description": "Loads the reviewed sentence-level corrections from the audit snapshot.",
+          "tables_used": [
+            "problematic_phrases"
+          ],
+          "sql": "SELECT order_no AS \"order\", fragment, problem_type, explanation, rewrite FROM problematic_phrases ORDER BY order_no;"
+        }
+      },
+      {
+        "id": "terminology_sql",
+        "label": "Terminology audit table",
+        "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+        "query": {
+          "engine": "sqlite",
+          "id": "audit-terminology-2026-08-14",
+          "language": "sql",
+          "description": "Loads the reviewed terminology classifications from the audit snapshot.",
+          "tables_used": [
+            "terminology_audit"
+          ],
+          "sql": "SELECT order_no AS \"order\", term, standard, problem, recommended FROM terminology_audit ORDER BY order_no;"
+        }
+      },
+      {
+        "id": "results_sql",
+        "label": "Result-validation matrix",
+        "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+        "query": {
+          "engine": "sqlite",
+          "id": "audit-results-2026-08-14",
+          "language": "sql",
+          "description": "Loads the reviewed theory, numerical-evidence, equilibrium-status, and verdict fields for the central results.",
+          "tables_used": [
+            "result_validation"
+          ],
+          "sql": "SELECT order_no AS \"order\", result, theory, numerics, equilibrium, verdict FROM result_validation ORDER BY order_no;"
+        }
+      },
+      {
+        "id": "validation_status_sql",
+        "label": "Result-validation status counts",
+        "path": "audit/technical_audit_2026-08-14/validation_status.sql",
+        "query": {
+          "engine": "sqlite",
+          "id": "audit-validation-status-2026-08-14",
+          "language": "sql",
+          "description": "Counts mutually exclusive evidence classifications assigned to the 12 central results in the audit matrix.",
+          "sql": "SELECT status, count FROM (SELECT 1 AS sort_order, 'Respaldado en su alcance' AS status, 8 AS count UNION ALL SELECT 2, 'Parcial o condicional', 2 UNION ALL SELECT 3, 'No respaldado', 1 UNION ALL SELECT 4, 'Contradicho', 1) ORDER BY sort_order;"
+        }
+      },
+      {
+        "id": "closest_literature",
+        "label": "Davidson et al. (2026), NBER w35155",
+        "href": "https://www.nber.org/papers/w35155"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-14T00:00:00-05:00",
+    "status": "ready",
+    "datasets": {
+      "validation_status": [
+        {
+          "status": "Respaldado en su alcance",
+          "count": 8
+        },
+        {
+          "status": "Parcial o condicional",
+          "count": 2
+        },
+        {
+          "status": "No respaldado",
+          "count": 1
+        },
+        {
+          "status": "Contradicho",
+          "count": 1
+        }
+      ],
+      "problematic_phrases": [
+        {
+          "order": 1,
+          "fragment": "main_axm.tex:44–46 — ‘every regular finite-rate balanced-growth path characterized here has constant output per person and real wages’",
+          "problem_type": "Terminología y exceso de generalización",
+          "explanation": "‘Regular’ no está definido; el resultado exige hipótesis adicionales y establece convergencia a niveles finitos, no constancia a lo largo de toda la senda.",
+          "rewrite": "On any finite-rate asymptotically balanced path satisfying Proposition X, output per person and the real wage converge to finite positive levels."
+        },
+        {
+          "order": 2,
+          "fragment": "main_axm.tex:46–48 — ‘Audited finite-horizon paths show … while these limits emerge’",
+          "problem_type": "Interpretación numérica",
+          "explanation": "Dos razones terminales provienen del candidato analítico y no se demuestra continuación infinita.",
+          "rewrite": "Finite-horizon candidate paths satisfying the dated conditions move toward these conditional limits over the reported horizons."
+        },
+        {
+          "order": 3,
+          "fragment": "01_introduction.tex:10–12 — ‘depend on … the branch that is reached’",
+          "problem_type": "Circularidad",
+          "explanation": "La rama alcanzada es un resultado endógeno que el paper no selecciona globalmente.",
+          "rewrite": "depend on substitution possibilities, feedback strength, and equilibrium selection from the initial state."
+        },
+        {
+          "order": 4,
+          "fragment": "01_introduction.tex:35–38 — ‘This symmetric treatment corresponds to the economic distinction … in Korinek and McKelvey’",
+          "problem_type": "Falta de precisión conceptual",
+          "explanation": "El paper citado separa model capital, algorithms, training e inference; aquí un solo A colapsa esos objetos.",
+          "rewrite": "This is a tractable reduction inspired by their distinction between inference and training uses of compute; unlike their accounting, we summarize model quality and algorithmic efficiency in one capability index."
+        },
+        {
+          "order": 5,
+          "fragment": "01_introduction.tex:42–47 — ‘separate knowledge-spillover channel’",
+          "problem_type": "Terminología económica",
+          "explanation": "Un término A^φ es una dependencia tecnológica directa del stock; solo es spillover si existe una externalidad no internalizada.",
+          "rewrite": "separate standing-on-shoulders or direct capability-stock effect"
+        },
+        {
+          "order": 6,
+          "fragment": "01_introduction.tex:75–84 — ‘observed global data-center electricity use’",
+          "problem_type": "Soporte empírico",
+          "explanation": "IEA reporta estimaciones para todos los centros de datos; 2030 es proyección, no observación, y no todo el consumo es IA.",
+          "rewrite": "IEA estimates of total global data-center electricity use in 2024–25 and its central projection for 2030"
+        },
+        {
+          "order": 7,
+          "fragment": "01_introduction.tex:92–93 — ‘Claude 3.7 with a 32-hour budget matched the median score of humans with eight hours’",
+          "problem_type": "Precisión empírica",
+          "explanation": "La fuente dice ‘comparable’; 32 horas agregan múltiples intentos más cortos en cinco tareas.",
+          "rewrite": "In a five-task evaluation, aggregating shorter Claude 3.7 runs to 32 hours produced a score comparable to the median human score at eight hours."
+        },
+        {
+          "order": 8,
+          "fragment": "01_introduction.tex:125–126 — ‘A finite-rate balanced-growth path is then impossible’",
+          "problem_type": "Alcance",
+          "explanation": "Es correcto solo en la rama interior con A→∞ y s_X→1.",
+          "rewrite": "On the stated interior AI-dominated branch with unbounded capability, a finite-rate balanced-growth path is impossible."
+        },
+        {
+          "order": 9,
+          "fragment": "01_introduction.tex:155–156 — ‘The resulting paths converge … and their estimated singularity dates converge’",
+          "problem_type": "Exceso de certeza",
+          "explanation": "Cuatro fronteras muestran estabilización numérica, no convergencia demostrada.",
+          "rewrite": "The approximations stabilize over the reported common intervals, and the extrapolated singularity dates become progressively closer."
+        },
+        {
+          "order": 10,
+          "fragment": "01_introduction.tex:160–164 — ‘The paper contributes … symmetric accounting … changes the balanced-growth feedback condition’",
+          "problem_type": "Novedad no sustentada",
+          "explanation": "Davidson et al. (2026) ya usan capability×compute en producción e investigación y derivan condiciones de explosión.",
+          "rewrite": "Relative to the closest capability–compute growth models, the paper contributes a decentralized Ramsey equilibrium with monopoly pricing, endogenous sectoral allocation, factor prices, and an explicit wage threshold."
+        },
+        {
+          "order": 11,
+          "fragment": "02_literature.tex:8–9 — ‘when that anchor disappears because capability-augmented research services can substitute for human researchers’",
+          "problem_type": "Economía",
+          "explanation": "Puede desaparecer el cuello de botella humano directo en investigación mientras población sigue limitando recursos y producción.",
+          "rewrite": "when the direct human-research bottleneck weakens; population may still constrain innovation indirectly through production and resources."
+        },
+        {
+          "order": 12,
+          "fragment": "02_literature.tex:48–52 — ‘The complementarity result adds an endogenous-research margin to this older CES logic’",
+          "problem_type": "Novedad y alcance",
+          "explanation": "El resultado es válido en este entorno CES agregado y monopólico; literatura reciente ya combina weak links y automatización.",
+          "rewrite": "In our aggregate CES and monopoly environment, endogenous AI research adds a distributional and resource-allocation margin to this weak-link logic."
+        },
+        {
+          "order": 13,
+          "fragment": "03_model.tex:418–423 — ‘This subsystem characterizes the candidate quantities…’",
+          "problem_type": "Ambigüedad matemática",
+          "explanation": "‘Characterizes’ puede sugerir existencia y unicidad de una raíz algebraica; el texto solo describe las ecuaciones que una raíz debe satisfacer.",
+          "rewrite": "Any interior algebraic root of this subsystem determines the dated candidate quantities…; existence and uniqueness are addressed separately."
+        },
+        {
+          "order": 14,
+          "fragment": "03_model.tex:354 — ‘Every regular interior equilibrium’",
+          "problem_type": "Concepto no definido",
+          "explanation": "No se especifica qué regularidad se exige para derivadas, límites, interioridad uniforme o integrabilidad.",
+          "rewrite": "Every interior equilibrium satisfying the differentiability, integrability, and limiting conditions stated in Assumption R…"
+        },
+        {
+          "order": 15,
+          "fragment": "04_growth_regimes.tex:16–19 — ‘unit elasticity … is the regime in which the model can admit finite positive per-capita growth’",
+          "problem_type": "Exceso de generalización",
+          "explanation": "La clasificación solo cubre ramas regulares caracterizadas y no excluye toda solución posible fuera de ellas.",
+          "rewrite": "Among the regular unbounded-capability branches characterized below, unit elasticity is the case that admits a finite positive per-capita balanced-growth candidate."
+        },
+        {
+          "order": 16,
+          "fragment": "04_growth_regimes.tex:25–27 — ‘A balanced-growth path is a path on which growth rates … converge’",
+          "problem_type": "Terminología matemática",
+          "explanation": "La definición convencional exige tasas/ratios constantes; la frase describe convergencia asintótica.",
+          "rewrite": "We call this an asymptotically balanced-growth path; a BGP in the strict sense has constant growth rates and stationary ratios throughout."
+        },
+        {
+          "order": 17,
+          "fragment": "04_growth_regimes.tex:180–184 — ‘The computation approximates such a path. Its remaining numerical issues are discretization and finite-horizon truncation’",
+          "problem_type": "Lógica y simulación",
+          "explanation": "También queda sin probar existencia y continuación infinita; no es solo un error numérico.",
+          "rewrite": "The BVP is designed to approximate such a path if it exists. Discretization and truncation are numerical errors; existence and infinite continuation remain separate analytical questions."
+        },
+        {
+          "order": 18,
+          "fragment": "04_growth_regimes.tex:306 — ‘Output per person and the real wage converge to finite positive levels’",
+          "problem_type": "Correcta con condición",
+          "explanation": "La frase es correcta dentro de la proposición, pero debe conservar sus hipótesis cada vez que se resume.",
+          "rewrite": "Under the proposition’s maintained regularity and balanced-limit hypotheses, output per person and the real wage converge to finite positive levels."
+        },
+        {
+          "order": 19,
+          "fragment": "04_growth_regimes.tex:669–672 — ‘capability growth converges … output-per-capita growth converges’",
+          "problem_type": "Evidencia numérica",
+          "explanation": "Las tasas se acercan al cierre terminal candidato; el BVP no prueba convergencia infinita.",
+          "rewrite": "At the terminal horizons, the rates are within … of the analytical candidate values."
+        },
+        {
+          "order": 20,
+          "fragment": "04_growth_regimes.tex:921–922 — ‘The initial jumps and paths also converge on common calendar intervals’",
+          "problem_type": "Exceso de certeza",
+          "explanation": "La prueba oficial de ventana común no trata las cuatro fronteras de forma simétrica y no constituye demostración matemática.",
+          "rewrite": "The approximations become numerically close on the audited common intervals over the reported boundary sequence."
+        },
+        {
+          "order": 21,
+          "fragment": "04_growth_regimes.tex:993–994 — ‘candidate paths … are stable across the reported terminal horizons’",
+          "problem_type": "Terminología dinámica",
+          "explanation": "Robustez frente a horizonte no es estabilidad de equilibrio ni saddle-path stability.",
+          "rewrite": "candidate paths are numerically insensitive to the reported terminal-horizon changes."
+        },
+        {
+          "order": 22,
+          "fragment": "06_conclusion.tex:53 — ‘it can increase for centuries in the numerical normalization’",
+          "problem_type": "Pedagogía e interpretación",
+          "explanation": "Aunque se aclara que no es forecast, ‘centuries’ invita a una lectura de calendario.",
+          "rewrite": "it can increase over a long portion of the normalized transition before automation dominates."
+        },
+        {
+          "order": 23,
+          "fragment": "06_conclusion.tex:63–67 — ‘the analytically extrapolated singularity date converges … validates convergence’",
+          "problem_type": "Exceso de certeza",
+          "explanation": "Se observan fechas progresivamente cercanas y paths estabilizados, no convergencia probada.",
+          "rewrite": "the extrapolated dates become progressively closer, providing numerical evidence of stabilization over the reported boundaries and common pre-singular intervals."
+        },
+        {
+          "order": 24,
+          "fragment": "appendix.tex:590–592 — ‘the independent solver is scripts/simulate_axm_equilibrium.py’",
+          "problem_type": "Error descriptivo",
+          "explanation": "Ese archivo es el solver principal; el auditor es audit_axm_model.py. Además falta mencionar audit_axm_complements.py.",
+          "rewrite": "The primary unit-elasticity solver is …; its row-by-row auditor is …; complementarity and high-substitution paths use the separate auditors …."
+        }
+      ],
+      "terminology_audit": [
+        {
+          "order": 1,
+          "term": "balanced-growth path",
+          "standard": "Sí",
+          "problem": "El paper lo define como convergencia de tasas y shares, una noción más débil que la convención exacta.",
+          "recommended": "balanced-growth path para tasas/ratios constantes; asymptotically balanced-growth path o balanced-growth limit para convergencia."
+        },
+        {
+          "order": 2,
+          "term": "regular finite-rate balanced-growth path",
+          "standard": "No, como expresión completa",
+          "problem": "‘Regular’ no está definido y ‘finite-rate’ no tiene contenido formal separado.",
+          "recommended": "finite-growth asymptotic path satisfying Assumption R, con R definida."
+        },
+        {
+          "order": 3,
+          "term": "interior candidate path",
+          "standard": "Paper-specific, pero válido",
+          "problem": "Puede confundirse con equilibrium path; su definición incluso incluye TVC, mientras la rama singular no.",
+          "recommended": "necessary-condition candidate path; conservar una definición explícita."
+        },
+        {
+          "order": 4,
+          "term": "pre-singular candidate branch",
+          "standard": "No estándar, bien definido",
+          "problem": "Es útil solo si nunca se abrevia como equilibrium branch.",
+          "recommended": "pre-singular solution of the dated necessary conditions."
+        },
+        {
+          "order": 5,
+          "term": "validated computation / validated path",
+          "standard": "No como concepto económico",
+          "problem": "Sugiere validación de equilibrio; en realidad se validan residuales y gates numéricos.",
+          "recommended": "audited finite-horizon candidate path satisfying the stated numerical checks."
+        },
+        {
+          "order": 6,
+          "term": "equilibrium transition",
+          "standard": "Sí, pero sobreutilizado",
+          "problem": "Solo debe usarse cuando existencia, optimalidad y clearing del objeto completo están establecidos.",
+          "recommended": "candidate transition o finite-boundary path fuera de los casos suficientes."
+        },
+        {
+          "order": 7,
+          "term": "AI capability",
+          "standard": "Reconocible, no único",
+          "problem": "Colapsa calidad de modelo, eficiencia algorítmica y productividad del compute; no es model capital físico.",
+          "recommended": "AI capability index, definido como servicios por unidad de raw compute."
+        },
+        {
+          "order": 8,
+          "term": "effective-research index E",
+          "standard": "Sí como índice CES auxiliar",
+          "problem": "Podría interpretarse como una etapa productiva separada.",
+          "recommended": "CES research-input index E; aclarar una sola vez que no es bien, stock ni etapa adicional."
+        },
+        {
+          "order": 9,
+          "term": "technological share s_X",
+          "standard": "Ambiguo",
+          "problem": "s_X es elasticidad CES de Z respecto a X; no es share de ingreso final ni fracción física de tareas.",
+          "recommended": "CES contribution share o elasticity of the labor–AI composite with respect to X."
+        },
+        {
+          "order": 10,
+          "term": "automated research-expenditure share s_M",
+          "standard": "Definido dentro del modelo",
+          "problem": "No es porcentaje físico de investigación realizada por IA.",
+          "recommended": "automated-service expenditure share in the research-input cost index."
+        },
+        {
+          "order": 11,
+          "term": "knowledge spillover",
+          "standard": "Sí",
+          "problem": "Se usa para describir un A^φ directo, que no necesariamente es externalidad.",
+          "recommended": "standing-on-shoulders term o direct capability-stock effect, salvo que se modele la externalidad."
+        },
+        {
+          "order": 12,
+          "term": "singularity",
+          "standard": "Sí, en esta literatura",
+          "problem": "Debe reservarse para output no acotado en tiempo finito, no para toda aceleración.",
+          "recommended": "finite-time economic singularity, con la definición de Aghion–Jones–Jones."
+        },
+        {
+          "order": 13,
+          "term": "stability / stable across horizons",
+          "standard": "Sí, pero sentido incorrecto",
+          "problem": "Insensibilidad numérica a T no es estabilidad local o global de un sistema dinámico.",
+          "recommended": "horizon robustness o numerical insensitivity; reservar stability para eigenvalues/variedad estable."
+        },
+        {
+          "order": 14,
+          "term": "H100-equivalent processors",
+          "standard": "No preciso",
+          "problem": "La serie mide capacidad normalizada, no conteo literal de procesadores físicos.",
+          "recommended": "H100-equivalent units of compute capacity."
+        },
+        {
+          "order": 15,
+          "term": "cold start, clipping, fallback, gate",
+          "standard": "Ingeniería numérica",
+          "problem": "Válido en documentación del solver, innecesario como lenguaje económico del cuerpo.",
+          "recommended": "Mover al apéndice de reproducibilidad; en el cuerpo, numerical solution and acceptance criteria."
+        },
+        {
+          "order": 16,
+          "term": "model capital",
+          "standard": "Emergente en contabilidad de IA",
+          "problem": "No es equivalente al A del paper sin una explicación de qué dimensiones se agregan.",
+          "recommended": "capability index summarizing model quality and algorithmic efficiency; indicar que no es capital físico."
+        }
+      ],
+      "result_validation": [
+        {
+          "order": 1,
+          "result": "Si Aw→∞, s_M→0, ω_M o 1 según σ_HM<1, =1 o >1.",
+          "theory": "Proposición exacta de demandas CES condicionadas; requiere interioridad y condición de precio relativo.",
+          "numerics": "σ_HM=1 mantiene 0.35; σ_HM=2 se acerca a 1 en los tres regímenes simulados.",
+          "equilibrium": "No depende de que la trayectoria completa sea equilibrio; es una implicación condicional intratemporal.",
+          "verdict": "Plenamente respaldado dentro de las hipótesis."
+        },
+        {
+          "order": 2,
+          "result": "Con σ_XL<1, output por persona y salario convergen a niveles finitos y el labor share permanece positivo.",
+          "theory": "Proposición condicional: A→∞, costo normalizado→0, L/N positivo, C/Y positivo y límite balanceado regular.",
+          "numerics": "Los dos BVP con σ_XL=0.75 se acercan a esos límites.",
+          "equilibrium": "No verificado como equilibrio infinito; condiciones necesarias y cierre terminal condicional.",
+          "verdict": "Parcialmente respaldado: teorema condicional + evidencia numérica, sin existencia."
+        },
+        {
+          "order": 3,
+          "result": "Bajo complementariedad, investigación puede automatizarse aunque trabajo siga siendo cuello de botella final.",
+          "theory": "Proposición de asignación de investigación bajo regularidad y TVC mantenidas.",
+          "numerics": "Con σ_HM=2, s_M=0.99831 y H/N≈7.0×10⁻⁹; wN/Y≈0.4473.",
+          "equilibrium": "Candidato necesario; no se prueba continuación infinita.",
+          "verdict": "Plenamente respaldado como mecanismo condicional; no como resultado global."
+        },
+        {
+          "order": 4,
+          "result": "Con σ_XL=1 existe un candidato BGP si D(s̄)>0 y se cumplen factibilidad y optimalidad.",
+          "theory": "Derivación algebraica correcta; D>0 es necesaria, no suficiente por sí sola.",
+          "numerics": "Dos paths se acercan a los candidatos HM=1 y HM=2.",
+          "equilibrium": "Sí con reservas solo si existe continuación infinita admisible con TVC.",
+          "verdict": "Plenamente respaldado como candidato; existencia no respaldada."
+        },
+        {
+          "order": 5,
+          "result": "La automatización de investigación eleva el feedback y reduce D(1) frente a D(ω_M).",
+          "theory": "Identidad algebraica exacta en el caso unitario.",
+          "numerics": "Tasas terminales 1.23% versus 0.67% para A, y 0.31% versus 0.17% para Y/N.",
+          "equilibrium": "Candidatos numéricos; equilibrio infinito condicional.",
+          "verdict": "Plenamente respaldado para la comparación parametrizada."
+        },
+        {
+          "order": 6,
+          "result": "Con σ_XL>1, A→∞ y s_X→1 no hay BGP de tasas finitas.",
+          "theory": "Proposición condicional: Y/K∝A^θ y retorno/crescimiento de consumo no acotados.",
+          "numerics": "La trayectoria σ_XL=1.5 muestra aceleración consistente.",
+          "equilibrium": "La proposición es sobre cualquier path que satisfaga la rama; la simulación no es equilibrio infinito.",
+          "verdict": "Plenamente respaldado como no-existencia condicional."
+        },
+        {
+          "order": 7,
+          "result": "Existe una rama singular con ratios explícitos y ż≈θhz².",
+          "theory": "Resultado condicional bajo convergencias y regularidad endógenas postuladas.",
+          "numerics": "Cuatro fronteras se acercan a ratios no impuestos y fechas T* cercanas.",
+          "equilibrium": "No. Solución finita de condiciones necesarias; no globalmente óptima ni continuable después de T*.",
+          "verdict": "Parcialmente respaldado: derivación condicional + evidencia numérica."
+        },
+        {
+          "order": 8,
+          "result": "En la rama singular, wL/Y y wN/Y→0.",
+          "theory": "Derivación asintótica correcta bajo la rama postulada.",
+          "numerics": "wN/Y cae de forma consistente y llega a 0.00050 en z_T=128.",
+          "equilibrium": "No es equilibrio infinito.",
+          "verdict": "Plenamente respaldado dentro de la rama condicional."
+        },
+        {
+          "order": 9,
+          "result": "El salario sube si min{σ_XL,σ_HM}<1/(αη) y cae si está por encima.",
+          "theory": "Umbral algebraico correcto en el límite singular; en igualdad el primer orden no determina el signo.",
+          "numerics": "Caso 1.5/2 está debajo del umbral y g_w es positivo en todas las observaciones guardadas.",
+          "equilibrium": "Resultado de rama condicional, no propiedad global del modelo.",
+          "verdict": "Plenamente respaldado dentro del límite; solo un lado del umbral está simulado."
+        },
+        {
+          "order": 10,
+          "result": "El salario puede subir mientras cae la participación del trabajo.",
+          "theory": "Sigue de la diferencia entre crecimiento de w y crecimiento más rápido de Y/N en la rama.",
+          "numerics": "La simulación high-σ muestra salario creciente y share decreciente.",
+          "equilibrium": "No como equilibrio infinito; sí como path candidato fechado.",
+          "verdict": "Plenamente respaldado como posibilidad del modelo."
+        },
+        {
+          "order": 11,
+          "result": "Las trayectorias numéricas convergen a sus objetos teóricos.",
+          "theory": "No hay teorema de convergencia, existencia o estabilidad.",
+          "numerics": "Hay robustez de horizontes/fronteras, errores pequeños y acercamiento a objetivos; algunos objetivos son impuestos.",
+          "equilibrium": "No demostrado.",
+          "verdict": "No respaldado en esa formulación fuerte; reemplazar por evidencia de aproximación/estabilización."
+        },
+        {
+          "order": 12,
+          "result": "El paper introduce por primera vez el feedback capability×compute en producción e investigación.",
+          "theory": "No es un resultado del modelo sino una afirmación de contribución.",
+          "numerics": "No aplica.",
+          "equilibrium": "No aplica.",
+          "verdict": "Contradicho por la literatura más cercana; reposicionar la contribución."
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "manuscript_source",
+      "label": "A×M manuscript",
+      "path": "main_axm.tex"
+    },
+    {
+      "id": "introduction_source",
+      "label": "Introduction",
+      "path": "sections_axm/01_introduction.tex"
+    },
+    {
+      "id": "literature_source",
+      "label": "Related literature",
+      "path": "sections_axm/02_literature.tex"
+    },
+    {
+      "id": "model_source",
+      "label": "Baseline model and equilibrium",
+      "path": "sections_axm/03_model.tex"
+    },
+    {
+      "id": "growth_source",
+      "label": "Growth regimes and numerical transitions",
+      "path": "sections_axm/04_growth_regimes.tex"
+    },
+    {
+      "id": "conclusion_source",
+      "label": "Conclusion",
+      "path": "sections_axm/06_conclusion.tex"
+    },
+    {
+      "id": "appendix_source",
+      "label": "Proofs and numerical audit appendix",
+      "path": "sections_axm/appendix.tex"
+    },
+    {
+      "id": "numerical_bundle",
+      "label": "Canonical numerical outputs",
+      "path": "numerical_axm"
+    },
+    {
+      "id": "audit_evidence",
+      "label": "Audit evidence index",
+      "path": "audit/technical_audit_2026-08-14/evidence_index.md"
+    },
+    {
+      "id": "phrases_sql",
+      "label": "Problematic-phrase audit table",
+      "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+      "query": {
+        "engine": "sqlite",
+        "id": "audit-problematic-phrases-2026-08-14",
+        "language": "sql",
+        "description": "Loads the reviewed sentence-level corrections from the audit snapshot.",
+        "tables_used": [
+          "problematic_phrases"
+        ],
+        "sql": "SELECT order_no AS \"order\", fragment, problem_type, explanation, rewrite FROM problematic_phrases ORDER BY order_no;"
+      }
+    },
+    {
+      "id": "terminology_sql",
+      "label": "Terminology audit table",
+      "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+      "query": {
+        "engine": "sqlite",
+        "id": "audit-terminology-2026-08-14",
+        "language": "sql",
+        "description": "Loads the reviewed terminology classifications from the audit snapshot.",
+        "tables_used": [
+          "terminology_audit"
+        ],
+        "sql": "SELECT order_no AS \"order\", term, standard, problem, recommended FROM terminology_audit ORDER BY order_no;"
+      }
+    },
+    {
+      "id": "results_sql",
+      "label": "Result-validation matrix",
+      "path": "audit/technical_audit_2026-08-14/audit_tables.sqlite",
+      "query": {
+        "engine": "sqlite",
+        "id": "audit-results-2026-08-14",
+        "language": "sql",
+        "description": "Loads the reviewed theory, numerical-evidence, equilibrium-status, and verdict fields for the central results.",
+        "tables_used": [
+          "result_validation"
+        ],
+        "sql": "SELECT order_no AS \"order\", result, theory, numerics, equilibrium, verdict FROM result_validation ORDER BY order_no;"
+      }
+    },
+    {
+      "id": "validation_status_sql",
+      "label": "Result-validation status counts",
+      "path": "audit/technical_audit_2026-08-14/validation_status.sql",
+      "query": {
+        "engine": "sqlite",
+        "id": "audit-validation-status-2026-08-14",
+        "language": "sql",
+        "description": "Counts mutually exclusive evidence classifications assigned to the 12 central results in the audit matrix.",
+        "sql": "SELECT status, count FROM (SELECT 1 AS sort_order, 'Respaldado en su alcance' AS status, 8 AS count UNION ALL SELECT 2, 'Parcial o condicional', 2 UNION ALL SELECT 3, 'No respaldado', 1 UNION ALL SELECT 4, 'Contradicho', 1) ORDER BY sort_order;"
+      }
+    },
+    {
+      "id": "closest_literature",
+      "label": "Davidson et al. (2026), NBER w35155",
+      "href": "https://www.nber.org/papers/w35155"
+    }
+  ]
+}
