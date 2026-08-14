@@ -31,11 +31,11 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 TMP_DEPS = ROOT / "tmp" / "pydeps"
-if TMP_DEPS.exists():
-    sys.path.insert(0, str(TMP_DEPS))
 LOCAL_DEPS = ROOT / ".python-packages"
 if LOCAL_DEPS.exists():
     sys.path.insert(0, str(LOCAL_DEPS))
+elif TMP_DEPS.exists():
+    sys.path.insert(0, str(TMP_DEPS))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from scipy.integrate import solve_bvp, solve_ivp  # noqa: E402
@@ -142,6 +142,7 @@ def monopoly_service_block(
             "log_ai_ratio": log_ai_services - log_labor,
             "log_output": log_output,
             "ai_share": parameters.omega_x,
+            "monopoly_root_fallback": False,
         }
 
     rho = (parameters.sigma_xl - 1.0) / parameters.sigma_xl
@@ -190,15 +191,16 @@ def monopoly_service_block(
             residual,
             lower,
             upper,
-            xtol=1e-10,
-            rtol=1e-10,
-            maxiter=80,
+            xtol=1e-13,
+            rtol=1e-13,
+            maxiter=120,
         )
         log_output, ai_share = quantities(log_ai_ratio)
         return {
             "log_ai_ratio": log_ai_ratio,
             "log_output": log_output,
             "ai_share": ai_share,
+            "monopoly_root_fallback": False,
         }
 
     grid = np.linspace(lower, upper, 101)
@@ -214,15 +216,16 @@ def monopoly_service_block(
                 residual,
                 previous_x,
                 current_x,
-                xtol=1e-11,
-                rtol=1e-11,
-                maxiter=120,
+                xtol=1e-13,
+                rtol=1e-13,
+                maxiter=160,
             )
             log_output, ai_share = quantities(log_ai_ratio)
             return {
                 "log_ai_ratio": log_ai_ratio,
                 "log_output": log_output,
                 "ai_share": ai_share,
+                "monopoly_root_fallback": False,
             }
         previous_x = current_x
         previous_value = current_value
@@ -232,6 +235,7 @@ def monopoly_service_block(
         "log_ai_ratio": log_ai_ratio,
         "log_output": log_output,
         "ai_share": ai_share,
+        "monopoly_root_fallback": True,
     }
 
 
@@ -288,11 +292,13 @@ def equilibrium_static_block(
             "log_ai_ratio": log_ai_ratio,
             "log_output": log_output,
             "ai_share": ai_share,
+            "monopoly_root_fallback": production["monopoly_root_fallback"],
             "log_wage": log_wage,
             "log_research_price": log_research_price,
             "log_effective_research": log_effective_research,
         }
 
+    labor_root_fallback = False
     lower = -35.0
     upper = 35.0
     lower_residual = allocation(lower)[0]
@@ -318,6 +324,7 @@ def equilibrium_static_block(
                 for value in grid
             ]
             logit_human_share = min(endpoint_residuals)[1]
+            labor_root_fallback = True
         else:
             lower, upper = bracket
             logit_human_share = brentq(
@@ -395,6 +402,7 @@ def equilibrium_static_block(
             "inference_share": inference_share,
             "research_resource_share": research_resource_share,
             "capability_profit_derivative": capability_profit_derivative,
+            "labor_root_fallback": labor_root_fallback,
         }
     )
     return block
@@ -538,13 +546,82 @@ def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
             "sigma_HM=1 or sigma_HM>1. The complements branch needs its own "
             "terminal conditions."
         )
+    human_essential = abs(parameters.sigma_hm - 1.0) <= 1e-9
+    research_feedback_weight = (
+        parameters.omega_m if human_essential else 1.0
+    )
+
+    if parameters.sigma_xl < 1.0 - 1e-9:
+        # When final-production inputs are gross complements, X/L converges
+        # to a finite constant while the resource costs U=X/A and M vanish
+        # relative to output.  The limiting Euler equation therefore gives
+        # r=rho and K/Y=alpha/(rho+delta).  A constant U/(qA) closes the
+        # developer costate equation and yields the growth rates below.
+        capability_growth = (
+            parameters.eta
+            * parameters.n
+            / (
+                1.0
+                + parameters.eta
+                * (1.0 - research_feedback_weight)
+            )
+        )
+        aggregate_growth = parameters.n
+        shadow_growth = parameters.n - 2.0 * capability_growth
+        capital_output_ratio = parameters.alpha / (
+            parameters.discount + parameters.delta
+        )
+        investment_share = (
+            parameters.n + parameters.delta
+        ) * capital_output_ratio
+        consumption_share = 1.0 - investment_share
+        profit_shadow_ratio = (
+            parameters.discount
+            - parameters.n
+            + (
+                2.0
+                - parameters.eta * research_feedback_weight
+            )
+            * capability_growth
+        )
+        if consumption_share <= 0.0:
+            raise ValueError(
+                "The complementarity terminal consumption share is not positive."
+            )
+        if profit_shadow_ratio <= 0.0:
+            raise ValueError(
+                "The complementarity terminal profit-shadow ratio is not positive."
+            )
+        limiting_ai_share = (
+            1.0 - parameters.sigma_xl
+        ) / (1.0 - parameters.alpha * parameters.sigma_xl)
+        limiting_ai_labor_ratio = (
+            limiting_ai_share
+            / (1.0 - limiting_ai_share)
+            * (1.0 - parameters.omega_x)
+            / parameters.omega_x
+        ) ** (
+            parameters.sigma_xl / (parameters.sigma_xl - 1.0)
+        )
+        return {
+            "aggregate_growth": aggregate_growth,
+            "capability_growth": capability_growth,
+            "shadow_growth": shadow_growth,
+            "consumption_share": consumption_share,
+            "investment_share": investment_share,
+            "research_share": 0.0,
+            "capital_output_ratio": capital_output_ratio,
+            "terminal_shadow_object": "profit_shadow_ratio",
+            "terminal_shadow_target": profit_shadow_ratio,
+            "limiting_research_weight": research_feedback_weight,
+            "limiting_ai_share": limiting_ai_share,
+            "limiting_ai_labor_ratio": limiting_ai_labor_ratio,
+            "limiting_net_interest_rate": parameters.discount,
+        }
+
     if abs(parameters.sigma_xl - 1.0) <= 1e-9:
         beta = (1.0 - parameters.alpha) * parameters.omega_x
         upsilon = beta / (1.0 - parameters.alpha - beta)
-        human_essential = abs(parameters.sigma_hm - 1.0) <= 1e-9
-        research_feedback_weight = (
-            parameters.omega_m if human_essential else 1.0
-        )
         denominator = (
             1.0
             - parameters.eta
@@ -610,6 +687,7 @@ def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
                 * research_feedback_weight
                 * capability_growth
             ),
+            "limiting_research_weight": research_feedback_weight,
         }
     raise ValueError(
         "This solver only imposes the finite Cobb--Douglas terminal path. "
@@ -626,19 +704,7 @@ def fixed_share_guess(
     targets = asymptotic_targets(parameters)
     log_initial_capability = math.log(initial_state[1])
     log_initial_population = math.log(initial_state[2])
-    research_weight = (
-        parameters.omega_m
-        if abs(parameters.sigma_hm - 1.0) <= 1e-9
-        else 1.0
-    )
-    target_shadow_output_ratio = (
-        float(targets["research_share"])
-        / (
-            parameters.eta
-            * research_weight
-            * float(targets["capability_growth"])
-        )
-    )
+    terminal_shadow_object = str(targets["terminal_shadow_object"])
 
     def initial_ratios(values: np.ndarray) -> np.ndarray:
         log_capital, log_shadow = map(float, values)
@@ -649,15 +715,25 @@ def fixed_share_guess(
             log_shadow,
             parameters,
         )
+        if terminal_shadow_object == "profit_shadow_ratio":
+            shadow_residual = (
+                math.log(block["capability_profit_derivative"])
+                - log_shadow
+                - math.log(float(targets["terminal_shadow_target"]))
+            )
+        else:
+            shadow_residual = (
+                log_shadow
+                + log_initial_capability
+                - block["log_output"]
+                - math.log(float(targets["terminal_shadow_target"]))
+            )
         return np.asarray(
             [
                 log_capital
                 - block["log_output"]
                 - math.log(float(targets["capital_output_ratio"])),
-                log_shadow
-                + log_initial_capability
-                - block["log_output"]
-                - math.log(target_shadow_output_ratio),
+                shadow_residual,
             ]
         )
 
@@ -669,6 +745,13 @@ def fixed_share_guess(
         gtol=1e-11,
         max_nfev=200,
     )
+    if (
+        not ratio_root.success
+        or float(np.max(np.abs(initial_ratios(ratio_root.x)))) >= 1e-8
+    ):
+        raise RuntimeError(
+            "The asymptotic fixed-share initial guess could not be constructed."
+        )
     log_capital_zero, log_shadow_zero = map(float, ratio_root.x)
     aggregate_growth = float(targets["aggregate_growth"])
     capability_growth = float(targets["capability_growth"])
@@ -1063,6 +1146,15 @@ def evaluate_solution(
             "shadow_capability_to_capital": math.exp(
                 log_shadow + log_capability - log_capital
             ),
+            "profit_shadow_ratio": (
+                block["capability_profit_derivative"]
+                * math.exp(-log_shadow)
+            ),
+            "ai_labor_ratio": math.exp(block["log_ai_ratio"]),
+            "monopoly_root_fallback": float(
+                bool(block["monopoly_root_fallback"])
+            ),
+            "labor_root_fallback": float(bool(block["labor_root_fallback"])),
             "human_to_automated_research_ratio": math.exp(
                 block["log_human_research"]
                 - block["log_automated_research"]

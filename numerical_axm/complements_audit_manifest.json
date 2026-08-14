@@ -1,0 +1,115 @@
+{
+  "accepted": true,
+  "audit": "A*M gross-complements independent acceptance audit",
+  "audit_version": 1,
+  "canonical_scenarios": {
+    "horizon_robustness": [
+      "axm_complements_sigma_xl_075_hm_1_T_1600",
+      "axm_complements_sigma_xl_075_hm_1_T_1800",
+      "axm_complements_sigma_xl_075_hm_1_T_2000",
+      "axm_complements_sigma_xl_075_hm_2_T_1600",
+      "axm_complements_sigma_xl_075_hm_2_T_1800",
+      "axm_complements_sigma_xl_075_hm_2_T_2000"
+    ],
+    "primary": [
+      "axm_complements_sigma_xl_075_hm_1",
+      "axm_complements_sigma_xl_075_hm_2"
+    ]
+  },
+  "created_utc": "2026-08-14T14:57:10.610248+00:00",
+  "ex_ante_gates": {
+    "clipping_lower": -700.0,
+    "clipping_upper": 60.0,
+    "hm2_machine_gap": 0.002,
+    "human_population_share": 1e-05,
+    "imposed_terminal": 1e-07,
+    "independent_dynamics": 2e-05,
+    "inference_output_share": 0.0001,
+    "initial_jump_range": 2e-06,
+    "limiting_ai_share": 0.0005,
+    "monopoly_foc_log": 1e-09,
+    "nonimposed_terminal": 2e-05,
+    "research_output_share": 0.0001,
+    "solver_rms": 1e-05,
+    "static_equations": 1e-08,
+    "tvc_log_proxy": -20.0
+  },
+  "files": {
+    "audit_script": {
+      "bytes": 41353,
+      "path": "scripts/audit_axm_complements.py",
+      "sha256": "cfaac4ac4a7eaf14871dd8a5f0e2b08f1be6aa3084a977c0d72949798cfff110"
+    },
+    "inputs": [
+      {
+        "bytes": 2707583,
+        "path": "numerical_axm/complements_transition_paths.csv",
+        "sha256": "572bf298e38b476287c6bedac5d9a4467a5eab60b5b709af52498905d811b9f8"
+      },
+      {
+        "bytes": 5165,
+        "path": "numerical_axm/complements_transition_summary.csv",
+        "sha256": "2d80dab027d8fd5f80ce140accf65bab2185f1deeca0d85189e7c55d5b046c7b"
+      },
+      {
+        "bytes": 7327285,
+        "path": "numerical_axm/complements_horizon_paths.csv",
+        "sha256": "b2aa930e37294bda8fdb6aa53fdec36841c5d3f79eb4f3a5cdf246f0f7b02674"
+      },
+      {
+        "bytes": 11263,
+        "path": "numerical_axm/complements_horizon_robustness.csv",
+        "sha256": "fc4c32119b83307c5fa33464a9f6397ae92ca7c3957964924dceb4ca73dbf453"
+      }
+    ],
+    "outputs": [
+      {
+        "bytes": 20571,
+        "path": "numerical_axm/complements_acceptance_report.csv",
+        "sha256": "cc346f6a6bc3db42693ac1a15e7a0c1b4f972419672ccfce644168b445cd8ada"
+      },
+      {
+        "bytes": 6260447,
+        "path": "numerical_axm/complements_equation_residuals.csv",
+        "sha256": "01c14bdb7e7b4586b5b4f028910661b88b8584a9a604ea0989910fa1d62aeec2"
+      }
+    ]
+  },
+  "numerical_derivative": "centered seven-point local-polynomial derivative on interior saved dates; separate seven-point backward terminal diagnostics",
+  "parameters": {
+    "alpha": 0.33,
+    "chi": 0.01,
+    "delta": 0.05,
+    "discount": 0.04,
+    "eta": 0.45,
+    "omega_m": 0.35,
+    "omega_x": 0.2,
+    "population_growth": 0.012,
+    "sigma_xl": 0.75
+  },
+  "path_label": "finite-horizon equilibrium candidate paths satisfying all dated equations and the stated terminal conditions",
+  "runtime": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "scope_note": "No solver functions are imported. Clipping is certified on the accepted/evaluated paths; rejected Newton trial states are not observable in the canonical CSV outputs.",
+  "terminal_condition_provenance": {
+    "imposed": [
+      "C/Y",
+      "X/(q A^2)"
+    ],
+    "nonimposed": [
+      "gK",
+      "gC",
+      "gY",
+      "gA",
+      "gq",
+      "net interest rate",
+      "sX",
+      "sM",
+      "U/Y",
+      "M/Y",
+      "H/N"
+    ]
+  }
+}

@@ -129,8 +129,10 @@ implies that the term in square brackets converges to zero. Solving gives
 \]
 For \(\sigma_{XL}<1\), this number is strictly between zero and one. The CES share
 mapping \eqref{eq:axm-sx} is one-to-one in \(X/L\), so \(X/L\) converges to a
-finite positive constant. Hence \(Z/L\) converges to a constant and
-\(Y\) is asymptotically a constant multiple of \(K^\alpha L^{1-\alpha}\).
+finite positive constant. Inverting that mapping gives exactly \(\bar x\) in
+\eqref{eq:axm-complement-ratios}; substituting \(\bar x\) into the CES gives
+\(Z/L\to\bar z\). Hence \(Y\) is asymptotically a positive constant multiple
+of \(K^\alpha L^{1-\alpha}\).
 
 Now suppose, as in the proposition, that a finite-rate balanced path exists.
 The Euler equation and finite consumption growth require \(Y/K\) to have a finite
@@ -144,7 +146,123 @@ resource constraint. Hence
 Because \(Z/L\) also converges to a positive constant, final production implies
 that \(K/L\) converges to a constant. Since \(L/N\) has a positive constant limit
 and \(N\) grows at \(n\), \(L,K,\) and \(Y\) grow at \(n\). Output per person and
-the wage are therefore constant. \(\square\)
+the wage therefore converge to finite positive levels. The positive limit of
+\(C/Y\) implies \(g_C\to n\). The Euler equation then gives \(r\to\rho\), and
+the capital first-order condition gives \(K/Y\to\alpha/(\rho+\delta)\).
+Finally, the final firm's labor payment satisfies
+\(wL/Y=(1-\alpha)(1-s_X)\), which converges to the strictly positive value in
+\eqref{eq:axm-complement-factor-limits}. \(\square\)
+
+\subsection{Proof of Proposition \ref{prop:axm-complements-research}}
+
+Proposition \ref{prop:axm-complements} implies that \(w\) converges to a finite
+positive level, \(g_X\to n\), and \(r\to\rho\). Therefore \(Aw\to\infty\).
+Because \(X=AU\),
+\begin{equation}
+ g_U\to n-\bar g_A.
+ \label{eq:axm-proof-complement-gu}
+\end{equation}
+The capability law and the regular convergence of \(g_A\) imply
+\begin{equation}
+ g_E\to\frac{\bar g_A}{\eta}.
+ \label{eq:axm-proof-complement-ge}
+\end{equation}
+Define the nonnegative marginal-benefit term
+\begin{equation}
+ d_t\equiv\frac{X_t}{q_tA_t^2}=\frac{U_t}{q_tA_t}.
+ \label{eq:axm-proof-complement-d}
+\end{equation}
+The costate equation gives
+\(d_t=r_t-\eta s_{M,t}g_{A,t}-g_{q,t}\). The maintained convergence of the
+growth rates and the limit of \(s_M\) derived below therefore imply that \(d_t\)
+has a finite nonnegative limit. We now show, rather than assume, that this limit
+is strictly positive.
+
+First consider \(\sigma_{HM}=1\). Interior cost minimization gives
+\(s_M=\omega_M\) and \(M/(wH)=\omega_M/\omega_H\). Since \(g_w\to0\), the
+limiting growth rates of \(M\) and \(H\) coincide. Log differentiation of the
+Cobb--Douglas research index, combined with
+\eqref{eq:axm-proof-complement-ge}, yields
+\begin{equation}
+ g_M=g_H=(\eta^{-1}-\omega_M)\bar g_A.
+ \label{eq:axm-proof-complement-cd-gm}
+\end{equation}
+The research-compute first-order condition is
+\begin{equation}
+ M=q\eta\omega_M g_AA.
+ \label{eq:axm-proof-complement-cd-mfoc}
+\end{equation}
+Regular convergence of \(g_A\) then gives
+\(g_q=g_M-\bar g_A=(\eta^{-1}-\omega_M-1)\bar g_A\).
+
+Suppose for contradiction that \(d_t\to0\). Taking limits in the costate
+equation and using the preceding identities gives
+\[
+ (1-\eta)(\eta^{-1}-\omega_M)\bar g_A=\rho.
+\]
+Equation \eqref{eq:axm-proof-complement-cd-gm} would then imply
+\(g_M=\rho/(1-\eta)>\rho\). By
+\eqref{eq:axm-proof-complement-cd-mfoc}, \(qA\) has the same limiting growth
+rate as \(M\). The developer's terminal object would therefore grow rather than
+converge to zero, contradicting its transversality condition. Thus
+\(d_t\to\bar d>0\). Its log growth rate has a limit, and convergence to a
+positive constant makes that limiting rate zero. The identity in
+\eqref{eq:axm-proof-complement-d} therefore requires
+\(g_U=g_q+\bar g_A=g_M\). Combining this equality with
+\eqref{eq:axm-proof-complement-gu} and
+\eqref{eq:axm-proof-complement-cd-gm} gives
+\[
+ \bar g_A=\frac{n}{1+\eta^{-1}-\omega_M}.
+\]
+The remaining rates in \eqref{eq:axm-complement-cd-research-growth} follow
+directly. In particular, \(g_{AM}=\bar g_A+g_M=n\).
+
+Now let \(\sigma_{HM}>1\). Since \(Aw\to\infty\), Proposition
+\ref{prop:axm-research-automation} implies \(s_M\to1\). The exact share identity
+\[
+ g_E=(1-s_M)g_H+s_M(g_A+g_M)
+\]
+and the finite limiting growth rate of \(H\) imply, together with
+\eqref{eq:axm-proof-complement-ge}, that
+\begin{equation}
+ g_M=(\eta^{-1}-1)\bar g_A.
+ \label{eq:axm-proof-complement-ces-gm}
+\end{equation}
+The research-compute first-order condition can be written
+\begin{equation}
+ M=q\eta s_Mg_AA.
+ \label{eq:axm-proof-complement-ces-mfoc}
+\end{equation}
+Equation \eqref{eq:axm-automation-odds} implies that the log growth rate of
+\(s_M\) tends to zero. Hence
+\(g_q=(\eta^{-1}-2)\bar g_A\).
+
+If \(d_t\to0\), the costate equation and
+\eqref{eq:axm-proof-complement-ces-gm} would instead imply
+\(g_M=\rho/(1-\eta)>\rho\). Equation
+\eqref{eq:axm-proof-complement-ces-mfoc} would again make the developer's
+terminal object grow, contradicting transversality. Therefore
+\(d_t\to\bar d>0\). Its limiting log growth rate is zero, so
+\eqref{eq:axm-proof-complement-d} again requires \(g_U=g_M\). Equations
+\eqref{eq:axm-proof-complement-gu} and
+\eqref{eq:axm-proof-complement-ces-gm} then give
+\(\bar g_A=\eta n\) and \(g_M=(1-\eta)n\). Finally, log differentiation of
+\eqref{eq:axm-input-ratio}, using \(g_w\to0\), gives
+\[
+ g_H=g_A+g_M-\sigma_{HM}g_A=(1-\eta\sigma_{HM})n.
+\]
+This proves all rates in \eqref{eq:axm-complement-ces-research-growth}.
+
+In both cases, \(g_M=g_U<n=g_Y\), so \(M/Y\to0\) and \(U/Y\to0\). Also
+\(g_H<n=g_N\), so \(H/N\to0\), and labor clearing gives \(L/N\to1\).
+Substitution in the resource constraint, together with
+\(K/Y\to\alpha/(\rho+\delta)\), gives the consumption share in
+\eqref{eq:axm-complement-vanishing-shares}. Given the positive limiting ratios,
+the maintained household TVC requires \(n-\rho<0\). Since the derived rate of
+research compute satisfies \(g_M<n\), the developer's terminal object has
+limiting log growth \(g_M-\rho<0\). The derived rates therefore reproduce both
+maintained terminal restrictions. This is a consistency check; the developer's
+TVC was used above to select the positive-\(d\) branch. \(\square\)
 
 \subsection{Proof of Proposition \ref{prop:axm-cd-bgp}}
 

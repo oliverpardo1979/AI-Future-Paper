@@ -51,6 +51,27 @@ The equation-by-equation paper/code map is
 `numerical_axm/equilibrium_equation_map.csv`, and the six complete robustness
 paths are in `numerical_axm/equilibrium_horizon_paths.csv`.
 
+The final-production complementarity cases use a separate runner and an
+independent auditor:
+
+```
+python scripts/simulate_axm_complements_equilibrium.py
+python scripts/audit_axm_complements.py
+```
+
+The runner solves the new $A\times M$ specification at
+$\sigma_{XL}=0.75$, for $\sigma_{HM}=1$ and $2$, from cold starts at terminal
+dates 1,600, 1,800, and 2,000. The primary paths use the 2,000-year boundary.
+Only $C/Y$ and $X/(qA^2)$ are imposed at that boundary; growth rates, factor
+shares, $X/L$, the research allocation, resource shares, and the interest rate
+are reported rather than imposed. The independent audit imports no solver
+functions, reconstructs every static equation, computes separate seven-point
+dynamic residuals, checks horizon stability and finite-date TVC proxies, and
+hashes all four canonical inputs. Its acceptance label is limited to
+"finite-horizon candidate paths satisfying the dated equilibrium system and
+the stated terminal conditions." It is not an existence theorem for an exact
+infinite-horizon equilibrium.
+
 The web-based AI Growth Lab in `docs/`, the model-simulation artifacts in
 `numerical/` and `figures/`, and simulation scripts without `_axm` in their names
 belong to the original specification. They must not be used as model evidence
