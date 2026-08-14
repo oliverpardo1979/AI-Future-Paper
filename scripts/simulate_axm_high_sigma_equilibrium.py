@@ -2,10 +2,10 @@
 
 For ``sigma_xl > 1`` and unbounded capability, the model has no finite-rate
 terminal balanced-growth path.  This module therefore does not impose one.  It
-uses the AI-dominated equilibrium asymptotics to terminate the path at a large
+uses the AI-dominated necessary-condition asymptotics to terminate the path at a large
 output--capital ratio and treats calendar time to that boundary as an endogenous
 free parameter.  Raising the terminal ratio supplies a convergence test toward
-the finite-time singularity of the limiting equilibrium.
+the finite-time singularity of the limiting branch.
 
 The asymptotic ratios characterize a conditional AI-dominated branch for
 ``sigma_xl > 1`` and ``sigma_hm > 1``; they do not prove that the branch is
@@ -39,7 +39,7 @@ def high_sigma_targets(parameters: equilibrium.Parameters) -> dict[str, float]:
     """Return AI-dominated singular-path ratios.
 
     Write ``z = Y/K`` and ``kappa = (1-alpha)/alpha``.  Along the
-    AI-dominated equilibrium singularity, ``g_A / z``, the consumption share,
+    AI-dominated necessary-condition singularity, ``g_A / z``, the consumption share,
     the investment share, the automated-research resource share, and ``q A/K``
     converge to constants.
     """
@@ -952,7 +952,7 @@ def draw_published_figures(
     }
     equilibrium.mechanism.draw_multiplot(
         FIGURE_DIR / "high_sigma_equilibrium_asymptotics.png",
-        "Free-boundary convergence toward the singular equilibrium",
+        "Free-boundary convergence toward the singular limit",
         "The common theoretical limit is g_A/(Y/K)=0.0624; T* is scenario-specific",
         [
             {"title": "ln output-capital ratio", "field": "output_capital_ratio", "transform": log_level},
@@ -971,11 +971,13 @@ def assemble_published_results(
     baseline: equilibrium.Parameters,
     initial_state: tuple[float, float, float],
 ) -> None:
-    """Re-solve and publish the validated free-boundary equilibria.
+    """Legacy assembly helper; do not call before a convergence gate is added.
 
-    Saved annual paths are used only as continuation guesses.  The published
-    rows and residuals come from a fresh collocation solution, not from a spline
-    interpolation of the saved observations.
+    The historical source files contain only one terminal boundary per scenario.
+    That is insufficient to verify convergence across increasingly distant
+    boundaries, so the command-line entry point deliberately disables this
+    helper.  Saved annual paths would otherwise be used only as continuation
+    guesses rather than as the reported collocation solution.
     """
 
     sources = [
@@ -1164,8 +1166,11 @@ def main() -> None:
     initial_capital = math.exp(float(seed_guess[0, 0]))
     initial_state = (initial_capital, 1.0, 1.0)
     if arguments.assemble_published:
-        assemble_published_results(baseline, initial_state)
-        return
+        raise SystemExit(
+            "--assemble-published is disabled: the high-sigma paths have not "
+            "passed convergence across increasingly distant terminal "
+            "boundaries. Use an explicit continuation method for diagnostics."
+        )
     if arguments.method is None:
         raise SystemExit(
             "Specify --assemble-published or an explicit --method."

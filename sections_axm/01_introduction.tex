@@ -6,10 +6,10 @@ that produces better AI. When current AI capability determines the productivity
 of compute used both in final production and in AI research, a familiar
 substitution problem also creates a dynamic feedback. Higher capability lowers
 the resource cost of a unit of AI service and raises the automated research
-services produced by a unit of research compute. Whether this feedback settles
-into balanced growth or instead accelerates depends on substitution possibilities
-in both sectors, the strength of the resulting feedback, and the equilibrium
-branch that is reached.
+services produced by a unit of research compute. The conditions under which this
+feedback can settle into balanced growth or enter an accelerating branch depend
+on substitution possibilities in both sectors, the strength of the resulting
+feedback, and the branch that is reached.
 
 This paper studies that feedback in a general-equilibrium growth model. Raw
 compute has two uses. Inference compute is transformed by current AI capability
@@ -34,8 +34,9 @@ We therefore write production services as the product of capability and inferenc
 compute, and automated research services as the product of capability and research
 compute. This symmetric treatment corresponds to the economic distinction between
 inference and training compute in \citet{korinekmckelvey2026}, although research
-compute in the model also includes post-training, experimentation, and algorithmic
-work. The specification ensures that capability augments compute in both final
+compute in the model also includes compute used for post-training,
+experimentation, and automated algorithmic search. The specification ensures that
+capability augments compute in both final
 production and AI research.
 
 The model deliberately excludes a separate standing-on-shoulders term from its
@@ -58,8 +59,9 @@ and AI services; they do not identify either substitution elasticity.
 
 \citet{korinekmckelvey2026} estimate that U.S. AI compute expenditure rose from
 \$36.9 billion in 2023 to \$219.2 billion in 2025, while raw compute capacity rose
-from 1.09 million to 10.7 million H100-equivalent processors. Over the same two
-years, their quality-adjusted inference and training indexes increased by factors
+from 1.09 million to 10.7 million H100-equivalent processors, a measure normalized
+to the computing capacity of an NVIDIA H100 accelerator. Over the same two years,
+their quality-adjusted inference and training indexes increased by factors
 of approximately 1,502 and 78. The quality-adjusted series are model-based
 estimates assembled from sparse data and allocation assumptions, not
 national-account aggregates. Their relevance here is conceptual: more compute and
@@ -88,8 +90,9 @@ the original RE-Bench study, human experts with a 32-hour budget achieved almost
 twice the average score of the best AI agent on machine-learning
 research-engineering tasks \citep{metrrebench2024}. In a later evaluation on a
 five-task subset, Claude 3.7 with a 32-hour budget matched the median score of
-humans with eight hours \citep{metrclaude2025}. The model, scaffolding, tasks, and
-time budgets differ, so these results are not a comparable time series. They
+humans with eight hours \citep{metrclaude2025}. The model, surrounding agent
+software and tools, tasks, and time budgets differ, so these results are not a
+comparable time series. They
 motivate the possibility of substitution in AI research without measuring
 \(H/(AM)\) or \(\sigma_{HM}\).
 
@@ -117,9 +120,10 @@ exceeds one and AI services asymptotically dominate the labor--AI composite,
 unbounded capability raises \(Y/K\) and the net interest rate without bound. A finite-rate
 balanced-growth path is then impossible.
 
-For the gross-substitutes regime, the paper goes beyond this nonexistence result.
-It characterizes a conditional AI-dominated limiting branch on which output,
-capital, consumption, and capability accelerate. The characterization assumes
+For the regime with gross substitution in both final production and AI research,
+the paper goes beyond this nonexistence result.
+It characterizes a conditional AI-dominated limiting branch of the necessary
+conditions on which output, capital, consumption, and capability accelerate. The characterization assumes
 that the path remains interior, converges to the postulated ratios, and satisfies
 the monopoly second-order condition. Under those conditions,
 aggregate labor income as a share of output tends to zero, while the real wage

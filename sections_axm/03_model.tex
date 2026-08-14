@@ -100,7 +100,7 @@ flow---one unit of \(X\) or of \(AM\)---uses \(1/A\) units of the final good. Th
 \subsection{AI research}
 
 For \(\sigma_{HM}\neq1\), human researchers and automated research services
-improve capability through the generalized CES technology
+improve capability through a homothetic CES technology
 \begin{equation}
  \dot A=\chi
  \left[\omega_H H^{\varrho_{HM}}
@@ -176,8 +176,9 @@ At the unit-elasticity parameter limit, \(\sigma_{HM}\to1\), its continuous limi
  \left(\frac{1}{A\omega_M}\right)^{\omega_M}.
  \label{eq:axm-research-price-cd}
 \end{equation}
-Because \(E=(\dot A/\chi)^{1/\eta}\), the minimum expenditure required to
-produce a target flow \(\dot A\) is
+Conditional on current \(A\) and \(w\), and because
+\(E=(\dot A/\chi)^{1/\eta}\), the minimum expenditure required to produce a
+target flow \(\dot A\) is
 \begin{equation}
  P_E\left(\frac{\dot A}{\chi}\right)^{1/\eta}.
  \label{eq:axm-research-expenditure-function}
@@ -196,11 +197,12 @@ The share of research expenditure allocated to automated research services is
  s_M=\frac{M}{wH+M}.
  \label{eq:axm-sm}
 \end{equation}
-Because producing \(AM\) costs \(M\) and the effective-research index has constant
-returns, \(s_M\) is also the elasticity of \(E\) with respect to \(AM\). It
-follows that the elasticity of \(\dot A\) with respect to \(AM\) is
-\(\eta s_M\). Holding \(H\) and \(M\) fixed, this is also the local elasticity
-of \(\dot A\) with respect to the predetermined capability stock \(A\). The
+Because producing \(AM\) costs \(M\), the conditional demands imply that, along
+an interior cost-minimizing research allocation, \(s_M\) is also the elasticity
+of \(E\) with respect to \(AM\). It follows that the elasticity of \(\dot A\)
+with respect to \(AM\) is \(\eta s_M\). Holding \(H\) and \(M\) fixed, this is
+also the local elasticity of \(\dot A\) with respect to the predetermined
+capability stock \(A\). These equalities use interior cost minimization; the
 share \(s_M\) is not a physical fraction of research tasks performed by AI.
 
 \subsection{Integrated AI developer}
@@ -254,8 +256,10 @@ or, after minimizing the cost of the effective-research index \(E\),
  q\chi\eta E^{\eta-1}=P_E.
  \label{eq:axm-research-scale-foc}
 \end{equation}
-Let \(\pi(A)\) denote optimized operating profit from selling \(X\), before
-research expenditure. Its envelope derivative is \(\pi_A=X/A^2\). Moreover,
+Let \(\pi(A;K,L)\) denote optimized operating profit from selling \(X\), before
+research expenditure. Holding \(K\) and \(L\) fixed, its envelope derivative is
+\(\pi_A=X/A^2\). Along the
+interior cost-minimizing research allocation,
 \(\partial\dot A/\partial A=\eta s_M\dot A/A\) because a fixed \(M\) supplies
 more research services when \(A\) rises. The costate equation is
 \begin{equation}
@@ -292,9 +296,11 @@ optimality.
 
 The system used for computation is explicit. Given \(K,A,N,q\), equations
 \eqref{eq:axm-labor-market} and
-\eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} determine the
-static values of \(L,H,U,M,X,E,Y,w,p_X,P_E,s_X,\) and \(s_M\), where \(E\)
-is defined in \eqref{eq:axm-effective-research}. The dynamics are
+\eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} characterize
+candidate static values of \(L,H,U,M,X,E,Y,w,p_X,P_E,s_X,\) and \(s_M\), where
+\(E\) is defined in \eqref{eq:axm-effective-research}. The numerical solver
+selects a root that also satisfies the monopoly second-order condition. Together
+with \(\dot N/N=n\), the endogenous dynamics are
 \begin{align}
  \frac{\dot K}{K}&=\frac{Y-C-U-M}{K}-\delta,\\
  \frac{\dot A}{A}&=\frac{\chi E^\eta}{A},\\
@@ -305,7 +311,8 @@ is defined in \eqref{eq:axm-effective-research}. The dynamics are
 \end{align}
 \(K\) and \(A\) are predetermined; \(C\) and \(q\) are jump variables selected
 by the terminal conditions. The block is closed by initial \(K,A,N\), the labor
-and goods market identities, and the no-Ponzi and transversality conditions. In current-value
+and goods market identities, and the transversality conditions displayed below.
+In current-value
 notation, the relevant terminal restrictions include
 \begin{equation}
  \lim_{t\to\infty}e^{-\rho t}\frac{N_tK_t}{C_t}=0,\qquad

@@ -37,11 +37,24 @@ exceed the documented tolerances. These checks verify the stated system of
 necessary equilibrium conditions used in the manuscript; they do not establish
 global concavity of the developer's intertemporal problem.
 
+The audit also reconstructs the new research specification independently from
+every saved observation: `AM = A*M`, the CES input index, the consolidated
+capability law, both research first-order conditions, and the capability-feedback
+term in the costate equation. Files in `numerical_axm/` and `figures_axm/` are the
+only model-simulation artifacts used by `main_axm.tex`.
+
+The web-based AI Growth Lab in `docs/`, the files in `numerical/` and `figures/`,
+and simulation scripts without `_axm` in their names belong to the original
+specification. They are retained for the original paper but must not be used as
+evidence for the parallel A-M manuscript until that application is migrated and
+revalidated.
+
 `scripts/simulate_axm_high_sigma_equilibrium.py` contains the separate
 free-boundary solver for $\sigma_{XL}>1$. The paper does not yet report its
 curves because continuation across increasingly distant terminal boundaries has
 not passed the convergence test. This is an intentional safeguard, not a missing
-figure.
+figure. The legacy `--assemble-published` entry point is disabled until that
+convergence gate is implemented and passed.
 
 Compile the manuscript from the repository root with
 `tectonic --keep-logs --outdir build_axm main_axm.tex`.

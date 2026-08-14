@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SUMMARY = ROOT / "numerical_axm" / "equilibrium_transition_summary.csv"
 HORIZON_AUDIT = ROOT / "numerical_axm" / "equilibrium_horizon_robustness.csv"
+PATHS = ROOT / "numerical_axm" / "equilibrium_transition_paths.csv"
 REPORT = ROOT / "numerical_axm" / "audit_report.csv"
 
 
@@ -24,11 +25,11 @@ def analytical_checks() -> list[dict[str, str | float]]:
     theta = (1.0 - alpha) / alpha
     d_cd = 1.0 - eta * omega_m * (1.0 + nu)
     d_ai = 1.0 - eta * (1.0 + nu)
-    delta = 1.0 + theta - eta
-    h = eta * alpha / delta
+    singular_denominator = 1.0 + theta - eta
+    h = eta * alpha / singular_denominator
     inference_share = (1.0 - alpha) ** 2
     investment_share = alpha - theta * h
-    research_share = eta * inference_share / delta
+    research_share = eta * inference_share / singular_denominator
     consumption_share = (
         1.0 - inference_share - investment_share - research_share
     )
@@ -268,6 +269,159 @@ def numerical_checks() -> list[dict[str, str | float]]:
     return report
 
 
+def path_specification_checks() -> list[dict[str, str | float]]:
+    """Reconstruct the consolidated A*M research block from every saved row."""
+
+    with PATHS.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    if not rows:
+        raise AssertionError("The saved equilibrium-path file is empty.")
+
+    scenario_sigma_hm = {
+        "axm_sigma_xl_1_hm_1": 1.0,
+        "axm_sigma_xl_1_hm_2": 2.0,
+    }
+    if {row["scenario"] for row in rows} != set(scenario_sigma_hm):
+        raise AssertionError("Unexpected scenarios in the saved A*M paths.")
+
+    omega_m = 0.35
+    omega_h = 1.0 - omega_m
+    eta = 0.45
+    chi = 0.01
+    max_errors = {
+        "inference_service_X_equals_AU": 0.0,
+        "automated_research_service_equals_AM": 0.0,
+        "effective_research_index": 0.0,
+        "consolidated_capability_law": 0.0,
+        "research_compute_foc": 0.0,
+        "human_research_foc": 0.0,
+        "costate_with_capability_feedback": 0.0,
+    }
+
+    for row in rows:
+        sigma_hm = scenario_sigma_hm[row["scenario"]]
+        log_capability = float(row["log_capability"])
+        log_inference_compute = float(row["log_inference_compute"])
+        log_ai_services = float(row["log_ai_services"])
+        log_research_compute = float(row["log_automated_research"])
+        log_automated_services = float(
+            row["log_automated_research_services"]
+        )
+        log_human_research = float(row["log_human_research"])
+        log_reported_index = float(row["log_effective_research"])
+        log_shadow = float(row["log_shadow_value"])
+        log_wage = float(row["log_wage"])
+
+        max_errors["inference_service_X_equals_AU"] = max(
+            max_errors["inference_service_X_equals_AU"],
+            abs(log_ai_services - log_capability - log_inference_compute),
+        )
+        max_errors["automated_research_service_equals_AM"] = max(
+            max_errors["automated_research_service_equals_AM"],
+            abs(
+                log_automated_services
+                - log_capability
+                - log_research_compute
+            ),
+        )
+
+        if math.isclose(sigma_hm, 1.0):
+            log_reconstructed_index = (
+                omega_h * log_human_research
+                + omega_m * log_automated_services
+            )
+            automated_contribution = omega_m
+        else:
+            ces_power = (sigma_hm - 1.0) / sigma_hm
+            human_term = math.log(omega_h) + ces_power * log_human_research
+            machine_term = (
+                math.log(omega_m) + ces_power * log_automated_services
+            )
+            anchor = max(human_term, machine_term)
+            log_sum = anchor + math.log(
+                math.exp(human_term - anchor)
+                + math.exp(machine_term - anchor)
+            )
+            log_reconstructed_index = log_sum / ces_power
+            automated_contribution = math.exp(machine_term - log_sum)
+
+        max_errors["effective_research_index"] = max(
+            max_errors["effective_research_index"],
+            abs(log_reported_index - log_reconstructed_index),
+        )
+        capability_growth = float(row["capability_growth"])
+        if capability_growth <= 0.0:
+            raise AssertionError("Capability growth must be positive on these paths.")
+        log_capability_flow = math.log(capability_growth) + log_capability
+        reconstructed_flow = math.log(chi) + eta * log_reconstructed_index
+        max_errors["consolidated_capability_law"] = max(
+            max_errors["consolidated_capability_law"],
+            abs(log_capability_flow - reconstructed_flow),
+        )
+
+        log_research_compute_foc = (
+            log_shadow
+            + math.log(eta)
+            + math.log(automated_contribution)
+            + log_capability_flow
+            - log_research_compute
+        )
+        log_human_research_foc = (
+            log_shadow
+            + math.log(eta)
+            + math.log1p(-automated_contribution)
+            + log_capability_flow
+            - log_human_research
+            - log_wage
+        )
+        max_errors["research_compute_foc"] = max(
+            max_errors["research_compute_foc"],
+            abs(log_research_compute_foc),
+        )
+        max_errors["human_research_foc"] = max(
+            max_errors["human_research_foc"],
+            abs(log_human_research_foc),
+        )
+
+        operating_profit_derivative_over_q = math.exp(
+            log_ai_services - log_shadow - 2.0 * log_capability
+        )
+        reconstructed_shadow_growth = (
+            float(row["net_capital_return"])
+            - operating_profit_derivative_over_q
+            - eta * automated_contribution * capability_growth
+        )
+        max_errors["costate_with_capability_feedback"] = max(
+            max_errors["costate_with_capability_feedback"],
+            abs(float(row["shadow_growth"]) - reconstructed_shadow_growth),
+        )
+
+    tolerances = {
+        "inference_service_X_equals_AU": 1e-10,
+        "automated_research_service_equals_AM": 1e-10,
+        "effective_research_index": 1e-10,
+        "consolidated_capability_law": 1e-10,
+        "research_compute_foc": 1e-9,
+        "human_research_foc": 1e-8,
+        "costate_with_capability_feedback": 1e-10,
+    }
+    failed = {
+        name: error
+        for name, error in max_errors.items()
+        if error >= tolerances[name]
+    }
+    if failed:
+        raise AssertionError({"A*M path reconstruction failures": failed})
+    return [
+        {
+            "object": f"all_saved_paths:{name}",
+            "value": error,
+            "status": "pass",
+        }
+        for name, error in max_errors.items()
+    ]
+
+
 def horizon_checks() -> list[dict[str, str | float]]:
     with HORIZON_AUDIT.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
@@ -320,7 +474,12 @@ def horizon_checks() -> list[dict[str, str | float]]:
 
 
 def main() -> None:
-    rows = analytical_checks() + numerical_checks() + horizon_checks()
+    rows = (
+        analytical_checks()
+        + numerical_checks()
+        + path_specification_checks()
+        + horizon_checks()
+    )
     with REPORT.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle, fieldnames=["object", "value", "status"]

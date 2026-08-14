@@ -246,16 +246,17 @@ so
 \]
 Equation \eqref{eq:axm-app-resource-growth} gives \(i=\alpha-\theta h\).
 
-The research-compute first-order condition implies
+The exact research-compute first-order condition can be written as
 \[
- \frac{qA}{K}=\frac{m}{\eta h}.
+ \frac{qA}{K}=\frac{M/Y}{\eta s_M(g_A/z)}.
 \]
-The capability derivative of optimized operating profit gives
-\(\pi_A/q=uz/(qA/K)\). Asymptotic regularity of \(qA/K\) implies that
+Let \(Q\equiv\lim qA/K\). Taking limits gives \(Q=m/(\eta h)\). The capability
+derivative of optimized operating profit gives \(\pi_A/q=uz/(qA/K)\).
+Asymptotic regularity of \(qA/K\) implies that
 \(g_q-(g_K-g_A)=o(z)\). Substituting these results into the costate equation and using
 \eqref{eq:axm-app-resource-growth} yields
 \[
- \frac{qA}{K}=\frac{u}{\eta\alpha},
+ Q=\frac{u}{\eta\alpha},
  \qquad
  m=\frac{\eta u}{1+\theta-\eta}.
 \]
@@ -297,6 +298,10 @@ goods-market identity, the labor-market identity, the monopoly first-order
 condition, both research first-order conditions, and the four canonical
 differential equations, including the household Euler equation. It also verifies the monopoly second-order
 condition and re-solves each path at three terminal horizons.
+An independent row-by-row audit reconstructs \(X=AU\), the automated research
+service \(AM\), the CES input index, the consolidated capability law, both
+research first-order conditions, and the costate term
+\(-\eta s_M\dot A/A\) from every saved observation.
 The collocation derivative, rather than a plotted finite difference, is used to
 audit the dynamic equations. The simulation files and their residual summaries
 are stored in \path{numerical_axm}; the independent solver is

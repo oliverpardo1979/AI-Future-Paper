@@ -7,6 +7,11 @@ macroeconomic parameters are held fixed at illustrative annual values, while the
 two substitution elasticities define the cases of interest. Table
 \ref{tab:axm-parameters} reports the benchmark.
 
+Every numerical table and model-generated figure in this manuscript is produced
+by \path{scripts/simulate_axm_equilibrium.py} using the capability law in
+equation~\eqref{eq:axm-capability-law}. No output from the earlier specification
+is used in this paper.
+
 As in the model, raw compute is measured in resource-expenditure units, so its
 common unit cost is one and is not a free parameter.
 
@@ -93,11 +98,11 @@ equilibrium conditions.}
 \label{fig:axm-growth-returns}
 \end{figure}
 
-The transition of human research reveals a result that its limiting expenditure
-share conceals. With \(\sigma_{HM}=2\), the fraction of the population working in
+The path of \(H/N\) reveals a transition concealed by the limiting automated
+research-expenditure share. With \(\sigma_{HM}=2\), the fraction of the population working in
 AI research first rises and later falls toward zero. AI research can therefore
-employ more people during the transition even while it becomes progressively more
-automated. Under Cobb--Douglas research, the human-research population share
+employ a larger share of the population during the transition even while it
+becomes progressively more automated. Under Cobb--Douglas research, the human-research population share
 instead converges to a positive constant.
 
 Figure \ref{fig:axm-wages} shows that the distinction between factor prices and
@@ -134,7 +139,7 @@ each path's date-zero per-capita level.}
 \subsection{Candidate-equilibrium audit}
 
 Table \ref{tab:axm-residuals} reports the numerical audit of the candidate paths.
-The static identities and first-order conditions are satisfied to approximately machine precision.
+The static identities and first-order conditions have errors below \(10^{-10}\).
 The larger numbers are collocation errors in the differential equations and
 remain close to \(10^{-5}\). The terminal growth-rate errors reported below are
 also small despite solving the transition rather than imposing the entire

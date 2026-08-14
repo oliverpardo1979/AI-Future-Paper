@@ -17,7 +17,7 @@ the boundary \(\eta=1\) requires a separate equilibrium analysis.
 \label{tab:axm-regime-map}
 \begin{tabular}{P{0.14\textwidth}P{0.235\textwidth}P{0.235\textwidth}P{0.235\textwidth}}
 \toprule
-Research & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL}>1\)\\
+Research-input elasticity & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL}>1\)\\
 \midrule
 \(\sigma_{HM}=1\) &
 Labor bottleneck on an interior unbounded-\(A\) limit &
@@ -34,6 +34,8 @@ Balanced-growth candidate governed by \(D(\omega_M)\) &
 Each cell summarizes a conditional result under the hypotheses stated in the
 corresponding proposition or conditional result. The table does not assert that
 an equilibrium with every listed limit exists for arbitrary initial conditions.
+The feedback denominator \(D(\cdot)\) is defined in
+equation~\eqref{eq:axm-feedback-denominator}.
 
 \subsection{The price of research automation}
 
@@ -249,9 +251,10 @@ Let
  \theta=\frac{1-\alpha}{\alpha}.
  \label{eq:axm-theta}
 \end{equation}
-When \(\sigma_{XL}>1\), AI services dominate the labor--AI CES aggregate as their
-relative quantity rises. Capital remains a separate input with elasticity
-\(\alpha\). The monopoly condition then implies
+Along an interior branch with \(\sigma_{XL}>1\), \(s_X\to1\), and
+\(A\to\infty\), AI services dominate the labor--AI CES aggregate. Capital
+remains a separate input with elasticity \(\alpha\). The monopoly condition then
+implies
 \begin{equation}
  \frac{U}{Y}\to(1-\alpha)^2,\qquad
  \frac{Y}{K}\sim \mathcal D A^\theta
@@ -276,9 +279,11 @@ the accelerating branch when it exists.
 \begin{conditionalresult}[AI-dominated singular limit]
 \label{prop:axm-singular-limit}
 Assume \(\sigma_{XL}>1\), \(\sigma_{HM}>1\), \(0<\eta<1\), and an
-interior candidate equilibrium approaches an AI-dominated limit along its maximal time
-interval, with \(A\to\infty\), \(s_X\to1\), and \(s_M\to1\). Suppose its consumption, investment, and
-research-compute shares---respectively \(C/Y\),
+interior path satisfies the static first- and second-order conditions, market
+clearing, and the canonical differential equations on its maximal time interval.
+Suppose that the path approaches an AI-dominated limit, with \(A\to\infty\), \(s_X\to1\),
+and \(s_M\to1\). Suppose its consumption, investment, and research-compute
+shares---respectively \(C/Y\),
 \((\dot K+\delta K)/Y\), and \(M/Y\)---as well as \(g_A/(Y/K)\) and \(qA/K\),
 converge to positive finite limits, and \(L/N\) converges to a positive limit.
  Assume that the convergences of \(s_X\), all the listed ratios, and the scaling ratio
@@ -317,9 +322,11 @@ which is positive if and only if
 \(\sigma_{XL}<1/(\alpha\eta)\).
 \end{conditionalresult}
 
-The result characterizes a postulated asymptotic equilibrium branch; it does not
-establish that the branch is reached from arbitrary initial conditions. Within
-that branch, the model delivers a sharp separation when
+The result characterizes a postulated asymptotic branch of the model's necessary
+conditions. Because the maximal interval ends at the singularity, it does not
+establish existence or global optimality for the infinite-horizon problems, nor
+does it establish that the branch is reached from arbitrary initial conditions.
+Within that branch, the model delivers a sharp separation when
 \(1<\sigma_{XL}<1/(\alpha\eta)\): aggregate labor income as a share of output
 vanishes, but the wage eventually rises. Above the threshold, the same conditional
 scaling implies an eventually falling wage. The case above the threshold should

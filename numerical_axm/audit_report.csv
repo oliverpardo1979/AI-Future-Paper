@@ -34,6 +34,13 @@ axm_sigma_xl_1_hm_2:positive_consumption,1.0,pass
 axm_sigma_xl_1_hm_2:monopoly_second_order,1.0,pass
 axm_sigma_xl_1_hm_2:terminal_capability_growth_target,1.0,pass
 axm_sigma_xl_1_hm_2:terminal_output_growth_target,1.0,pass
+all_saved_paths:inference_service_X_equals_AU,0.0,pass
+all_saved_paths:automated_research_service_equals_AM,0.0,pass
+all_saved_paths:effective_research_index,2.3868906851021165e-11,pass
+all_saved_paths:consolidated_capability_law,1.0741629807853315e-11,pass
+all_saved_paths:research_compute_foc,1.1935341603930283e-11,pass
+all_saved_paths:human_research_foc,6.369393901195508e-11,pass
+all_saved_paths:costate_with_capability_feedback,8.664943762504151e-16,pass
 sigma_HM=1.0:horizon_initial_consumption_range,7.314853756046347e-08,pass
 sigma_HM=1.0:horizon_initial_shadow_range,5.751502873962977e-08,pass
 sigma_HM=1.0:horizon_maximum_solver_residual,7.992970425205683e-06,pass
