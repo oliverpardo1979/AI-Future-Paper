@@ -27,7 +27,12 @@ one; capability and research productivity are correspondingly rescaled.
 ## Reproduce the verified figures and audit
 
 Run `python scripts/simulate_axm_equilibrium.py` and then
-`python scripts/audit_axm_model.py`.
+`python scripts/audit_axm_model.py`. The Davidson-style feedback diagnostic is
+generated separately, without rerunning the solver:
+
+```
+python scripts/plot_axm_feedback_diagnostic.py
+```
 
 The first command solves the two reported perfect-foresight path approximations and writes
 their data to `numerical_axm/` and figures to `figures_axm/`. The second checks
@@ -50,6 +55,11 @@ only model-simulation artifacts used by `main_axm.tex`.
 The equation-by-equation paper/code map is
 `numerical_axm/equilibrium_equation_map.csv`, and the six complete robustness
 paths are in `numerical_axm/equilibrium_horizon_paths.csv`.
+The feedback script reads the canonical unit-elasticity paths and evaluates the
+plug-in balanced-growth measure $G(t)=\eta s_M(t)(1+\nu)$ at each dated
+allocation. It is not the transition Jacobian or independent numerical evidence.
+Its line $G=1$ is a balanced-growth reference, not a stand-alone explosion
+condition away from the limiting system.
 
 The final-production complementarity cases use a separate runner and an
 independent auditor:

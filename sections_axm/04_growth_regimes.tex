@@ -319,6 +319,15 @@ may approach zero, or an admissible infinite continuation may fail to exist.
 What the proposition establishes is that unbounded AI capability does not by
 itself sustain per-capita growth when labor and AI services are complements.
 
+This result is related to, but not identical to, the CES bottleneck in
+\citet{davidsonetal2026}. Their analysis emphasizes the current elasticity of the
+aggregate with respect to AI services: under complementarity it can collapse as
+the AI-to-human input ratio diverges. Here the monopoly optimum instead keeps
+\(X/L\) finite, so \(s_X\to\bar s_X>0\). The offset occurs through resources:
+\(U=X/A\to0\), while \(Z/L\) becomes constant. Both adjustment mechanisms make
+human labor the limiting input, but only the second is the equilibrium response
+of the present model.
+
 The research block sharpens this conclusion substantially. The following
 proposition gives necessary restrictions on any regular interior
 balanced-growth limit consistent with the dated equilibrium conditions and both
@@ -622,21 +631,85 @@ transversality conditions.
 
 The proposition states necessary growth restrictions and lists the remaining
 conditions needed for existence; it does not infer existence from \(D>0\) alone.
-The intuition for \(D\) is direct. Along a candidate balanced-growth path, one
-additional percentage point of capability growth raises output growth and
-research-compute growth by \(\nu\) percentage points. Capability growth also
-raises the services produced by each unit of research compute one for one. The
-term \(1+\nu\) combines these two growth channels. The limiting automated
-research-expenditure share \(\bar s\) transmits them through the
-effective-research index, and \(\eta\)
-scales their effect on capability improvement.
 
-Because \(D(1)<D(\omega_M)\), gross substitution in research tightens the
-balanced-growth restriction. With the benchmark values used below,
-\(D(\omega_M)=0.8031\) and \(D(1)=0.4375\); both are positive. The form of these
-denominators also reflects the absence of an additional \(A^\phi\) term: the
-baseline does not add a separate knowledge-spillover channel to the feedback
-already carried by \(AM\).
+\paragraph{Feedback-matrix interpretation.}
+The feedback accounting of \citet{davidsonetal2026} makes the denominator
+transparent. Let \(\widetilde g_Y=g_Y-n\). The limiting balanced-growth
+restrictions can be written as
+\begin{equation}
+ \begin{pmatrix}g_A\\ \widetilde g_Y\end{pmatrix}
+ =
+ \begin{pmatrix}\eta n\\0\end{pmatrix}
+ +
+ \underbrace{\begin{pmatrix}
+  \eta\bar s&\eta\bar s\\
+  \nu&0
+ \end{pmatrix}}_{\mathcal F(\bar s)}
+ \begin{pmatrix}g_A\\ \widetilde g_Y\end{pmatrix}.
+ \label{eq:axm-feedback-matrix}
+\end{equation}
+The upper-left entry is the technological loop
+\(A\to AM\to\dot A\). The off-diagonal cycle is the economic loop
+\(A\to Y\to M\to AM\to\dot A\). Consequently,
+\begin{equation}
+ \det[I-\mathcal F(\bar s)]
+ =1-\eta\bar s(1+\nu)=D(\bar s),
+ \qquad
+ r_{\mathrm{sp}}(\mathcal F)
+ =\frac{\eta\bar s+
+ \sqrt{(\eta\bar s)^2+4\eta\bar s\nu}}{2}.
+ \label{eq:axm-feedback-radius}
+\end{equation}
+Here \(r_{\mathrm{sp}}\) denotes the spectral radius; this notation avoids
+confusing it with the household discount rate \(\rho\). Because \(\mathcal F\)
+is nonnegative, \(r_{\mathrm{sp}}(\mathcal F)<1\) if and only if
+\(D(\bar s)>0\). In that case,
+\[
+ \begin{pmatrix}g_A\\ \widetilde g_Y\end{pmatrix}
+ =[I-\mathcal F(\bar s)]^{-1}
+ \begin{pmatrix}\eta n\\0\end{pmatrix}.
+\]
+Thus \(1/D(\bar s)\) is the scalar feedback multiplier after eliminating
+\(\widetilde g_Y\), analogous to the relevant element of Davidson et al.'s
+Leontief inverse.
+
+Equivalently, the reduced technological and economic gains are
+\[
+ G_T=\eta\bar s,\qquad
+ G_E=\eta\bar s\nu,\qquad
+ G=G_T+G_E,\qquad D=1-G.
+\]
+Table \ref{tab:axm-feedback-accounting} applies this decomposition to the two
+unit-elasticity benchmarks. Research substitution nearly triples the total gain
+and raises the feedback multiplier from 1.245 to 2.286, but even
+\(\bar s=1\) remains below the critical value:
+\(\bar s_{\mathrm{crit}}=[\eta(1+\nu)]^{-1}=1.7778>1\).
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Research limit & \(\bar s\) & \(G_T\) & \(G_E\) & \(G\) & \(D\) & \(1/D\)\\
+\midrule
+\(\sigma_{HM}=1\) & 0.35 & 0.1575 & 0.0394 & 0.1969 & 0.8031 & 1.245\\
+\(\sigma_{HM}>1,\ s_M\to1\) & 1.00 & 0.4500 & 0.1125 & 0.5625 & 0.4375 & 2.286\\
+\bottomrule
+\end{tabular}
+\caption{Davidson-style feedback accounting for the unit-elasticity benchmark
+\citep{davidsonetal2026}. The technological and economic gains sum to the reduced scalar gain \(G\).
+These are balanced-growth diagnostics, not calibrated probabilities or task
+shares.}
+\label{tab:axm-feedback-accounting}
+\end{table}
+
+This mapping also marks the boundary of what can be imported. Davidson et al.'s
+spectral-radius theorem classifies a positive monomial system; their macroeconomic
+application obtains such a system under fixed saving and resource-allocation
+shares. Here \(D\leq0\) rules out the finite positive
+balanced-growth candidate, but does not by itself prove double-exponential growth
+or a finite-time singularity. Such a conclusion must also determine prices,
+allocations, the developer's costate, and the transversality conditions.
 
 \subsubsection{\texorpdfstring{Case II: human-essential research, \(\sigma_{HM}=1\)}{Case II: human-essential research, sigma HM = 1}}
 \label{sec:axm-case-human-essential}
@@ -680,6 +753,28 @@ audited dated equilibrium conditions.
 Under Proposition \ref{prop:axm-equilibrium-sufficiency}, any admissible infinite
 continuation satisfying the transversality conditions would be globally optimal.}
 \label{fig:axm-research-comparison}
+\end{figure}
+
+Figure \ref{fig:axm-feedback-diagnostic} evaluates the Davidson-style
+balanced-growth accounting at the dated value of \(s_M(t)\) along the same
+numerical paths. With Cobb--Douglas research, the plug-in gain is constant at
+\(G=0.196875\). With substitutable research, \(s_M\) rises and the plug-in measure
+\(G(t)=\eta s_M(t)(1+\nu)\) increases from 0.0621 to 0.5625. It remains below one.
+This is not the dated feedback Jacobian: away from balanced growth, \(\nu\) is not
+the contemporaneous transmission coefficient from capability to output. The
+calculation is therefore a diagnostic, not a stand-alone explosion test or
+independent numerical evidence.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_unit_elasticity_feedback_diagnostic.png}
+\caption{Plug-in balanced-growth feedback accounting evaluated at \(s_M(t)\)
+along the two unit-elasticity finite-horizon candidate paths. The construction is
+a scalar adaptation of \citet{davidsonetal2026}, not the dated feedback Jacobian.
+The horizontal line at one is the critical value for the balanced-growth
+accounting in \eqref{eq:axm-feedback-matrix}, not a sufficient condition for
+explosive equilibrium dynamics.}
+\label{fig:axm-feedback-diagnostic}
 \end{figure}
 
 Figure \ref{fig:axm-growth-returns} focuses on the first 600 years and adds the
@@ -864,6 +959,32 @@ At \(\underline\sigma=1/(\alpha\eta)\), the leading term in
 \eqref{eq:axm-wage-limit} is zero, so this asymptotic calculation alone does not
 determine the eventual direction of the wage.
 
+The growth-rate transformation used by \citet{davidsonetal2026} provides a useful
+interpretation of this conditional branch. The limiting ratios imply
+\[
+ \dot A\sim \kappa_A A^{\eta(1+\theta)}K^\eta,
+ \qquad
+ \dot K\sim \kappa_K A^\theta K
+\]
+for positive constants \(\kappa_A,\kappa_K\). Hence the growth rates satisfy
+\begin{equation}
+ \begin{pmatrix}
+  \dot g_A/g_A\\[2pt] \dot g_K/g_K
+ \end{pmatrix}
+ \sim
+ \underbrace{\begin{pmatrix}
+  \eta(1+\theta)-1&\eta\\
+  \theta&0
+ \end{pmatrix}}_{\Omega_\infty}
+ \begin{pmatrix}g_A\\g_K\end{pmatrix}.
+ \label{eq:axm-singular-feedback-matrix}
+\end{equation}
+Because \(\det\Omega_\infty=-\eta\theta<0\), this asymptotic exponent matrix has
+one positive eigenvalue. This is the network-feedback counterpart of the direct
+law \(\dot z\sim\theta h z^2\). Equation \eqref{eq:axm-z-law}, rather than an
+imported spectral-radius theorem, remains the proof of finite-time divergence on
+the postulated branch.
+
 \subsubsection{Audited finite-boundary candidate paths}
 
 For the case with \(\sigma_{XL}>1\), unbounded \(A\), and \(s_X\to1\), a
@@ -979,6 +1100,17 @@ Conditional Result \ref{prop:axm-singular-limit}.}
 \end{figure}
 
 \subsection{Cross-regime synthesis and limits of the evidence}
+
+The Davidson-style feedback accounting takes a different form in each of the
+three final-production regimes. Under complementarity, the equilibrium reduction
+in raw compute offsets capability growth and keeps \(X/L\) finite. At unit
+elasticity, the links have constant limiting strength and admit the exact limiting
+matrix \(\mathcal F(\bar s)\). Under gross substitution, the output-to-research link
+becomes state dependent and strengthens on the postulated AI-dominated branch;
+the appropriate conditional object is the asymptotic
+matrix \(\Omega_\infty\), not the constant scalar gain \(G\). The three cases are
+therefore equally relevant alternatives, not perturbations around a single
+preferred regime.
 
 The analytical and numerical results have different evidentiary status. First,
 Proposition \ref{prop:axm-research-automation} is an exact implication of the

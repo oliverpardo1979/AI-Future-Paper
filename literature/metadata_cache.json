@@ -341,5 +341,9 @@
   "10.1111/1468-0262.00150": {
     "openalex_error": "URLError",
     "crossref_error": "URLError"
+  },
+  "10.3386/w35155": {
+    "openalex_error": "URLError",
+    "crossref_error": "URLError"
   }
 }

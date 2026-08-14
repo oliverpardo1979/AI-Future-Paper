@@ -7,32 +7,45 @@ population term matters for the same reason it matters in \citet{jones1995}: whe
 human researchers remain essential, growth in the research workforce can anchor
 long-run innovation. The present model asks when that anchor disappears because
 capability-augmented research services can substitute for human researchers. Its
-homothetic CES research technology separates the elasticity of
-substitution from returns to research scale. This distinction preserves the
-diminishing-returns margin in idea production emphasized by \citet{jones1995}
-while allowing the model to study whether the input mix becomes increasingly
-automated.
+homothetic CES research technology separates substitution between research inputs
+from returns to their current joint scale. The latter role of \(\eta\) is analogous
+to the intratemporal research-scale parameter in \citet{jones1995}; the baseline
+fixes the separate stock-of-ideas exponent at zero, corresponding to \(b=1\) in
+the extension discussed below.
 
-The paper is closely related to work on AI and economic growth.
+The closest paper is \citet{davidsonetal2026}. They model innovation as a network
+of technological and economic feedbacks, classify its growth regimes using the
+spectral radius of a nonnegative feedback matrix, and combine nonrival AI
+capability with rival compute. Their application distinguishes software, hardware
+quality, and general productivity, but fixes saving and resource-allocation shares
+and treats task automation as exogenous, including an exogenous path in its CES
+extension. We collapse that technology network into one
+capability stock and place its two feedback loops inside a decentralized Ramsey
+equilibrium with an integrated monopolist, endogenous inference and research
+compute, endogenous labor allocation, two CES substitution margins, and factor
+prices. The mapping is not literal: our \(U\) and \(M\) are flow resource uses,
+not separate accumulable hardware stocks. Our unit-elasticity denominator is therefore a scalar analogue of their
+feedback criterion, not an application of their general network theorem.
+
+The paper is also related to broader work on AI and economic growth.
 \citet{aghionjonesjones2019} organize the possibility that automation of the idea
 production function may generate very rapid growth and use ``singularity'' for a
 finite-time divergence. \citet{nordhaus2021} develops empirical diagnostics for
 an economic singularity, while \citet{trammellkorinek2023} studies growth under
 transformative AI. \citet{jones2025rd} focuses directly on AI in research and
-development. Our contribution is narrower but more explicit about equilibrium
-prices and factor substitution: the same capability stock augments compute used
-for inference and compute used to improve AI.
+development. Relative to this literature, the present paper emphasizes how
+equilibrium prices and two factor-substitution margins determine the strength of
+the feedback and its distributional consequences.
 
 The terminology used to distinguish inference output, training activity,
 algorithms, and model capital is informed by the economic accounting proposed by
 \citet{korinekmckelvey2026}. Their framework treats compute as a central input
-allocated between inference and training. In our notation, raw inference compute
-and raw research compute are paid uses of final output; current AI capability
-transforms them into economically useful services. The stock of capability is
-closer to an index of model quality and algorithmic efficiency than to a physical
-quantity of chips. The flow of capability improvement corresponds to the formation
-of better model capital, broadly construed to include training, post-training,
-experimentation, and algorithmic advances.
+allocated between inference and training and separates model capital from
+algorithmic advances. In our reduced notation, raw inference compute and raw
+research compute are paid uses of final output, while one capability stock
+transforms both into economically useful services. Thus \(A\) combines objects
+that their accounting keeps separate. This is a tractability assumption, not an
+exact relabeling of their framework.
 
 The final-production block connects to the older literature on the elasticity of
 substitution and growth \citep{pitchford1960,jonesmanuelli1990,rebelo1991}. CES
@@ -46,10 +59,19 @@ software and labor. Their estimates do not calibrate our AI-service elasticity,
 but they support separating software-like inputs from undifferentiated physical
 capital.
 The complementarity result adds an endogenous-research margin to this older CES
-logic. Even when capability continues to improve and the research-input mix
-becomes almost fully automated, gross complementarity in final production keeps
-labor essential, bounds living standards along the characterized path, and
-preserves a positive labor-income share.
+logic. \citet{davidsonetal2026} also show why, under CES aggregation, the relevant
+object is the current elasticity of the appropriate aggregate with respect to its
+AI input rather than a raw count of automated tasks. Our \(s_X=\partial\ln
+Z/\partial\ln X\) and \(s_M=\partial\ln E/\partial\ln(AM)\) play that role within
+the two CES aggregators; the corresponding downstream elasticities are
+\((1-\alpha)s_X\) for final output and \(\eta s_M\) for capability improvement.
+These objects are endogenous CES shares rather than fractions of tasks. The adjustment is
+also different: on our characterized complementary-input branch, monopoly supply
+keeps \(X/L\) finite and \(s_X\) positive while the raw-compute cost \(U=X/A\)
+vanishes. On the regular complementary-input balanced-growth limit characterized
+here, capability can continue to improve and research expenditure can become
+almost fully automated while labor remains essential, output and consumption per
+person remain bounded, and labor retains a positive income share.
 
 The wage and factor-share results relate to the task and automation literature.
 \citet{acemoglurestrepo2019} emphasize displacement and reinstatement of labor in

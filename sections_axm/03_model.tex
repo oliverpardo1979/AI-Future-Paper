@@ -111,7 +111,9 @@ Inference compute produces the flow of quality-adjusted AI services
 \end{equation}
 Research compute analogously produces the automated research service flow
 \(AM\), which enters the research technology below. The paid inputs are \(U\)
-and \(M\), whereas \(X\) and \(AM\) are service flows.
+and \(M\), whereas \(X\) and \(AM\) are service flows. This product of nonrival
+capability and rival compute is the one-capability version of the AI-service
+accounting in \citet{davidsonetal2026}.
 
 The common unit cost is a normalization, not an assumption that compute is
 economically free. To see this, start from a common cost \(\xi>0\), define
@@ -193,8 +195,18 @@ research services produced by one unit of research compute. A high substitution
 elasticity therefore does not remove decreasing returns when \(0<\eta<1\).
 
 The baseline contains no additional \(A^\phi\) term. Better capability affects
-research only by raising the services produced by \(M\). This isolates research
-automation without adding a separate standing-on-shoulders channel.
+research only by raising the services produced by \(M\). Following the distinction
+in \citet{jones1995,davidsonetal2026}, \(\eta\) is an intratemporal scale parameter,
+not an intertemporal idea-difficulty parameter. A separate term \(A^{1-b}\) would
+add that second margin. Holding the effective-research index fixed, it contributes
+the factor \(A^{-b}\) to capability growth, so any \(b>0\) introduces
+intertemporal diminishing returns; if \(1-b>0\), the stock also has a positive
+level effect on \(\dot A\). Because \(E\) itself contains \(AM\), the net local
+elasticity would be
+\(\partial\ln g_A/\partial\ln A\vert_{H,M}=\eta s_M-b\): the separate
+ideas-difficulty force need not dominate the automation feedback. The baseline
+imposes \(b=1\), removes the separate level-stock term, and isolates research
+automation.
 
 \begin{remark}[The no-AI boundary]
 The no-AI economy is a useful boundary case, although it lies outside the
@@ -263,7 +275,13 @@ of \(E\) with respect to \(AM\). It follows that the elasticity of \(\dot A\)
 with respect to \(AM\) is \(\eta s_M\). Holding \(H\) and \(M\) fixed, this is
 also the local elasticity of \(\dot A\) with respect to the predetermined
 capability stock \(A\). These equalities use interior cost minimization; \(s_M\)
-is not a physical fraction of research tasks performed by AI.
+is not a physical fraction of research tasks performed by AI. More generally,
+\(s_X=\partial\ln Z/\partial\ln X\) and
+\(s_M=\partial\ln E/\partial\ln(AM)\) are the state-dependent local elasticities
+that activate the two CES links. These identities follow from our CES blocks and
+play the role of the local feedback weights emphasized by
+\citet{davidsonetal2026}. Unlike their fractions of tasks already automated, our
+weights are equilibrium objects and are not task shares.
 
 The developer sells \(X\), pays \(X/A\) for inference compute, hires \(H\), uses
 \(M\) internally, and owns \(A\). Labor-market clearing is imposed in
@@ -320,6 +338,22 @@ Competitive final-good firms earn zero profit, so
 \(Y=(r+\delta)K+wL+p_XX\). Using \(N=L+H\), the household budget
 \eqref{eq:axm-household-budget} is exactly equivalent to the aggregate resource
 constraint \eqref{eq:axm-resource}.
+
+The model therefore contains two feedback loops in the terminology of
+\citet{davidsonetal2026}. The technological loop is
+\(A\to AM\to E\to\dot A\to A\). The economic loop is
+\(A\to X\to Y\to(K,M)\to AM\to E\to\dot A\to A\).
+Three local elasticities summarize the links that form these feedback loops:
+\begin{equation}
+ \left.\frac{\partial\ln X}{\partial\ln A}\right|_U=1,\qquad
+ \left.\frac{\partial\ln Y}{\partial\ln X}\right|_{K,L}
+ =(1-\alpha)s_X,\qquad
+ \frac{\partial\ln\dot A}{\partial\ln(AM)}=\eta s_M.
+ \label{eq:axm-local-feedback-links}
+\end{equation}
+The strength of the full economic loop is not a primitive constant because
+saving, compute allocation, labor allocation, and prices are determined in
+equilibrium.
 
 \begin{definition}[Admissible path]
 An admissible path has measurable nonnegative controls, absolutely continuous
