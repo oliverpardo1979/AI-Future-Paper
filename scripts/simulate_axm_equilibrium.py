@@ -7,9 +7,12 @@ capital and capability are predetermined.  Initial consumption and the private
 shadow value of capability jump so that the path approaches the relevant
 constant-growth limit.
 
-The research technology is F(A,H,M)=chi*E(H,A*M)**eta.  Thus U and M
-are raw compute, A*U is inference output, and A*M is automated-research
-services.  This file is intentionally separate from ``simulate_equilibrium``:
+The research technology is the generalized CES
+F(A,H,M)=chi*((1-omega_m)*H**rho_hm + omega_m*(A*M)**rho_hm)**(eta/rho_hm),
+where rho_hm=(sigma_hm-1)/sigma_hm, or equivalently
+chi*E(H,A*M)**eta, where E is the effective-research CES index. Thus U and M are raw compute, A*U is
+inference output, and A*M is automated-research services. This file is
+intentionally separate from ``simulate_equilibrium``:
 the extra A inside the research CES changes both the research price and the
 developer's costate equation.
 """
@@ -88,7 +91,7 @@ def research_unit_cost(
     log_capability: float,
     parameters: Parameters,
 ) -> float:
-    """Log unit cost of E when the normalized price of A*M is 1/A."""
+    """Log unit expenditure for the effective-research index E."""
 
     sigma = parameters.sigma_hm
     log_machine_service_price = -log_capability
@@ -1162,7 +1165,7 @@ def draw_equilibrium_figures(
             {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
             {"title": "Research compute per capita", "field": "log_automated_research", "transform": per_capita_log_change},
             {"title": "AI research services per capita", "field": "log_automated_research_services", "transform": per_capita_log_change},
-            {"title": "Effective research per capita", "field": "log_effective_research", "transform": per_capita_log_change},
+            {"title": "Effective-research index per capita", "field": "log_effective_research", "transform": per_capita_log_change},
         ],
         display_rows,
         labels,

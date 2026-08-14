@@ -8,6 +8,7 @@ singular_research_share,0.07828731650029361,pass
 singular_consumption_share,0.25965942454492086,pass
 wage_sign_threshold_sigma_XL,6.734006734006733,pass
 capability_envelope_derivative_error,4.6502940387327385e-11,pass
+generalized_ces_single_equation_error,0.0,pass
 compute_cost_normalization_service_error,0.0,pass
 compute_cost_normalization_capability_law_error,0.0,pass
 balanced_growth_transversality_rate,0.028,pass

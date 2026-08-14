@@ -55,9 +55,11 @@ def high_sigma_targets(parameters: equilibrium.Parameters) -> dict[str, float]:
 
     alpha = parameters.alpha
     kappa = (1.0 - alpha) / alpha
-    # With dot A=chi*(A*M)^eta in the automated limit, A enters research
-    # directly through A*M.  The singular denominator is therefore
-    # 1+kappa-eta, not the denominator of the model with E(H,M).
+    # In the automated limit, the generalized CES implies
+    # dot A proportional to (A*M)^eta, so A enters research directly through
+    # A*M. The singular denominator is therefore
+    # 1+kappa-eta, not the denominator of a model in which raw M enters
+    # the research CES without being augmented by A.
     denominator = 1.0 + kappa - parameters.eta
     inference_share = (1.0 - alpha) ** 2
     capability_growth_to_z = parameters.eta * alpha / denominator
@@ -889,7 +891,7 @@ def draw_published_figures(
         [
             {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
             {"title": "Automated research per capita", "field": "log_automated_research", "transform": per_capita_log_change},
-            {"title": "Effective research per capita", "field": "log_effective_research", "transform": per_capita_log_change},
+            {"title": "Effective-research index per capita", "field": "log_effective_research", "transform": per_capita_log_change},
             {"title": "ln human-machine research ratio", "field": "human_to_automated_research_ratio", "transform": log_level},
         ],
         levels,

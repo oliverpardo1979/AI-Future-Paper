@@ -52,14 +52,14 @@ def analytical_checks() -> list[dict[str, str | float]]:
     service_after_normalization = (
         normalized_capability * normalized_inference_compute
     )
-    original_effective_research = 0.6
+    auxiliary_research_input_index = 0.6
     normalized_capability_flow = (
         normalized_research_productivity
-        * original_effective_research**eta
+        * auxiliary_research_input_index**eta
     )
     rescaled_original_capability_flow = (
         original_research_productivity
-        * original_effective_research**eta
+        * auxiliary_research_input_index**eta
         / original_compute_cost
     )
 
@@ -69,10 +69,10 @@ def analytical_checks() -> list[dict[str, str | float]]:
         machine_term = omega_m * (
             current_capability * research_compute
         ) ** ces_power
-        log_effective_research = math.log(
+        log_research_input_index = math.log(
             (human_term + machine_term) ** (1.0 / ces_power)
         )
-        return eta * log_effective_research
+        return eta * log_research_input_index
 
     finite_difference_step = 1e-6
     log_capability = math.log(capability)
@@ -84,6 +84,13 @@ def analytical_checks() -> list[dict[str, str | float]]:
     machine_term = omega_m * (
         capability * research_compute
     ) ** ces_power
+    research_input_index = (human_term + machine_term) ** (1.0 / ces_power)
+    capability_flow_via_index = (
+        original_research_productivity * research_input_index**eta
+    )
+    capability_flow_direct = original_research_productivity * (
+        human_term + machine_term
+    ) ** (eta / ces_power)
     automated_contribution = machine_term / (human_term + machine_term)
     envelope_elasticity = eta * automated_contribution
     assertions = {
@@ -107,6 +114,12 @@ def analytical_checks() -> list[dict[str, str | float]]:
             envelope_elasticity,
             rel_tol=1e-8,
             abs_tol=1e-8,
+        ),
+        "generalized_ces_single_equation": math.isclose(
+            capability_flow_via_index,
+            capability_flow_direct,
+            rel_tol=0.0,
+            abs_tol=1e-14,
         ),
         "compute_cost_normalization": math.isclose(
             service_before_normalization,
@@ -158,6 +171,13 @@ def analytical_checks() -> list[dict[str, str | float]]:
         {
             "object": "capability_envelope_derivative_error",
             "value": abs(numerical_elasticity - envelope_elasticity),
+            "status": "pass",
+        },
+        {
+            "object": "generalized_ces_single_equation_error",
+            "value": abs(
+                capability_flow_via_index - capability_flow_direct
+            ),
             "status": "pass",
         },
         {

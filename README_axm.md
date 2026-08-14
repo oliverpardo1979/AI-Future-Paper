@@ -4,10 +4,21 @@ This part of the project leaves `main.tex` and the original model unchanged.
 The parallel manuscript is `main_axm.tex`. Its baseline research technology is
 
 $$
-\dot A=\chi E(H,A M)^\eta,
+\dot A=\chi\left[
+\omega_H H^{\varrho_{HM}}+
+\omega_M(AM)^{\varrho_{HM}}
+\right]^{\eta/\varrho_{HM}},
+\qquad
+\varrho_{HM}=\frac{\sigma_{HM}-1}{\sigma_{HM}},
 $$
 
-with no separate $A^\phi$ term.
+with no separate $A^\phi$ term. The constant-returns effective-research index inside this
+equation is denoted by $E$ when useful, so the same law can be written
+$\dot A=\chi E^\eta$. The index $E$ is an accounting device, not a second
+production stage. The baseline maintains $0<\eta<1$; $\eta=1$ is the
+constant-returns boundary and is not covered by the current propositions.
+At $\sigma_{HM}=1$, the continuous limit is
+$\dot A=\chi H^{\eta\omega_H}(AM)^{\eta\omega_M}$.
 
 Inference and research compute share a constant unit cost. The manuscript
 measures both inputs in resource-expenditure units and normalizes that cost to
