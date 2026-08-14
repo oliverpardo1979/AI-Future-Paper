@@ -1,4 +1,4 @@
-"""Perfect-foresight candidate-equilibrium transitions when AI augments research compute.
+"""Finite-horizon perfect-foresight path approximations with A*M research services.
 
 This module replaces the proportional-investment and proportional-research
 closure in ``simulate_model.py`` with the household Euler equation and the
@@ -404,11 +404,12 @@ def equilibrium_rates(
     time: float,
     state: Iterable[float],
     parameters: Parameters,
+    log_initial_population: float = 0.0,
 ) -> tuple[np.ndarray, dict[str, float]]:
     log_capital, log_capability, log_consumption, log_shadow_value = map(
         float, state
     )
-    log_population = parameters.n * time
+    log_population = log_initial_population + parameters.n * time
     block = equilibrium_static_block(
         log_capital,
         log_capability,
@@ -531,6 +532,12 @@ def technology_log_errors(
 
 
 def asymptotic_targets(parameters: Parameters) -> dict[str, float | str]:
+    if parameters.sigma_hm < 1.0 - 1e-9:
+        raise ValueError(
+            "The finite balanced-growth terminal map is implemented only for "
+            "sigma_HM=1 or sigma_HM>1. The complements branch needs its own "
+            "terminal conditions."
+        )
     if abs(parameters.sigma_xl - 1.0) <= 1e-9:
         beta = (1.0 - parameters.alpha) * parameters.omega_x
         upsilon = beta / (1.0 - parameters.alpha - beta)
@@ -695,6 +702,7 @@ def solve_equilibrium(
     tolerance: float = 2e-5,
 ) -> tuple[object, dict[str, float]]:
     targets = asymptotic_targets(parameters)
+    log_initial_population = math.log(initial_state[2])
     mesh = np.linspace(0.0, horizon, nodes)
     growth_scales = np.asarray(
         [
@@ -712,14 +720,14 @@ def solve_equilibrium(
         for index, time in enumerate(times):
             raw_state = states[:, index] + growth_scales * float(time)
             values[:, index] = equilibrium_rates(
-                float(time), raw_state, parameters
+                float(time), raw_state, parameters, log_initial_population
             )[0] - growth_scales
         return values
 
     def boundary(left: np.ndarray, right: np.ndarray) -> np.ndarray:
         terminal_raw = right + growth_scales * horizon
         _, terminal_block = equilibrium_rates(
-            horizon, terminal_raw, parameters
+            horizon, terminal_raw, parameters, log_initial_population
         )
         terminal_consumption_share = math.exp(
             terminal_raw[2] - terminal_block["log_output"]
@@ -787,6 +795,7 @@ def solve_equilibrium_shooting(
     """Two-dimensional shooting in initial consumption and capability value."""
 
     targets = asymptotic_targets(parameters)
+    log_initial_population = math.log(initial_state[2])
     jump_guess = fixed_share_guess(
         parameters, initial_state, horizon, np.asarray([0.0])
     )[[2, 3], 0]
@@ -802,7 +811,7 @@ def solve_equilibrium_shooting(
         )
         return solve_ivp(
             lambda time, state: equilibrium_rates(
-                float(time), state, parameters
+                float(time), state, parameters, log_initial_population
             )[0],
             (0.0, horizon),
             initial,
@@ -817,7 +826,7 @@ def solve_equilibrium_shooting(
         solution = integrate(jumps)
         terminal = solution.y[:, -1]
         rates, _ = equilibrium_rates(
-            float(solution.t[-1]), terminal, parameters
+            float(solution.t[-1]), terminal, parameters, log_initial_population
         )
         missing_horizon = max(0.0, horizon - float(solution.t[-1])) / horizon
         penalty = 10.0 * missing_horizon
@@ -866,6 +875,7 @@ def evaluate_solution(
     parameters: Parameters,
     horizon: float,
     step: float = 1.0,
+    initial_population: float = 1.0,
 ) -> list[dict[str, float | str]]:
     times = np.arange(0.0, horizon + 0.5 * step, step)
     states = solution.sol(times)
@@ -875,14 +885,15 @@ def evaluate_solution(
         else None
     )
     rows: list[dict[str, float | str]] = []
+    log_initial_population = math.log(initial_population)
     for index, time in enumerate(times):
         derivatives, block = equilibrium_rates(
-            float(time), states[:, index], parameters
+            float(time), states[:, index], parameters, log_initial_population
         )
         log_capital, log_capability, log_consumption, log_shadow = map(
             float, states[:, index]
         )
-        log_population = parameters.n * float(time)
+        log_population = log_initial_population + parameters.n * float(time)
         investment_share = (
             (derivatives[0] + parameters.delta)
             * math.exp(log_capital - block["log_output"])
@@ -959,6 +970,41 @@ def evaluate_solution(
             )
             / parameters.sigma_hm
         )
+        if abs(parameters.sigma_xl - 1.0) <= 1e-10:
+            reconstructed_ai_share = parameters.omega_x
+        else:
+            final_ces_power = (
+                parameters.sigma_xl - 1.0
+            ) / parameters.sigma_xl
+            reconstructed_ai_share = logistic(
+                math.log(parameters.omega_x)
+                - math.log1p(-parameters.omega_x)
+                + final_ces_power
+                * (
+                    block["log_ai_services"]
+                    - block["log_production_labor"]
+                )
+            )
+        reconstructed_research_price = research_unit_cost(
+            block["log_wage"], log_capability, parameters
+        )
+        reconstructed_automated_share = logistic(
+            block["log_automated_research"]
+            - block["log_wage"]
+            - block["log_human_research"]
+        )
+        log_human_conditional_demand = (
+            parameters.sigma_hm * math.log1p(-parameters.omega_m)
+            + parameters.sigma_hm
+            * (block["log_research_price"] - block["log_wage"])
+            + block["log_effective_research"]
+        )
+        log_automated_service_conditional_demand = (
+            parameters.sigma_hm * math.log(parameters.omega_m)
+            + parameters.sigma_hm
+            * (block["log_research_price"] + log_capability)
+            + block["log_effective_research"]
+        )
         row = {
             "scenario": name,
             "time": float(time),
@@ -972,6 +1018,7 @@ def evaluate_solution(
             "log_wage": block["log_wage"],
             "log_ai_price": log_price,
             "log_ai_marginal_cost": log_ai_marginal_cost,
+            "log_research_price": block["log_research_price"],
             "log_ai_services": block["log_ai_services"],
             "log_inference_compute": block["log_inference_compute"],
             "log_human_research": block["log_human_research"],
@@ -1028,6 +1075,51 @@ def evaluate_solution(
             "log_consumption_per_capita": log_consumption - log_population,
             "log_capital_per_capita": log_capital - log_population,
             "monopoly_foc_log_error": monopoly_foc_log_error,
+            "capital_price_error": (
+                block["gross_capital_return"]
+                - parameters.alpha
+                * math.exp(block["log_output"] - log_capital)
+            ),
+            "wage_foc_log_error": (
+                block["log_wage"]
+                - math.log1p(-parameters.alpha)
+                - math.log1p(-block["ai_share"])
+                - block["log_output"]
+                + block["log_production_labor"]
+            ),
+            "ai_price_foc_log_error": (
+                log_price
+                - math.log1p(-parameters.alpha)
+                - math.log(block["ai_share"])
+                - block["log_output"]
+                + block["log_ai_services"]
+            ),
+            "ai_share_definition_error": (
+                block["ai_share"] - reconstructed_ai_share
+            ),
+            "research_price_log_error": (
+                block["log_research_price"] - reconstructed_research_price
+            ),
+            "human_conditional_demand_log_error": (
+                block["log_human_research"]
+                - log_human_conditional_demand
+            ),
+            "automated_service_demand_log_error": (
+                block["log_automated_research_services"]
+                - log_automated_service_conditional_demand
+            ),
+            "automated_share_definition_error": (
+                block["automated_research_share"]
+                - reconstructed_automated_share
+            ),
+            "research_scale_foc_log_error": (
+                log_shadow
+                + math.log(parameters.chi)
+                + math.log(parameters.eta)
+                + (parameters.eta - 1.0)
+                * block["log_effective_research"]
+                - block["log_research_price"]
+            ),
             **technology_errors,
             "research_compute_foc_log_error": (
                 log_shadow + log_f_m
@@ -1073,6 +1165,135 @@ def evaluate_solution(
     return rows
 
 
+def path_diagnostics(
+    rows: list[dict[str, float | str]],
+    parameters: Parameters,
+) -> dict[str, float]:
+    """Audit every dated equation and finite-horizon terminal proxy on a path."""
+
+    ordered = sorted(rows, key=lambda row: float(row["time"]))
+    if not ordered:
+        raise ValueError("Cannot audit an empty equilibrium path.")
+
+    discounted_interest = 0.0
+    for left, right in zip(ordered[:-1], ordered[1:]):
+        time_step = float(right["time"]) - float(left["time"])
+        discounted_interest += 0.5 * time_step * (
+            float(left["net_capital_return"])
+            + float(right["net_capital_return"])
+        )
+    terminal = ordered[-1]
+    terminal_time = float(terminal["time"])
+    household_tvc_log = (
+        -parameters.discount * terminal_time
+        + float(terminal["log_population"])
+        + float(terminal["log_capital"])
+        - float(terminal["log_consumption"])
+    )
+    developer_tvc_log = (
+        -discounted_interest
+        + float(terminal["log_shadow_value"])
+        + float(terminal["log_capability"])
+    )
+
+    return {
+        "minimum_consumption_share": min(
+            float(row["consumption_share"]) for row in ordered
+        ),
+        "minimum_investment_share": min(
+            float(row["investment_share"]) for row in ordered
+        ),
+        "minimum_inference_share": min(
+            float(row["inference_share"]) for row in ordered
+        ),
+        "minimum_research_resource_share": min(
+            float(row["research_resource_share"]) for row in ordered
+        ),
+        "minimum_human_research_share": min(
+            float(row["human_research_share"]) for row in ordered
+        ),
+        "minimum_production_labor_share": min(
+            float(row["production_labor_population_share"]) for row in ordered
+        ),
+        "max_abs_euler_residual": max(
+            abs(float(row["euler_residual"])) for row in ordered
+        ),
+        "max_abs_resource_residual": max(
+            abs(float(row["resource_share_sum"]) - 1.0) for row in ordered
+        ),
+        "max_abs_monopoly_foc_log_error": max(
+            abs(float(row["monopoly_foc_log_error"])) for row in ordered
+        ),
+        "max_abs_factor_price_error": max(
+            abs(float(row[field]))
+            for row in ordered
+            for field in (
+                "capital_price_error",
+                "wage_foc_log_error",
+                "ai_price_foc_log_error",
+            )
+        ),
+        "max_abs_share_definition_error": max(
+            abs(float(row[field]))
+            for row in ordered
+            for field in (
+                "ai_share_definition_error",
+                "automated_share_definition_error",
+            )
+        ),
+        "max_abs_research_dual_error": max(
+            abs(float(row[field]))
+            for row in ordered
+            for field in (
+                "research_price_log_error",
+                "human_conditional_demand_log_error",
+                "automated_service_demand_log_error",
+                "research_scale_foc_log_error",
+            )
+        ),
+        "max_abs_technology_log_error": max(
+            abs(float(row[field]))
+            for row in ordered
+            for field in (
+                "final_production_log_error",
+                "inference_identity_log_error",
+                "research_ces_log_error",
+            )
+        ),
+        "max_abs_research_compute_foc_log_error": max(
+            abs(float(row["research_compute_foc_log_error"]))
+            for row in ordered
+        ),
+        "max_abs_research_human_foc_log_error": max(
+            abs(float(row["research_human_foc_log_error"]))
+            for row in ordered
+        ),
+        "max_abs_labor_market_error": max(
+            abs(float(row["labor_market_error"])) for row in ordered
+        ),
+        "max_abs_capital_law_residual": max(
+            abs(float(row["capital_law_residual"])) for row in ordered
+        ),
+        "max_abs_capability_law_residual": max(
+            abs(float(row["capability_law_residual"])) for row in ordered
+        ),
+        "max_abs_consumption_path_residual": max(
+            abs(float(row["consumption_euler_path_residual"]))
+            for row in ordered
+        ),
+        "max_abs_shadow_costate_residual": max(
+            abs(float(row["shadow_costate_residual"])) for row in ordered
+        ),
+        "minimum_monopoly_soc_margin": min(
+            float(row["monopoly_soc_margin"]) for row in ordered
+        ),
+        "terminal_household_tvc_log_proxy": household_tvc_log,
+        "terminal_developer_tvc_log_proxy": developer_tvc_log,
+        "terminal_household_tvc_proxy": math.exp(household_tvc_log),
+        "terminal_developer_tvc_proxy": math.exp(developer_tvc_log),
+    }
+
+
 def write_rows(path: Path, rows: list[dict[str, float | str]]) -> None:
     fieldnames = list(dict.fromkeys(key for row in rows for key in row))
     with path.open("w", newline="", encoding="utf-8") as handle:
@@ -1114,7 +1335,7 @@ def draw_equilibrium_figures(
 
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_levels.png",
-        "Perfect-foresight candidate equilibrium: quantities",
+        "Perfect-foresight equilibrium-path approximation: quantities",
         "Natural-log change from each path's date-zero level; common initial K, A, and N",
         [
             {"title": "AI capability", "field": "log_capability", "transform": log_change},
@@ -1130,7 +1351,7 @@ def draw_equilibrium_figures(
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_growth_rates.png",
         "Candidate-equilibrium growth and returns",
-        "Annual rates in percent; paths satisfy the stated necessary equilibrium conditions",
+        "Annual rates in percent; paths satisfy the audited dated equilibrium system",
         [
             {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
             {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
@@ -1144,7 +1365,7 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_production_chain.png",
-        "Perfect-foresight candidate equilibrium: the production chain",
+        "Perfect-foresight equilibrium-path approximation: the production chain",
         "Natural-log change per capita, except for the AI-service price",
         [
             {"title": "Inference compute per capita", "field": "log_inference_compute", "transform": per_capita_log_change},
@@ -1159,7 +1380,7 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_research_chain.png",
-        "Perfect-foresight candidate equilibrium: AI research",
+        "Perfect-foresight equilibrium-path approximation: AI research",
         "Natural-log change from each path's date-zero per-capita level",
         [
             {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
@@ -1174,7 +1395,7 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_resource_allocation.png",
-        "Perfect-foresight candidate equilibrium: uses of output",
+        "Perfect-foresight equilibrium-path approximation: uses of output",
         "Shares of final output in percent; the four uses sum to one",
         [
             {"title": "Consumption / output", "field": "consumption_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
@@ -1189,7 +1410,7 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_monopoly_block.png",
-        "Perfect-foresight candidate equilibrium: the integrated AI developer",
+        "Perfect-foresight equilibrium-path approximation: the integrated AI developer",
         "Natural-log price changes, markup ratio, and operating profits as a share of output",
         [
             {"title": "AI-service price", "field": "log_ai_price", "transform": log_change},
@@ -1208,7 +1429,7 @@ def draw_equilibrium_figures(
     }
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_cobb_douglas_long_run.png",
-        "Cobb-Douglas final production: long-run candidate equilibrium",
+        "Cobb-Douglas final production: long-run equilibrium-path approximation",
         "Annual rates and shares in percent; the full 1,600-year solution is shown",
         [
             {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
@@ -1238,7 +1459,7 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_wages_and_factor_shares.png",
-        "Wages and labor income in a candidate equilibrium",
+        "Wages and labor income along an equilibrium-path approximation",
         "Blue circles: sigma_HM = 1; orange squares: sigma_HM = 2; wage changes in logs, other panels in percent",
         [
             {"title": "Real wage", "field": "log_wage", "transform": log_change},
@@ -1265,7 +1486,7 @@ def draw_equilibrium_figures(
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_research_technology_comparison.png",
         "Research technology at Cobb-Douglas production",
-        "Annual rates and shares in percent; both paths satisfy the canonical necessary conditions",
+        "Annual rates and shares in percent; both paths satisfy the audited equilibrium system",
         [
             {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
             {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
@@ -1320,6 +1541,7 @@ def main() -> None:
             parameters,
             horizon,
             step=2.0,
+            initial_population=initial_state[2],
         )
         scenario_rows[name] = rows
         all_rows.extend(rows)
@@ -1331,6 +1553,7 @@ def main() -> None:
             "initial_log_shadow_value": float(initial["log_shadow_value"]),
             "max_rms_residual": float(np.max(solution.rms_residuals)),
         }
+        diagnostics = path_diagnostics(rows, parameters)
         summaries.append(
             {
                 "scenario": name,
@@ -1363,56 +1586,7 @@ def main() -> None:
                 "terminal_automated_research_share": final[
                     "automated_research_share"
                 ],
-                "minimum_consumption_share": min(
-                    float(row["consumption_share"]) for row in rows
-                ),
-                "max_abs_euler_residual": max(
-                    abs(float(row["euler_residual"])) for row in rows
-                ),
-                "max_abs_resource_residual": max(
-                    abs(float(row["resource_share_sum"]) - 1.0)
-                    for row in rows
-                ),
-                "max_abs_monopoly_foc_log_error": max(
-                    abs(float(row["monopoly_foc_log_error"]))
-                    for row in rows
-                ),
-                "max_abs_technology_log_error": max(
-                    abs(float(row[field]))
-                    for row in rows
-                    for field in (
-                        "final_production_log_error",
-                        "inference_identity_log_error",
-                        "research_ces_log_error",
-                    )
-                ),
-                "max_abs_research_compute_foc_log_error": max(
-                    abs(float(row["research_compute_foc_log_error"]))
-                    for row in rows
-                ),
-                "max_abs_research_human_foc_log_error": max(
-                    abs(float(row["research_human_foc_log_error"]))
-                    for row in rows
-                ),
-                "max_abs_labor_market_error": max(
-                    abs(float(row["labor_market_error"])) for row in rows
-                ),
-                "max_abs_capital_law_residual": max(
-                    abs(float(row["capital_law_residual"])) for row in rows
-                ),
-                "max_abs_capability_law_residual": max(
-                    abs(float(row["capability_law_residual"])) for row in rows
-                ),
-                "max_abs_consumption_path_residual": max(
-                    abs(float(row["consumption_euler_path_residual"]))
-                    for row in rows
-                ),
-                "max_abs_shadow_costate_residual": max(
-                    abs(float(row["shadow_costate_residual"])) for row in rows
-                ),
-                "minimum_monopoly_soc_margin": min(
-                    float(row["monopoly_soc_margin"]) for row in rows
-                ),
+                **diagnostics,
             }
         )
 
@@ -1420,6 +1594,7 @@ def main() -> None:
     write_rows(RESULT_DIR / "equilibrium_transition_summary.csv", summaries)
 
     horizon_rows: list[dict[str, float | str]] = []
+    all_horizon_path_rows: list[dict[str, float | str]] = []
     for sigma_hm, horizons in {
         1.0: (1000.0, 1200.0, 1400.0),
         2.0: (1400.0, 1600.0, 1800.0),
@@ -1430,9 +1605,18 @@ def main() -> None:
             sigma_hm=sigma_hm,
         )
         primary = primary_initial_jumps[sigma_hm]
+        targets = asymptotic_targets(parameters)
         for horizon in horizons:
+            robustness_name = (
+                f"axm_sigma_xl_1_hm_{sigma_hm:g}_T_{horizon:g}"
+            )
             if math.isclose(horizon, primary["horizon"]):
-                values = primary
+                values = dict(primary)
+                base_name = f"axm_sigma_xl_1_hm_{sigma_hm:g}"
+                robustness_rows = [
+                    {**row, "scenario": robustness_name}
+                    for row in scenario_rows[base_name]
+                ]
             else:
                 robustness_solution, _ = solve_equilibrium(
                     parameters,
@@ -1452,6 +1636,47 @@ def main() -> None:
                         np.max(robustness_solution.rms_residuals)
                     ),
                 }
+                robustness_rows = evaluate_solution(
+                    robustness_name,
+                    robustness_solution,
+                    parameters,
+                    horizon,
+                    step=2.0,
+                    initial_population=initial_state[2],
+                )
+            diagnostics = path_diagnostics(robustness_rows, parameters)
+            terminal = robustness_rows[-1]
+            terminal_shadow_ratio = math.exp(
+                float(terminal["log_shadow_value"])
+                + float(terminal["log_capability"])
+                - float(terminal["log_output"])
+            )
+            values.update(
+                {
+                    **diagnostics,
+                    "initial_capital_log_error": abs(
+                        float(robustness_rows[0]["log_capital"])
+                        - math.log(initial_state[0])
+                    ),
+                    "initial_capability_log_error": abs(
+                        float(robustness_rows[0]["log_capability"])
+                        - math.log(initial_state[1])
+                    ),
+                    "initial_population_log_error": abs(
+                        float(robustness_rows[0]["log_population"])
+                        - math.log(initial_state[2])
+                    ),
+                    "terminal_consumption_target_error": abs(
+                        float(terminal["consumption_share"])
+                        - float(targets["consumption_share"])
+                    ),
+                    "terminal_shadow_target_error": abs(
+                        terminal_shadow_ratio
+                        - float(targets["terminal_shadow_target"])
+                    ),
+                }
+            )
+            all_horizon_path_rows.extend(robustness_rows)
             horizon_rows.append(
                 {
                     "sigma_hm": sigma_hm,
@@ -1462,6 +1687,10 @@ def main() -> None:
     write_rows(
         RESULT_DIR / "equilibrium_horizon_robustness.csv",
         horizon_rows,
+    )
+    write_rows(
+        RESULT_DIR / "equilibrium_horizon_paths.csv",
+        all_horizon_path_rows,
     )
     draw_equilibrium_figures(scenario_rows)
 

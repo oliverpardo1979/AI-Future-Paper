@@ -278,28 +278,104 @@ The resource constraint is
  \label{eq:axm-resource}
 \end{equation}
 
-\begin{definition}[Interior candidate equilibrium]
-Given \(K(0),A(0),N(0)>0\), an interior candidate equilibrium consists of paths satisfying household
-optimality, competitive final-good demands, the monopoly first- and second-order
-conditions, the research first-order conditions, the developer's costate and
-transversality conditions, final production, the two compute-to-service
-identities, the single research-capability law, and the labor and goods
-market-clearing conditions.
+Let distributed developer profit be
+\[
+ \Pi=p_XX-U-wH-M.
+\]
+The household flow budget is
+\begin{equation}
+ \dot K=rK+wN+\Pi-C.
+ \label{eq:axm-household-budget}
+\end{equation}
+Competitive final-good firms earn zero profit, so
+\(Y=(r+\delta)K+wL+p_XX\). Using \(N=L+H\), the household budget is
+exactly equivalent to the aggregate resource constraint
+\eqref{eq:axm-resource}.
+
+\begin{definition}[Admissible path]
+An admissible path has measurable nonnegative controls, absolutely continuous
+nonnegative stocks \(K\) and \(A\), the stated initial stocks, and satisfies the
+relevant flow budget and state equations. Its improper objective integrals
+converge to finite real values. Deviations used to test household or developer
+optimality must satisfy the corresponding requirements.
 \end{definition}
 
-These conditions are necessary for an interior equilibrium. The static
+\begin{definition}[Interior equilibrium]
+Given \(K(0),A(0),N(0)>0\), an interior equilibrium is an admissible allocation
+with positive quantities and positive \(w\) and \(p_X\); the net interest rate
+\(r\) may have either sign. The household solves its intertemporal
+problem subject to \eqref{eq:axm-household-budget} and \(K\geq0\), competitive
+final-good firms maximize profits, the integrated developer solves
+\eqref{eq:axm-developer-problem}, and labor, capital, AI-service, and goods markets
+clear.
+\end{definition}
+
+\begin{definition}[Interior candidate path]
+An interior candidate path has positive quantities and positive \(w,p_X,q\), and
+satisfies the household Euler and
+flow-budget equations, the population law, competitive factor demands, the
+monopoly first- and second-order conditions, both research first-order conditions,
+the developer's state, costate, and transversality conditions, all technology and
+service identities, and labor and goods market clearing.
+\end{definition}
+
+More explicitly, the candidate system comprises: (i) the population and labor
+market equation \eqref{eq:axm-labor-market}, final production
+\eqref{eq:axm-final-production}, the CES share \eqref{eq:axm-sx}, factor prices
+\eqref{eq:axm-factor-prices}, and \(X=AU\); (ii) the
+capability law \eqref{eq:axm-capability-law}, or its unit-elasticity limit, and the
+dual research conditions \eqref{eq:axm-research-price}--\eqref{eq:axm-sm};
+(iii) monopoly conditions \eqref{eq:axm-monopoly-foc}--
+\eqref{eq:axm-monopoly-soc}, research conditions
+\eqref{eq:axm-research-focs}--\eqref{eq:axm-research-scale-foc}, and the costate
+equation \eqref{eq:axm-costate}; and (iv) the household budget
+\eqref{eq:axm-household-budget}, resource constraint \eqref{eq:axm-resource},
+Euler equation \eqref{eq:axm-euler}, initial stocks, and the transversality
+conditions below. Some equations are deliberately redundant: the dual research
+conditions imply the two direct research FOCs, while the household budget and
+resource constraint coincide after market clearing. The audit checks both the
+reduced computational block and these primitive identities.
+
+The dated first-order, state, market, and accounting conditions are necessary for
+a regular interior equilibrium. The transversality conditions are maintained
+terminal restrictions; their universal necessity is not asserted. The static
 second-order condition verifies local monopoly optimality in \(X\), but the paper
 does not establish global concavity of the developer's intertemporal problem for
-all parameter values. The numerical paths should therefore be read as candidate
-equilibria satisfying the necessary system stated in this section, not as a proof of global
-optimality.
+all parameter values. Outside the sufficient cases stated next, a solution of the
+equations is therefore only a candidate path.
+
+\begin{proposition}[Global sufficiency in the reported cases]
+\label{prop:axm-equilibrium-sufficiency}
+Let \(\sigma_{XL}=1\) and
+\(\beta=(1-\alpha)\omega_X\leq1/2\). Suppose either
+\[
+ \sigma_{HM}=1,\qquad \eta(1+\omega_M)\leq1,
+\]
+or
+\[
+ \sigma_{HM}=2,\qquad 2\eta\leq1.
+\]
+Every regular interior equilibrium that satisfies the two stated transversality
+conditions obeys the candidate system. Conversely, every admissible
+infinite-horizon candidate path is an interior equilibrium.
+\end{proposition}
+
+The proof is in the Appendix. The benchmark satisfies these restrictions with
+\(\beta=0.134\), \(\eta(1+\omega_M)=0.6075\), and \(2\eta=0.90\).
+Thus the dated equations are necessary under the usual regularity conditions and
+the full system is globally sufficient for both reported parameterizations. We
+do not claim that the displayed transversality conditions are universally
+necessary without additional infinite-horizon regularity. Nor does the
+proposition turn a finite-horizon numerical approximation into a proof that an
+infinite-horizon path exists or satisfies those limits.
 
 The system used for computation is explicit. Given \(K,A,N,q\), equations
 \eqref{eq:axm-labor-market} and
 \eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} characterize
 candidate static values of \(L,H,U,M,X,E,Y,w,p_X,P_E,s_X,\) and \(s_M\), where
 \(E\) is defined in \eqref{eq:axm-effective-research}. The numerical solver
-selects a root that also satisfies the monopoly second-order condition. Together
+computes an interior root; a reported root is retained only if the ex-post audit
+also verifies the monopoly second-order condition. Together
 with \(\dot N/N=n\), the endogenous dynamics are
 \begin{align}
  \frac{\dot K}{K}&=\frac{Y-C-U-M}{K}-\delta,\\

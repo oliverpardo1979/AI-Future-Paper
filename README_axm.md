@@ -29,19 +29,27 @@ one; capability and research productivity are correspondingly rescaled.
 Run `python scripts/simulate_axm_equilibrium.py` and then
 `python scripts/audit_axm_model.py`.
 
-The first command solves the two reported perfect-foresight candidate paths and writes
+The first command solves the two reported perfect-foresight path approximations and writes
 their data to `numerical_axm/` and figures to `figures_axm/`. The second checks
 the analytical benchmark calculations and rejects numerical paths whose market,
 first-order, feasibility, second-order, terminal-target, or dynamic residuals
-exceed the documented tolerances. These checks verify the stated system of
-necessary equilibrium conditions used in the manuscript; they do not establish
-global concavity of the developer's intertemporal problem.
+exceed the documented tolerances. It also stores and audits all six paths used in
+the terminal-horizon robustness exercise. Proposition
+`prop:axm-equilibrium-sufficiency` proves that any admissible exact
+infinite-horizon path satisfying the full system and transversality conditions is
+globally optimal under both reported parameterizations. The numerical audit
+verifies its finite-horizon discretization and terminal proxies; it cannot by
+itself prove an infinite-horizon transversality limit or existence of the
+continued path.
 
 The audit also reconstructs the new research specification independently from
 every saved observation: `AM = A*M`, the CES input index, the consolidated
 capability law, both research first-order conditions, and the capability-feedback
 term in the costate equation. Files in `numerical_axm/` and `figures_axm/` are the
 only model-simulation artifacts used by `main_axm.tex`.
+The equation-by-equation paper/code map is
+`numerical_axm/equilibrium_equation_map.csv`, and the six complete robustness
+paths are in `numerical_axm/equilibrium_horizon_paths.csv`.
 
 The web-based AI Growth Lab in `docs/`, the files in `numerical/` and `figures/`,
 and simulation scripts without `_axm` in their names belong to the original

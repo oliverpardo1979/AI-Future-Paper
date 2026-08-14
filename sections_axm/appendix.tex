@@ -1,5 +1,89 @@
 \section{Proofs}
 
+\subsection{Proof of Proposition \ref{prop:axm-equilibrium-sufficiency}}
+
+Under the usual normality and differentiability conditions, every regular
+interior equilibrium satisfies the dated first-order conditions, state equations,
+and market-clearing identities. The proposition conditions the converse on the
+two displayed transversality restrictions; it does not claim that those limits
+are necessary for every conceivable infinite-horizon optimum. We prove the stated
+global sufficiency.
+
+With \(\sigma_{XL}=1\), write
+\[
+ \beta=(1-\alpha)\omega_X,\qquad
+ B_t=K_t^\alpha L_t^{(1-\alpha)\omega_L}.
+\]
+Conditional on the paths that the developer takes as given, final output is
+\(Y=B_tX^\beta\), and revenue from AI services is \(\beta B_tX^\beta\).
+The unique global maximizer of operating profit is therefore
+\[
+ X^*=(\beta^2B_tA)^{1/(1-\beta)},
+\]
+and optimized operating profit is
+\[
+ \pi_t(A)=\beta(1-\beta)B_t
+ (\beta^2B_tA)^{\beta/(1-\beta)}.
+\]
+This function is concave in \(A\) when \(\beta\leq1/2\).
+
+When \(\sigma_{HM}=1\), the capability law is
+\[
+ F(A,H,M)=\chi H^{\eta\omega_H}A^{\eta\omega_M}M^{\eta\omega_M}.
+\]
+It is jointly concave in \((A,H,M)\) when the sum of its exponents,
+\(\eta(1+\omega_M)\), does not exceed one. When \(\sigma_{HM}=2\),
+\[
+ F(A,H,M)=\chi\left[\omega_H\sqrt H+
+ \omega_M\sqrt{AM}\right]^{2\eta}.
+\]
+Both \(\sqrt H\) and the geometric mean \(\sqrt{AM}\) are concave. Their
+weighted sum is concave, and composition with the increasing concave map
+\(v\mapsto v^{2\eta}\) preserves concavity when \(2\eta\leq1\).
+
+Let
+\[
+ D_t=\exp\left\{-\int_0^t r_s\dd s\right\},
+ \qquad \mu_t=D_tq_t.
+\]
+The present-value Hamiltonian of the reduced developer problem is
+\[
+ \mathcal H_t^p
+ =D_t[\pi_t(A)-w_tH-M]+\mu_tF(A,H,M).
+\]
+The research-compute first-order condition implies \(q>0\), so this Hamiltonian
+is concave in the state and controls in both cases covered by the proposition.
+The interior first-order conditions consequently maximize the Hamiltonian
+globally. Concavity and the costate equation imply, for any admissible alternative
+\((\widetilde A,\widetilde H,\widetilde M)\) with the same initial capability,
+\[
+ J_T^*-\widetilde J_T
+ \geq \mu_T(\widetilde A_T-A_T^*).
+\]
+Because \(\widetilde A_T\geq0\), \(\mu_T\geq0\), and the developer's
+transversality condition gives \(\mu_TA_T^*\to0\),
+\[
+ \mu_T(\widetilde A_T-A_T^*)\geq-\mu_TA_T^*\to0.
+\]
+Because both improper objective integrals converge to finite real values,
+taking the lower limit as \(T\to\infty\) establishes global optimality.
+
+The household problem has a concave objective and a linear flow budget.
+Let its present-value shadow price be
+\(\Lambda_t=e^{-\rho t}N_t/C_t\). The Euler equation is the household costate
+equation. Concavity and the consumption FOC imply, for any admissible alternative
+\(\widetilde K\) with the same initial capital,
+\[
+ \mathcal U_T^*-\widetilde{\mathcal U}_T
+ \geq \Lambda_T(\widetilde K_T-K_T^*)
+ \geq-\Lambda_TK_T^*\to0,
+\]
+where the last limit is the household transversality condition. Convergence of
+the improper utilities then establishes household optimality. Competitive
+final-good firms face a concave constant-returns technology, so their factor
+demands are globally optimal. Market clearing then establishes an interior
+equilibrium. \(\square\)
+
 \subsection{Proof of Proposition \ref{prop:axm-research-automation}}
 
 The ratio of the conditional demands in \eqref{eq:axm-research-demands} is
@@ -290,14 +374,16 @@ the wage limit has the sign stated in the conditional result. Finally,
 \(wL/Y=(1-\alpha)(1-s_X)\to0\). Since \(L/N\) has a positive limit by
 hypothesis, \(wN/Y=(wL/Y)(N/L)\to0\) as well. \(\square\)
 
-\section{Numerical candidate-equilibrium audit}
+\section{Numerical equilibrium-system audit}
 
-For every reported path, the code recomputes the static allocation at each date
+For every reported path and every horizon-robustness path, the code recomputes the
+static allocation at each date
 and records the following residuals: the three technology identities, the
 goods-market identity, the labor-market identity, the monopoly first-order
 condition, both research first-order conditions, and the four canonical
 differential equations, including the household Euler equation. It also verifies the monopoly second-order
-condition and re-solves each path at three terminal horizons.
+condition and re-solves each case at three terminal horizons. The complete six
+horizon paths are stored, rather than retaining only their initial jumps.
 An independent row-by-row audit reconstructs \(X=AU\), the automated research
 service \(AM\), the CES input index, the consolidated capability law, both
 research first-order conditions, and the costate term
@@ -307,3 +393,7 @@ audit the dynamic equations. The simulation files and their residual summaries
 are stored in \path{numerical_axm}; the independent solver is
 \path{scripts/simulate_axm_equilibrium.py}, with a separate free-boundary solver
 for the gross-substitutes regime.
+The row-by-row mapping from manuscript equations to solver objects and diagnostics
+is stored in \path{numerical_axm/equilibrium_equation_map.csv}. Finite terminal
+values of the two transversality expressions are also recorded, but they are not
+treated as a numerical proof of their infinite-horizon limits.
