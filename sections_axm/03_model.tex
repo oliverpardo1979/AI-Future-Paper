@@ -1,14 +1,11 @@
-\section{Model}
+\section{Baseline model}
+\label{sec:axm-model}
 
-Time is continuous. Population grows at rate \(n\), and people work either in
-final production or AI research:
-\begin{equation}
- \dot N=nN,\qquad N=L+H.
- \label{eq:axm-labor-market}
-\end{equation}
-Here \(L\) always denotes production labor and \(H\) human research labor.
-For any positive variable \(V\), write \(g_V\equiv\dot V/V\). Because both types
-of labor earn the common wage \(w\), the total wage bill is \(wN=wL+wH\).
+Time is continuous. There is one final good, a representative household,
+competitive final-good firms, and an integrated AI developer. The developer
+monopolistically supplies AI services and invests in better AI. The initial
+economy already uses AI services; the model does not describe their first
+commercial adoption.
 
 \begin{assumption}[Parameters]
 Throughout, \(0<\alpha<1\), \(0<n<\rho\), \(\delta\geq0\),
@@ -17,26 +14,45 @@ weights lie strictly between zero and one and sum to one within each CES
 aggregate.
 \end{assumption}
 
-The no-AI economy is a useful boundary case, although it lies outside the
-maintained interior-weight assumption. If \(\omega_X=\omega_M=0\), then
-\(Z=L\), capability has no productive use, and the developer has no incentive to
-conduct research. The model reduces to a Ramsey--Cass--Koopmans economy with
-population growth and no technological progress.
+\subsection{Household}
 
-\subsection{Household and final production}
+Population grows at rate \(n\). Each person supplies one unit of labor
+inelastically, and labor is allocated between final production and AI research:
+\begin{align}
+ \dot N&=nN,
+ \label{eq:axm-population}\\
+ N&=L+H.
+ \label{eq:axm-labor-market}
+\end{align}
+Here \(L\) always denotes production labor and \(H\) human research labor.
+For any positive variable \(V\), write \(g_V\equiv\dot V/V\).
+Because both types of labor earn the common wage \(w\), the total wage bill is
+\(wN=wL+wH\).
 
 The representative household maximizes
 \[
- \int_0^\infty e^{-\rho t}N_t\log(C_t/N_t)\,\dd t
+ \int_0^\infty e^{-\rho t}N_t\log(C_t/N_t)\,\dd t.
 \]
-and owns physical capital and the AI developer. It receives labor income, capital
-income, and the developer's distributed profits. Its interior Euler equation in
-aggregate variables is
+It owns physical capital and the AI developer and receives labor income, the net
+return on capital, and the developer's distributed profit \(\Pi\). Its flow
+budget is
 \begin{equation}
- \frac{\dot C}{C}=n+\alpha\frac{Y}{K}-\delta-\rho.
+ \dot K=rK+wN+\Pi-C.
+ \label{eq:axm-household-budget}
+\end{equation}
+The variable \(r\) is the net real interest rate: depreciation is already
+deducted from the rental return to capital. The household's interior Euler
+equation in aggregate variables is
+\begin{equation}
+ \frac{\dot C}{C}=n+r-\rho
+ =n+\alpha\frac{Y}{K}-\delta-\rho.
  \label{eq:axm-euler}
 \end{equation}
-Competitive final-good firms produce
+
+\subsection{Final-good firms}
+
+Competitive final-good firms produce, where \(X\) denotes the flow of AI
+services supplied by the integrated developer and formally defined below,
 \begin{align}
  Y&=K^\alpha Z^{1-\alpha},\\
  Z&=\left[\omega_L L^{\frac{\sigma_{XL}-1}{\sigma_{XL}}}
@@ -55,15 +71,14 @@ of AI services to the CES quantity index as
  \label{eq:axm-sx}
 \end{equation}
 Thus \(s_X\) is the elasticity of \(Z\) with respect to \(X\), not AI services'
-revenue share in final output. The latter is \(p_XX/Y=(1-\alpha)s_X\). Factor prices satisfy
+revenue share in final output. The latter is \(p_XX/Y=(1-\alpha)s_X\).
+Profit maximization gives
 \begin{equation}
  r=\alpha\frac{Y}{K}-\delta,\qquad
  w=(1-\alpha)(1-s_X)\frac{Y}{L},\qquad
  p_X=(1-\alpha)s_X\frac{Y}{X}.
  \label{eq:axm-factor-prices}
 \end{equation}
-Here \(r\) is the net real interest rate. The Euler equation above can therefore
-be written as \(\dot C/C=n+r-\rho\).
 
 \Needspace{11\baselineskip}
 \begin{remark}[Tasks, jobs, and labor services]
@@ -79,155 +94,45 @@ of jobs displaced by AI. The model's labor-market predictions concern wages,
 factor shares, and the allocation of labor between the two sectors.
 \end{remark}
 
-\subsection{Two uses of compute}
+\subsection{Integrated AI monopolist}
+
+The model distinguishes two uses of compute. \(U\) is inference compute: raw
+compute used to operate existing AI systems and supply services to final-good
+firms. \(M\) is research compute: raw compute used to improve AI capability.
+The two inputs are flows, not stocks of chips. They have the same constant unit
+resource cost. We choose units of raw compute so that one unit costs one unit of
+final output.
 
 \(A\) indexes current AI capability: what one unit of compute can accomplish.
-\(U\) is inference compute, and \(M\) is research compute. Inference compute
-produces the service flow \(X=AU\). Analogously, research compute produces the
-automated research service flow \(AM\).
-The paid inputs are \(U\) and \(M\). Because both uses have the same constant unit
-cost, we choose units of raw compute so that one unit costs one unit of final output. This is a
-normalization, not an assumption that compute is economically free. To see this,
-start from a common cost \(\xi>0\), define
+Inference compute produces the flow of quality-adjusted AI services
+\begin{equation}
+ X=AU.
+ \label{eq:axm-ai-service}
+\end{equation}
+Research compute analogously produces the automated research service flow
+\(AM\), which enters the research technology below. The paid inputs are \(U\)
+and \(M\), whereas \(X\) and \(AM\) are service flows.
+
+The common unit cost is a normalization, not an assumption that compute is
+economically free. To see this, start from a common cost \(\xi>0\), define
 \(\widetilde U=\xi U\), \(\widetilde M=\xi M\),
 \(\widetilde A=A/\xi\), \(\widetilde\chi=\chi/\xi\), and, for the shadow
-value used below, \(\widetilde q=\xi q\), and then drop tildes.
-Both service flows and all resource costs are unchanged. Because one unit of raw
-compute costs one unit of final output, producing one unit of either service
-flow---one unit of \(X\) or of \(AM\)---uses \(1/A\) units of the final good. This separates the capability stock
-\(A\), two raw compute inputs \(U,M\), and the two service flows \(X,AM\).
+value used below, \(\widetilde q=\xi q\), and then drop tildes. Both service
+flows and all resource costs are unchanged. Producing one unit of either service
+flow---one unit of \(X\) or of \(AM\)---therefore uses \(1/A\) units of the
+final good.
 
-\subsection{AI research}
-
-For \(\sigma_{HM}\neq1\), human researchers and automated research services
-improve capability through a homothetic CES technology
+The developer takes the final sector's current \(K\) and \(L\) as given and
+recognizes the inverse demand for \(X\). Its market power is confined to this
+service market: it takes the wage and the unit price of raw compute as given.
+Conditional on current \(A,K,\) and \(L\), its operating profit before research
+expenditure is
 \begin{equation}
- \dot A=\chi
- \left[\omega_H H^{\varrho_{HM}}
- +\omega_M(AM)^{\varrho_{HM}}\right]^{\eta/\varrho_{HM}},
- \qquad
- \varrho_{HM}=\frac{\sigma_{HM}-1}{\sigma_{HM}},
- \qquad \omega_H+\omega_M=1.
- \label{eq:axm-capability-law}
+ \pi(A;K,L)=\max_{X\geq0}
+ \left\{p_X(X;K,L)X-\frac{X}{A}\right\}.
+ \label{eq:axm-service-supply}
 \end{equation}
-For the dual representation used below, let \(E\) denote the constant-returns
-effective-research index
-\begin{equation}
- E\equiv\left[\omega_H H^{\varrho_{HM}}
- +\omega_M(AM)^{\varrho_{HM}}\right]^{1/\varrho_{HM}}.
- \label{eq:axm-effective-research}
-\end{equation}
-The object \(E\) is an index of the two research inputs, not an additional good,
-stock, or production stage. The capability law is equivalently
-\(\dot A=\chi E^\eta\); hence a target \(\dot A\) requires
-\(E=(\dot A/\chi)^{1/\eta}\). At the unit-elasticity parameter limit,
-\(\sigma_{HM}\to1\), equation \eqref{eq:axm-capability-law} becomes
-\begin{equation}
- \dot A=\chi H^{\eta\omega_H}(AM)^{\eta\omega_M},
- \qquad E=H^{\omega_H}(AM)^{\omega_M}.
- \label{eq:axm-capability-law-cd}
-\end{equation}
-
-The parameters have separate economic roles. The elasticity \(\sigma_{HM}\)
-governs substitution between human research services \(H\) and automated research
-services \(AM\). The exponent \(\eta\) governs returns to their joint scale: for a
-fixed \(A\), multiplying both \(H\) and \(M\) by \(\lambda\) multiplies
-\(\dot A\) by \(\lambda^\eta\). The scalar \(\chi\) is multiplicative research
-productivity and affects the level and timing of capability improvement. Finally, \(A\) enters
-inside \(AM\) because capability raises the automated research services produced
-by one unit of research compute. These roles are distinct: a high substitution
-elasticity does not remove decreasing returns when \(0<\eta<1\).
-
-The baseline contains no additional \(A^\phi\) term. Better capability affects
-research only by raising the services produced by \(M\). This isolates research
-automation without adding a separate standing-on-shoulders channel.
-
-\begin{remark}[The constant-returns boundary]
-\label{rem:axm-eta-one}
-At \(\eta=1\), doubling \(H\) and \(M\) for a fixed capability stock doubles
-\(\dot A\). If, in addition, \(\sigma_{HM}>1\) and \(AM/H\to\infty\), then
-\[
- \frac{\dot A}{A}
- \sim \chi\,\omega_M^{1/\varrho_{HM}}M.
-\]
-In this technological limit, a higher level of research compute raises the growth
-rate of capability. This scaling does not by itself establish which equilibrium
-branch is reached or whether output becomes singular because \(M\) is endogenous.
-Moreover, the interior scale condition becomes \(q\chi=P_E\) and no longer
-determines \(E\). If \(q\chi<P_E\), the developer chooses no research at the
-margin; if \(q\chi>P_E\), its unconstrained problem has no finite interior
-research choice. We maintain
-\(0<\eta<1\) in the baseline to distinguish substitution from research-scale
-effects. The boundary \(\eta=1\) requires a separate analysis of interiority,
-existence, transversality, and the asymptotic equilibrium.
-\end{remark}
-
-For \(\sigma_{HM}\neq1\), the unit expenditure function of the
-effective-research index \(E\) is
-\begin{equation}
- P_E=\left[\omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
- +\omega_M^{\sigma_{HM}}\left(\frac{1}{A}\right)^{1-\sigma_{HM}}
- \right]^{1/(1-\sigma_{HM})}.
- \label{eq:axm-research-price}
-\end{equation}
-At the unit-elasticity parameter limit, \(\sigma_{HM}\to1\), its continuous limit is
-\begin{equation}
- P_E=\left(\frac{w}{\omega_H}\right)^{\omega_H}
- \left(\frac{1}{A\omega_M}\right)^{\omega_M}.
- \label{eq:axm-research-price-cd}
-\end{equation}
-Conditional on current \(A\) and \(w\), and because
-\(E=(\dot A/\chi)^{1/\eta}\), the minimum expenditure required to produce a
-target flow \(\dot A\) is
-\begin{equation}
- P_E\left(\frac{\dot A}{\chi}\right)^{1/\eta}.
- \label{eq:axm-research-expenditure-function}
-\end{equation}
-Thus \(P_E\) is not the unit cost of \(\dot A\) when \(\eta<1\).
-Conditional input demands are
-\begin{equation}
- H=\omega_H^{\sigma_{HM}}\left(\frac{P_E}{w}\right)^{\sigma_{HM}}E,
- \quad
- AM=\omega_M^{\sigma_{HM}}
- \left(AP_E\right)^{\sigma_{HM}}E.
- \label{eq:axm-research-demands}
-\end{equation}
-The share of research expenditure allocated to automated research services is
-\begin{equation}
- s_M=\frac{M}{wH+M}.
- \label{eq:axm-sm}
-\end{equation}
-Because producing \(AM\) costs \(M\), the conditional demands imply that, along
-an interior cost-minimizing research allocation, \(s_M\) is also the elasticity
-of \(E\) with respect to \(AM\). It follows that the elasticity of \(\dot A\)
-with respect to \(AM\) is \(\eta s_M\). Holding \(H\) and \(M\) fixed, this is
-also the local elasticity of \(\dot A\) with respect to the predetermined
-capability stock \(A\). These equalities use interior cost minimization; the
-share \(s_M\) is not a physical fraction of research tasks performed by AI.
-
-\subsection{Integrated AI developer}
-
-The developer sells \(X\) to final-good firms, pays \(X/A\) for inference
-compute, hires \(H\), uses \(M\) internally, and owns \(A\). Its market power is
-confined to the sale of \(X\): the developer takes the wage, the common unit cost
-of raw compute, and the final sector's current \(K\) and \(L\) as given. Its
-market power is therefore exercised against the inverse demand for \(X\)
-conditional on those two inputs. Labor-market clearing is imposed in equilibrium,
-but the developer does not internalize its effect on the competitive wage. Its
-intertemporal problem is
-\begin{equation}
- \max_{\{X,H,M\}}
- \int_0^\infty
- \exp\left\{-\int_0^t r_s\dd s\right\}
- \left[p_{X,t}X_t-\frac{X_t}{A_t}-w_tH_t-M_t\right]\dd t.
- \label{eq:axm-developer-problem}
-\end{equation}
-The maximization is subject to the capability law
-\eqref{eq:axm-capability-law} and the initial capability stock.
-The discount rate is the return available to the household that owns the
-developer. Along an interior equilibrium, this discounting is consistent with
-the household Euler equation. The inverse of the
-absolute price elasticity of demand for \(X\) is
+The inverse of the absolute price elasticity of demand for \(X\) is
 \begin{equation}
  \varepsilon_X^{-1}=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X.
  \label{eq:axm-inverse-elasticity}
@@ -245,22 +150,152 @@ static supply choice is
  \label{eq:axm-monopoly-soc}
 \end{equation}
 The numerical solver checks this inequality at every reported date.
+
+\subsection{Frontier research}
+
+For \(\sigma_{HM}\neq1\), human researchers and automated research services
+improve capability through the homothetic CES technology
+\begin{equation}
+ \dot A=\chi
+ \left[\omega_H H^{\varrho_{HM}}
+ +\omega_M(AM)^{\varrho_{HM}}\right]^{\eta/\varrho_{HM}},
+ \qquad
+ \varrho_{HM}=\frac{\sigma_{HM}-1}{\sigma_{HM}},
+ \qquad \omega_H+\omega_M=1.
+ \label{eq:axm-capability-law}
+\end{equation}
+For its dual representation, let \(E\) denote the constant-returns
+effective-research index
+\begin{equation}
+ E\equiv\left[\omega_H H^{\varrho_{HM}}
+ +\omega_M(AM)^{\varrho_{HM}}\right]^{1/\varrho_{HM}}.
+ \label{eq:axm-effective-research}
+\end{equation}
+The object \(E\) is an index of the two research inputs, not an additional good,
+stock, or production stage. The capability law is equivalently
+\(\dot A=\chi E^\eta\); hence a target \(\dot A\) requires
+\(E=(\dot A/\chi)^{1/\eta}\). At the unit-elasticity parameter limit,
+\(\sigma_{HM}\to1\), the technology becomes
+\begin{equation}
+ \dot A=\chi H^{\eta\omega_H}(AM)^{\eta\omega_M},
+ \qquad E=H^{\omega_H}(AM)^{\omega_M}.
+ \label{eq:axm-capability-law-cd}
+\end{equation}
+
+The parameters have separate economic roles. The elasticity \(\sigma_{HM}\)
+governs substitution between human research services \(H\) and automated
+research services \(AM\). The exponent \(\eta\) governs returns to their joint
+scale: for a fixed \(A\), multiplying both \(H\) and \(M\) by \(\lambda\)
+multiplies \(\dot A\) by \(\lambda^\eta\). The scalar \(\chi\) shifts research
+productivity and affects the level and timing of capability improvement.
+Finally, \(A\) enters inside \(AM\) because capability raises the automated
+research services produced by one unit of research compute. A high substitution
+elasticity therefore does not remove decreasing returns when \(0<\eta<1\).
+
+The baseline contains no additional \(A^\phi\) term. Better capability affects
+research only by raising the services produced by \(M\). This isolates research
+automation without adding a separate standing-on-shoulders channel.
+
+\begin{remark}[The no-AI boundary]
+The no-AI economy is a useful boundary case, although it lies outside the
+maintained interior-weight assumption. If \(\omega_X=\omega_M=0\), then
+\(Z=L\), capability has no productive use, and the developer has no incentive to
+conduct research. The model reduces to a Ramsey--Cass--Koopmans economy with
+population growth and no technological progress.
+\end{remark}
+
+\begin{remark}[The constant-returns boundary]
+\label{rem:axm-eta-one}
+At \(\eta=1\), doubling \(H\) and \(M\) for a fixed capability stock doubles
+\(\dot A\). If, in addition, \(\sigma_{HM}>1\) and \(AM/H\to\infty\), then
+\[
+ \frac{\dot A}{A}
+ \sim \chi\,\omega_M^{1/\varrho_{HM}}M.
+\]
+In this technological limit, a higher level of research compute raises the
+growth rate of capability. This scaling does not by itself establish which
+equilibrium branch is reached or whether output becomes singular because \(M\)
+is endogenous. Moreover, the interior scale condition becomes
+\(q\chi=P_E\) and no longer determines \(E\). If \(q\chi<P_E\), the developer
+chooses no research at the margin; if \(q\chi>P_E\), its unconstrained problem
+has no finite interior research choice. We maintain \(0<\eta<1\) in the
+baseline to distinguish substitution from research-scale effects. The boundary
+\(\eta=1\) requires a separate analysis of interiority, existence,
+transversality, and the asymptotic equilibrium.
+\end{remark}
+
+For \(\sigma_{HM}\neq1\), the unit expenditure function of the
+effective-research index \(E\) is
+\begin{equation}
+ P_E=\left[\omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
+ +\omega_M^{\sigma_{HM}}\left(\frac{1}{A}\right)^{1-\sigma_{HM}}
+ \right]^{1/(1-\sigma_{HM})}.
+ \label{eq:axm-research-price}
+\end{equation}
+At the unit-elasticity parameter limit, its continuous limit is
+\begin{equation}
+ P_E=\left(\frac{w}{\omega_H}\right)^{\omega_H}
+ \left(\frac{1}{A\omega_M}\right)^{\omega_M}.
+ \label{eq:axm-research-price-cd}
+\end{equation}
+Conditional on current \(A\) and \(w\), the minimum expenditure required to
+produce a target flow \(\dot A\) is
+\begin{equation}
+ P_E\left(\frac{\dot A}{\chi}\right)^{1/\eta}.
+ \label{eq:axm-research-expenditure-function}
+\end{equation}
+Thus \(P_E\) is not the unit cost of \(\dot A\) when \(\eta<1\).
+Conditional input demands are
+\begin{equation}
+ H=\omega_H^{\sigma_{HM}}\left(\frac{P_E}{w}\right)^{\sigma_{HM}}E,
+ \quad
+ AM=\omega_M^{\sigma_{HM}}(AP_E)^{\sigma_{HM}}E.
+ \label{eq:axm-research-demands}
+\end{equation}
+The share of research expenditure allocated to automated research services is
+\begin{equation}
+ s_M=\frac{M}{wH+M}.
+ \label{eq:axm-sm}
+\end{equation}
+Because producing \(AM\) costs \(M\), the conditional demands imply that, along
+an interior cost-minimizing research allocation, \(s_M\) is also the elasticity
+of \(E\) with respect to \(AM\). It follows that the elasticity of \(\dot A\)
+with respect to \(AM\) is \(\eta s_M\). Holding \(H\) and \(M\) fixed, this is
+also the local elasticity of \(\dot A\) with respect to the predetermined
+capability stock \(A\). These equalities use interior cost minimization; \(s_M\)
+is not a physical fraction of research tasks performed by AI.
+
+The developer sells \(X\), pays \(X/A\) for inference compute, hires \(H\), uses
+\(M\) internally, and owns \(A\). Labor-market clearing is imposed in
+equilibrium, but the developer does not internalize its effect on the competitive
+wage. Taking the paths of \(r,w,K,\) and \(L\) as given, it solves
+\begin{equation}
+ \max_{\{X,H,M\}}
+ \int_0^\infty
+ \exp\left\{-\int_0^t r_s\dd s\right\}
+ \left[p_{X,t}X_t-\frac{X_t}{A_t}-w_tH_t-M_t\right]\dd t.
+ \label{eq:axm-developer-problem}
+\end{equation}
+subject to the capability law and the initial capability stock. The discount
+rate is the return available to the household that owns the developer. Along an
+interior equilibrium, this discounting is consistent with the household Euler
+equation.
+
 Let \(q\) be the current-value shadow price of capability. Research optimality is
 \begin{equation}
  q\frac{\partial\dot A}{\partial H}=w,\qquad
  q\frac{\partial\dot A}{\partial M}=1,
  \label{eq:axm-research-focs}
 \end{equation}
-or, after minimizing the cost of the effective-research index \(E\),
+or, after minimizing the cost of the effective-research index,
 \begin{equation}
  q\chi\eta E^{\eta-1}=P_E.
  \label{eq:axm-research-scale-foc}
 \end{equation}
 Let \(\pi(A;K,L)\) denote optimized operating profit from selling \(X\), before
 research expenditure. Holding \(K\) and \(L\) fixed, its envelope derivative is
-\(\pi_A=X/A^2\). Along the
-interior cost-minimizing research allocation,
-\(\partial\dot A/\partial A=\eta s_M\dot A/A\) because a fixed \(M\) supplies
+\(\pi_A=X/A^2\). Along the interior cost-minimizing research allocation,
+\(\partial\dot A/\partial A=\eta s_M\dot A/A\), because a fixed \(M\) supplies
 more research services when \(A\) rises. The costate equation is
 \begin{equation}
  \frac{\dot q}{q}=\alpha\frac{Y}{K}-\delta-\frac{X}{qA^2}
@@ -270,31 +305,26 @@ more research services when \(A\) rises. The costate equation is
 The last term is the main dynamic difference from research that combines \(H\)
 directly with \(M\).
 
-\subsection{Resources and equilibrium}
+\subsection{Equilibrium}
 
 The resource constraint is
 \begin{equation}
  C+\dot K+\delta K+U+M=Y.
  \label{eq:axm-resource}
 \end{equation}
-
-Let distributed developer profit be
+Distributed developer profit is
 \[
  \Pi=p_XX-U-wH-M.
 \]
-The household flow budget is
-\begin{equation}
- \dot K=rK+wN+\Pi-C.
- \label{eq:axm-household-budget}
-\end{equation}
 Competitive final-good firms earn zero profit, so
-\(Y=(r+\delta)K+wL+p_XX\). Using \(N=L+H\), the household budget is
-exactly equivalent to the aggregate resource constraint
-\eqref{eq:axm-resource}.
+\(Y=(r+\delta)K+wL+p_XX\). Using \(N=L+H\), the household budget
+\eqref{eq:axm-household-budget} is exactly equivalent to the aggregate resource
+constraint \eqref{eq:axm-resource}.
 
 \begin{definition}[Admissible path]
 An admissible path has measurable nonnegative controls, absolutely continuous
-nonnegative stocks \(K\) and \(A\), the stated initial stocks, and satisfies the
+nonnegative stocks \(K\) and \(A\), the exogenous population path \(N\), the
+stated initial stocks, and satisfies the
 relevant flow budget and state equations. Its improper objective integrals
 converge to finite real values. Deviations used to test household or developer
 optimality must satisfy the corresponding requirements.
@@ -303,46 +333,134 @@ optimality must satisfy the corresponding requirements.
 \begin{definition}[Interior equilibrium]
 Given \(K(0),A(0),N(0)>0\), an interior equilibrium is an admissible allocation
 with positive quantities and positive \(w\) and \(p_X\); the net interest rate
-\(r\) may have either sign. The household solves its intertemporal
-problem subject to \eqref{eq:axm-household-budget} and \(K\geq0\), competitive
+\(r\) may have either sign. The household solves its intertemporal problem
+subject to \eqref{eq:axm-household-budget} and \(K\geq0\), competitive
 final-good firms maximize profits, the integrated developer solves
-\eqref{eq:axm-developer-problem}, and labor, capital, AI-service, and goods markets
-clear.
+\eqref{eq:axm-developer-problem}, and labor, capital, AI-service, and goods
+markets clear.
 \end{definition}
 
 \begin{definition}[Interior candidate path]
 An interior candidate path has positive quantities and positive \(w,p_X,q\), and
-satisfies the household Euler and
-flow-budget equations, the population law, competitive factor demands, the
-monopoly first- and second-order conditions, both research first-order conditions,
-the developer's state, costate, and transversality conditions, all technology and
-service identities, and labor and goods market clearing.
+satisfies the household Euler and flow-budget equations, the population law,
+competitive factor demands, the monopoly first- and second-order conditions,
+both research first-order conditions, the developer's state, costate, and
+transversality conditions, all technology and service identities, and labor and
+goods market clearing.
 \end{definition}
 
-More explicitly, the candidate system comprises: (i) the population and labor
-market equation \eqref{eq:axm-labor-market}, final production
-\eqref{eq:axm-final-production}, the CES share \eqref{eq:axm-sx}, factor prices
-\eqref{eq:axm-factor-prices}, and \(X=AU\); (ii) the
-capability law \eqref{eq:axm-capability-law}, or its unit-elasticity limit, and the
-dual research conditions \eqref{eq:axm-research-price}--\eqref{eq:axm-sm};
-(iii) monopoly conditions \eqref{eq:axm-monopoly-foc}--
-\eqref{eq:axm-monopoly-soc}, research conditions
-\eqref{eq:axm-research-focs}--\eqref{eq:axm-research-scale-foc}, and the costate
-equation \eqref{eq:axm-costate}; and (iv) the household budget
-\eqref{eq:axm-household-budget}, resource constraint \eqref{eq:axm-resource},
-Euler equation \eqref{eq:axm-euler}, initial stocks, and the transversality
-conditions below. Some equations are deliberately redundant: the dual research
-conditions imply the two direct research FOCs, while the household budget and
-resource constraint coincide after market clearing. The audit checks both the
-reduced computational block and these primitive identities.
+\subsection{Equilibrium conditions and candidate-path characterization}
+
+Every regular interior equilibrium necessarily satisfies the following dated
+conditions. Together, the three blocks below characterize an interior candidate
+path; they characterize a globally optimal equilibrium only under the conditions
+of Proposition \ref{prop:axm-equilibrium-sufficiency}. The first block displays
+the primitive technologies, current optimality conditions, prices, and
+accounting identities. It is written for \(\sigma_{XL}\neq1\) and
+\(\sigma_{HM}\neq1\); at unit
+elasticity, the corresponding CES and price-index equations are replaced by the
+continuous limits stated above. Let \(e_X=\varepsilon_X^{-1}\).
+
+\subsubsection{Primitive conditions and accounting identities}
+\begingroup
+\allowdisplaybreaks[1]
+\begin{subequations}
+\label{eq:axm-equilibrium-characterization}
+\begin{align}
+ \dot N&=nN,\\
+ N&=L+H,\\
+ Y&=K^\alpha Z^{1-\alpha},\\
+ Z&=\left[
+ \omega_L L^{(\sigma_{XL}-1)/\sigma_{XL}}
+ +\omega_X X^{(\sigma_{XL}-1)/\sigma_{XL}}
+ \right]^{\sigma_{XL}/(\sigma_{XL}-1)},\\
+ X&=AU,\\
+ E&=\left[\omega_HH^{\varrho_{HM}}
+ +\omega_M(AM)^{\varrho_{HM}}\right]^{1/\varrho_{HM}},\\
+ \dot A&=\chi E^\eta,\\
+ s_X&=\frac{\omega_XX^{(\sigma_{XL}-1)/\sigma_{XL}}}
+ {\omega_LL^{(\sigma_{XL}-1)/\sigma_{XL}}
+ +\omega_XX^{(\sigma_{XL}-1)/\sigma_{XL}}},\\
+ e_X&=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X,\\
+ r&=\alpha\frac{Y}{K}-\delta,\\
+ w&=(1-\alpha)(1-s_X)\frac{Y}{L},\\
+ p_X&=(1-\alpha)s_X\frac{Y}{X},\\
+ p_X(1-e_X)&=\frac{1}{A},\\
+ P_E&=\left[
+ \omega_H^{\sigma_{HM}}w^{1-\sigma_{HM}}
+ +\omega_M^{\sigma_{HM}}A^{\sigma_{HM}-1}
+ \right]^{1/(1-\sigma_{HM})},\\
+ q\chi\eta E^{\eta-1}&=P_E,\\
+ H&=\omega_H^{\sigma_{HM}}
+ \left(\frac{P_E}{w}\right)^{\sigma_{HM}}E,\\
+ AM&=\omega_M^{\sigma_{HM}}(AP_E)^{\sigma_{HM}}E,\\
+ s_M&=\frac{M}{wH+M},\\
+ q\frac{\partial\dot A}{\partial H}&=w,\\
+ q\frac{\partial\dot A}{\partial M}&=1,\\
+ Y&=(r+\delta)K+wL+p_XX,\\
+ \Pi&=p_XX-U-wH-M,\\
+ C+\dot K+\delta K+U+M&=Y,\\
+ \dot K&=rK+wN+\Pi-C.
+\end{align}
+\end{subequations}
+\endgroup
+The block is supplemented by the strict monopoly second-order condition
+\eqref{eq:axm-monopoly-soc}. It deliberately displays redundant equations. The
+dual research conditions imply the two direct research first-order conditions,
+the research price and both conditional demands imply the CES identity for
+\(E\), and final-firm factor payments imply zero profit. The household budget
+also coincides with the resource constraint after market clearing. Displaying
+these representations makes clear which primitive optimality and accounting
+conditions the reduced numerical system must satisfy.
+
+\subsubsection{Reduced dynamic system}
+
+Given \(K,A,N,q\), the independent algebraic subsystem consists of labor
+clearing; final production, shares, and prices; the service identity \(X=AU\);
+inverse demand and the monopoly first-order condition; and the research price,
+conditional demands, and scale first-order condition. This subsystem
+characterizes the candidate
+quantities \(L,H,U,M,X,E,\) and \(Y\). It also determines the prices
+\(w,p_X,P_E\) and the shares \(s_X,s_M\). The numerical solver computes an
+interior root and retains it only if the ex-post audit also verifies the monopoly
+second-order condition. The remaining four endogenous dynamic equations are
+\begin{subequations}
+\label{eq:axm-canonical-system}
+\begin{align}
+ \frac{\dot K}{K}&=\frac{Y-C-U-M}{K}-\delta,\\
+ \frac{\dot A}{A}&=\frac{\chi E^\eta}{A},\\
+ \frac{\dot C}{C}&=n+\alpha\frac{Y}{K}-\delta-\rho,\\
+ \frac{\dot q}{q}
+ &=\alpha\frac{Y}{K}-\delta-\frac{X}{qA^2}\notag\\
+ &\quad-\eta s_M\frac{\dot A}{A}.
+\end{align}
+\end{subequations}
+\subsubsection{Initial and terminal conditions}
+
+\(K\) and \(A\) are predetermined; \(C\) and \(q\) are jump variables. Initial
+\(K,A,N\), labor and goods market clearing, and the terminal restrictions close
+the system. In current-value notation, the relevant transversality conditions
+include
+\begin{equation}
+ \lim_{t\to\infty}e^{-\rho t}\frac{N_tK_t}{C_t}=0,\qquad
+ \lim_{t\to\infty}
+ \exp\left\{-\int_0^t\left(\alpha\frac{Y_s}{K_s}-\delta\right)\dd s\right\}
+ q_tA_t=0.
+\label{eq:axm-tvc}
+\end{equation}
+The first restriction applies to household capital and the second to the
+developer's capability stock. For the reported unit-elasticity paths, the
+numerical boundary conditions select transitions approaching analytical limits
+that satisfy these restrictions under \(\rho>n\). A finite-horizon calculation
+cannot itself verify an infinite-horizon transversality condition.
 
 The dated first-order, state, market, and accounting conditions are necessary for
 a regular interior equilibrium. The transversality conditions are maintained
 terminal restrictions; their universal necessity is not asserted. The static
-second-order condition verifies local monopoly optimality in \(X\), but the paper
-does not establish global concavity of the developer's intertemporal problem for
-all parameter values. Outside the sufficient cases stated next, a solution of the
-equations is therefore only a candidate path.
+second-order condition verifies local monopoly optimality in \(X\), but the
+paper does not establish global concavity of the developer's intertemporal
+problem for all parameter values. Outside the sufficient cases stated next, a
+solution of the displayed equations is therefore only a candidate path.
 
 \begin{proposition}[Global sufficiency in the reported cases]
 \label{prop:axm-equilibrium-sufficiency}
@@ -362,62 +480,9 @@ infinite-horizon candidate path is an interior equilibrium.
 
 The proof is in the Appendix. The benchmark satisfies these restrictions with
 \(\beta=0.134\), \(\eta(1+\omega_M)=0.6075\), and \(2\eta=0.90\).
-Thus the dated equations are necessary under the usual regularity conditions and
-the full system is globally sufficient for both reported unit-elasticity
-parameterizations. We
-do not claim that the displayed transversality conditions are universally
-necessary without additional infinite-horizon regularity. Nor does the
-proposition turn a finite-horizon numerical approximation into a proof that an
-infinite-horizon path exists or satisfies those limits.
-
-The system used for computation is explicit. Given \(K,A,N,q\), equations
-\eqref{eq:axm-labor-market} and
-\eqref{eq:axm-final-production}--\eqref{eq:axm-research-scale-foc} characterize
-candidate static values of \(L,H,U,M,X,E,Y,w,p_X,P_E,s_X,\) and \(s_M\), where
-\(E\) is defined in \eqref{eq:axm-effective-research}. The numerical solver
-computes an interior root; a reported root is retained only if the ex-post audit
-also verifies the monopoly second-order condition. Together
-with \(\dot N/N=n\), the endogenous dynamics are
-\begin{align}
- \frac{\dot K}{K}&=\frac{Y-C-U-M}{K}-\delta,\\
- \frac{\dot A}{A}&=\frac{\chi E^\eta}{A},\\
- \frac{\dot C}{C}&=n+\alpha\frac{Y}{K}-\delta-\rho,\\
- \frac{\dot q}{q}&=\alpha\frac{Y}{K}-\delta-\frac{X}{qA^2}
- -\eta s_M\frac{\dot A}{A}.
- \label{eq:axm-canonical-system}
-\end{align}
-\(K\) and \(A\) are predetermined; \(C\) and \(q\) are jump variables selected
-by the terminal conditions. The block is closed by initial \(K,A,N\), the labor
-and goods market identities, and the transversality conditions displayed below.
-In current-value
-notation, the relevant terminal restrictions include
-\begin{equation}
- \lim_{t\to\infty}e^{-\rho t}\frac{N_tK_t}{C_t}=0,\qquad
- \lim_{t\to\infty}
- \exp\left\{-\int_0^t\left(\alpha\frac{Y_s}{K_s}-\delta\right)\dd s\right\}
- q_tA_t=0.
-\label{eq:axm-tvc}
-\end{equation}
-The first restriction applies to household capital and the second to the
-developer's capability stock. For the reported unit-elasticity paths, the
-numerical boundary conditions select transitions approaching analytical limits
-that satisfy these restrictions under \(\rho>n\). The finite-horizon calculation
-cannot itself verify an infinite-horizon transversality condition.
-
-\begin{definition}[Balanced growth and singularity]
-A balanced-growth path is a path on which the growth rates of all nonstationary
-variables converge to finite constants and allocation shares converge to
-constants. An accelerating path is one on which the output growth rate eventually
-rises without bound; other nonconvergent paths are not classified as accelerating
-by this definition. Following \citet{aghionjonesjones2019}, a
-finite-time singularity occurs when output becomes unbounded at a finite date.
-\end{definition}
-
-\begin{definition}[Pre-singular candidate branch]
-A pre-singular candidate branch is a solution of the dated necessary conditions
-on its maximal interval \([0,T^*)\), where \(T^*<\infty\), that remains interior
-at every finite date and approaches a finite-time singularity as
-\(t\uparrow T^*\). It is not, by that label alone, an infinite-horizon equilibrium:
-global intertemporal optimality and an allocation at or after \(T^*\) require
-additional analysis.
-\end{definition}
+Thus the dated equations are necessary under the usual regularity conditions,
+and the full system is globally sufficient for both reported unit-elasticity
+parameterizations. We do not claim that the displayed transversality conditions
+are universally necessary without additional infinite-horizon regularity. Nor
+does the proposition turn a finite-horizon numerical approximation into a proof
+that an infinite-horizon path exists or satisfies those limits.
