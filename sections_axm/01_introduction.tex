@@ -127,14 +127,14 @@ conditions on which output, capital, consumption, and capability accelerate. The
 that the path remains interior, converges to the postulated ratios, and satisfies
 the monopoly second-order condition. Under those conditions,
 aggregate labor income as a share of output tends to zero, while the real wage
-rises when the final-production elasticity is below an explicit threshold and
-falls when it is above that threshold. The distinction between labor income's
+rises when the smaller of the two substitution elasticities is below an explicit
+threshold and falls when it is above that threshold. The distinction between labor income's
 share of output and the wage level is economically important: a factor may
 receive a vanishing fraction of an economy that is expanding even faster.
 
-The reported parameterizations satisfy the sufficient concavity restrictions in
-Proposition \ref{prop:axm-equilibrium-sufficiency}. The numerical path
-approximations solve the household Euler equation, the developer's
+The two reported unit-elasticity parameterizations satisfy the sufficient
+concavity restrictions in Proposition \ref{prop:axm-equilibrium-sufficiency}.
+Their numerical path approximations solve the household Euler equation, the developer's
 research first-order conditions and costate equation, the monopoly pricing
 condition, both market-clearing conditions, and the two laws of motion. The
 simulations are used to illustrate propositions, not to replace them. The reported
@@ -143,12 +143,21 @@ residuals are small and the monopoly second-order margin is positive. Finite
 terminal conditions approximate, but do not prove, the infinite-horizon
 transversality limits.
 
+For gross substitution in final production, a separate free-boundary calculation
+solves the necessary conditions up to successively larger values of \(Y/K\).
+The resulting paths converge on common pre-singular intervals and their estimated
+singularity dates converge. This is evidence for the conditional accelerating
+branch, but not a proof of its global intertemporal optimality, reachability from
+arbitrary initial states, or continuation beyond the finite-time boundary.
+
 The paper contributes in three ways. First, it provides a symmetric accounting of
 inference and research compute. Second, it shows exactly how this accounting
 changes the balanced-growth feedback condition: capability enters automated research
 through the product of capability and research compute. Third, it derives an
 explicit threshold separating rising from falling wages on the conditional
-AI-dominated limit, rather than inferring wage behavior from labor income's share
+AI-dominated limit. The relevant elasticity is the smaller of the substitution
+elasticities in final production and AI research, rather than necessarily the
+final-production elasticity alone. This result does not infer wage behavior from labor income's share
 of output. These results connect the literature on
 research-based growth, automation, factor substitution, and economic singularities
 within one tractable model.

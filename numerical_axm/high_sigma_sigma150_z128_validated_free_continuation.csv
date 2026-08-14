@@ -1,0 +1,2 @@
+sigma_xl,terminal_output_capital_ratio,duration,initial_log_consumption,initial_log_shadow_value,mesh_nodes,max_rms_residual,estimated_singularity_time
+1.5,128.0,882.1080135603939,-0.37181442444225454,-0.7681475542955569,2445,9.968881490188967e-07,882.1748746463782

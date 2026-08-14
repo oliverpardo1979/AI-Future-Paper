@@ -174,7 +174,7 @@ def analytical_checks() -> list[dict[str, str | float]]:
             "status": "pass",
         },
         {
-            "object": "wage_sign_threshold_sigma_XL",
+            "object": "wage_sign_threshold_min_sigma",
             "value": threshold,
             "status": "pass",
         },

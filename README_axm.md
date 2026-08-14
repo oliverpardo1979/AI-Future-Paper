@@ -37,7 +37,7 @@ exceed the documented tolerances. It also stores and audits all six paths used i
 the terminal-horizon robustness exercise. Proposition
 `prop:axm-equilibrium-sufficiency` proves that any admissible exact
 infinite-horizon path satisfying the full system and transversality conditions is
-globally optimal under both reported parameterizations. The numerical audit
+globally optimal under both reported unit-elasticity parameterizations. The numerical audit
 verifies its finite-horizon discretization and terminal proxies; it cannot by
 itself prove an infinite-horizon transversality limit or existence of the
 continued path.
@@ -51,18 +51,42 @@ The equation-by-equation paper/code map is
 `numerical_axm/equilibrium_equation_map.csv`, and the six complete robustness
 paths are in `numerical_axm/equilibrium_horizon_paths.csv`.
 
-The web-based AI Growth Lab in `docs/`, the files in `numerical/` and `figures/`,
-and simulation scripts without `_axm` in their names belong to the original
-specification. They are retained for the original paper but must not be used as
-evidence for the parallel A-M manuscript until that application is migrated and
-revalidated.
+The web-based AI Growth Lab in `docs/`, the model-simulation artifacts in
+`numerical/` and `figures/`, and simulation scripts without `_axm` in their names
+belong to the original specification. They must not be used as model evidence
+for the parallel A-M manuscript until revalidated. The empirical evidence figure
+`figures/empirical_ai_scale.png` is shared across the papers and is not a model
+simulation.
 
 `scripts/simulate_axm_high_sigma_equilibrium.py` contains the separate
-free-boundary solver for $\sigma_{XL}>1$. The paper does not yet report its
-curves because continuation across increasingly distant terminal boundaries has
-not passed the convergence test. This is an intentional safeguard, not a missing
-figure. The legacy `--assemble-published` entry point is disabled until that
-convergence gate is implemented and passed.
+free-boundary solver for $\sigma_{XL}>1$. The reported case uses
+$\sigma_{XL}=1.5$ and $\sigma_{HM}=2$ and continues the terminal boundary through
+$Y/K=16,32,64,128$. Reproduce the staged continuation and its audit with
+
+```
+python scripts/simulate_axm_high_sigma_equilibrium.py --assemble-published
+python scripts/audit_axm_high_sigma.py
+python scripts/plot_axm_high_sigma_validated.py
+```
+
+The first command starts from the unit-elasticity, $\sigma_{HM}=2$ solution,
+continues first in $\sigma_{XL}$, then in the fixed horizon, and finally in the
+free terminal boundary. The preliminary seed, parameter, horizon, and boundary
+continuations use tolerance $3\times10^{-5}$. Starting from the resulting coarse
+$Y/K=64$ solution, a second pass solves $Y/K=16,32,64,128$ sequentially at
+tolerance $10^{-6}$. Only those four refined path/continuation files are written.
+Use the cheap `--assemble-published --dry-run` command to inspect the exact
+sequence without solving or changing any files. The full route contains 38
+boundary-value solves and can take tens of minutes or longer. Run
+`python scripts/audit_axm_high_sigma.py` after solving.
+The independent audit reconstructs the dated equations, checks interiority and
+the monopoly second-order condition, and requires convergence of the initial
+jumps, paths on common pre-singular windows, terminal ratios, and estimated
+singularity dates. Passing this gate licenses only the description "convergent
+finite-boundary approximations to a conditional pre-singular branch satisfying
+dated necessary conditions." It does not
+establish an infinite-horizon equilibrium, transversality at infinity, or global
+intertemporal optimality.
 
 Compile the manuscript from the repository root with
 `tectonic --keep-logs --outdir build_axm main_axm.tex`.

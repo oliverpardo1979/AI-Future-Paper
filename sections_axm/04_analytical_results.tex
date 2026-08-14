@@ -265,7 +265,7 @@ for a positive constant \(\mathcal D\).
 \begin{proposition}[No finite-rate balanced growth with gross substitution]
 \label{prop:axm-no-bgp}
 Suppose \(\sigma_{XL}>1\), \(A\to\infty\), and an interior path satisfying the
-necessary equilibrium conditions remains on a
+necessary equilibrium conditions remains on an
 interior monopoly branch on which \(s_X\to1\). Then there is no balanced-growth
 path with finite constant growth rates. In particular, \(Y/K\to\infty\), so the marginal
 product of capital, the net interest rate, and household consumption growth
@@ -281,14 +281,15 @@ the accelerating branch when it exists.
 \begin{conditionalresult}[AI-dominated singular limit]
 \label{prop:axm-singular-limit}
 Assume \(\sigma_{XL}>1\), \(\sigma_{HM}>1\), \(0<\eta<1\), and an
-interior path satisfies the static first- and second-order conditions, market
-clearing, and the canonical differential equations on its maximal time interval.
+interior path satisfies all dated technology and service identities, competitive
+price equations, static first- and second-order conditions, market-clearing
+conditions, and canonical differential equations on its maximal time interval.
 Suppose that the path approaches an AI-dominated limit, with \(A\to\infty\), \(s_X\to1\),
 and \(s_M\to1\). Suppose its consumption, investment, and research-compute
 shares---respectively \(C/Y\),
 \((\dot K+\delta K)/Y\), and \(M/Y\)---as well as \(g_A/(Y/K)\) and \(qA/K\),
-converge to positive finite limits, and \(L/N\) converges to a positive limit.
- Assume that the convergences of \(s_X\), all the listed ratios, and the scaling ratio
+converge to positive finite limits.
+Assume that the convergences of \(s_X\), \(s_M\), all the listed ratios, and the scaling ratio
 \((Y/K)/(\mathcal D A^\theta)\to1\) are asymptotically regular: the growth rate
 of each convergent ratio, divided by \(Y/K\), tends to zero. Write \(z=Y/K\) and
 \[
@@ -312,28 +313,56 @@ Moreover,
  \dot z\sim\theta h z^2.
  \label{eq:axm-z-law}
 \end{equation}
-Thus \(z\), and consequently output, become unbounded in finite time.
+Because the limiting gross-investment share
+\(\alpha-\theta h=\alpha(1-\eta)/(1-\alpha\eta)\) is positive, capital is
+eventually increasing. Thus \(z\), and consequently output, become unbounded in
+finite time.
+Let
+\[
+ \underline\sigma=\min\{\sigma_{XL},\sigma_{HM}\}.
+\]
+The allocation of labor satisfies
+\begin{equation}
+ (H/N,L/N)\to
+ \begin{cases}
+  (1,0),&\sigma_{HM}<\sigma_{XL},\\
+  (\bar h_N,1-\bar h_N),
+      &\sigma_{HM}=\sigma_{XL}=\sigma,\\
+  (0,1),&\sigma_{HM}>\sigma_{XL}.
+ \end{cases}
+ \label{eq:axm-singular-labor-allocation}
+\end{equation}
+In the equal-elasticity case, the limiting share is pinned down by
+\begin{equation}
+ \bar h_N=\frac{B}{1+B},\qquad
+ B=\frac{\eta}{\Delta}
+ \left[
+  \frac{(1-\alpha)\omega_H\omega_X}{\omega_M\omega_L}
+ \right]^{\sigma}.
+ \label{eq:axm-singular-equal-elasticity-share}
+\end{equation}
 Both production labor income, \(wL/Y\), and aggregate labor income, \(wN/Y\),
 vanish as shares of output, while
 \begin{equation}
  \frac{g_w}{z}\to
- \frac{\alpha-(\sigma_{XL}-1)h}{\sigma_{XL}}
+ \frac{\alpha-(\underline\sigma-1)h}{\underline\sigma}
  \label{eq:axm-wage-limit}
 \end{equation}
 which is positive if and only if
-\(\sigma_{XL}<1/(\alpha\eta)\).
+\(\underline\sigma<1/(\alpha\eta)\).
 \end{conditionalresult}
 
 The result characterizes a postulated asymptotic branch of the model's necessary
 conditions. Because the maximal interval ends at the singularity, it does not
 establish existence or global optimality for the infinite-horizon problems, nor
 does it establish that the branch is reached from arbitrary initial conditions.
-Within that branch, the model delivers a sharp separation when
-\(1<\sigma_{XL}<1/(\alpha\eta)\): aggregate labor income as a share of output
+Within that branch, workers move asymptotically toward the sector in which they
+are harder to replace. The model delivers a sharp separation when
+\(1<\underline\sigma<1/(\alpha\eta)\): aggregate labor income as a share of output
 vanishes, but the wage eventually rises. Above the threshold, the same conditional
 scaling implies an eventually falling wage. The case above the threshold should
 not be interpreted without separately
 checking monopoly optimality and convergence to the postulated branch.
-At \(\sigma_{XL}=1/(\alpha\eta)\), the leading term in
+At \(\underline\sigma=1/(\alpha\eta)\), the leading term in
 \eqref{eq:axm-wage-limit} is zero, so this asymptotic calculation alone does not
 determine the eventual direction of the wage.

@@ -1,0 +1,114 @@
+{
+  "accepted_claim": "The saved finite-boundary paths satisfy the audited necessary conditions and the specified boundary-convergence gates.",
+  "audit_script": {
+    "path": "scripts\\audit_axm_high_sigma.py",
+    "sha256": "ea1066e760cfb056b38e1dd69d1b31db46a8ba5e2f770e2b730dc59f6d264546"
+  },
+  "audit_version": 3,
+  "audited_boundaries": [
+    16.0,
+    32.0,
+    64.0,
+    128.0
+  ],
+  "canonical_input_policy": "Only the explicitly declared source prefixes are ingested; no similarly named files are discovered. For each prefix, free_continuation.csv supplies boundary metadata and boundary_paths.csv is the sole path-level input. Per-boundary and final-boundary path copies are not ingested.",
+  "claims_not_established": [
+    "existence of an infinite-horizon equilibrium",
+    "transversality at infinity",
+    "global optimality of the household or developer program",
+    "reachability of the conditional branch from arbitrary initial states"
+  ],
+  "created_at_utc": "2026-08-14T12:34:40.457030+00:00",
+  "independence": "All reported model equations were reconstructed in this script; no equilibrium_static_block or solver equation function was called.",
+  "inputs": [
+    {
+      "bytes": 10083439,
+      "path": "numerical_axm\\high_sigma_sigma150_validated_boundary_paths.csv",
+      "sha256": "d47ca1d81c0a1b267d935539fb35e84aba61fb198ef08c6cc2065edb06192486"
+    },
+    {
+      "bytes": 490,
+      "path": "numerical_axm\\high_sigma_sigma150_validated_free_continuation.csv",
+      "sha256": "58df6eed3d9bd972cc7c203d11f48d0ee55393cdc1b10c2e10d28e41e7484e6a"
+    },
+    {
+      "bytes": 4393945,
+      "path": "numerical_axm\\high_sigma_sigma150_z128_validated_boundary_paths.csv",
+      "sha256": "54e1fab35495fccb420c63ef451e6b45bc0c31b9c696b3e5e2d915cf0802e0ca"
+    },
+    {
+      "bytes": 268,
+      "path": "numerical_axm\\high_sigma_sigma150_z128_validated_free_continuation.csv",
+      "sha256": "2a0b6587c71407c43d2ac88f8c57c30af82e99463c96848270b8d03202087f87"
+    }
+  ],
+  "outputs": [
+    {
+      "bytes": 14415,
+      "path": "numerical_axm\\high_sigma_sigma150_validated_acceptance_report.csv",
+      "sha256": "ac39fafa3fefb7ab73d7f6f1dfdd69babe09b4c7633d004ead0e84d83b48a65d"
+    },
+    {
+      "bytes": 9637583,
+      "path": "numerical_axm\\high_sigma_sigma150_validated_equation_residuals.csv",
+      "sha256": "0af8b93976ad781daf34459d9a80fbd8b3144eb383fe4dfecb5ad99b35ba16cf"
+    },
+    {
+      "bytes": 32959,
+      "path": "numerical_axm\\high_sigma_sigma150_validated_boundary_convergence.csv",
+      "sha256": "6ae52312a5765f3bcc2885431fe34bc0cc7f6c91cae11ef79e5a48319de45952"
+    }
+  ],
+  "overall_accepted": true,
+  "parameters": {
+    "alpha": 0.33,
+    "chi": 0.01,
+    "delta": 0.05,
+    "discount": 0.04,
+    "eta": 0.45,
+    "n": 0.012,
+    "omega_m": 0.35,
+    "omega_x": 0.2,
+    "sigma_hm": 2.0,
+    "sigma_xl": 1.5
+  },
+  "path_label": "finite-boundary approximations to a conditional pre-singular branch; not an infinite-horizon equilibrium",
+  "required_boundaries": [
+    16.0,
+    32.0,
+    64.0
+  ],
+  "row_counts": {
+    "acceptance_gates": 76,
+    "boundary_convergence": 133,
+    "equation_residuals": 11747
+  },
+  "source_prefixes": [
+    "high_sigma_sigma150_validated",
+    "high_sigma_sigma150_z128_validated"
+  ],
+  "tolerances": {
+    "boundary_log": 5e-07,
+    "clipping_lower": -700.0,
+    "clipping_upper": 60.0,
+    "common_window_level": 0.0002,
+    "common_window_log": 0.0002,
+    "common_window_terminal_buffer": 50.0,
+    "duration_endpoint": 1e-08,
+    "equation_level": 5e-08,
+    "equation_log": 5e-08,
+    "event_time": 0.02,
+    "event_window_level": 0.005,
+    "event_window_log": 0.002,
+    "foc_log": 5e-07,
+    "group_boundary_spread": 1e-09,
+    "independent_dynamic": 5e-05,
+    "jump_final": 1e-07,
+    "saved_tstar": 1e-09,
+    "solver_rms": 2e-05,
+    "stored_dynamic": 3e-05,
+    "terminal_ratio_error": 0.005,
+    "tstar_contraction": 0.75,
+    "tstar_final": 0.02
+  }
+}

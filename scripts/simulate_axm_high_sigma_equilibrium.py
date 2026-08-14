@@ -105,6 +105,137 @@ def asymptotic_output_capital_coefficient(
     return math.exp(log_coefficient)
 
 
+def positive_duration(raw_duration: float) -> float:
+    """Map an unconstrained scalar smoothly into a positive duration.
+
+    A hard cap on ``exp(raw_duration)`` makes the duration derivative exactly
+    zero during Newton trials and can create a singular BVP Jacobian.  The
+    softplus map remains smooth and has unit slope for economically relevant
+    long durations.
+    """
+
+    if raw_duration > 30.0:
+        return raw_duration
+    if raw_duration < -30.0:
+        return math.exp(raw_duration)
+    return math.log1p(math.exp(raw_duration))
+
+
+def inverse_positive_duration(duration: float) -> float:
+    """Inverse of :func:`positive_duration` for a strictly positive value."""
+
+    if duration <= 0.0:
+        raise ValueError("The duration guess must be strictly positive.")
+    if duration > 30.0:
+        return duration
+    return math.log(math.expm1(duration))
+
+
+def asymptotic_terminal_state(
+    parameters: equilibrium.Parameters,
+    initial_state: tuple[float, float, float],
+    terminal_output_capital_ratio: float,
+    duration_guess: float,
+    targets: dict[str, float],
+) -> np.ndarray:
+    """Construct an exact-static terminal state near the singular boundary.
+
+    The analytical scaling supplies starting levels for ``A`` and ``K``.  A
+    two-dimensional least-squares correction then imposes, using the full
+    intratemporal block at the guessed terminal date, both ``Y/K=z_T`` and
+    ``g_A/z=h``.  Consumption and the capability shadow value follow from the
+    two terminal ratios that the free-boundary problem imposes.
+    """
+
+    if terminal_output_capital_ratio <= 0.0:
+        raise ValueError("The terminal output-capital ratio must be positive.")
+    coefficient = asymptotic_output_capital_coefficient(parameters)
+    log_terminal_z = math.log(terminal_output_capital_ratio)
+    log_terminal_capability = max(
+        math.log(initial_state[1]) + 0.25,
+        (log_terminal_z - math.log(coefficient)) / targets["kappa"],
+    )
+    automated_service_weight = parameters.omega_m ** (
+        parameters.sigma_hm / (parameters.sigma_hm - 1.0)
+    )
+    log_terminal_capital = (
+        math.log(targets["capability_growth_to_z"] / parameters.chi)
+        / parameters.eta
+        - math.log(automated_service_weight)
+        - math.log(targets["research_share"])
+        + (1.0 - parameters.eta)
+        / parameters.eta
+        * (log_terminal_z + log_terminal_capability)
+    )
+
+    def terminal_residual(levels: np.ndarray) -> np.ndarray:
+        log_capital, log_capability = map(float, levels)
+        log_shadow = (
+            math.log(targets["shadow_capability_to_capital"])
+            + log_capital
+            - log_capability
+        )
+        block = equilibrium.equilibrium_static_block(
+            log_capital,
+            log_capability,
+            math.log(initial_state[2]) + parameters.n * duration_guess,
+            log_shadow,
+            parameters,
+        )
+        log_z = block["log_output"] - log_capital
+        log_g_a = (
+            math.log(parameters.chi)
+            + parameters.eta * block["log_effective_research"]
+            - log_capability
+        )
+        return np.asarray(
+            [
+                log_z - log_terminal_z,
+                log_g_a
+                - log_z
+                - math.log(targets["capability_growth_to_z"]),
+            ]
+        )
+
+    correction = equilibrium.least_squares(
+        terminal_residual,
+        np.asarray([log_terminal_capital, log_terminal_capability]),
+        xtol=1e-11,
+        ftol=1e-11,
+        gtol=1e-11,
+        max_nfev=100,
+    )
+    if (not correction.success) or np.max(np.abs(correction.fun)) > 1e-7:
+        raise RuntimeError(
+            "Could not construct a terminal singular-scaling state: "
+            f"residual={correction.fun}."
+        )
+    log_terminal_capital, log_terminal_capability = map(float, correction.x)
+    log_shadow = (
+        math.log(targets["shadow_capability_to_capital"])
+        + log_terminal_capital
+        - log_terminal_capability
+    )
+    block = equilibrium.equilibrium_static_block(
+        log_terminal_capital,
+        log_terminal_capability,
+        math.log(initial_state[2]) + parameters.n * duration_guess,
+        log_shadow,
+        parameters,
+    )
+    log_consumption = (
+        math.log(targets["consumption_share"]) + block["log_output"]
+    )
+    return np.asarray(
+        [
+            log_terminal_capital,
+            log_terminal_capability,
+            log_consumption,
+            log_shadow,
+        ]
+    )
+
+
 def initial_free_boundary_guess(
     parameters: equilibrium.Parameters,
     initial_state: tuple[float, float, float],
@@ -117,24 +248,19 @@ def initial_free_boundary_guess(
     targets = high_sigma_targets(parameters)
     log_initial_capital = math.log(initial_state[0])
     log_initial_capability = math.log(initial_state[1])
-    coefficient = asymptotic_output_capital_coefficient(parameters)
-    log_terminal_capability = max(
-        math.log(initial_state[1]) + 0.5,
-        (
-            math.log(terminal_output_capital_ratio)
-            - math.log(coefficient)
-        )
-        / targets["kappa"],
+    terminal_state = asymptotic_terminal_state(
+        parameters,
+        initial_state,
+        terminal_output_capital_ratio,
+        duration_guess,
+        targets,
     )
-    capital_capability_elasticity = (
-        targets["investment_share"]
-        / targets["capability_growth_to_z"]
-    )
-    log_terminal_capital = (
-        log_initial_capital
-        + capital_capability_elasticity
-        * (log_terminal_capability - log_initial_capability)
-    )
+    (
+        log_terminal_capital,
+        log_terminal_capability,
+        log_terminal_consumption,
+        log_terminal_shadow,
+    ) = map(float, terminal_state)
 
     # Concentrate the change near the terminal boundary, as implied by
     # z(t) ~ 1 / [kappa h (T* - t)], while keeping a smooth initial guess.
@@ -153,21 +279,22 @@ def initial_free_boundary_guess(
         + log_capital
         - log_capability
     )
-
-    log_consumption = np.empty_like(mesh)
-    for index, tau in enumerate(mesh):
-        time = duration_guess * float(tau)
-        block = equilibrium.equilibrium_static_block(
-            float(log_capital[index]),
-            float(log_capability[index]),
-            parameters.n * time,
-            float(log_shadow[index]),
-            parameters,
-        )
-        log_consumption[index] = (
-            math.log(targets["consumption_share"])
-            + block["log_output"]
-        )
+    log_consumption = (
+        math.log(targets["consumption_share"])
+        + log_capital
+        + math.log(terminal_output_capital_ratio)
+        + targets["kappa"]
+        * (log_capability - log_terminal_capability)
+    )
+    # Match all four terminal values exactly while leaving the initial levels
+    # close to the current-state normalization.
+    terminal_profile = mesh**4
+    log_consumption += (
+        log_terminal_consumption - float(log_consumption[-1])
+    ) * terminal_profile
+    log_shadow += (
+        log_terminal_shadow - float(log_shadow[-1])
+    ) * terminal_profile
 
     return np.vstack(
         [log_capital, log_capability, log_consumption, log_shadow]
@@ -198,7 +325,7 @@ def solve_high_sigma_equilibrium(
     else:
         if getattr(previous_solution, "normalized_domain", False):
             guess = previous_solution.sol(mesh)
-            duration_guess = float(math.exp(previous_solution.p[0]))
+            duration_guess = float(previous_solution.duration)
         else:
             duration_guess = float(previous_solution.duration)
             guess = previous_solution.sol(mesh * duration_guess)
@@ -214,38 +341,27 @@ def solve_high_sigma_equilibrium(
             math.log(terminal_output_capital_ratio / old_z),
         )
         if extension > 0.0:
-            log_capability_increment = extension / targets["kappa"]
-            profile = mesh**4
-            guess[1] += log_capability_increment * profile
-            guess[0] += (
-                targets["investment_share"]
-                / targets["capability_growth_to_z"]
-                * log_capability_increment
-                * profile
-            )
-            guess[2] += (
-                targets["investment_share"]
-                / targets["capability_growth_to_z"]
-                * log_capability_increment
-                + extension
-            ) * profile
-            guess[3] += (
-                targets["investment_share"]
-                / targets["capability_growth_to_z"]
-                - 1.0
-            ) * log_capability_increment * profile
             duration_guess += (
                 1.0
                 / targets["singularity_rate"]
                 * (1.0 / old_z - 1.0 / terminal_output_capital_ratio)
             )
+        target_terminal = asymptotic_terminal_state(
+            parameters,
+            initial_state,
+            terminal_output_capital_ratio,
+            duration_guess,
+            targets,
+        )
+        profile = mesh**4
+        guess += (target_terminal - guess[:, -1])[:, None] * profile[None, :]
 
     def ode(
         normalized_time: np.ndarray,
         state: np.ndarray,
-        log_duration: np.ndarray,
+        raw_duration: np.ndarray,
     ) -> np.ndarray:
-        duration = equilibrium.bounded_exp(float(log_duration[0]), upper=10.0)
+        duration = positive_duration(float(raw_duration[0]))
         values = np.empty_like(state)
         for index, tau in enumerate(normalized_time):
             time = duration * float(tau)
@@ -259,9 +375,9 @@ def solve_high_sigma_equilibrium(
     def boundary(
         left: np.ndarray,
         right: np.ndarray,
-        log_duration: np.ndarray,
+        raw_duration: np.ndarray,
     ) -> np.ndarray:
-        duration = equilibrium.bounded_exp(float(log_duration[0]), upper=10.0)
+        duration = positive_duration(float(raw_duration[0]))
         raw_left = left + reference(0.0)
         raw_right = right + reference(1.0)
         _, terminal_block = equilibrium.equilibrium_rates(
@@ -311,7 +427,7 @@ def solve_high_sigma_equilibrium(
         boundary,
         mesh,
         scaled_guess,
-        p=np.asarray([math.log(duration_guess)]),
+        p=np.asarray([inverse_positive_duration(duration_guess)]),
         tol=tolerance,
         max_nodes=12000,
         verbose=1,
@@ -330,7 +446,7 @@ def solve_high_sigma_equilibrium(
     solution.scaled_sol = scaled_solution
     solution.sol = raw_solution
     solution.y = solution.y + reference(solution.x)
-    solution.duration = math.exp(float(solution.p[0]))
+    solution.duration = positive_duration(float(solution.p[0]))
     solution.terminal_output_capital_ratio = terminal_output_capital_ratio
     solution.normalized_domain = True
     solution.calendar_sol = lambda times: solution.sol(
@@ -520,12 +636,38 @@ def evaluate_free_boundary_solution(
     solution: object,
     parameters: equilibrium.Parameters,
     step: float = 1.0,
+    times_to_evaluate: np.ndarray | None = None,
 ) -> list[dict[str, float | str]]:
     duration = float(solution.duration)
     targets = high_sigma_targets(parameters)
-    times = np.arange(0.0, duration, step)
-    if times.size == 0 or duration - float(times[-1]) > 1e-8:
-        times = np.append(times, duration)
+    if times_to_evaluate is None:
+        regular_times = np.arange(0.0, duration, step)
+        adaptive_times = (
+            np.asarray(solution.x) * duration
+            if getattr(solution, "normalized_domain", False)
+            else np.asarray(getattr(solution, "x", []), dtype=float)
+        )
+        maximum_tail_gap = min(50.0, duration)
+        minimum_tail_gap = max(1e-8, duration * 1e-10)
+        tail_gaps = np.geomspace(
+            minimum_tail_gap,
+            max(maximum_tail_gap, minimum_tail_gap),
+            240,
+        )
+        tail_times = duration - tail_gaps
+        times = np.unique(
+            np.clip(
+                np.concatenate(
+                    [regular_times, adaptive_times, tail_times, [duration]]
+                ),
+                0.0,
+                duration,
+            )
+        )
+    else:
+        times = np.unique(
+            np.clip(np.asarray(times_to_evaluate, dtype=float), 0.0, duration)
+        )
     states = solution.calendar_sol(times)
     path_derivatives = (
         solution.calendar_derivative(times)
@@ -967,131 +1109,259 @@ def draw_published_figures(
     )
 
 
+PUBLISHED_SIGMA_SEQUENCE = (1.02, 1.05, 1.10, 1.20, 1.30, 1.40, 1.50)
+PUBLISHED_HORIZON_SEQUENCE = (
+    150.0,
+    200.0,
+    300.0,
+    400.0,
+    600.0,
+    700.0,
+    750.0,
+    800.0,
+    825.0,
+    840.0,
+)
+PUBLISHED_COARSE_FREE_BOUNDARY_SEQUENCE = (
+    0.5,
+    0.6,
+    0.8,
+    1.0,
+    1.5,
+    2.0,
+    3.0,
+    4.0,
+    6.0,
+    8.0,
+    12.0,
+    16.0,
+    24.0,
+    32.0,
+    48.0,
+    64.0,
+)
+PUBLISHED_REFINEMENT_BOUNDARIES = (16.0, 32.0, 64.0, 128.0)
+PUBLISHED_PRELIMINARY_TOLERANCE = 3e-5
+PUBLISHED_REPORTED_TOLERANCE = 1e-6
+PUBLISHED_PREFIX = "high_sigma_sigma150_validated"
+PUBLISHED_EXTRA_PREFIX = "high_sigma_sigma150_z128_validated"
+
+
+def published_reproduction_plan() -> dict[str, object]:
+    """Return the immutable continuation plan used for the paper."""
+
+    return {
+        "sigma_xl": 1.5,
+        "sigma_hm": 2.0,
+        "unit_elasticity_seed_horizon": 1600.0,
+        "initial_high_sigma_horizon": 100.0,
+        "sigma_sequence": PUBLISHED_SIGMA_SEQUENCE,
+        "horizon_sequence": PUBLISHED_HORIZON_SEQUENCE,
+        "coarse_free_boundary_sequence": (
+            PUBLISHED_COARSE_FREE_BOUNDARY_SEQUENCE
+        ),
+        "refinement_boundary_sequence": PUBLISHED_REFINEMENT_BOUNDARIES,
+        "saved_boundaries": PUBLISHED_REFINEMENT_BOUNDARIES,
+        "preliminary_tolerance": PUBLISHED_PRELIMINARY_TOLERANCE,
+        "reported_tolerance": PUBLISHED_REPORTED_TOLERANCE,
+        "canonical_outputs": (
+            f"numerical_axm/{PUBLISHED_PREFIX}_free_continuation.csv",
+            f"numerical_axm/{PUBLISHED_PREFIX}_boundary_paths.csv",
+            f"numerical_axm/{PUBLISHED_EXTRA_PREFIX}_free_continuation.csv",
+            f"numerical_axm/{PUBLISHED_EXTRA_PREFIX}_boundary_paths.csv",
+        ),
+    }
+
+
+def describe_published_reproduction() -> None:
+    """Print the exact paper-continuation plan without solving it."""
+
+    plan = published_reproduction_plan()
+    print("Validated sigma_XL=1.5 reproduction plan", flush=True)
+    for key, value in plan.items():
+        print(f"  {key}: {value}", flush=True)
+
+
+def _check_continuation_solution(
+    solution: object,
+    stage: str,
+) -> None:
+    """Fail immediately when a continuation stage is not a valid BVP solve."""
+
+    if not solution.success:
+        raise RuntimeError(f"{stage}: {solution.message}")
+    maximum_residual = float(np.max(solution.rms_residuals))
+    if not math.isfinite(maximum_residual):
+        raise RuntimeError(f"{stage}: non-finite collocation residual.")
+    print(
+        f"{stage}: nodes={solution.x.size}, "
+        f"max RMS residual={maximum_residual:.3e}",
+        flush=True,
+    )
+
+
+def _published_continuation_row(
+    solution: object,
+    sigma_xl: float,
+    boundary: float,
+    targets: dict[str, float],
+) -> dict[str, float]:
+    """Summarize one canonical free-boundary solution."""
+
+    initial = solution.sol(0.0)
+    return {
+        "sigma_xl": sigma_xl,
+        "terminal_output_capital_ratio": boundary,
+        "duration": float(solution.duration),
+        "initial_log_consumption": float(initial[2]),
+        "initial_log_shadow_value": float(initial[3]),
+        "mesh_nodes": float(solution.x.size),
+        "max_rms_residual": float(np.max(solution.rms_residuals)),
+        "estimated_singularity_time": (
+            float(solution.duration)
+            + 1.0 / targets["singularity_rate"] / boundary
+        ),
+    }
+
+
 def assemble_published_results(
     baseline: equilibrium.Parameters,
     initial_state: tuple[float, float, float],
+    nodes: int = 301,
 ) -> None:
-    """Legacy assembly helper; do not call before a convergence gate is added.
+    """Reproduce the validated ``sigma_XL=1.5`` continuation from scratch.
 
-    The historical source files contain only one terminal boundary per scenario.
-    That is insufficient to verify convergence across increasingly distant
-    boundaries, so the command-line entry point deliberately disables this
-    helper.  Saved annual paths would otherwise be used only as continuation
-    guesses rather than as the reported collocation solution.
+    The route is deliberately explicit.  It first solves the reported
+    unit-elasticity, ``sigma_HM=2`` path, moves ``sigma_XL`` away from one at a
+    short fixed horizon, lengthens that horizon, and only then releases the
+    terminal date while increasing ``Y/K``.  Intermediate solutions are
+    continuation guesses only.  The function writes paths and metadata for the
+    four audited boundaries and no per-stage diagnostic copies.  Preliminary
+    sigma, horizon, and boundary continuation uses the looser tolerance that
+    generated the successful guesses; only the second-pass boundary solutions
+    at tolerance ``1e-6`` are reported.
     """
 
-    sources = [
-        (
-            "equilibrium_sigma_1_35",
-            1.35,
-            RESULT_DIR / "high_sigma_equilibrium_1_35_extreme_paths.csv",
-            RESULT_DIR / "high_sigma_equilibrium_1_35_extreme_summary.csv",
-        ),
-        (
-            "equilibrium_sigma_1_50",
-            1.50,
-            RESULT_DIR / "high_sigma_equilibrium_1_5_paths.csv",
-            RESULT_DIR / "high_sigma_equilibrium_1_5_summary.csv",
-        ),
-        (
-            "equilibrium_sigma_2_00",
-            2.00,
-            RESULT_DIR / "high_sigma_equilibrium_2_extreme_paths.csv",
-            RESULT_DIR / "high_sigma_equilibrium_2_extreme_summary.csv",
-        ),
-    ]
-    scenario_rows: dict[str, list[dict[str, float | str]]] = {}
-    combined_rows: list[dict[str, float | str]] = []
-    summaries: list[dict[str, float | str]] = []
-    for name, sigma_xl, path, summary_path in sources:
-        parameters = replace(baseline, sigma_xl=sigma_xl)
-        loaded = load_calendar_solution(path)
-        with summary_path.open("r", newline="", encoding="utf-8") as handle:
-            saved_summary = next(csv.DictReader(handle))
-        solution, targets = solve_high_sigma_equilibrium(
+    RESULT_DIR.mkdir(exist_ok=True)
+    unit_parameters = replace(baseline, sigma_xl=1.0, sigma_hm=2.0)
+    print(
+        "Solving the unit-elasticity sigma_HM=2 seed at T=1600...",
+        flush=True,
+    )
+    previous_solution, _ = equilibrium.solve_equilibrium(
+        unit_parameters,
+        initial_state,
+        horizon=1600.0,
+        nodes=nodes,
+        tolerance=PUBLISHED_PRELIMINARY_TOLERANCE,
+    )
+    _check_continuation_solution(previous_solution, "unit-elasticity seed")
+    previous_solution.duration = 1600.0
+    previous_solution.normalized_domain = False
+    previous_solution.calendar_sol = previous_solution.sol
+
+    parameters = unit_parameters
+    for sigma_xl in PUBLISHED_SIGMA_SEQUENCE:
+        parameters = replace(unit_parameters, sigma_xl=sigma_xl)
+        previous_solution, _ = solve_high_sigma_fixed_horizon(
             parameters,
             initial_state,
-            terminal_output_capital_ratio=float(
-                saved_summary["terminal_output_capital_ratio"]
-            ),
-            duration_guess=float(saved_summary["duration"]),
-            nodes=301,
-            tolerance=3e-5,
-            previous_solution=loaded,
+            horizon=100.0,
+            terminal_z_guess=1.0,
+            nodes=nodes,
+            tolerance=PUBLISHED_PRELIMINARY_TOLERANCE,
+            previous_solution=previous_solution,
         )
-        if not solution.success:
-            raise RuntimeError(f"{name}: {solution.message}")
-        rows = evaluate_free_boundary_solution(
-            name,
-            solution,
+        _check_continuation_solution(
+            previous_solution,
+            f"sigma continuation sigma_XL={sigma_xl:g}, T=100",
+        )
+
+    for horizon in PUBLISHED_HORIZON_SEQUENCE:
+        previous_solution, _ = solve_high_sigma_fixed_horizon(
             parameters,
-            step=1.0,
+            initial_state,
+            horizon=horizon,
+            terminal_z_guess=1.0,
+            nodes=nodes,
+            tolerance=PUBLISHED_PRELIMINARY_TOLERANCE,
+            previous_solution=previous_solution,
         )
-        scenario_rows[name] = rows
-        combined_rows.extend(rows)
-        final = rows[-1]
-        first_growth_above_five = next(
-            (
-                float(row["time"])
-                for row in rows
-                if float(row["output_per_capita_growth"]) >= 0.05
-            ),
-            math.nan,
+        _check_continuation_solution(
+            previous_solution,
+            f"horizon continuation sigma_XL=1.5, T={horizon:g}",
         )
-        summaries.append(
-            {
-                "scenario": name,
-                "sigma_xl": sigma_xl,
-                "terminal_output_capital_ratio": final["output_capital_ratio"],
-                "terminal_time": final["time"],
-                "estimated_singularity_time": final["singularity_time_estimate"],
-                "year_output_per_capita_growth_exceeds_5_percent": first_growth_above_five,
-                "initial_consumption_share": rows[0]["consumption_share"],
-                "initial_capability_growth": rows[0]["capability_growth"],
-                "minimum_wage_growth": min(float(row["wage_growth"]) for row in rows),
-                "terminal_ai_share": final["ai_share"],
-                "terminal_automated_research_share": final["automated_research_share"],
-                "terminal_capability_growth_to_z": final["capability_growth_to_output_capital"],
-                "target_capability_growth_to_z": targets["capability_growth_to_z"],
-                "terminal_consumption_share": final["consumption_share"],
-                "target_consumption_share": targets["consumption_share"],
-                "max_rms_residual": float(np.max(solution.rms_residuals)),
-                "max_abs_resource_residual": max(
-                    abs(float(row["resource_share_sum"]) - 1.0) for row in rows
-                ),
-                "max_abs_monopoly_foc_log_error": max(
-                    abs(float(row["monopoly_foc_log_error"])) for row in rows
-                ),
-                "max_abs_research_compute_foc_log_error": max(
-                    abs(float(row["research_compute_foc_log_error"])) for row in rows
-                ),
-                "max_abs_research_human_foc_log_error": max(
-                    abs(float(row["research_human_foc_log_error"])) for row in rows
-                ),
-                "max_abs_labor_market_error": max(
-                    abs(float(row["labor_market_error"])) for row in rows
-                ),
-                "max_abs_capital_law_residual": max(
-                    abs(float(row["capital_law_residual"])) for row in rows
-                ),
-                "max_abs_capability_law_residual": max(
-                    abs(float(row["capability_law_residual"])) for row in rows
-                ),
-                "max_abs_consumption_path_residual": max(
-                    abs(float(row["consumption_euler_path_residual"]))
-                    for row in rows
-                ),
-                "max_abs_shadow_costate_residual": max(
-                    abs(float(row["shadow_costate_residual"])) for row in rows
-                ),
-                "minimum_monopoly_soc_margin": min(
-                    float(row["monopoly_soc_margin"]) for row in rows
-                ),
-            }
+
+    for boundary in PUBLISHED_COARSE_FREE_BOUNDARY_SEQUENCE:
+        previous_solution, targets = solve_high_sigma_equilibrium(
+            parameters,
+            initial_state,
+            terminal_output_capital_ratio=boundary,
+            duration_guess=float(previous_solution.duration),
+            nodes=nodes,
+            tolerance=PUBLISHED_PRELIMINARY_TOLERANCE,
+            previous_solution=previous_solution,
         )
-    write_rows(RESULT_DIR / "high_sigma_equilibrium_paths.csv", combined_rows)
-    write_rows(RESULT_DIR / "high_sigma_equilibrium_summary.csv", summaries)
-    draw_published_figures(scenario_rows)
+        _check_continuation_solution(
+            previous_solution,
+            f"coarse free-boundary continuation z={boundary:g}",
+        )
+
+    saved_rows: dict[float, list[dict[str, float | str]]] = {}
+    saved_summaries: dict[float, dict[str, float]] = {}
+    for boundary in PUBLISHED_REFINEMENT_BOUNDARIES:
+        previous_solution, targets = solve_high_sigma_equilibrium(
+            parameters,
+            initial_state,
+            terminal_output_capital_ratio=boundary,
+            duration_guess=float(previous_solution.duration),
+            nodes=nodes,
+            tolerance=PUBLISHED_REPORTED_TOLERANCE,
+            previous_solution=previous_solution,
+        )
+        _check_continuation_solution(
+            previous_solution,
+            f"refined free-boundary continuation z={boundary:g}",
+        )
+        rows = evaluate_free_boundary_solution(
+            f"equilibrium_sigma_1.5_z_{boundary:g}",
+            previous_solution,
+            parameters,
+        )
+        for row in rows:
+            row["terminal_boundary_z"] = boundary
+        saved_rows[boundary] = rows
+        saved_summaries[boundary] = _published_continuation_row(
+            previous_solution,
+            sigma_xl=1.5,
+            boundary=boundary,
+            targets=targets,
+        )
+
+    missing = set(PUBLISHED_REFINEMENT_BOUNDARIES) - set(saved_rows)
+    if missing:
+        raise RuntimeError(f"Canonical boundaries were not solved: {missing}.")
+
+    primary_boundaries = (16.0, 32.0, 64.0)
+    write_rows(
+        RESULT_DIR / f"{PUBLISHED_PREFIX}_free_continuation.csv",
+        [saved_summaries[value] for value in primary_boundaries],
+    )
+    write_rows(
+        RESULT_DIR / f"{PUBLISHED_PREFIX}_boundary_paths.csv",
+        [row for value in primary_boundaries for row in saved_rows[value]],
+    )
+    write_rows(
+        RESULT_DIR / f"{PUBLISHED_EXTRA_PREFIX}_free_continuation.csv",
+        [saved_summaries[128.0]],
+    )
+    write_rows(
+        RESULT_DIR / f"{PUBLISHED_EXTRA_PREFIX}_boundary_paths.csv",
+        saved_rows[128.0],
+    )
+    print("Canonical high-sigma outputs written:", flush=True)
+    for path in published_reproduction_plan()["canonical_outputs"]:
+        print(f"  {path}", flush=True)
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -1119,6 +1389,12 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--initial-log-shadow", type=float, default=-0.80)
     parser.add_argument("--nodes", type=int, default=301)
     parser.add_argument(
+        "--tolerance",
+        type=float,
+        default=3e-5,
+        help="Relative tolerance passed to the boundary-value solver.",
+    )
+    parser.add_argument(
         "--horizon-sequence",
         default="",
         help="Comma-separated continuation horizons for fixed-bvp.",
@@ -1145,7 +1421,19 @@ def parse_arguments() -> argparse.Namespace:
         default="",
         help="Saved calendar-time equilibrium path used as a continuation guess.",
     )
-    parser.add_argument("--assemble-published", action="store_true")
+    parser.add_argument(
+        "--assemble-published",
+        action="store_true",
+        help=(
+            "Run the exact staged sigma_XL=1.5 continuation used by the "
+            "paper and write its four canonical solver outputs."
+        ),
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print the published continuation plan without solving or writing.",
+    )
     return parser.parse_args()
 
 
@@ -1166,11 +1454,17 @@ def main() -> None:
     initial_capital = math.exp(float(seed_guess[0, 0]))
     initial_state = (initial_capital, 1.0, 1.0)
     if arguments.assemble_published:
-        raise SystemExit(
-            "--assemble-published is disabled: the high-sigma paths have not "
-            "passed convergence across increasingly distant terminal "
-            "boundaries. Use an explicit continuation method for diagnostics."
+        if arguments.dry_run:
+            describe_published_reproduction()
+            return
+        assemble_published_results(
+            baseline,
+            initial_state,
+            nodes=arguments.nodes,
         )
+        return
+    if arguments.dry_run:
+        raise SystemExit("--dry-run requires --assemble-published.")
     if arguments.method is None:
         raise SystemExit(
             "Specify --assemble-published or an explicit --method."
@@ -1207,6 +1501,7 @@ def main() -> None:
             terminal_output_capital_ratio=arguments.terminal_z,
             duration_guess=arguments.duration_guess,
             nodes=arguments.nodes,
+            tolerance=arguments.tolerance,
         )
     else:
         previous_solution = (
@@ -1227,6 +1522,7 @@ def main() -> None:
                 horizon=horizon,
                 terminal_z_guess=arguments.terminal_z,
                 nodes=arguments.nodes,
+                tolerance=arguments.tolerance,
                 previous_solution=previous_solution,
             )
             if not solution.success:
@@ -1274,6 +1570,7 @@ def main() -> None:
             )
         )
         free_rows: list[dict[str, float | str]] = []
+        all_boundary_paths: list[dict[str, float | str]] = []
         for free_target in free_targets:
             solution, targets = solve_high_sigma_equilibrium(
                 parameters,
@@ -1281,6 +1578,7 @@ def main() -> None:
                 terminal_output_capital_ratio=free_target,
                 duration_guess=float(previous_solution.duration),
                 nodes=arguments.nodes,
+                tolerance=arguments.tolerance,
                 previous_solution=previous_solution,
             )
             if not solution.success:
@@ -1297,7 +1595,27 @@ def main() -> None:
                     "initial_log_shadow_value": float(solution.sol(0.0)[3]),
                     "mesh_nodes": solution.x.size,
                     "max_rms_residual": float(np.max(solution.rms_residuals)),
+                    "estimated_singularity_time": (
+                        solution.duration
+                        + 1.0
+                        / targets["singularity_rate"]
+                        / free_target
+                    ),
                 }
+            )
+            boundary_rows = evaluate_free_boundary_solution(
+                f"equilibrium_sigma_{arguments.sigma:g}_z_{free_target:g}",
+                solution,
+                parameters,
+            )
+            for row in boundary_rows:
+                row["terminal_boundary_z"] = free_target
+            all_boundary_paths.extend(boundary_rows)
+            safe_target = str(free_target).replace(".", "p")
+            write_rows(
+                RESULT_DIR
+                / f"{arguments.output_prefix}_z_{safe_target}_paths.csv",
+                boundary_rows,
             )
             print(
                 f"free boundary z_T={free_target:g}: "
@@ -1310,6 +1628,10 @@ def main() -> None:
             write_rows(
                 RESULT_DIR / f"{arguments.output_prefix}_free_continuation.csv",
                 free_rows,
+            )
+            write_rows(
+                RESULT_DIR / f"{arguments.output_prefix}_boundary_paths.csv",
+                all_boundary_paths,
             )
     if not solution.success:
         diagnostic = ""
@@ -1334,7 +1656,9 @@ def main() -> None:
         "population_growth": parameters.n,
         "research_productivity": parameters.chi,
         "boundary_is_conditional": True,
-        "terminal_output_capital_ratio": arguments.terminal_z,
+        "terminal_output_capital_ratio": float(
+            rows[-1]["output_capital_ratio"]
+        ),
         "duration": solution.duration,
         "mesh_nodes": (
             solution.x.size if hasattr(solution, "x") else solution.t.size

@@ -6,7 +6,7 @@ singular_inference_share,0.4488999999999999,pass
 singular_investment_share,0.21315325895478565,pass
 singular_research_share,0.07828731650029361,pass
 singular_consumption_share,0.25965942454492086,pass
-wage_sign_threshold_sigma_XL,6.734006734006733,pass
+wage_sign_threshold_min_sigma,6.734006734006733,pass
 capability_envelope_derivative_error,4.6502940387327385e-11,pass
 generalized_ces_single_equation_error,0.0,pass
 compute_cost_normalization_service_error,0.0,pass
