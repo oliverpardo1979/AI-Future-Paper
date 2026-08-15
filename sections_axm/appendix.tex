@@ -589,50 +589,310 @@ This expression is positive when
 Therefore \(wN/Y=wL/Y+wH/Y\to0\), regardless of which sector employs the
 limiting positive share of the population. \(\square\)
 
-\section{Numerical equilibrium-system audit}
+\section{Numerical solution algorithm and equilibrium-system audit}
+\label{app:axm-numerical-algorithm}
 
-For every reported unit-elasticity path and every horizon-robustness path, the code recomputes the
-static allocation at each date
-and records the following residuals: the three technology identities, the
-goods-market identity, the labor-market identity, the monopoly first-order
-condition, both research first-order conditions, and the four canonical
-differential equations, including the household Euler equation. It also verifies the monopoly second-order
-condition and re-solves each case at three terminal horizons. The complete six
-horizon paths are stored, rather than retaining only their initial jumps.
-An independent row-by-row audit reconstructs \(X=AU\), the automated research
-service \(AM\), the CES input index, the consolidated capability law, both
-research first-order conditions, and the costate term
-\(-\eta s_M\dot A/A\) from every saved observation.
-The collocation derivative, rather than a plotted finite difference, is used to
-audit the dynamic equations. The simulation files and their residual summaries
-are stored in \path{numerical_axm}; the independent solver is
-\path{scripts/simulate_axm_equilibrium.py}, with a separate free-boundary solver
-for the gross-substitutes regime.
-The row-by-row mapping from manuscript equations to solver objects and diagnostics
-is stored in \path{numerical_axm/equilibrium_equation_map.csv}. Finite terminal
-values of the two transversality expressions are also recorded, but they are not
-treated as a numerical proof of their infinite-horizon limits.
+The numerical exercises are boundary-value calculations. They are not forward
+simulations from arbitrary values of the jump variables. Initial capital and
+capability are fixed at \(K_0\) and \(A_0\), while \(C(0)\) and \(q(0)\) are
+determined jointly with the transition by terminal restrictions. The fixed-horizon
+calculations approximate paths satisfying the dated equilibrium system in
+Section~\ref{sec:axm-dated-equilibrium-system}. The free-boundary calculation
+instead approximates the dated necessary conditions on the conditional
+pre-singular branch. Both use the same timing, prices, and normalizations as the
+analytical model.
 
-The high-substitution calculation has a separate independent audit,
-\path{scripts/audit_axm_high_sigma.py}. It reconstructs all technologies, prices,
-first-order conditions, income shares, the household budget, market clearing, and
-the four dynamic right-hand sides without calling the solver's static-equilibrium
-routine. It also differentiates \(K,A,C,\) and \(q\) independently on a compact
-calendar window. Acceptance requires positivity, a strictly positive monopoly
-second-order margin, no active numerical clipping, small equation residuals,
-stable initial jumps, convergence on common calendar and event-time windows,
-stability of the imposed terminal ratios, convergence of the non-imposed terminal
-quantities, and stabilization of the estimated singularity date. All
-prespecified gates pass for the boundaries \(Y/K=16,32,64,128\). This audit supports the
-finite-interval necessary-condition claim and no stronger equilibrium claim.
+\subsection{Numerical representation and the intratemporal equilibrium map}
+
+The outer solver uses the four log variables
+\begin{equation}
+ \mathbf y(t)=
+ \begin{pmatrix}\log K(t)&\log A(t)&\log C(t)&\log q(t)\end{pmatrix}^{\prime},
+ \qquad N(t)=N_0e^{nt}.
+ \label{eq:axm-numerical-state}
+\end{equation}
+Population is therefore evaluated analytically rather than added as a fifth
+numerical state. Logs preserve positivity of \(K,A,C,\) and \(q\). Within the
+dated static calculation, the human-research share \(H/N\) is represented by a
+logit, which keeps \(0<H/N<1\) and implies \(L=N-H>0\).
+
+For a given date and a trial value of \((K,A,N,q)\), the code constructs the
+intratemporal equilibrium as follows.
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+ \item Given a trial labor allocation, it solves the monopoly first-order
+ condition for \(\log(X/L)\). At \(\sigma_{XL}=1\), the corresponding
+ Cobb--Douglas block has a closed-form solution. Otherwise the code uses a
+ bracketed scalar root for
+ \(\log p_X+\log(1-e_X)+\log A=0\).
+ \item It uses the final-good firm's demand conditions to recover \(Y,Z,s_X,r,w,\)
+ and \(p_X\). It then computes the unit expenditure \(P_E\), solves the research
+ scale condition \(q\chi\eta E^{\eta-1}=P_E\), and applies the two conditional
+ CES research demands.
+ \item It solves a second bracketed scalar equation equating the trial \(H\) to
+ the conditional demand for human research. It then recovers \(AM\),
+ \(M=AM/A\), \(U=X/A\), \(s_M\), and every remaining dated allocation and price.
+\end{enumerate}
+When the monopoly root is required, it is solved to a numerical tolerance of
+\(10^{-13}\); the labor--research root is solved to \(10^{-11}\). The direct research first-order conditions
+are implied by the dual research allocation and the scale condition; the audit
+nevertheless reconstructs them separately. The nested calculation selects an
+interior root. It does not by itself prove that the root is unique or globally
+optimal. The fixed-horizon files record both numerical fallback flags; neither is
+active at a saved observation on the reported paths. The saved observations also
+have positive allocations and a strictly positive margin in the monopoly
+second-order condition \eqref{eq:axm-monopoly-soc}.
+
+The resulting static allocation is inserted into the four canonical dynamic equations for
+\(K,A,C,\) and \(q\) in \eqref{eq:axm-canonical-system}. Thus the outer right-hand
+side can be written as
+\begin{equation}
+ \dot{\mathbf y}=\mathcal F\bigl(t,\mathbf y\bigr),
+ \label{eq:axm-numerical-rhs}
+\end{equation}
+where the arguments suppressed in \(\mathcal F\) are the unchanged parameters in
+Table~\ref{tab:axm-parameters}. Equation \eqref{eq:axm-numerical-rhs} is a
+reduced numerical representation obtained only after the dated algebraic
+equilibrium has been solved. It introduces no additional economic equation.
+
+\subsection{Fixed-horizon collocation for \texorpdfstring{\(\sigma_{XL}\leq1\)}{sigma XL <= 1}}
+
+For the complementary-input and unit-elasticity regimes, the code calls
+SciPy's \texttt{solve\_bvp}, a fourth-order, residual-controlled collocation
+method with a continuously differentiable piecewise-cubic solution and an
+adaptive mesh, for a fixed horizon \([0,T]\). The implementation supplies no
+analytical Jacobian, so the library approximates it numerically.
+It works with detrended logs
+\(\widetilde{\mathbf y}(t)=\mathbf y(t)-\bar{\mathbf g}t\), where, in the state
+order of \eqref{eq:axm-numerical-state},
+\(\bar{\mathbf g}=(\bar g_K,\bar g_A,\bar g_C,\bar g_q)'\) contains the candidate
+limiting rates derived in the text. This transformation improves numerical
+conditioning. The raw logs are reconstructed before every evaluation of the
+intratemporal map, so detrending does not impose the candidate growth rates on
+the solution.
+
+There are four boundary conditions for the four log paths. The two initial
+conditions are
+\begin{equation}
+ K(0)=K_0,\qquad A(0)=A_0.
+ \label{eq:axm-fixed-initial-boundary}
+\end{equation}
+At the terminal date, the algorithm imposes the analytical candidate value
+\(c^\star\) of \(C/Y\) and one shadow-value ratio:
+\begin{equation}
+ \frac{C(T)}{Y(T)}=c^\star,\qquad
+ \begin{cases}
+ \displaystyle
+ \frac{X(T)}{q(T)A(T)^2}
+ =\rho-n+\bigl(2-\eta\bar s\bigr)\bar g_A,
+ &\sigma_{XL}<1,\\[9pt]
+ \displaystyle
+ \frac{q(T)A(T)}{Y(T)}
+ =\frac{m^\star}{\eta\bar s g_A^\star},
+ &\sigma_{XL}=1.
+ \end{cases}
+ \label{eq:axm-fixed-terminal-boundary}
+\end{equation}
+For \(\sigma_{XL}<1\),
+\(c^\star=1-\alpha(n+\delta)/(\rho+\delta)\), with
+\(\bar s=\omega_M\) when \(\sigma_{HM}=1\) and \(\bar s=1\) when
+\(\sigma_{HM}>1\). The corresponding \(\bar g_A\) is given by
+\eqref{eq:axm-complement-cd-research-growth} or
+\eqref{eq:axm-complement-ces-research-growth}. For \(\sigma_{XL}=1\),
+\(g_A^\star\), \(m^\star\), and \(c^\star\) are the candidate quantities in
+\eqref{eq:axm-cd-growth-rates} and \eqref{eq:axm-cd-shares}, with \(\bar s\)
+defined in \eqref{eq:axm-sbar}. The two terminal restrictions select the jump
+variables \(C(0)\) and \(q(0)\). They approximate the infinite-horizon selection
+problem; they are not the transversality conditions themselves.
+
+The limiting rates and shares also generate an initial path guess on a uniform
+201-node mesh. Candidate levels are chosen by a small least-squares calculation
+that matches the relevant limiting capital-output and shadow ratios. This guess
+initializes the nonlinear solver but is not retained as an equation. At every
+collocation evaluation, the algorithm solves the intratemporal map and evaluates
+\eqref{eq:axm-numerical-rhs}. The mesh then adapts until the residual tolerance is
+met or the 8,000-node cap is reached. No shooting solution is used for any path
+reported in the paper.
+
+The reported unit-elasticity calculations use a solver tolerance of
+\(2\times10^{-5}\). The primary horizons are \(T=1{,}200\) for
+\(\sigma_{HM}=1\) and \(T=1{,}600\) for \(\sigma_{HM}=2\). They are re-solved at
+\(T\in\{1{,}000,1{,}200,1{,}400\}\) and
+\(T\in\{1{,}400,1{,}600,1{,}800\}\), respectively. The complementary-input
+calculations use \(\sigma_{XL}=0.75\), a solver tolerance of \(10^{-6}\), and
+independent cold starts at \(T\in\{1{,}600,1{,}800,2{,}000\}\) for each value of
+\(\sigma_{HM}\). Here a cold start means that no solution from a neighboring
+horizon is used; the analytical initial guess is still supplied. The
+\(T=2{,}000\) paths are displayed. Saved output is evaluated from the collocation
+spline at two-year intervals.
+
+The fixed-horizon algorithm can therefore be summarized as follows.
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=4.5em,labelsep=0.6em]
+ \item Fix the parameters, \((K_0,A_0,N_0)\), the horizon, and the two analytical
+ terminal ratios.
+ \item Construct the detrended analytical guess on the initial mesh.
+ \item At each collocation evaluation, solve the labor-allocation root and, when
+ \(\sigma_{XL}\neq1\), the nested monopoly root; then recover all dated
+ quantities and prices.
+ \item Solve jointly for the four log paths, including the initial values of the
+ two jump variables, subject to
+ \eqref{eq:axm-fixed-initial-boundary}--\eqref{eq:axm-fixed-terminal-boundary}.
+ \item Adapt the mesh, reconstruct the dated equilibrium conditions, and reject
+ any path that fails the numerical acceptance gates.
+ \item Repeat at the stated horizons, compare the initial jumps, and verify the
+ equation residuals along every saved horizon path.
+\end{enumerate}
+
+\subsection{Free-boundary continuation for \texorpdfstring{\(\sigma_{XL}>1\)}{sigma XL > 1}}
+
+For the reported unbounded-capability, AI-dominated gross-substitutes branch, a
+finite balanced-growth terminal condition is unavailable. The implementation
+uses the reported normalization \(N_0=1\), stops at an artificial boundary
+\(z_T=(Y/K)(T)\), treats the terminal date \(T\) as an unknown, and increases
+\(z_T\) by continuation. Calendar time is normalized as \(\tau=t/T\in[0,1]\).
+For the same four log variables, the outer differential system becomes
+\begin{equation}
+ \frac{\dd\mathbf y}{\dd\tau}
+ =T\,\mathcal F\bigl(T\tau,\mathbf y\bigr).
+ \label{eq:axm-free-boundary-rhs}
+\end{equation}
+The positive duration is represented by a smooth transformation of an
+unrestricted scalar. Four paths plus this scalar require five boundary
+conditions:
+\begin{equation}
+ \begin{split}
+ K(0)&=K_0,\qquad A(0)=A_0,\\
+ \frac{C(T)}{Y(T)}
+ &=1-(1-\alpha)^2-\alpha+\theta h
+ -\frac{\eta(1-\alpha)^2}{1+\theta-\eta},\\
+ \frac{q(T)A(T)}{K(T)}&=\frac{(1-\alpha)^2}{\eta\alpha},\qquad
+ \frac{Y(T)}{K(T)}=z_T,
+ \end{split}
+ \label{eq:axm-free-boundary-conditions}
+\end{equation}
+The two terminal ratios are the conditional limits in
+\eqref{eq:axm-singular-ratios}. Thus \(C(0)\), \(q(0)\), and \(T\) are
+determined endogenously by the finite-boundary problem.
+
+The reference path used to initialize this problem incorporates the singular
+scaling \(g_A/z\to h\), with \(h\) defined in the conditional result. It is then
+represented by cubic splines, and the collocation solver works on corrections to
+that reference. The condition \(g_A/z=h\) helps construct the terminal guess; it
+is not one of the five restrictions in
+\eqref{eq:axm-free-boundary-conditions}. Its convergence is checked ex post.
+
+The reported boundary solutions are obtained through the following continuation
+sequence.
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=4.5em,labelsep=0.6em]
+ \item Solve a \(\sigma_{XL}=1,\sigma_{HM}=2\) seed at \(T=1{,}600\).
+ \item At \(T=100\), continue \(\sigma_{XL}\) through
+ \(1.02,1.05,1.10,1.20,1.30,1.40,1.50\).
+ \item At \(\sigma_{XL}=1.50\), continue the fixed horizon through
+ \(T=150,200,300,400,600\), followed by \(700,750,800,825,840\).
+ \item Release \(T\) and continue the free boundary through
+ \(z_T=0.5,0.6,0.8,1,1.5,2,3,4\), followed by
+ \(6,8,12,16,24,32,48,64\).
+ \item Starting from that continuation, re-solve sequentially at
+ \(z_T=16,32,64,128\). Only these refined solutions enter the reported
+ convergence exercise.
+\end{enumerate}
+The preliminary stages use a tolerance of \(3\times10^{-5}\). The four reported
+free-boundary solutions use \(10^{-6}\), an initial mesh of 301 nodes, and a
+12,000-node cap. The full route consists of 38 boundary-value solves. Increasing
+\(z_T\) tests whether the initial jumps, paths on common pre-terminal windows,
+non-imposed ratios, and the tail-corrected singularity-time estimate stabilize.
+
+Equation \eqref{eq:axm-z-law} provides the leading-order tail estimate
+\begin{equation}
+ \widehat T(z_T)\equiv T(z_T)+\frac{1}{\theta h z_T}.
+ \label{eq:axm-singularity-tail-estimate}
+\end{equation}
+The numerical files and figures denote this estimate by \(T^*(z_T)\). It
+extrapolates beyond the solved boundary and is not the true endpoint established
+by the numerical calculation, a terminal condition, or a calendar forecast. The
+alternative shooting routine retained in the source code is experimental and
+does not generate any result reported in the paper.
+
+\subsection{Acceptance tests, independent audits, and limits of the evidence}
+
+For every reported unit-elasticity path and every horizon-robustness path, the
+canonical code recomputes the dated static allocation and records the technology,
+goods-market, labor-market, monopoly, research, and dynamic residuals. It also
+checks the monopoly second-order condition and stores all six horizon paths,
+rather than retaining only their initial jumps. The row-by-row audit reconstructs
+\(X=AU\), the service \(AM\), the CES research-input index, the capability law,
+both research first-order conditions, and the costate term
+\(-\eta s_M\dot A/A\). The collocation derivative, rather than a plotted finite
+difference, is used for the unit-elasticity dynamic residuals.
+
+The complementary-input calculations have a separate auditor, which does not
+import the solver. Its source is
+\path{scripts/audit_axm_complements.py}. It
+reconstructs the static equations from the saved rows and estimates the four log
+derivatives with centered local polynomials. Acceptance requires small static and
+dynamic residuals, positive and interior allocations, a positive monopoly
+second-order margin, no active saved clipping or fallback, accurate imposed
+terminal restrictions, convergence of non-imposed terminal quantities, and
+stable initial jumps across horizons.
+
+The high-substitution calculation is checked by
+\path{scripts/audit_axm_high_sigma.py}. This auditor reconstructs all
+technologies, prices, first-order conditions, income shares, the household
+budget, market clearing, and the four dynamic right-hand sides without calling
+the solver's static-equilibrium routine. It also differentiates the four
+log-state paths independently on a compact calendar window. Acceptance requires positivity,
+a strictly positive monopoly second-order margin, no active saved clipping,
+small equation residuals, stable initial jumps, convergence on common calendar
+and event-time windows, stability of the imposed terminal ratios, convergence of
+the non-imposed terminal quantities, and stabilization of
+\eqref{eq:axm-singularity-tail-estimate}. All prespecified gates pass for
+\(z_T=16,32,64,128\).
+
+The simulation files and residual summaries are stored in
+\path{numerical_axm}. The canonical fixed-horizon solver is
+\path{scripts/simulate_axm_equilibrium.py}; the complementary-input runner and
+the free-boundary solver are
+\path{scripts/simulate_axm_complements_equilibrium.py} and
+\path{scripts/simulate_axm_high_sigma_equilibrium.py}. The mapping from manuscript
+equations to solver objects and diagnostics is stored in
+\path{numerical_axm/equilibrium_equation_map.csv}. Scripts without the
+\texttt{axm} designation that solve or simulate an equilibrium implement the
+earlier research specification and do not generate evidence used in this paper.
+Plotting scripts read accepted paths and do not solve an additional equilibrium
+system.
+The package list in \path{requirements-numerical.txt} does not pin software
+versions, so the paper does not claim bit-for-bit replication across computing
+environments.
+Within \path{numerical_axm}, diagnostic values and pass/fail status are stored in
+\path{audit_report.csv}, \path{complements_acceptance_report.csv}, and
+\path{high_sigma_sigma150_validated_acceptance_report.csv}. The last two reports
+also state their numerical thresholds, and their manifests record the audited
+inputs. Unit-elasticity thresholds are defined in
+\path{scripts/audit_axm_model.py}.
+
+Convergence of the collocation routine establishes only that a finite-horizon or
+finite-boundary discretization satisfies its equations and imposed boundary
+conditions within the reported tolerances. Agreement of an imposed terminal
+ratio is not independent validation. The overidentifying evidence comes from the
+dated residuals, non-imposed quantities, and stability across horizons or
+boundaries. Finite terminal values of the two transversality expressions are
+recorded, but they do not prove their infinite-horizon limits. The
+unit-elasticity sufficiency result applies only to an admissible exact continuation
+satisfying the full system and both transversality conditions. The
+complementary-input calculations are finite-horizon approximations to candidate
+paths. The
+gross-substitutes calculations are finite-boundary approximations to a
+conditional pre-singular branch of the necessary conditions; they do not establish
+an infinite-horizon equilibrium, global stability, uniqueness, or reachability
+from arbitrary initial states.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_boundary_convergence.png}
 \caption{Free-boundary convergence diagnostic, where
 \(z_T\equiv(Y/K)(T)\). \(T(z_T)\) is the date at which the approximation reaches
-its artificial terminal boundary; \(T^*(z_T)\)
-adds the analytical tail estimate. The residual column reports the maximum
+its artificial terminal boundary. The graphic writes \(T^*(z_T)\) for the tail
+estimate \(\widehat T(z_T)\) in
+\eqref{eq:axm-singularity-tail-estimate}. The residual column reports the maximum
 collocation root-mean-square error.}
 \label{fig:axm-high-sigma-boundary-convergence}
 \end{figure}

@@ -127,6 +127,9 @@ free-boundary solver is
 \path{scripts/simulate_axm_high_sigma_equilibrium.py}. All three use the
 capability law in equation~\eqref{eq:axm-capability-law}. No output generated under a
 raw-compute research specification is used in this paper.
+Appendix~\ref{app:axm-numerical-algorithm} describes the nested intratemporal
+solve, the fixed-horizon collocation problem, the free-boundary continuation, and
+the acceptance tests and independent audits.
 
 As in the model, raw compute is measured in resource-expenditure units, so its
 common unit cost is one and is not a free parameter.
@@ -167,10 +170,11 @@ For the unit-elasticity calculations, the solver treats \(K\) and \(A\) as
 predetermined and chooses initial \(C\) and
 \(q\) so that the path approaches the corresponding unit-elasticity
 balanced-growth limit. At the terminal date, it imposes that \(C/Y\) and \(qA/Y\)
-equal their analytical candidate values. At every
-collocation node it solves the monopoly supply condition, labor-market clearing,
-the dual research problem, both research first-order conditions, and the four
-equations in \eqref{eq:axm-canonical-system}.
+equal their analytical candidate values. At every collocation evaluation it
+solves the monopoly supply condition, labor-market clearing, and the dual research
+problem. Residual-controlled collocation then imposes the four equations in
+\eqref{eq:axm-canonical-system}; both direct research first-order conditions are
+reconstructed separately in the audit.
 The paper-to-code correspondence for every equilibrium block and its stored
 diagnostic is reported in
 \path{numerical_axm/equilibrium_equation_map.csv}. Proposition
