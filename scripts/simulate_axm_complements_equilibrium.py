@@ -41,8 +41,8 @@ SCENARIO_KEYS = {
     2.0: "axm_complements_sigma_xl_075_hm_2",
 }
 LABELS = {
-    1.0: "Cobb--Douglas research, σ_HM = 1",
-    2.0: "Substitutable research, σ_HM = 2",
+    1.0: "Cobb-Douglas research (research elasticity = 1)",
+    2.0: "Substitutable research (research elasticity = 2)",
 }
 PALETTE = {
     1.0: core.mechanism.COLORS["blue"],
@@ -411,9 +411,21 @@ def draw_figure(
     panels: list[dict[str, object]],
     paths: dict[float, list[dict[str, float | str]]],
 ) -> None:
-    """Draw a four-panel figure with explicit color and line encodings."""
+    """Draw a two-column figure with explicit color and line encodings."""
 
-    width, height = 2400, 1600
+    columns = 2
+    panel_rows = math.ceil(len(panels) / columns)
+    panel_height = 605
+    row_gap = 80
+    header_height = 245
+    bottom_margin = 65
+    width = 2400
+    height = (
+        header_height
+        + panel_rows * panel_height
+        + max(panel_rows - 1, 0) * row_gap
+        + bottom_margin
+    )
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
     title_font = core.mechanism.load_font(48, bold=True)
@@ -427,12 +439,14 @@ def draw_figure(
 
     draw.text((120, 65), title, fill=ink, font=title_font)
     draw.text((120, 130), subtitle, fill=muted, font=subtitle_font)
-    boxes = [
-        (120, 245, 1150, 850),
-        (1270, 245, 2300, 850),
-        (120, 930, 1150, 1535),
-        (1270, 930, 2300, 1535),
-    ]
+    column_boxes = ((120, 1150), (1270, 2300))
+    boxes = []
+    for panel_index in range(len(panels)):
+        row = panel_index // columns
+        column = panel_index % columns
+        top = header_height + row * (panel_height + row_gap)
+        left, right = column_boxes[column]
+        boxes.append((left, top, right, top + panel_height))
 
     for panel, box in zip(panels, boxes):
         left, top, right, bottom = box
@@ -606,26 +620,26 @@ def draw_figures(
 
     draw_figure(
         FIGURE_DIR / "axm_complements_macro_prices.png",
-        "Gross complements: macro quantities and prices",
-        "Ln changes from date zero (interest in percent); model years are not a dated forecast",
+        "Gross complements: macroeconomic outcomes",
+        "Natural-log changes from date zero; the annual net interest rate is a linear percent",
         [
             {
-                "title": "Output per capita",
+                "title": "Output per capita: change in ln(Y/N)",
                 "field": "log_output_per_capita",
                 "transform": log_change,
             },
             {
-                "title": "Consumption per capita",
+                "title": "Consumption per capita: change in ln(C/N)",
                 "field": "log_consumption_per_capita",
                 "transform": log_change,
             },
             {
-                "title": "Real wage",
+                "title": "Real wage: change in ln(w)",
                 "field": "log_wage",
                 "transform": log_change,
             },
             {
-                "title": "Net interest rate",
+                "title": "Net interest rate (percent)",
                 "field": "net_capital_return",
                 "transform": percent,
                 "format": lambda value: f"{value:.1f}%",
@@ -636,65 +650,80 @@ def draw_figures(
     )
     draw_figure(
         FIGURE_DIR / "axm_complements_factor_shares_automation.png",
-        "Gross complements: factor shares and research automation",
-        "Percent; neutral lines mark conditional limits; model years are normalized time",
+        "Gross complements: production and labor allocation",
+        "Ratios and shares use linear scales; dashed lines mark conditional analytical limits",
         [
             {
-                "title": "Production labor income / output",
-                "field": "production_labor_share",
+                "title": "Production labor / population, L/N (percent)",
+                "field": "production_labor_population_share",
                 "transform": percent,
-                "format": lambda value: f"{value:.0f}%",
-                "references": [100.0 * limiting_production_labor_share],
+                "format": lambda value: f"{value:.2f}%",
+                "references": [100.0],
             },
             {
-                "title": "Aggregate labor income / output",
-                "field": "aggregate_labor_share",
-                "transform": percent,
-                "format": lambda value: f"{value:.0f}%",
-                "references": [100.0 * limiting_production_labor_share],
+                "title": "AI services / production labor, X/L",
+                "field": "ai_labor_ratio",
+                "format": lambda value: f"{value:.2f}",
+                "references": [
+                    float(targets_by_sigma[1.0]["limiting_ai_labor_ratio"])
+                ],
             },
             {
-                "title": "AI share in the L--X composite",
+                "title": "AI share in the L--X composite, s_X (percent)",
                 "field": "ai_share",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
                 "references": [100.0 * limiting_ai_share],
             },
             {
-                "title": "Automated research expenditure share",
-                "field": "automated_research_share",
+                "title": "Inference resources / output, U/Y (percent)",
+                "field": "inference_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.1f}%",
+                "references": [0.0],
+            },
+            {
+                "title": "Production labor income / output, wL/Y",
+                "field": "production_labor_share",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
+                "references": [100.0 * limiting_production_labor_share],
+            },
+            {
+                "title": "Total labor income / output, wN/Y",
+                "field": "aggregate_labor_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "references": [100.0 * limiting_production_labor_share],
             },
         ],
         primary_paths,
     )
     draw_figure(
         FIGURE_DIR / "axm_complements_research_resources.png",
-        "Gross complements: AI research and resource use",
-        "Capability: ln change; ratios: percent; model years are not a dated forecast",
+        "Gross complements: AI research",
+        "Capability is a natural-log change; shares and resource ratios are linear percentages",
         [
             {
-                "title": "AI capability",
+                "title": "AI capability: change in ln(A)",
                 "field": "log_capability",
                 "transform": log_change,
             },
             {
-                "title": "Human researchers / population",
+                "title": "Human researchers / population, H/N (percent)",
                 "field": "human_research_share",
                 "transform": percent,
                 "format": lambda value: f"{value:.1f}%",
                 "references": [0.0],
             },
             {
-                "title": "Inference resources / output",
-                "field": "inference_share",
+                "title": "Automated research expenditure share, s_M",
+                "field": "automated_research_share",
                 "transform": percent,
-                "format": lambda value: f"{value:.2f}%",
-                "references": [0.0],
+                "format": lambda value: f"{value:.0f}%",
             },
             {
-                "title": "Research compute / output",
+                "title": "Research compute / output, M/Y (percent)",
                 "field": "research_resource_share",
                 "transform": percent,
                 "format": lambda value: f"{value:.2f}%",

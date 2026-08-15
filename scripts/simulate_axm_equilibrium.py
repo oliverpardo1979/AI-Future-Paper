@@ -1403,8 +1403,12 @@ def draw_equilibrium_figures(
         if key in {"axm_sigma_xl_1_hm_1", "axm_sigma_xl_1_hm_2"}
     }
     labels = {
-        "axm_sigma_xl_1_hm_1": "Cobb--Douglas research, sigma_HM = 1",
-        "axm_sigma_xl_1_hm_2": "Gross substitutes, sigma_HM = 2",
+        "axm_sigma_xl_1_hm_1": (
+            "Cobb-Douglas research (research elasticity = 1)"
+        ),
+        "axm_sigma_xl_1_hm_2": (
+            "Gross-substitutes research (research elasticity = 2)"
+        ),
     }
     palette = {
         "axm_sigma_xl_1_hm_1": mechanism.COLORS["blue"],
@@ -1424,15 +1428,24 @@ def draw_equilibrium_figures(
     )
     log_level = lambda rows, values: np.log(values)
     percent = lambda rows, values: 100.0 * values
+    research_labor_income_percent = lambda rows, values: 100.0 * (
+        values
+        - np.asarray(
+            [float(row["production_labor_share"]) for row in rows]
+        )
+    )
+    automated_to_human_service_log_change = lambda rows, values: -(
+        np.log(values) - np.log(values[0])
+    )
 
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_levels.png",
-        "Perfect-foresight equilibrium-path approximation: quantities",
-        "Natural-log change from each path's date-zero level; common initial K, A, and N",
+        "Macroeconomic quantities along unit-elasticity paths",
+        "Change in natural logs from each path's date-zero level; quantities other than the wage are per capita",
         [
-            {"title": "AI capability", "field": "log_capability", "transform": log_change},
             {"title": "Output per capita", "field": "log_output_per_capita", "transform": log_change},
             {"title": "Consumption per capita", "field": "log_consumption_per_capita", "transform": log_change},
+            {"title": "Real wage", "field": "log_wage", "transform": log_change},
             {"title": "Capital per capita", "field": "log_capital_per_capita", "transform": log_change},
         ],
         display_rows,
@@ -1442,12 +1455,12 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_growth_rates.png",
-        "Candidate-equilibrium growth and returns",
-        "Annual rates in percent; paths satisfy the audited dated equilibrium system",
+        "Macroeconomic growth and returns along unit-elasticity paths",
+        "Annual percentage rates over the first 600 years; all panels use linear scales",
         [
-            {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
             {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
             {"title": "Consumption growth per capita", "field": "consumption_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
+            {"title": "Real-wage growth", "field": "wage_growth", "transform": percent, "format": lambda value: f"{value:.2f}%", "reference_y": 0.0},
             {"title": "Net return to capital", "field": "net_capital_return", "transform": percent, "format": lambda value: f"{value:.1f}%"},
         ],
         display_rows,
@@ -1457,13 +1470,13 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_production_chain.png",
-        "Perfect-foresight equilibrium-path approximation: the production chain",
-        "Natural-log change per capita, except for the AI-service price",
+        "Final-production chain along unit-elasticity paths",
+        "Change in natural logs from each path's date-zero per-capita level",
         [
             {"title": "Inference compute per capita", "field": "log_inference_compute", "transform": per_capita_log_change},
             {"title": "AI services per capita", "field": "log_ai_services", "transform": per_capita_log_change},
             {"title": "Service composite per capita", "field": "log_service_composite", "transform": per_capita_log_change},
-            {"title": "Real AI-service price", "field": "log_ai_price", "transform": log_change},
+            {"title": "Final output per capita", "field": "log_output_per_capita", "transform": log_change},
         ],
         display_rows,
         labels,
@@ -1472,8 +1485,8 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_research_chain.png",
-        "Perfect-foresight equilibrium-path approximation: AI research",
-        "Natural-log change from each path's date-zero per-capita level",
+        "AI-research quantities along unit-elasticity paths",
+        "Change in natural logs from each path's date-zero per-capita level",
         [
             {"title": "Human research per capita", "field": "log_human_research", "transform": per_capita_log_change},
             {"title": "Research compute per capita", "field": "log_automated_research", "transform": per_capita_log_change},
@@ -1487,12 +1500,12 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_resource_allocation.png",
-        "Perfect-foresight equilibrium-path approximation: uses of output",
-        "Shares of final output in percent; the four uses sum to one",
+        "Allocation of final output along unit-elasticity paths",
+        "Shares of final output in percent; all panels use linear scales and the four uses sum to one",
         [
             {"title": "Consumption / output", "field": "consumption_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
             {"title": "Investment / output", "field": "investment_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
-            {"title": "Inference resources / output", "field": "inference_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
+            {"title": "Inference resources / output", "field": "inference_share", "transform": percent, "format": lambda value: f"{value:.3f}%", "ylim": (1.79, 1.80)},
             {"title": "Research compute / output", "field": "research_resource_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
         ],
         display_rows,
@@ -1536,13 +1549,13 @@ def draw_equilibrium_figures(
     )
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_equilibrium_factor_shares.png",
-        "Candidate equilibrium: labor income and research allocation",
-        "Income shares use output as denominator; employment shares use population",
+        "Labor income and labor allocation along unit-elasticity paths",
+        "wL/Y, wH/Y, and wN/Y are income shares; L/N is an allocation share; all panels are percentages",
         [
             {"title": "Production labor income / output", "field": "production_labor_share", "transform": percent, "format": lambda value: f"{value:.1f}%", "ylim": (53.0, 54.0)},
+            {"title": "Research labor income / output", "field": "aggregate_labor_share", "transform": research_labor_income_percent, "format": lambda value: f"{value:.3f}%"},
             {"title": "Aggregate labor income / output", "field": "aggregate_labor_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
-            {"title": "Human researchers / population", "field": "human_research_share", "transform": percent, "format": lambda value: f"{value:.1f}%"},
-            {"title": "Automated research expenditure share", "field": "automated_research_share", "transform": percent, "format": lambda value: f"{value:.0f}%"},
+            {"title": "Production labor / population", "field": "production_labor_population_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
         ],
         display_rows,
         labels,
@@ -1572,18 +1585,22 @@ def draw_equilibrium_figures(
         "axm_sigma_xl_1_hm_2": scenario_rows["axm_sigma_xl_1_hm_2"],
     }
     research_labels = {
-        "axm_sigma_xl_1_hm_1": "Cobb--Douglas research, sigma_HM = 1",
-        "axm_sigma_xl_1_hm_2": "Gross substitutes, sigma_HM = 2",
+        "axm_sigma_xl_1_hm_1": (
+            "Cobb-Douglas research (research elasticity = 1)"
+        ),
+        "axm_sigma_xl_1_hm_2": (
+            "Gross-substitutes research (research elasticity = 2)"
+        ),
     }
     mechanism.draw_multiplot(
         FIGURE_DIR / "axm_research_technology_comparison.png",
-        "Research technology at Cobb-Douglas production",
-        "Annual rates and shares in percent; both paths satisfy the audited equilibrium system",
+        "Research adjustment under alternative substitution elasticities",
+        "Capability growth is an annual percent rate; both shares are percentages; AM/H is a natural-log change",
         [
             {"title": "Capability growth", "field": "capability_growth", "transform": percent, "format": lambda value: f"{value:.1f}%"},
-            {"title": "Output growth per capita", "field": "output_per_capita_growth", "transform": percent, "format": lambda value: f"{value:.1f}%", "reference_y": 0.0},
             {"title": "Automated research expenditure share", "field": "automated_research_share", "transform": percent, "format": lambda value: f"{value:.0f}%", "ylim": (0.0, 100.0)},
             {"title": "Human researchers / population", "field": "human_research_share", "transform": percent, "format": lambda value: f"{value:.2f}%"},
+            {"title": "Automated research services / human research", "field": "human_to_automated_service_ratio", "transform": automated_to_human_service_log_change},
         ],
         research_technology_rows,
         research_labels,

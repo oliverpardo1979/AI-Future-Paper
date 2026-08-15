@@ -812,6 +812,27 @@ by the numerical calculation, a terminal condition, or a calendar forecast. The
 alternative shooting routine retained in the source code is experimental and
 does not generate any result reported in the paper.
 
+\subsection{Supplementary transition diagnostic}
+
+Figure \ref{fig:axm-feedback-diagnostic} evaluates the scalar feedback accounting
+in equation~\eqref{eq:axm-feedback-matrix} at the dated research share
+\(s_M(t)\). It is a deterministic transformation of an accepted path, not an
+additional equilibrium calculation or an independently estimated transition
+Jacobian. The figure is therefore reported with the numerical diagnostics rather
+than in the sequence of simulated macroeconomic outcomes and allocations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_unit_elasticity_feedback_diagnostic.png}
+\caption{Plug-in balanced-growth feedback accounting evaluated at \(s_M(t)\)
+along the two unit-elasticity finite-horizon candidate paths. The construction is
+a scalar adaptation of \citet{davidsonetal2026}, not the dated feedback Jacobian.
+The horizontal line at one is the critical value for the balanced-growth
+accounting in equation~\eqref{eq:axm-feedback-matrix}, not a sufficient condition
+for explosive equilibrium dynamics.}
+\label{fig:axm-feedback-diagnostic}
+\end{figure}
+
 \subsection{Acceptance tests, independent audits, and limits of the evidence}
 
 For every reported unit-elasticity path and every horizon-robustness path, the
@@ -824,6 +845,56 @@ both research first-order conditions, and the costate term
 \(-\eta s_M\dot A/A\). The collocation derivative, rather than a plotted finite
 difference, is used for the unit-elasticity dynamic residuals.
 
+Table \ref{tab:axm-residuals} reports the solver-side diagnostics for the two
+baseline unit-elasticity paths. Static identities and first-order conditions have
+errors below \(10^{-10}\) in the stored solver diagnostics. The larger entries are
+collocation residuals in the differential equations and remain close to
+\(10^{-5}\).
+
+\begin{table}[H]
+\centering
+\small
+\caption{Unit-elasticity path diagnostics}
+\label{tab:axm-residuals}
+\begin{tabular}{lcc}
+\toprule
+Diagnostic & \(\sigma_{HM}=1\) & \(\sigma_{HM}=2\)\\
+\midrule
+Maximum goods-market residual & \(2.2\times10^{-16}\) & \(2.2\times10^{-16}\)\\
+Maximum labor-market residual & \(8.9\times10^{-16}\) & \(1.8\times10^{-15}\)\\
+Maximum technology log error & \(2.4\times10^{-13}\) & \(2.4\times10^{-11}\)\\
+Maximum factor-price error & \(1.8\times10^{-15}\) & \(1.8\times10^{-15}\)\\
+Maximum research-duality error & \(3.6\times10^{-13}\) & \(2.7\times10^{-11}\)\\
+Maximum monopoly-FOC log error & \(5.4\times10^{-15}\) & \(7.2\times10^{-15}\)\\
+Maximum research-FOC log error & \(3.6\times10^{-13}\) & \(1.3\times10^{-11}\)\\
+Maximum dynamic path residual & \(4.4\times10^{-6}\) & \(1.2\times10^{-5}\)\\
+Maximum horizon-induced initial-jump range & \(7.4\times10^{-8}\) & \(1.6\times10^{-7}\)\\
+Minimum monopoly second-order margin & 0.1160 & 0.1160\\
+Absolute terminal capability-growth error & \(1.3\times10^{-5}\) & \(3.1\times10^{-5}\)\\
+Absolute terminal per-capita-output-growth error & \(2.9\times10^{-6}\) & \(6.6\times10^{-6}\)\\
+Terminal automated research-expenditure share & 0.3500 & 0.99999\\
+Log household terminal-TVC proxy & -32.03 & -43.24\\
+Log developer terminal-TVC proxy & -34.46 & -45.69\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The horizon-induced range is the larger of the ranges of \(\log C(0)\) and
+\(\log q(0)\), measured in log points. The terminal growth errors are absolute
+differences between annual rates expressed as decimals. Across all six horizon
+paths, the largest stored solver static-equation error is
+\(4.8\times10^{-11}\), while the independent row-by-row reconstruction has a
+maximum static error of \(1.5\times10^{-9}\). The largest differential-equation
+residual is \(1.7\times10^{-5}\), and both imposed terminal-ratio errors are below
+\(5.1\times10^{-7}\). Every saved quantity remains positive, and the monopoly
+second-order margin is strictly positive.
+
+The two TVC entries evaluate the expressions in equation~\eqref{eq:axm-tvc} at
+the finite terminal date. Their finite magnitudes depend on normalization; only
+convergence to zero is invariant. They are truncation diagnostics, not direct
+verification of a limit as \(t\to\infty\). Under the analytical balanced-growth
+continuation, if it exists, both objects decay at rate \(\rho-n>0\).
+
 The complementary-input calculations have a separate auditor, which does not
 import the solver. Its source is
 \path{scripts/audit_axm_complements.py}. It
@@ -833,6 +904,14 @@ dynamic residuals, positive and interior allocations, a positive monopoly
 second-order margin, no active saved clipping or fallback, accurate imposed
 terminal restrictions, convergence of non-imposed terminal quantities, and
 stable initial jumps across horizons.
+Across the two displayed \(T=2{,}000\) paths, the largest reconstructed static
+error is \(2.92\times10^{-11}\), the largest independently differentiated
+dynamic error is \(5.68\times10^{-7}\), and the largest monopoly first-order
+condition error is \(2.50\times10^{-11}\). The largest solver root-mean-square
+residual is \(9.43\times10^{-7}\), and the largest horizon-induced initial-jump
+range is \(7.7\times10^{-8}\) log points. Every prespecified acceptance gate
+passes, including the finite-date transversality proxies. These proxies remain
+truncation diagnostics and do not establish the infinite-horizon limits.
 
 The high-substitution calculation is checked by
 \path{scripts/audit_axm_high_sigma.py}. This auditor reconstructs all
@@ -884,6 +963,50 @@ gross-substitutes calculations are finite-boundary approximations to a
 conditional pre-singular branch of the necessary conditions; they do not establish
 an infinite-horizon equilibrium, global stability, uniqueness, or reachability
 from arbitrary initial states.
+
+Table \ref{tab:axm-high-sigma-convergence} and Figure
+\ref{fig:axm-high-sigma-ratios} report the free-boundary diagnostics removed from
+the sequence of economic outcomes in the main text. Only \(C/Y\), \(qA/K\), and
+terminal \(Y/K\) are imposed at each boundary. The other terminal quantities and
+the agreement of overlapping path segments are overidentifying checks on the
+conditional asymptotic characterization.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Free-boundary convergence and terminal ratios,
+\(\sigma_{XL}=1.5,\ \sigma_{HM}=2\)}
+\label{tab:axm-high-sigma-convergence}
+\begin{tabular}{lccccc}
+\toprule
+Terminal \(Y/K\) & 16 & 32 & 64 & 128 & Limit\\
+\midrule
+Estimated \(T^*\) & 882.158 & 882.171 & 882.174 & 882.175 & ---\\
+\(g_A/(Y/K)\) & 0.05924 & 0.05834 & 0.05791 & 0.05771 & 0.05755\\
+\(U/Y\) & 0.44393 & 0.44658 & 0.44782 & 0.44840 & 0.44890\\
+\(M/Y\) & 0.08058 & 0.07936 & 0.07878 & 0.07850 & 0.07829\\
+\((\dot K+\delta K)/Y\) & 0.21583 & 0.21440 & 0.21375 & 0.21344 & 0.21315\\
+\(s_X\) & 0.99261 & 0.99655 & 0.99839 & 0.99925 & 1\\
+\(wN/Y\) & 0.00495 & 0.00231 & 0.00108 & 0.00050 & 0\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\parbox{0.94\textwidth}{\footnotesize \emph{Notes:} The estimated \(T^*\) is
+measured in model time. All remaining entries are ratios expressed as fractions,
+so, for example, 0.05924 corresponds to 5.924 percent. The final column reports
+the conditional analytical limit.}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_asymptotic_ratios.png}
+\caption{Selected non-imposed ratios along the rising branch of \(Y/K\). The
+horizontal axis is \(\ln(Y/K)\); dashed lines are the conditional analytical
+limits in Conditional Result \ref{prop:axm-singular-limit}. Vertical axes use
+linear percentages with panel-specific ranges.}
+\label{fig:axm-high-sigma-ratios}
+\end{figure}
 
 \begin{figure}[H]
 \centering

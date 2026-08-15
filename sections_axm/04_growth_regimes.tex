@@ -164,95 +164,31 @@ axis should not be read as a forecast. The economically meaningful objects are
 the direction of the transition, the limiting rates and shares, and the
 comparison across research technologies.
 
-\subsubsection{Unit-elasticity boundary conditions}
+Within each final-production regime, the numerical figures follow the same
+order. They first report macroeconomic outcomes, then production and resource
+allocation, and finally the research block. The two research elasticities are
+compared within a given value of \(\sigma_{XL}\); paths from different
+final-production regimes are not superimposed because they approach different
+asymptotic objects. Nonstationary levels and unbounded relative quantities are
+reported as natural-log changes. Annual growth rates, interest rates, bounded
+ratios, and shares use linear scales. No figure uses a secondary vertical axis.
 
 For the unit-elasticity calculations, the solver treats \(K\) and \(A\) as
-predetermined and chooses initial \(C\) and
-\(q\) so that the path approaches the corresponding unit-elasticity
-balanced-growth limit. At the terminal date, it imposes that \(C/Y\) and \(qA/Y\)
-equal their analytical candidate values. At every collocation evaluation it
-solves the monopoly supply condition, labor-market clearing, and the dual research
-problem. Residual-controlled collocation then imposes the four equations in
-\eqref{eq:axm-canonical-system}; both direct research first-order conditions are
-reconstructed separately in the audit.
-The paper-to-code correspondence for every equilibrium block and its stored
-diagnostic is reported in
-\path{numerical_axm/equilibrium_equation_map.csv}. Proposition
-\ref{prop:axm-equilibrium-sufficiency} establishes that, for both reported
-unit-elasticity parameterizations, any admissible exact infinite-horizon path satisfying the full
-system and transversality conditions is globally optimal. The computation
-approximates such a path. Its remaining numerical issues are discretization and
-finite-horizon truncation, rather than an unverified local optimum of the
-developer; horizon robustness does not prove existence of the infinite
-continuation.
-The two terminal horizons are 1,200 years for \(\sigma_{HM}=1\) and 1,600 years
-for \(\sigma_{HM}=2\). Re-solving at horizons of 1,000, 1,200, and 1,400 years in
-the first case and 1,400, 1,600, and 1,800 years in the second changes initial
-log consumption and the initial log shadow value by less than
-\(1.6\times10^{-7}\). The two initial jump variables are therefore insensitive to
-the finite terminal date at the displayed precision. All dated equilibrium
-conditions are re-audited on each of the six horizon paths, not only on the two
-baseline horizons. This check still does not by itself establish uniform
-convergence of the entire transition path or prove an infinite-horizon
-transversality condition.
+predetermined and selects initial \(C\) and \(q\) using two analytical terminal
+ratios. The reported paths end at 1,200 years for \(\sigma_{HM}=1\) and 1,600
+years for \(\sigma_{HM}=2\). All dated equilibrium conditions are re-audited on
+three terminal horizons for each research technology. Across those six paths,
+the largest independent static error is \(1.5\times10^{-9}\), the largest
+differential-equation residual is \(1.7\times10^{-5}\), and the range of either
+initial jump is below \(1.6\times10^{-7}\) log points. Appendix Table
+\ref{tab:axm-residuals} reports the full audit and explains the terminal
+conditions, horizon checks, and finite-date transversality diagnostics.
 
-\subsubsection{Unit-elasticity equilibrium-system audit}
-
-Table \ref{tab:axm-residuals} reports the solver-side numerical audit of the two
-baseline paths.
-The static identities and first-order conditions have errors below \(10^{-10}\).
-The larger numbers are collocation errors in the differential equations and
-remain close to \(10^{-5}\). The terminal growth-rate errors reported below are
-also small despite solving the transition rather than imposing the entire
-balanced-growth path.
-
-\begin{table}[H]
-\centering
-\small
-\caption{Equilibrium-path-approximation diagnostics}
-\label{tab:axm-residuals}
-\begin{tabular}{lcc}
-\toprule
-Diagnostic & \(\sigma_{HM}=1\) & \(\sigma_{HM}=2\)\\
-\midrule
-Maximum goods-market residual & \(2.2\times10^{-16}\) & \(2.2\times10^{-16}\)\\
-Maximum labor-market residual & \(8.9\times10^{-16}\) & \(1.8\times10^{-15}\)\\
-Maximum technology log error & \(2.4\times10^{-13}\) & \(2.4\times10^{-11}\)\\
-Maximum factor-price error & \(1.8\times10^{-15}\) & \(1.8\times10^{-15}\)\\
-Maximum research-duality error & \(3.6\times10^{-13}\) & \(2.7\times10^{-11}\)\\
-Maximum monopoly-FOC log error & \(5.4\times10^{-15}\) & \(7.2\times10^{-15}\)\\
-Maximum research-FOC log error & \(3.6\times10^{-13}\) & \(1.3\times10^{-11}\)\\
-Maximum dynamic path residual & \(4.4\times10^{-6}\) & \(1.2\times10^{-5}\)\\
- Maximum horizon-induced initial-jump range & \(7.4\times10^{-8}\) & \(1.6\times10^{-7}\)\\
-Minimum monopoly second-order margin & 0.1160 & 0.1160\\
- Absolute terminal capability-growth error & \(1.3\times10^{-5}\) & \(3.1\times10^{-5}\)\\
- Absolute terminal per-capita-output-growth error & \(2.9\times10^{-6}\) & \(6.6\times10^{-6}\)\\
-Terminal automated research-expenditure share & 0.3500 & 0.99999\\
-Log household terminal-TVC proxy & -32.03 & -43.24\\
-Log developer terminal-TVC proxy & -34.46 & -45.69\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The horizon-induced range is the larger of the ranges of \(\log C(0)\) and
-\(\log q(0)\), measured in log points. The two terminal growth errors are
-absolute differences between annual rates expressed as decimals.
-Across all six horizon paths, the largest stored solver static-equation error is
-\(4.8\times10^{-11}\), while the independent row-by-row audit has a maximum
-static error of \(1.5\times10^{-9}\). The largest differential-equation residual is
-\(1.7\times10^{-5}\), and both imposed terminal-ratio errors are below
-\(5.1\times10^{-7}\). Every path remains positive at every saved finite date and
-has a strictly positive monopoly second-order margin. The smallest interior
-quantity is the human-research population share in the
-\(\sigma_{HM}=2\) transition, which remains positive but approaches zero.
-
-The two TVC entries evaluate the expressions in equation~\eqref{eq:axm-tvc} at
-the finite terminal date; smaller log values mean that the terminal object is
-closer to zero. Their finite magnitudes depend on normalization; only convergence
-to zero is invariant. They are useful truncation diagnostics, not direct verification
-of a limit as \(t\to\infty\). Under the analytical balanced-growth continuation,
-if it exists, both objects decay at rate \(\rho-n>0\), but existence of that infinite
-continuation remains an analytical, rather than purely numerical, requirement.
+These computations remain finite-horizon approximations. Under Proposition
+\ref{prop:axm-equilibrium-sufficiency}, an admissible exact infinite-horizon
+continuation satisfying the full system and both transversality conditions would
+be globally optimal. The numerical checks do not prove that such a continuation
+exists.
 
 \subsection{\texorpdfstring{Case I: production complementarity, \(\sigma_{XL}<1\)}{Case I: production complementarity, sigma XL < 1}}
 \label{sec:axm-case-complements}
@@ -418,6 +354,62 @@ information about that branch. Agreement of the remaining terminal objects is
 an overidentifying numerical check, not evidence independent of the analytical
 closure.
 
+Figure \ref{fig:axm-complement-macro} shows output per person, consumption per
+person, and the wage moving toward the conditional finite levels over the
+simulated horizon, while the interest rate moves toward \(\rho\). The initial
+decline and subsequent recovery are transitional. The flattening of the three
+log-level paths is consistent with, but does not prove convergence to, the
+analytical limit.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_complements_macro_prices.png}
+\caption{Macroeconomic transition with \(\sigma_{XL}=0.75\). The first three
+panels show natural-log changes from date zero; the last shows the annual net
+interest rate. Blue solid lines use \(\sigma_{HM}=1\), and orange dashed lines
+use \(\sigma_{HM}=2\). Model time is a numerical normalization, not a dated
+forecast.}
+\label{fig:axm-complement-macro}
+\end{figure}
+
+Figure \ref{fig:axm-complement-shares} shows how the final-production bottleneck
+operates. Production labor returns toward the entire population, AI services per
+production worker approach a finite ratio, and the technological AI share inside
+the labor--AI composite approaches an interior value. Inference resources vanish
+relative to output, while production and aggregate labor income approach the
+same positive share. These movements are the allocation and distributional
+counterparts of Proposition \ref{prop:axm-complements}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_complements_factor_shares_automation.png}
+\caption{Production and labor allocation with \(\sigma_{XL}=0.75\). Here
+\(s_X\) is AI services' technological share within the labor--AI composite, not
+their final-output income share. Ratios and shares use linear scales; the
+\(L/N\) panel uses a focused vertical scale. Horizontal reference lines are
+conditional analytical limits.}
+\label{fig:axm-complement-shares}
+\end{figure}
+
+Finally, Figure \ref{fig:axm-complement-research} shows why the final-production
+bottleneck does not imply a failure to automate research. With substitutable
+research inputs, the automated research-expenditure share moves from near zero
+to near one. Human research first rises as a fraction of population and then
+vanishes, while raw research compute also vanishes relative to output.
+Capability nevertheless keeps rising because each unit of research compute
+produces \(A\) units of automated research services.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_complements_research_resources.png}
+\caption{AI research with \(\sigma_{XL}=0.75\). Capability is shown as a
+natural-log change from date zero. The human-research population share, the
+automated research-expenditure share, and research compute relative to output
+are percentages on linear scales. Positive allocations at every saved finite
+date preserve interiority even as \(H/N\) and \(M/Y\) approach zero.}
+\label{fig:axm-complement-research}
+\end{figure}
+
 Table \ref{tab:axm-complement-terminal} reports the terminal values. Capability
 continues to grow in both cases even though output and consumption growth per
 person approach zero. When research services are gross substitutes,
@@ -449,72 +441,11 @@ analytical limit for capability growth. The common conditional limits are
 \(\bar s_X=0.332226\), \(\bar X/L=0.126884\), and \(r=4\) percent.}
 \end{table}
 
-An independent script reconstructs the static equations from every saved row
-without importing the solver and differentiates the four state and jump
-variables using a centered seven-point rule. All prespecified acceptance gates
-pass; the report contains 130 rows, including diagnostics and the overall result.
-Across the two primary paths, the largest independently reconstructed static
-error is \(2.92\times10^{-11}\), the largest dynamic error is
-\(5.68\times10^{-7}\), and the largest monopoly-FOC log error is
-\(2.50\times10^{-11}\). The maximum collocation RMS error is
-\(9.43\times10^{-7}\); no accepted observation uses numerical clipping or a
-fallback root. Across the three horizons, the range of either initial jump is
-less than \(7.7\times10^{-8}\) log points. The finite-date TVC proxies also pass
-the stated truncation gates. These checks establish accurate finite-horizon
-solutions of the dated candidate system, not existence or transversality of an
-exact infinite-horizon equilibrium.
-
-Figure \ref{fig:axm-complement-macro} shows output per person, consumption per
-person, and the wage moving toward the conditional finite levels over the
-simulated horizon, while the interest rate moves toward \(\rho\). The initial
-decline and subsequent recovery are transitional. The flattening of the three
-log-level paths is consistent with, but does not prove convergence to, the
-analytical limit.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figures_axm/axm_complements_macro_prices.png}
-\caption{Macroeconomic transition with \(\sigma_{XL}=0.75\). The first three
-panels show natural-log changes from date zero; the last shows the annual net
-interest rate. Blue solid lines use \(\sigma_{HM}=1\), and orange dashed lines
-use \(\sigma_{HM}=2\). Model time is a numerical normalization, not a dated
-forecast.}
-\label{fig:axm-complement-macro}
-\end{figure}
-
-Figure \ref{fig:axm-complement-shares} shows why the macroeconomic limit is not
-a failure to automate research. In the gross-substitutes research case, the
-automated research-expenditure share moves from near zero to near one. At the
-same time, the technological AI share inside the labor--AI composite moves
-toward an interior value and both labor-income measures move toward the positive
-limits in Propositions \ref{prop:axm-complements} and
-\ref{prop:axm-complements-research}.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figures_axm/axm_complements_factor_shares_automation.png}
-\caption{Factor shares and research automation. Here \(s_X\) is AI services'
-technological share within the labor--AI composite, not their final-output
-income share; \(s_M\) is the automated research-expenditure share. Horizontal
-reference lines are conditional analytical limits.}
-\label{fig:axm-complement-shares}
-\end{figure}
-
-Finally, Figure \ref{fig:axm-complement-research} displays a transition hidden
-by the limiting shares. Human research first rises as a fraction of population
-and then vanishes; raw inference and research compute also vanish relative to
-output. Capability nevertheless keeps rising because each unit of research
-compute produces \(A\) units of automated research services.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figures_axm/axm_complements_research_resources.png}
-\caption{Capability, human research, and raw-compute use under final-production
-complementarity. Capability is shown as a natural-log change from date zero;
-the remaining panels are percentages. Positive allocations at every saved
-finite date preserve interiority even as the displayed ratios approach zero.}
-\label{fig:axm-complement-research}
-\end{figure}
+All prespecified acceptance gates pass. Appendix
+\ref{app:axm-numerical-algorithm} reports the independent equation audit,
+horizon checks, and finite-date transversality diagnostics. These checks support
+accurate finite-horizon solutions of the dated candidate system; they do not
+establish existence or transversality of an exact infinite-horizon equilibrium.
 
 \subsection{Cases II and III: unit elasticity in final production}
 
@@ -736,105 +667,118 @@ feedback denominator is \(D(1)\). A balanced-growth candidate therefore requires
 from capability to research. Human research grows more slowly than population and
 \(H/N\) tends to zero on the candidate path.
 
-\subsubsection{Equilibrium transitions and comparison}
+\subsubsection{Numerical transitions: macro outcomes, allocation, and research}
 
-Figure \ref{fig:axm-research-comparison} compares Cobb--Douglas research
-\((\sigma_{HM}=1)\) with gross substitution in research
-\((\sigma_{HM}=2)\), holding \(\sigma_{XL}=1\). The analytical limits from
-Proposition \ref{prop:axm-cd-bgp} are visible. Under Cobb--Douglas research, the
-automated research-expenditure share is fixed at \(\omega_M=0.35\), capability growth converges
-to 0.67 percent, and output-per-capita growth converges to 0.17 percent. With
-gross substitution, the automated research-expenditure share approaches one, capability growth
-converges to 1.23 percent, and output-per-capita growth approaches 0.31 percent.
+The numerical comparison holds \(\sigma_{XL}=1\) fixed and varies only
+\(\sigma_{HM}\). We first report aggregate quantities, growth, wages, and
+returns; we then examine production and resource allocation; finally, we turn to
+the research block. The displayed objects are finite-horizon approximations that
+satisfy the audited dated equilibrium conditions within the reported numerical
+tolerances. Except for the research-technology comparison, the figures display
+the first 600 years. That comparison uses each complete reported horizon, so the
+\(\sigma_{HM}=1\) path ends at 1,200 years and the \(\sigma_{HM}=2\) path at
+1,600 years. Proposition
+\ref{prop:axm-equilibrium-sufficiency} applies only to an admissible exact
+infinite-horizon continuation satisfying both transversality conditions.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figures_axm/axm_research_technology_comparison.png}
-\caption{Research substitution and the unit-elasticity balanced-growth limit.
-Both lines are finite-horizon candidate-path approximations satisfying the
-audited dated equilibrium conditions.
-Under Proposition \ref{prop:axm-equilibrium-sufficiency}, any admissible infinite
-continuation satisfying the transversality conditions would be globally optimal.}
-\label{fig:axm-research-comparison}
-\end{figure}
-
-Figure \ref{fig:axm-feedback-diagnostic} evaluates the Davidson-style
-balanced-growth accounting at the dated value of \(s_M(t)\) along the same
-numerical paths. With Cobb--Douglas research, the plug-in gain is constant at
-\(G=0.196875\). With substitutable research, \(s_M\) rises and the plug-in measure
-\(G(t)=\eta s_M(t)(1+\nu)\) increases from 0.0621 to 0.5625. It remains below one.
-This is not the dated feedback Jacobian: away from balanced growth, \(\nu\) is not
-the contemporaneous transmission coefficient from capability to output. The
-calculation is therefore a diagnostic, not a stand-alone explosion test or
-independent numerical evidence.
+Figure \ref{fig:axm-unit-levels} reports cumulative changes in the principal
+macroeconomic levels. Expressing all four series as natural-log changes from
+their date-zero values permits a comparison of paths with different initial
+units without treating a growing level as a percentage share.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures_axm/axm_unit_elasticity_feedback_diagnostic.png}
-\caption{Plug-in balanced-growth feedback accounting evaluated at \(s_M(t)\)
-along the two unit-elasticity finite-horizon candidate paths. The construction is
-a scalar adaptation of \citet{davidsonetal2026}, not the dated feedback Jacobian.
-The horizontal line at one is the critical value for the balanced-growth
-accounting in \eqref{eq:axm-feedback-matrix}, not a sufficient condition for
-explosive equilibrium dynamics.}
-\label{fig:axm-feedback-diagnostic}
+\includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_levels.png}
+\caption{Macroeconomic levels with \(\sigma_{XL}=1\). Vertical axes report
+natural-log changes from each path's date-zero value. Blue solid lines denote
+\(\sigma_{HM}=1\), and orange square-marked lines denote \(\sigma_{HM}=2\).}
+\label{fig:axm-unit-levels}
 \end{figure}
 
-Figure \ref{fig:axm-growth-returns} focuses on the first 600 years and adds the
-net real interest rate and consumption growth. The interest rate falls rapidly
-toward the household discount rate and then rises as consumption-per-capita
-growth rises. This comovement is required by the Euler equation,
-\(r=\rho+g_{C/N}\). At the balanced-growth limit, consumption and output per
-person have the same growth rate. The two research technologies produce similar returns early
-in the transition and separate only as automated research becomes quantitatively
-important.
+Figure \ref{fig:axm-growth-returns} reports annual growth rates and the net real
+interest rate on linear percentage scales. The Euler equation requires
+\(r=\rho+g_{C/N}\), while consumption and output per person share a limiting
+growth rate on the candidate balanced-growth path. The two research technologies
+generate similar macroeconomic rates early in the transition and separate only
+as automated research becomes quantitatively important.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_growth_rates.png}
-\caption{Growth rates and the net return to capital. Rates are annual percentages;
-both lines are finite-horizon candidate-path approximations satisfying the
-audited dated equilibrium conditions.}
+\caption{Growth rates and the net return to capital with \(\sigma_{XL}=1\).
+Every panel uses an annual percentage rate on a linear scale.}
 \label{fig:axm-growth-returns}
 \end{figure}
 
-The path of \(H/N\) reveals a transition concealed by the limiting automated
-research-expenditure share. With \(\sigma_{HM}=2\), the fraction of the population working in
-AI research first rises and later falls toward zero. AI research can therefore
-employ a larger share of the population during the transition even while it
-becomes progressively more automated. Under Cobb--Douglas research, the human-research population share
-instead converges to a positive constant.
-
-Figure \ref{fig:axm-wages} shows that the distinction between factor prices and
-factor shares already matters on these balanced-growth transitions. The real wage
-eventually grows at the same rate as output per person, as Proposition
-\ref{prop:axm-cd-bgp} requires. Production labor income as a share of output,
-\(wL/Y\), is fixed by the Cobb--Douglas final-production technology. Aggregate
-labor income as a share of output, \(wN/Y\), also includes human researchers and
-therefore moves during the research-automation transition.
+Figure \ref{fig:axm-unit-factor-shares} separates production labor income from
+research labor income. Final-production Cobb--Douglas shares keep \(wL/Y\)
+fixed, whereas \(wH/Y\) and therefore aggregate labor income \(wN/Y\) move with
+the allocation of workers between \(L\) and \(H\). Focused vertical scales make
+these comparatively small transitional movements visible.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures_axm/axm_wages_and_factor_shares.png}
-\caption{Real wages and labor income along the two finite-horizon candidate-path
-approximations satisfying the audited dated equilibrium conditions.}
-\label{fig:axm-wages}
+\includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_factor_shares.png}
+\caption{Labor allocation and income shares with \(\sigma_{XL}=1\). All panels
+show linear percentages; the vertical ranges are panel-specific and deliberately
+focused on the simulated variation.}
+\label{fig:axm-unit-factor-shares}
 \end{figure}
 
-Figure \ref{fig:axm-research-chain} separates raw research compute \(M\), the
-automated services \(AM\), human research \(H\), and the effective-research
-index \(E\).
-This decomposition is essential for interpreting the new specification. Research
-compute can grow at one rate while the services produced by that compute grow
-faster because capability is improving.
+Figure \ref{fig:axm-unit-resources} reports the allocation of output among
+consumption, gross investment, inference compute, and research compute. These
+objects obey the resource constraint and are displayed separately from factor
+income shares because expenditure shares and income shares answer different
+economic questions.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_resource_allocation.png}
+\caption{Resource allocation with \(\sigma_{XL}=1\). Consumption, gross
+investment, inference compute, and research compute are measured as linear
+percentages of output. Panel-specific vertical ranges make the transition
+visible.}
+\label{fig:axm-unit-resources}
+\end{figure}
+
+We now turn to research. Figure \ref{fig:axm-research-comparison} shows the
+distinct adjustment implied by the two research elasticities. Under
+Cobb--Douglas research, \(s_M=\omega_M=0.35\), capability growth approaches
+0.67 percent, output-per-capita growth approaches 0.17 percent, and \(H/N\)
+approaches a positive value. With \(\sigma_{HM}=2\), \(s_M\) approaches one,
+capability growth approaches 1.23 percent, output-per-capita growth approaches
+0.31 percent, and \(H/N\) approaches zero. The hump in \(H/N\) is a transitional
+numerical feature: human research initially expands even as the relative use of
+automated research services, measured by \(AM/H\), rises.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures_axm/axm_research_technology_comparison.png}
+\caption{Research adjustment with \(\sigma_{XL}=1\). Capability growth is an
+annual percentage rate; \(s_M\) and \(H/N\) are linear percentages; and the
+relative quantity \(AM/H\) is shown as a natural-log change from date zero.}
+\label{fig:axm-research-comparison}
+\end{figure}
+
+Figure \ref{fig:axm-research-chain} then separates raw research compute \(M\),
+the automated services \(AM\), human research \(H\), and the effective-research
+index \(E\). Raw compute can grow at one rate while the services produced by
+that compute grow faster because capability is improving.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures_axm/axm_equilibrium_research_chain.png}
-\caption{The AI-research chain. The vertical axes report natural-log changes from
-each path's date-zero per-capita level.}
+\caption{The AI-research chain with \(\sigma_{XL}=1\). Vertical axes report
+natural-log changes from each path's date-zero per-capita level.}
 \label{fig:axm-research-chain}
 \end{figure}
+
+Appendix Figure \ref{fig:axm-feedback-diagnostic} evaluates the Davidson-style
+balanced-growth accounting at the dated value of \(s_M(t)\) along these paths.
+With Cobb--Douglas research the plug-in gain is 0.196875. With substitutable
+research it rises from 0.0621 to 0.5625 and remains below one. This diagnostic is
+a deterministic transformation of \(s_M(t)\), not an additional simulated
+outcome, a dated feedback Jacobian, or a stand-alone explosion test.
 
 \subsection{\texorpdfstring{Case IV: gross substitution in final production, \(\sigma_{XL}>1\)}{Case IV: gross substitution in final production, sigma XL > 1}}
 \label{sec:axm-case-gross-substitution}
@@ -1005,11 +949,14 @@ The reported calculation sets \(\sigma_{XL}=1.5\) and
 \(\sigma_{HM}=2\), leaving every other parameter and initial stock at the values
 in Table \ref{tab:axm-parameters}. The numerical objects are finite-boundary
 approximations to the conditional pre-singular branch defined above: each solves
-the dated necessary conditions only through its artificial terminal boundary.
+the dated necessary conditions, within the reported numerical tolerances, only
+through its artificial terminal boundary.
 Proposition \ref{prop:axm-equilibrium-sufficiency} does not cover this
 parameterization. We therefore do not call the approximations an infinite-horizon
 equilibrium, claim that they reach the singularity, or assert global
 intertemporal optimality.
+We do not compare this exercise with \(\sigma_{HM}=1\), because the conditional
+pre-singular form has not been characterized for that research technology.
 
 Let \(z_T\equiv(Y/K)(T)\) denote the artificial terminal boundary. The
 continuation uses \(z_T=16,32,64,\) and \(128\).
@@ -1018,38 +965,11 @@ Across the last doubling, both initial jump variables change by less than
 first boundary to 882.175 at the last; successive changes contract from 0.0129
 to 0.00316 and then 0.00077. These dates reflect the normalization of
 \(\chi\), \(A_0\), and the initial stocks and are not calendar forecasts.
-
-\begin{table}[H]
-\centering
-\small
-\caption{Free-boundary convergence and terminal ratios,
-\(\sigma_{XL}=1.5,\ \sigma_{HM}=2\)}
-\label{tab:axm-high-sigma-convergence}
-\begin{tabular}{lccccc}
-\toprule
-Terminal \(Y/K\) & 16 & 32 & 64 & 128 & Limit\\
-\midrule
-Estimated \(T^*\) & 882.158 & 882.171 & 882.174 & 882.175 & ---\\
-\(g_A/(Y/K)\) & 0.05924 & 0.05834 & 0.05791 & 0.05771 & 0.05755\\
-\(U/Y\) & 0.44393 & 0.44658 & 0.44782 & 0.44840 & 0.44890\\
-\(M/Y\) & 0.08058 & 0.07936 & 0.07878 & 0.07850 & 0.07829\\
-\((\dot K+\delta K)/Y\) & 0.21583 & 0.21440 & 0.21375 & 0.21344 & 0.21315\\
-\(s_X\) & 0.99261 & 0.99655 & 0.99839 & 0.99925 & 1\\
-\(wN/Y\) & 0.00495 & 0.00231 & 0.00108 & 0.00050 & 0\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Only \(C/Y\), \(qA/K\), and the terminal \(Y/K\) are imposed at each free
-boundary. The remaining ratios in Table
-\ref{tab:axm-high-sigma-convergence} converge toward their independently derived
-analytical limits. The initial jumps and paths also converge on common calendar
-intervals and on event-time windows indexed by \(Y/K\). The independent audit
-reconstructs every dated equation without calling the solver's static block.
-Across 11,747 saved observations, its largest static first-order-condition error
-is \(1.6\times10^{-10}\), its largest saved differential-equation residual is
-\(2.3\times10^{-5}\), every allocation remains strictly positive, and the
-monopoly second-order margin remains positive.
+The complete boundary-convergence table, non-imposed terminal ratios, and
+equation-by-equation audit are reported in Appendix
+\ref{app:axm-numerical-algorithm}. Only \(C/Y\), \(qA/K\), and terminal \(Y/K\) are
+imposed; convergence of the other ratios and of overlapping path segments is
+therefore part of the numerical evidence.
 
 Figure \ref{fig:axm-high-sigma-rates} displays the key dynamic implication. The
 economy can remain close to a low-growth path for a long interval even though no
@@ -1065,42 +985,44 @@ that the late acceleration does not compress the preceding transition.
 \includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_transition_rates.png}
 \caption{Finite-boundary approximation to the conditional pre-singular branch
 for \(\sigma_{XL}=1.5\) and \(\sigma_{HM}=2\). The approximation satisfies the
-audited dated necessary conditions through \(z_T=128\). Annual growth and the
-net return are displayed through \(Y/K\leq5\).}
+audited dated necessary conditions within the reported numerical tolerances
+through \(z_T=128\). Annual growth and the net return are displayed through
+\(Y/K\leq5\).}
 \label{fig:axm-high-sigma-rates}
 \end{figure}
 
-Figure \ref{fig:axm-high-sigma-shares} shows that automation has distinct
-extensive and distributive effects. The human-research population share is
-hump-shaped before tending toward zero because
-\(\sigma_{HM}>\sigma_{XL}\). The automated research-expenditure share and the AI
-contribution to the labor--AI composite approach one, while aggregate labor
-income as a share of output approaches zero. The real wage nevertheless rises
-throughout this calculation: here
-\(\min\{\sigma_{XL},\sigma_{HM}\}=1.5<1/(\alpha\eta)\).
+Figure \ref{fig:axm-high-sigma-production} isolates production and distribution.
+The technological share \(s_X\) rises toward one, the inference-compute and
+gross-investment shares approach their conditional limits, and aggregate labor
+income falls as a share of output. Wage growth nevertheless remains positive
+along the displayed path. The threshold in Conditional Result
+\ref{prop:axm-singular-limit} determines only the eventual sign of wage growth;
+it is not a proof that the entire transition must be monotone.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_transition_shares.png}
-\caption{Production and research allocation along the same finite-boundary
-approximation. Here \(s_X\) is AI services' elasticity within the labor--AI
-composite, not their final-output income share, and \(s_M\) is the automated
-research-expenditure share.}
-\label{fig:axm-high-sigma-shares}
+\includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_production_allocation.png}
+\caption{Production and income allocation along the finite-boundary
+approximation with \(\sigma_{XL}=1.5\) and \(\sigma_{HM}=2\). All panels use
+linear percentages and stop at \(Y/K\leq5\). Here \(s_X\) is AI services'
+technological share within the labor--AI composite, not an output-income share.}
+\label{fig:axm-high-sigma-production}
 \end{figure}
 
-The asymptotic approach is easier to see using \(Y/K\), rather than normalized
-calendar time, as the event clock. Figure \ref{fig:axm-high-sigma-ratios} compares
-the non-imposed ratios along the rising branch with their conditional analytical
-values.
+Figure \ref{fig:axm-high-sigma-research} then reports the research block. Along
+the computed path, \(H/N\) is hump-shaped and eventually tends toward zero. The
+limit follows from \(\sigma_{HM}>\sigma_{XL}\); the hump is a numerical
+transition feature. At the same time, \(s_M\) approaches one, research compute
+absorbs a positive output share, and capability growth rises relative to
+\(Y/K\).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_asymptotic_ratios.png}
-\caption{Selected ratios on the rising branch of \(Y/K\). The horizontal axis is
-\(\ln(Y/K)\); dashed lines are the conditional limiting values from
-Conditional Result \ref{prop:axm-singular-limit}.}
-\label{fig:axm-high-sigma-ratios}
+\includegraphics[width=\textwidth]{figures_axm/high_sigma_validated_research_allocation.png}
+\caption{AI-research allocation along the same finite-boundary approximation.
+All panels use linear percentages and stop at \(Y/K\leq5\). The ratio
+\(g_A/(Y/K)\) is shown in percent.}
+\label{fig:axm-high-sigma-research}
 \end{figure}
 
 \subsection{Cross-regime synthesis and limits of the evidence}

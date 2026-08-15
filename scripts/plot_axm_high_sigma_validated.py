@@ -376,10 +376,12 @@ def draw_multiplot_by_x(
     x_tick_values: list[float],
     x_tick_labels: list[str],
     series_label: str,
+    canvas_height: int = 1600,
+    panel_y_offset: int = 0,
 ) -> None:
     """Draw a four-panel figure against a non-calendar horizontal axis."""
 
-    width, height = 2400, 1600
+    width, height = 2400, canvas_height
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
     title_font = mechanism.load_font(48, bold=True)
@@ -424,10 +426,10 @@ def draw_multiplot_by_x(
     x_max = max(float(x_values[-1]), max(x_tick_values))
 
     panel_boxes = [
-        (120, 245, 1150, 850),
-        (1270, 245, 2300, 850),
-        (120, 930, 1150, 1535),
-        (1270, 930, 2300, 1535),
+        (120, 245 + panel_y_offset, 1150, 850 + panel_y_offset),
+        (1270, 245 + panel_y_offset, 2300, 850 + panel_y_offset),
+        (120, 930 + panel_y_offset, 1150, 1535 + panel_y_offset),
+        (1270, 930 + panel_y_offset, 2300, 1535 + panel_y_offset),
     ]
     for panel, box in zip(panels, panel_boxes):
         left, top, right, bottom = box
@@ -762,6 +764,115 @@ def draw_boundary_convergence(
     image.save(output_path, dpi=(220, 220))
 
 
+def draw_transition_allocation_figures(
+    rows: list[dict[str, str]], metadata: dict[str, float]
+) -> None:
+    """Separate production allocation from the AI-research allocation."""
+
+    percent = lambda _rows, values: 100.0 * values
+    normalized_time_ticks = [0.0, 200.0, 400.0, 600.0, 800.0]
+    normalized_time_labels = [f"{value:.0f}" for value in normalized_time_ticks]
+    subtitle = (
+        "Percent on linear scales; final-production elasticity "
+        f"{metadata['sigma_xl']:.2f}, research elasticity "
+        f"{metadata['sigma_hm']:.2f}; displayed through Y/K ≤ 5"
+    )
+    series_label = "Audited finite-boundary path"
+
+    draw_multiplot_by_x(
+        FIGURE_DIR / "high_sigma_validated_production_allocation.png",
+        "Gross substitution: production and income allocation",
+        subtitle,
+        [
+            {
+                "title": "AI share of the labor and AI composite",
+                "field": "ai_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 100.0),
+            },
+            {
+                "title": "Inference resources as a share of output",
+                "field": "inference_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 50.0),
+            },
+            {
+                "title": "Gross investment as a share of output",
+                "field": "investment_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 35.0),
+            },
+            {
+                "title": "Labor income as a share of output",
+                "field": "aggregate_labor_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 70.0),
+            },
+        ],
+        rows,
+        x_value=lambda row: float(row["time"]),
+        x_label="Model time (years)",
+        x_tick_values=normalized_time_ticks,
+        x_tick_labels=normalized_time_labels,
+        series_label=series_label,
+    )
+    add_vertical_padding(
+        FIGURE_DIR / "high_sigma_validated_production_allocation.png"
+    )
+
+    draw_multiplot_by_x(
+        FIGURE_DIR / "high_sigma_validated_research_allocation.png",
+        "Gross substitution: AI research allocation",
+        subtitle,
+        [
+            {
+                "title": "Automated share of research expenditure",
+                "field": "automated_research_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 100.0),
+            },
+            {
+                "title": "Human researchers as a share of population",
+                "field": "human_research_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.2f}%",
+                "ylim": (0.0, 0.75),
+            },
+            {
+                "title": "Research compute as a share of output",
+                "field": "research_resource_share",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 10.0),
+            },
+            {
+                "title": "Capability growth relative to output per unit of capital",
+                "field": "capability_growth_to_output_capital",
+                "transform": percent,
+                "format": lambda value: f"{value:.0f}%",
+                "ylim": (0.0, 9.0),
+            },
+        ],
+        rows,
+        x_value=lambda row: float(row["time"]),
+        x_label="Model time (years)",
+        x_tick_values=normalized_time_ticks,
+        x_tick_labels=normalized_time_labels,
+        series_label=series_label,
+        canvas_height=1700,
+        panel_y_offset=100,
+    )
+    add_vertical_padding(
+        FIGURE_DIR / "high_sigma_validated_research_allocation.png",
+        top=200,
+    )
+
+
 def main() -> None:
     FIGURE_DIR.mkdir(exist_ok=True)
     require_current_pass_manifest()
@@ -779,13 +890,13 @@ def main() -> None:
 
     series = {"validated_sigma_1_50_z_128": transition_rows}
     path_label = (
-        "Finite-boundary approximation to a conditional pre-singular branch "
-        "satisfying dated necessary conditions"
+        "Finite-boundary approximation satisfying dated necessary conditions "
+        "within reported numerical tolerances"
     )
     parameter_label = (
-        f"sigma_XL = {metadata['sigma_xl']:.2f}, "
-        f"sigma_HM = {metadata['sigma_hm']:.2f}; "
-        f"z_T is terminal Y/K = {metadata['terminal_boundary_z']:.0f}"
+        f"final-production elasticity = {metadata['sigma_xl']:.2f}, "
+        f"research elasticity = {metadata['sigma_hm']:.2f}; "
+        f"terminal Y/K = {metadata['terminal_boundary_z']:.0f}"
     )
     labels = {"validated_sigma_1_50_z_128": path_label}
     palette = {
@@ -802,28 +913,28 @@ def main() -> None:
         ),
         [
             {
-                "title": "Capability growth, g_A",
+                "title": "Capability growth",
                 "field": "capability_growth",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
                 "reference_y": 0.0,
             },
             {
-                "title": "Output-per-capita growth, g_Y/N",
+                "title": "Output-per-capita growth",
                 "field": "output_per_capita_growth",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
                 "reference_y": 0.0,
             },
             {
-                "title": "Real-wage growth, g_w",
+                "title": "Real-wage growth",
                 "field": "wage_growth",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
                 "reference_y": 0.0,
             },
             {
-                "title": "Net return to capital, r",
+                "title": "Net return to capital",
                 "field": "net_capital_return",
                 "transform": percent,
                 "format": lambda value: f"{value:.0f}%",
@@ -881,6 +992,7 @@ def main() -> None:
     add_vertical_padding(
         FIGURE_DIR / "high_sigma_validated_transition_shares.png"
     )
+    draw_transition_allocation_figures(transition_rows, metadata)
 
     rising_start = min(
         range(len(rows)), key=lambda index: float(rows[index]["output_capital_ratio"])
@@ -965,6 +1077,8 @@ def main() -> None:
     for name in (
         "high_sigma_validated_transition_rates.png",
         "high_sigma_validated_transition_shares.png",
+        "high_sigma_validated_production_allocation.png",
+        "high_sigma_validated_research_allocation.png",
         "high_sigma_validated_asymptotic_ratios.png",
         "high_sigma_validated_boundary_convergence.png",
     ):
