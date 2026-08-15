@@ -75,16 +75,17 @@ The household problem has a concave objective and a linear flow budget.
 Let its present-value shadow price be
 \(\Lambda_t=e^{-\rho t}N_t/C_t\). The price-form Euler equation
 \eqref{eq:axm-euler} is the household costate equation. Concavity and the
-consumption FOC imply, for any admissible alternative \(\widetilde K^{s}\) with the
+consumption FOC imply, for any admissible alternative \(\widetilde K\) with the
 same initial capital holdings, where \(\mathcal U_T\) denotes
 household utility truncated at date \(T\),
 \[
  \mathcal U_T^*-\widetilde{\mathcal U}_T
- \geq \Lambda_T(\widetilde K_T^{s}-(K_T^{s})^*)
- \geq-\Lambda_T(K_T^{s})^*\to0,
+ \geq \Lambda_T(\widetilde K_T-K_T^*)
+ \geq-\Lambda_TK_T^*\to0,
 \]
 where the last limit is the household transversality condition. In equilibrium,
-capital-market clearing identifies \(K^s=K\). Convergence of
+capital-market clearing identifies household capital holdings with the capital
+rented by final-good firms. Convergence of
 the improper utilities then establishes household optimality. Competitive
 final-good firms face a concave constant-returns technology, so their factor
 demands are globally optimal. Market clearing then establishes an interior
@@ -436,10 +437,10 @@ The final CES share odds and the wage equation imply the exact relation
 \]
 The conditional research demands then give
 \begin{equation}
- \frac{H}{L}=\Gamma_t
+ \frac{H}{L}=B_t
  \left(\frac{\mathcal Q}{L}\right)^{1-\psi},
  \qquad
- \Gamma_t=m\left(\frac{\omega_H}{\omega_M}\right)^{\sigma_{HM}}
+ B_t=m\left(\frac{\omega_H}{\omega_M}\right)^{\sigma_{HM}}
  \left[(1-\alpha)s_X\frac{\omega_L}{\omega_X}
  u^{-\varrho_{XL}}\right]^{-\sigma_{HM}}.
  \label{eq:axm-app-sectoral-labor}
@@ -453,8 +454,8 @@ monopolist's markup condition, and AI-service-market clearing with \(X=AU\):
 \]
 Regularity of \(s_X\) therefore implies
 \(u\to(1-\alpha)^2\) and \(g_u=o(z)\). It follows from
-\eqref{eq:axm-app-sectoral-labor} that \(\Gamma_t\to\Gamma>0\) and
-\(g_{\Gamma_t}=o(z)\). Moreover,
+\eqref{eq:axm-app-sectoral-labor} that \(B_t\to B>0\) and
+\(g_{B_t}=o(z)\). Moreover,
 \[
  \frac{g_{\mathcal Q/N}}{g_A}
  \to\frac{\widehat h+\alpha}{\widehat h}>0.
@@ -474,8 +475,8 @@ implies
 When \(\psi=1\), taking limits in
 \eqref{eq:axm-app-sectoral-labor} gives
 \[
- \bar h_N=\frac{\Gamma}{1+\Gamma},\qquad
- \Gamma=\frac{\eta}{\Delta}
+ \bar h_N=\frac{B}{1+B},\qquad
+ B=\frac{\eta}{\Delta}
  \left[
   \frac{(1-\alpha)\omega_H\omega_X}{\omega_M\omega_L}
  \right]^{\sigma},qquad
@@ -488,14 +489,14 @@ let \(y=H/L\), \(a_H=H/N=y/(1+y)\), and
 \(\kappa=1-\psi\). Log-differentiating
 \eqref{eq:axm-app-sectoral-labor} and using \(N=L+H\) gives the exact pair
 \[
- g_y=g_{\Gamma_t}+\kappa(g_{\mathcal Q}-g_L),\qquad
+ g_y=g_{B_t}+\kappa(g_{\mathcal Q}-g_L),\qquad
  n=g_L+a_Hg_y.
 \]
 Consequently,
 \[
  \frac{g_L}{z}
  =
- \frac{n/z-a_H\{g_{\Gamma_t}/z+\kappa g_{\mathcal Q}/z\}}
+ \frac{n/z-a_H\{g_{B_t}/z+\kappa g_{\mathcal Q}/z\}}
  {1-\kappa a_H}.
 \]
 Using the labor-allocation limits above shows that \(g_L/z\to0\) when
