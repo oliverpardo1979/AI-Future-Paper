@@ -15,7 +15,9 @@ With \(\sigma_{XL}=1\), write
  B_t=K_t^\alpha L_t^{(1-\alpha)\omega_L}.
 \]
 Conditional on the paths that the developer takes as given, final output is
-\(Y=B_tX^\beta\), and revenue from AI services is \(\beta B_tX^\beta\).
+\(Y=B_tX^\beta\). The final-good firm's AI-demand condition gives
+\(p_XX=\beta Y\) after AI-service-market clearing, so the developer's revenue is
+\(\beta B_tX^\beta\).
 The unique global maximizer of operating profit is therefore
 \[
  X^*=(\beta^2B_tA)^{1/(1-\beta)},
@@ -71,16 +73,18 @@ taking the lower limit as \(T\to\infty\) establishes global optimality.
 
 The household problem has a concave objective and a linear flow budget.
 Let its present-value shadow price be
-\(\Lambda_t=e^{-\rho t}N_t/C_t\). The Euler equation is the household costate
-equation. Concavity and the consumption FOC imply, for any admissible alternative
-\(\widetilde K\) with the same initial capital, where \(\mathcal U_T\) denotes
+\(\Lambda_t=e^{-\rho t}N_t/C_t\). The price-form Euler equation
+\eqref{eq:axm-euler} is the household costate equation. Concavity and the
+consumption FOC imply, for any admissible alternative \(\widetilde K^{s}\) with the
+same initial capital holdings, where \(\mathcal U_T\) denotes
 household utility truncated at date \(T\),
 \[
  \mathcal U_T^*-\widetilde{\mathcal U}_T
- \geq \Lambda_T(\widetilde K_T-K_T^*)
- \geq-\Lambda_TK_T^*\to0,
+ \geq \Lambda_T(\widetilde K_T^{s}-(K_T^{s})^*)
+ \geq-\Lambda_T(K_T^{s})^*\to0,
 \]
-where the last limit is the household transversality condition. Convergence of
+where the last limit is the household transversality condition. In equilibrium,
+capital-market clearing identifies \(K^s=K\). Convergence of
 the improper utilities then establishes household optimality. Competitive
 final-good firms face a concave constant-returns technology, so their factor
 demands are globally optimal. Market clearing then establishes an interior
@@ -104,18 +108,19 @@ Taking the stated limit proves all three cases. \(\square\)
 
 \subsection{Proof of Proposition \ref{prop:axm-complements}}
 
-Normalize the monopoly condition by \((K/L)^\alpha\) and write \(x=X/L\).
+Write \(x=X/L\) and first use the final-good firm's AI-demand condition.
 Let
 \[
  z(x)=\left[\omega_L+\omega_Xx^{(\sigma_{XL}-1)/\sigma_{XL}}
  \right]^{\sigma_{XL}/(\sigma_{XL}-1)}.
 \]
-Then \(Y=K^\alpha L^{1-\alpha}z(x)^{1-\alpha}\) and
+Then \(Y=K^\alpha L^{1-\alpha}z(x)^{1-\alpha}\) and that demand condition gives
 \[
  p_X=(K/L)^\alpha\widetilde p(x),\qquad
  \widetilde p(x)=(1-\alpha)s_X\frac{z(x)^{1-\alpha}}{x}.
 \]
-The normalized monopoly condition is therefore
+Substitution into the monopolist's markup condition, followed by normalization
+by \((K/L)^\alpha\), gives
 \[
  \widetilde p(x)
  \left[1-\frac{1-s_X}{\sigma_{XL}}-\alpha s_X\right]
@@ -135,8 +140,10 @@ finite positive constant. Inverting that mapping gives exactly \(\bar x\) in
 of \(K^\alpha L^{1-\alpha}\).
 
 Now suppose, as in the proposition, that a finite-rate balanced path exists.
-The Euler equation and finite consumption growth require \(Y/K\) to have a finite
-limit. This limit cannot be zero. Because \(Z/L\) has a positive constant limit,
+The household Euler equation makes the net interest rate finite when consumption
+growth is finite. The final-good firm's capital-demand condition then requires
+\(Y/K=(r+\delta)/\alpha\) to have a finite limit. This limit cannot be zero.
+Because \(Z/L\) has a positive constant limit,
 \(Y/K\to0\) would require \(K/L\to\infty\); then gross investment divided by
 output, \((g_K+\delta)K/Y\), would diverge. To see why, balanced growth makes
 both \(g_K\) and \(g_L\) converge; because \(K/L\to\infty\) and \(g_L\to n\),
@@ -147,8 +154,9 @@ Because \(Z/L\) also converges to a positive constant, final production implies
 that \(K/L\) converges to a constant. Since \(L/N\) has a positive constant limit
 and \(N\) grows at \(n\), \(L,K,\) and \(Y\) grow at \(n\). Output per person and
 the wage therefore converge to finite positive levels. The positive limit of
-\(C/Y\) implies \(g_C\to n\). The Euler equation then gives \(r\to\rho\), and
-the capital first-order condition gives \(K/Y\to\alpha/(\rho+\delta)\).
+\(C/Y\) implies \(g_C\to n\). The household Euler equation then gives
+\(r\to\rho\), and the final-good firm's capital-demand condition gives
+\(K/Y\to\alpha/(\rho+\delta)\).
 Finally, the final firm's labor payment satisfies
 \(wL/Y=(1-\alpha)(1-s_X)\), which converges to the strictly positive value in
 \eqref{eq:axm-complement-factor-limits}. \(\square\)
@@ -270,8 +278,10 @@ With \(\sigma_{XL}=1\), the final technology is
 \[
  Y=K^\alpha L^\lambda X^\beta.
 \]
-The inverse demand elasticity is \(1-\beta\), so the monopoly first-order
-condition becomes \(\beta p_X=1/A\). Since \(p_XX=\beta Y\),
+The final-good firm's AI-demand condition gives \(p_XX=\beta Y\) after
+AI-service-market clearing. The inverse demand elasticity is \(1-\beta\), so the
+monopoly first-order condition becomes \(\beta p_X=1/A\). Combining these two
+conditions with \(X=AU\) yields
 \(X/A=\beta^2Y\), proving \eqref{eq:axm-inference-share-cd}. Replacing
 \(X\) by \(\beta^2AY\) gives \eqref{eq:axm-reduced-cd}. Taking growth rates
 and using the assumed positive constant limits of \(K/Y\) and \(L/N\) yields
@@ -326,8 +336,10 @@ Using \(g_{AM}=g_A+g_M=n+(1+\nu)g_A\) yields
 \eqref{eq:axm-human-research-growth}. These observations prove
 \eqref{eq:axm-cd-remaining-rates} and the remaining labor result.
 
-The Euler equation gives \(K/Y=\alpha/(\rho+\delta+\gamma)\), which implies the
-investment share in \eqref{eq:axm-cd-shares}. Let \(m=M/Y\) and
+The household Euler equation gives \(r=\rho+\gamma\). Combining it with the
+final-good firm's capital-demand condition gives
+\(K/Y=\alpha/(\rho+\delta+\gamma)\), which implies the investment share in
+\eqref{eq:axm-cd-shares}. Let \(m=M/Y\) and
 \(u=\beta^2\). The research-compute first-order condition can be written
 \[
  q\,\eta\bar s\,\frac{\dot A}{M}=1,
@@ -363,7 +375,9 @@ Suppose for contradiction that an equilibrium satisfying the hypotheses has
 finite constant growth rates. With \(\sigma_{XL}>1\), AI services dominate the
 labor--AI CES as their relative quantity becomes large. The limiting final technology is
 proportional to \(K^\alpha X^{1-\alpha}\). The inverse demand elasticity tends
-to \(\alpha\), and the monopoly first-order condition implies
+to \(\alpha\). Combining the final-good firm's AI-demand condition, the
+monopolist's markup condition, and AI-service-market clearing with \(X=AU\)
+implies
 \[
  \frac{X}{A}=(1-\alpha)^2Y[1+o(1)].
 \]
@@ -389,13 +403,15 @@ makes consumption growth unbounded, contradicting finite constant growth.
 Let \(z=Y/K\), \(u=U/Y\), \(m=M/Y\), \(i=(\dot K+\delta K)/Y\), and
 \(c=C/Y\). Let \(\widehat h>0\) denote the assumed limit of \(g_A/z\).
 Whenever no ambiguity arises below, a lower-case share also denotes its limit.
-Final-production and monopoly optimality give
+Combining the final-good firm's AI-demand condition, the monopolist's markup
+condition, AI-service-market clearing with \(X=AU\), and final production gives
 \[
  u\to(1-\alpha)^2,\qquad z\sim\mathcal D A^\theta,\qquad
  \theta=\frac{1-\alpha}{\alpha}.
 \]
-The Euler equation and the assumed asymptotic regularity
-of the positive consumption share imply
+The household Euler equation, the final-good firm's condition
+\(r=\alpha z-\delta\), and the assumed asymptotic regularity of the positive
+consumption share jointly imply
 \[
  \frac{g_Y}{z}\to\alpha.
 \]
@@ -420,24 +436,25 @@ The final CES share odds and the wage equation imply the exact relation
 \]
 The conditional research demands then give
 \begin{equation}
- \frac{H}{L}=B_t
+ \frac{H}{L}=\Gamma_t
  \left(\frac{\mathcal Q}{L}\right)^{1-\psi},
  \qquad
- B_t=m\left(\frac{\omega_H}{\omega_M}\right)^{\sigma_{HM}}
+ \Gamma_t=m\left(\frac{\omega_H}{\omega_M}\right)^{\sigma_{HM}}
  \left[(1-\alpha)s_X\frac{\omega_L}{\omega_X}
  u^{-\varrho_{XL}}\right]^{-\sigma_{HM}}.
  \label{eq:axm-app-sectoral-labor}
 \end{equation}
 To establish the required regularity without assuming it for an additional
-endogenous ratio, use the exact monopoly identity
+endogenous ratio, combine the final-good firm's AI-demand condition, the
+monopolist's markup condition, and AI-service-market clearing with \(X=AU\):
 \[
  u=(1-\alpha)s_X(1-e_X),\qquad
  e_X=\frac{1-s_X}{\sigma_{XL}}+\alpha s_X.
 \]
 Regularity of \(s_X\) therefore implies
 \(u\to(1-\alpha)^2\) and \(g_u=o(z)\). It follows from
-\eqref{eq:axm-app-sectoral-labor} that \(B_t\to B>0\) and
-\(g_{B_t}=o(z)\). Moreover,
+\eqref{eq:axm-app-sectoral-labor} that \(\Gamma_t\to\Gamma>0\) and
+\(g_{\Gamma_t}=o(z)\). Moreover,
 \[
  \frac{g_{\mathcal Q/N}}{g_A}
  \to\frac{\widehat h+\alpha}{\widehat h}>0.
@@ -457,8 +474,8 @@ implies
 When \(\psi=1\), taking limits in
 \eqref{eq:axm-app-sectoral-labor} gives
 \[
- \bar h_N=\frac{B}{1+B},\qquad
- B=\frac{\eta}{\Delta}
+ \bar h_N=\frac{\Gamma}{1+\Gamma},\qquad
+ \Gamma=\frac{\eta}{\Delta}
  \left[
   \frac{(1-\alpha)\omega_H\omega_X}{\omega_M\omega_L}
  \right]^{\sigma},qquad
@@ -471,14 +488,14 @@ let \(y=H/L\), \(a_H=H/N=y/(1+y)\), and
 \(\kappa=1-\psi\). Log-differentiating
 \eqref{eq:axm-app-sectoral-labor} and using \(N=L+H\) gives the exact pair
 \[
- g_y=g_{B_t}+\kappa(g_{\mathcal Q}-g_L),\qquad
+ g_y=g_{\Gamma_t}+\kappa(g_{\mathcal Q}-g_L),\qquad
  n=g_L+a_Hg_y.
 \]
 Consequently,
 \[
  \frac{g_L}{z}
  =
- \frac{n/z-a_H\{g_{B_t}/z+\kappa g_{\mathcal Q}/z\}}
+ \frac{n/z-a_H\{g_{\Gamma_t}/z+\kappa g_{\mathcal Q}/z\}}
  {1-\kappa a_H}.
 \]
 Using the labor-allocation limits above shows that \(g_L/z\to0\) when

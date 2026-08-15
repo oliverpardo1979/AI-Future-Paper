@@ -53,12 +53,12 @@ Research-input elasticity & \(\sigma_{XL}<1\) & \(\sigma_{XL}=1\) & \(\sigma_{XL
 Regular interior limit has bounded output per person,
 \(s_M=\omega_M\), and
 \(g_A=n/(1+\eta^{-1}-\omega_M)\) &
-Balanced-growth candidate governed by \(D(\omega_M)\) &
+Human-essential balanced-growth candidate characterized below &
  No finite-rate balanced growth if AI services dominate the labor--AI composite; the singular form is not characterized\\
 \(\sigma_{HM}>1\) &
  Regular interior limit has bounded output per person,
  \(s_M\to1\), and \(g_A=\eta n\) &
- Automated balanced-growth candidate governed by \(D(1)\) &
+ Automated balanced-growth candidate characterized below &
  No finite-rate balanced growth if AI services dominate the labor--AI composite; conditional singular ratios are characterized\\
 \bottomrule
 \end{tabular}
@@ -67,8 +67,6 @@ Balanced-growth candidate governed by \(D(\omega_M)\) &
 Each cell summarizes a conditional result under the hypotheses stated in the
 corresponding proposition or conditional result. The table does not assert that
 an equilibrium with every listed limit exists for arbitrary initial conditions.
-The feedback denominator \(D(\cdot)\) is defined in
-equation~\eqref{eq:axm-feedback-denominator}.
 
 \subsection{The price of research automation}
 
@@ -279,8 +277,8 @@ Define the associated input and composite ratios
  \label{eq:axm-complement-ratios}
 \end{equation}
 Both numbers are finite and strictly positive. They are determined by the
-static monopoly condition and the final-production technology, not by an
-assumed limiting allocation.
+final-good firm's demand schedule, the monopolist's markup condition, and the
+final-production technology, not by an assumed limiting allocation.
 
 \begin{proposition}[Labor bottleneck under production complementarity]
 \label{prop:axm-complements}
@@ -530,12 +528,13 @@ Set \(\sigma_{XL}=1\), and define
  \nu=\frac{\beta}{\lambda}=\frac{\omega_X}{\omega_L}.
  \label{eq:axm-cd-definitions}
 \end{equation}
-The monopoly condition implies
+Combining the final-good firm's AI-demand condition, the monopolist's markup
+condition, and AI-service-market clearing with \(X=AU\) gives
 \begin{equation}
  \frac{U}{Y}=\beta^2,
  \label{eq:axm-inference-share-cd}
 \end{equation}
-and the reduced production equation is
+Substituting that identity into final production gives the reduced equation
 \begin{equation}
  Y^{1-\beta}
  =K^\alpha L^\lambda(\beta^2A)^\beta.
@@ -845,8 +844,9 @@ Let
 \end{equation}
 Along an interior branch with \(\sigma_{XL}>1\), \(s_X\to1\), and
 \(A\to\infty\), AI services dominate the labor--AI CES aggregate. Capital
-remains a separate input with elasticity \(\alpha\). The monopoly condition then
-implies
+remains a separate input with elasticity \(\alpha\). Combining the final-good
+firm's AI-demand condition, the monopolist's markup condition,
+AI-service-market clearing with \(X=AU\), and final production then gives
 \begin{equation}
  \frac{U}{Y}\to(1-\alpha)^2,\qquad
  \frac{Y}{K}\sim \mathcal D A^\theta
@@ -926,8 +926,8 @@ The allocation of labor satisfies
 \end{equation}
 In the equal-elasticity case, the limiting share is pinned down by
 \begin{equation}
- \bar h_N=\frac{B}{1+B},\qquad
- B=\frac{\eta}{\Delta}
+ \bar h_N=\frac{\Gamma}{1+\Gamma},\qquad
+ \Gamma=\frac{\eta}{\Delta}
  \left[
   \frac{(1-\alpha)\omega_H\omega_X}{\omega_M\omega_L}
  \right]^{\sigma}.
