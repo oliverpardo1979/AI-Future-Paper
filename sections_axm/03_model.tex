@@ -7,6 +7,19 @@ monopolistically supplies AI services and invests in better AI. The initial
 economy already uses AI services; the model does not describe their first
 commercial adoption.
 
+\tikzset{
+ axm-model-input/.style={draw, rounded corners=2pt, minimum width=2.7cm,
+  minimum height=1.0cm, align=center, fill=gray!8},
+ axm-model-state/.style={draw, rounded corners=2pt, minimum width=2.7cm,
+  minimum height=1.0cm, align=center, fill=blue!8},
+ axm-model-technology/.style={draw, rounded corners=2pt, minimum width=3.5cm,
+  minimum height=1.0cm, align=center, fill=orange!9},
+ axm-model-problem/.style={draw, rounded corners=2pt, minimum height=1.2cm,
+  align=center, fill=gray!6, text width=10.8cm},
+ axm-model-flow/.style={->, semithick},
+ axm-model-dynamics/.style={->, semithick, dashed}
+}
+
 \begin{assumption}[Parameters]
 Throughout, \(0<\alpha<1\), \(0<n<\rho\), \(\delta\geq0\),
 \(\chi>0\), \(0<\eta<1\), \(\sigma_{XL},\sigma_{HM}>0\), and all CES
@@ -169,6 +182,45 @@ research productivity is stated after the capability law. Producing one unit of
 either service flow---one unit of \(X\) or of \(AM\)---therefore uses \(1/A\)
 units of the final good.
 
+Figure~\ref{fig:axm-current-production-flow} collects the current-production
+technology. It separates raw inference compute, the AI services purchased by
+final-good firms, and the service composite used in production. The two
+technology diagrams in this subsection are schematics, not numerical results.
+Gray boxes denote current inputs, blue boxes denote stocks, and orange boxes
+denote transformations or outputs.
+
+\begin{figure}[H]
+ \centering
+ \resizebox{0.90\textwidth}{!}{%
+ \begin{tikzpicture}[>=Latex,font=\small]
+  \node[axm-model-state]      (A) at (-8.0, 0.7) {\(A\)\\capability};
+  \node[axm-model-input]      (U) at (-8.0,-0.7) {\(U\)\\inference compute};
+  \node[axm-model-technology] (X) at (-4.5, 0.0)
+   {\(X=AU\)\\AI services};
+  \node[axm-model-input]      (L) at (-4.5, 2.5)
+   {\(L\)\\production labor};
+  \node[axm-model-technology] (Z) at ( 0.0, 1.2)
+   {\(Z=\operatorname{CES}(L,X)\)\\elasticity \(\sigma_{XL}\)};
+  \node[axm-model-state]      (K) at ( 0.0, 3.7)
+   {\(K\)\\physical capital};
+  \node[axm-model-technology] (Y) at ( 4.0, 2.5)
+   {\(Y=K^\alpha Z^{1-\alpha}\)\\final output};
+
+  \draw[axm-model-flow] (A) -- (X);
+  \draw[axm-model-flow] (U) -- (X);
+  \draw[axm-model-flow] (X) -- (Z);
+  \draw[axm-model-flow] (L) -- (Z);
+  \draw[axm-model-flow] (Z) -- (Y);
+  \draw[axm-model-flow] (K) -- (Y);
+ \end{tikzpicture}%
+ }
+ \caption{Current production. Capability and inference compute produce AI
+ services; AI services and production labor form the CES service composite;
+ the service composite and physical capital produce final output. All arrows
+ denote within-date technological relations.}
+ \label{fig:axm-current-production-flow}
+\end{figure}
+
 \subsubsection{Frontier research technology}
 
 For \(\sigma_{HM}\neq1\), human researchers and automated research services
@@ -213,6 +265,44 @@ productivity and affects the level and timing of capability improvement.
 Finally, \(A\) enters inside \(AM\) because capability raises the automated
 research services produced by one unit of research compute. A high substitution
 elasticity therefore does not remove decreasing returns when \(0<\eta<1\).
+
+Figure~\ref{fig:axm-research-flow} makes the new research specification
+explicit. Capability does not enter \(\dot A\) through a separate stock term.
+It raises the automated research services produced by the paid input \(M\).
+
+\begin{figure}[H]
+ \centering
+ \resizebox{0.88\textwidth}{!}{%
+ \begin{tikzpicture}[>=Latex,font=\small]
+  \node[axm-model-state]      (A)  at (-6.3, 1.7)
+   {\(A\)\\capability};
+  \node[axm-model-input]      (M)  at (-6.3,-1.1)
+   {\(M\)\\research compute};
+  \node[axm-model-technology] (AM) at (-2.8, 0.3)
+   {\(AM\)\\automated research services};
+  \node[axm-model-input]      (H)  at (-2.8,-2.3)
+   {\(H\)\\human research};
+  \node[axm-model-technology] (E)  at ( 1.0,-0.6)
+   {\(E=\operatorname{CES}(H,AM)\)\\elasticity \(\sigma_{HM}\)};
+  \node[axm-model-technology] (Ad) at ( 5.1,-0.6)
+   {\(\dot A=\chi E^\eta\)\\new capability};
+
+  \draw[axm-model-flow] (A) -- (AM);
+  \draw[axm-model-flow] (M) -- (AM);
+  \draw[axm-model-flow] (AM) -- (E);
+  \draw[axm-model-flow] (H) -- (E);
+  \draw[axm-model-flow] (E) -- (Ad);
+  \draw[axm-model-dynamics] (Ad.east) -- (7.0,-0.6) -- (7.0,3.5) --
+   node[above] {capability accumulation} (-6.3,3.5) -- (A.north);
+ \end{tikzpicture}%
+ }
+ \caption{Frontier research and capability accumulation. Capability and raw
+ research compute produce automated research services \(AM\). Those services
+ and human research form the effective-research index \(E\), which produces
+ new capability. The dashed arrow denotes the accumulation of \(\dot A\) into
+ \(A\). There is no separate \(A^\phi\) term.}
+ \label{fig:axm-research-flow}
+\end{figure}
 
 The baseline contains no additional \(A^\phi\) term. Better capability affects
 research only by raising the services produced by \(M\). Following the distinction
@@ -304,6 +394,40 @@ subject to the same capability law and initial stock. Thus the maximization over
 \(X\) in \eqref{eq:axm-service-supply} is the pointwise inner maximization of
 the dynamic problem, not a second decision problem. Along the optimum,
 \(\Pi_t=\pi(A_t;K_t,L_t)-w_tH_t-M_t\).
+
+Figure~\ref{fig:axm-developer-decomposition} summarizes this sequence. It does
+not add an agent or an equilibrium condition; it only displays two equivalent
+representations of the same optimization problem.
+
+\begin{figure}[H]
+ \centering
+ \begin{tikzpicture}[>=Latex,font=\small,node distance=1.25cm]
+  \node[axm-model-problem] (full) {
+   \textbf{Primitive dynamic problem, \eqref{eq:axm-developer-problem}}\\
+   choose \(X,H,M\); state \(A\); flow payoff
+   \(p_X(X;K,L)X-X/A-wH-M\)};
+  \node[axm-model-problem, below=of full, fill=orange!9] (inner) {
+   \textbf{Pointwise inner choice, \eqref{eq:axm-service-supply}}\\
+   \(\displaystyle \pi(A;K,L)=\max_{X\geq0}
+   \{p_X(X;K,L)X-X/A\}\)};
+  \node[axm-model-problem, below=of inner, fill=blue!8] (reduced) {
+   \textbf{Equivalent reduced dynamic problem,
+   \eqref{eq:axm-developer-problem-reduced}}\\
+   choose \(H,M\); same state law and initial \(A\); flow payoff
+   \(\pi(A;K,L)-wH-M\)};
+
+  \draw[axm-model-flow] (full) -- node[right,align=left]
+   {\(X\) does not enter \(\dot A\) or another\\intertemporal constraint}
+   (inner);
+  \draw[axm-model-flow] (inner) -- node[right]
+   {substitute optimized operating profit} (reduced);
+ \end{tikzpicture}
+ \caption{Decomposition of the integrated developer's problem. The
+ maximization over \(X\) is an inner, within-date choice inside the primitive
+ dynamic problem. Substituting its value \(\pi(A;K,L)\) leaves the equivalent
+ dynamic choice of research inputs \(H\) and \(M\).}
+ \label{fig:axm-developer-decomposition}
+\end{figure}
 
 \subsubsection{Conditional research cost and dynamic optimality}
 
